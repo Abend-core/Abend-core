@@ -110,10 +110,6 @@ const User = mariadb.define(
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
-    isLog: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
     dateLog: {
       type: DataTypes.DATE,
       allowNull: true,
