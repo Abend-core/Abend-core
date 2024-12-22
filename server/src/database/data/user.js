@@ -8,7 +8,6 @@ const users = [
     login: "abend.rudy",
     password: "mdp1",
     isAdmin: true,
-    isLog: false,
   },
   {
     id: "019364fe-b7b5-731e-b241-2b8373f82a3c",
@@ -19,7 +18,6 @@ const users = [
     login: "abend.lucas",
     password: "mdp1",
     isAdmin: true,
-    isLog: false,
   },
   {
     id: "019364ff-83b7-75b4-aea5-7664212e04c7",
@@ -30,7 +28,6 @@ const users = [
     login: "abend.hugo",
     password: "mdp1",
     isAdmin: true,
-    isLog: false,
   },
   {
     id: "019364ff-c9ce-75e1-abbd-cfdc9b36698e",
@@ -41,7 +38,6 @@ const users = [
     login: "abend.jerome",
     password: "mdp1",
     isAdmin: false,
-    isLog: false,
   },
   {
     id: "01936500-1c04-72ec-8d92-fdba4ff43d9c",
@@ -52,7 +48,6 @@ const users = [
     login: "abend.abend",
     password: "mdp1",
     isAdmin: false,
-    isLog: false,
   },
 ];
 
