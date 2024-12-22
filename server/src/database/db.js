@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize } = require("sequelize");
 
 //Instanciation de la bdd
 const mariadb = new Sequelize("abend-core", "root", "", {

@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
 
     return res.json({
       message: "L'utilisateur a été connecté avec succès.",
-      data: { user },
+      UUID: user.id,
       token,
     });
   } catch (error) {

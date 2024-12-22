@@ -35,9 +35,6 @@ app.use("/inscription", inscription);
 const login = require("./src/routes/login");
 app.use("/login", login);
 
-const logout = require("./src/routes/logout");
-app.use("/logout", logout);
-
 const users = require("./src/routes/user");
 app.use("/users", users);
 

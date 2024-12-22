@@ -1,5 +1,5 @@
 //Rappel des table dans l'annuaire
-const { User, Module, Log } = require("../models/index.js");
+const { User, Module } = require("../models/index.js");
 
 //Différentes jointure
 
