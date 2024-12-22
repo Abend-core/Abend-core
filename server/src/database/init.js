@@ -1,19 +1,20 @@
 const mariadb = require("./db");
 const dataModule = require("./data/module");
-const Module = require("../models/module");
 const bcrypt = require("bcrypt");
 const dataUser = require("./data/user");
 const User = require("../models/user");
+const Module = require("../models/module");
 
-mariadb.sync({ force: true })
+const views = require("../views/index");
+
+mariadb
+  .sync({ force: true })
   .then(async (_) => {
     try {
-
       await Module.bulkCreate(dataModule);
       const modules = await Module.findAll();
 
       for (const user of dataUser) {
-        
         user.password = await bcrypt.hash(user.password, 10);
 
         const createdUser = await User.create(user);
