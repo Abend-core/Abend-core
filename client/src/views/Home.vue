@@ -1,7 +1,7 @@
 <template>
   <div class="content w-full">
     <div
-      class="first-row grid auto-cols-[96px] gap-8 justify-start p-[16px] mb-[-32px] grid-flow-col"
+      class="first-row grid auto-cols-[96px] gap-8 p-[16px] mb-[-32px] grid-flow-col"
     >
       <a
         class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
@@ -66,7 +66,7 @@
       ></a>
     </div>
     <div
-      class="second-row grid auto-cols-[96px] gap-8 justify-start p-[16px] mb-[-32px] grid-flow-col"
+      class="second-row grid auto-cols-[96px] gap-8 p-[16px] mb-[-32px] grid-flow-col"
     >
       <a
         class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
@@ -124,9 +124,7 @@
         class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
       ></a>
     </div>
-    <div
-      class="third-row grid auto-cols-[96px] gap-8 justify-start p-[16px] grid-flow-col"
-    >
+    <div class="third-row grid auto-cols-[96px] gap-8 p-[16px] grid-flow-col">
       <a
         class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
       ></a>
