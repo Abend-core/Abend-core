@@ -1,216 +1,287 @@
 <template>
-  <div class="content w-full">
+  <div class="content">
     <div
-      class="first-row grid auto-cols-[96px] gap-8 p-[16px] mb-[-32px] grid-flow-col"
+      class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-12 gap-4 lg:gap-6 xl:gap-12 p-[20px]"
     >
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block"> </a>
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block"> </a>
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block"> </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45">
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
         <img
-          class="blur-sm"
+          class="blur-sm w-full h-full object-cover"
           src="../assets/images/abend-core-logo.png"
           alt=""
         />
       </a>
-      <a class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45">
-        <img src="../assets/images/abend-core-logo.png" alt="" />
-      </a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-    </div>
-    <div
-      class="second-row grid auto-cols-[96px] gap-8 p-[16px] mb-[-32px] grid-flow-col"
-    >
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45">
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block"> </a>
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block">
         <img
-          class="blur-sm"
+          class="w-full h-full object-cover"
           src="../assets/images/abend-core-logo.png"
           alt=""
         />
       </a>
-      <a class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45">
-        <img src="../assets/images/abend-core-logo.png" alt="" />
-      </a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-    </div>
-    <div class="third-row grid auto-cols-[96px] gap-8 p-[16px] grid-flow-col">
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
-      <a class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45">
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block">
         <img
-          class="blur-sm"
+          class="blur-sm w-full h-full object-cover"
           src="../assets/images/abend-core-logo.png"
           alt=""
         />
       </a>
-      <a class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45">
-        <img src="../assets/images/abend-core-logo.png" alt="" />
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block"> </a>
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block"> </a>
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block"> </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block"> </a>
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block"> </a>
+      <a class="rectangle bg-[#D9D9D9] md:hidden lg:block xl:block"> </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
       </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
       <a
-        class="rectangle w-[96px] h-[96px] bg-[#D9D9D9] rounded-2xl rotate-45"
-      ></a>
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
+      <a
+        class="rectangle bg-[#D9D9D9] mobile-hidden md:hidden lg:block xl:block"
+      >
+      </a>
     </div>
   </div>
 </template>
 
 <script>
-// Déclare que ce composant émet un événement personnalisé "login"
-//   cela permet à Vue de gérer correctement cet événement dans le composant parent
 export default {
   name: "Home",
-  emits: ["login", "logout"],
 };
 </script>
 
 <style scoped>
-img {
-  rotate: 321deg;
-}
 .rectangle {
+  width: 96px;
+  height: 96px;
+  margin: 0;
+}
+
+.content {
   display: flex;
-  justify-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 0;
 }
 
-.first-row,
-.third-row {
-  transform: translate3d(40px, 0, 0);
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 18px;
+  width: 100%;
 }
 
-.second-row {
-  transform: translate3d(-24px, 0, 0);
-}
-
-.change-theme {
-  font-size: 20px;
+@media (max-width: 639px) {
+  .mobile-hidden {
+    display: none;
+  }
 }
 </style>
