@@ -11,7 +11,11 @@ require("./src/database/init");
 
 if (port == 5000) {
   corsOptions = {
-    origin: ["http://localhost:5000", "http://localhost:5173"],
+    origin: [
+      "http://localhost:5000",
+      "http://localhost:5173",
+      "http://127.0.0.1:5500",
+    ],
     methods: ["GET", "HEAD", "POST"],
     allowedHeaders: ["Content-Type"],
     maxAge: 3000,
@@ -34,6 +38,9 @@ app.use("/inscription", inscription);
 
 const login = require("./src/routes/login");
 app.use("/login", login);
+
+const logout = require("./src/routes/logout");
+app.use("/logout", logout);
 
 const users = require("./src/routes/user");
 app.use("/users", users);

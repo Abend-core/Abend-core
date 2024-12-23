@@ -68,6 +68,7 @@ router.get("/:id", auth, role, (req, res) => {
     });
 });
 
+// Modification d'un utilisateur
 router.post("/update/:id", auth, role, (req, res) => {
   const id = req.params.id;
   User.update(req.body, {
@@ -90,6 +91,30 @@ router.post("/update/:id", auth, role, (req, res) => {
     });
 });
 
+// Modification du champs dernière
+router.post("/update/:id", auth, role, (req, res) => {
+  const id = req.params.id;
+  User.update(req.body, {
+    where: { id: id },
+  })
+    .then((_) => {
+      return User.findByPk(id).then((user) => {
+        if (user === null) {
+          res.status(404).json({ message: "Utilisateur introuvable." });
+        }
+        res.status(200).json({ message: "Utilisateur modifié.", user });
+      });
+    })
+    .catch((error) => {
+      if (error.name === "SequelizeValidationError") {
+        const errors = error.errors.map((err) => err.message);
+        return res.status(400).json({ errors });
+      }
+      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    });
+});
+
+//Suppression d'un utilisateur
 router.post("/delete/:id", auth, role, async (req, res) => {
   User.findByPk(req.params.id)
     .then((user) => {

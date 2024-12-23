@@ -28,6 +28,7 @@ router.post("/", async (req, res) => {
     const token = jwt.sign({ userId: user.login }, privateKey, {
       expiresIn: "1h",
     });
+
     User.update(
       { dateLog: new Date() },
       {
