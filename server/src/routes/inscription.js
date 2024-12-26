@@ -11,7 +11,10 @@ router.post("/", async (req, res) => {
   const modules = await Module.findAll();
   data.id = NewUUID();
   bcrypt.hash(data.password, 10).then((hash) => {
-    data.password = hash;
+    if (data.password != "") {
+      data.password = hash;
+    }
+
     User.create(data)
       .then((user) => {
         res
@@ -22,7 +25,10 @@ router.post("/", async (req, res) => {
         }
       })
       .catch((error) => {
-        if (error.name === "SequelizeValidationError") {
+        if (
+          error.name === "SequelizeValidationError" ||
+          error.name === "SequelizeUniqueConstraintError"
+        ) {
           const errors = error.errors.map((err) => err.message);
           return res.status(400).json({ errors });
         }
