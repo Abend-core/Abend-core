@@ -102,19 +102,29 @@ export default {
         },
         body: JSON.stringify(data),
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) {
+            return res.json().then((errorData) => {
+              const message =
+                errorData.message || "Identifiant ou mot de passe incorrect.";
+              throw new Error(message);
+            });
+          }
+          return res.json();
+        })
         .then((responseData) => {
           const token = responseData.token;
+          const id = responseData.UUID;
           sessionStorage.setItem("authToken", token);
-          // $emit permet d'émettre un événement de l'enfant vers le parent
+          sessionStorage.setItem("id", id);
           this.$emit("login");
           this.$router.push("/");
         })
         .catch((error) => {
           console.error("Erreur de connexion:", error);
+          this.errorMessage = error.message;
           this.idLogin = "";
           this.password = "";
-          this.errorMessage = "Identifiant ou mot de passe incorrect.";
         });
     },
     closeError() {
