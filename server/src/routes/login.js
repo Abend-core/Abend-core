@@ -10,9 +10,10 @@ router.post("/", async (req, res) => {
     const user = await User.findOne({ where: { login: req.body.login } });
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ message: "L'utilisateur demandé n'existe pas" });
+      return res.status(404).json({
+        message: "L'utilisateur demandé n'existe pas",
+        code: "401",
+      });
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -20,9 +21,10 @@ router.post("/", async (req, res) => {
       user.password
     );
     if (!isPasswordValid) {
-      return res
-        .status(401)
-        .json({ message: "Le mot de passe est incorrect." });
+      return res.status(401).json({
+        message: "Le mot de passe est incorrect.",
+        code: "401",
+      });
     }
 
     const token = jwt.sign({ userId: user.login }, privateKey, {
@@ -37,6 +39,7 @@ router.post("/", async (req, res) => {
 
     return res.json({
       message: "L'utilisateur a été connecté avec succès.",
+      code: "200",
       UUID: user.id,
       token,
     });
@@ -45,6 +48,7 @@ router.post("/", async (req, res) => {
     return res.status(500).json({
       message:
         "Une erreur est survenue. L'utilisateur n'a pas pu être connecté. Réessayez dans quelques instants.",
+      code: "500",
     });
   }
 });
