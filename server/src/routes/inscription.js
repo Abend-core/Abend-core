@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
   const modules = await Module.findAll();
   data.id = NewUUID();
   bcrypt.hash(data.password, 10).then((hash) => {
-    if (data.password != "") {
+    if (data.password.length > 8) {
       data.password = hash;
     }
 

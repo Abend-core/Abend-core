@@ -21,7 +21,7 @@ const User = mariadb.define(
         },
         len: {
           args: [1, 25],
-          msg: "Le nom est trop long [1 à 25]",
+          msg: "Le nom doit être de taille [1 à 25]",
         },
       },
     },
@@ -37,7 +37,7 @@ const User = mariadb.define(
         },
         len: {
           args: [1, 25],
-          msg: "Le prénom est trop long [1 à 25]",
+          msg: "Le prénom doit être de taille [1 à 25]",
         },
       },
     },
@@ -86,7 +86,7 @@ const User = mariadb.define(
         },
         len: {
           args: [1, 25],
-          msg: "Le login est trop long [1 à 25]",
+          msg: "Le login doit être de taille [1 à 25]",
         },
       },
     },
@@ -101,8 +101,8 @@ const User = mariadb.define(
           msg: "Le mot de passe ne doit pas être vide.",
         },
         len: {
-          args: [1, 60],
-          msg: "Le mot de passe est trop long [1 à 60]",
+          args: [8, 60],
+          msg: "Le mot de passe doit être de taille [8 à 60]",
         },
       },
     },
