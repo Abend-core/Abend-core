@@ -67,6 +67,12 @@
             </button>
           </div>
         </form>
+        <div class="text-[14px] mt-[16px]">
+          <p>
+            Nouveau sur Abend-core?
+            <a class="underline" href="/inscription">Créer un compte</a>
+          </p>
+        </div>
       </div>
     </div>
   </main>
