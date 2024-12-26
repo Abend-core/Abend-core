@@ -11,8 +11,7 @@ router.post("/", async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "L'utilisateur demandé n'existe pas",
-        code: "401",
+        message: "Identifiant ou mot de passe incorrecte.",
       });
     }
 
@@ -22,8 +21,7 @@ router.post("/", async (req, res) => {
     );
     if (!isPasswordValid) {
       return res.status(401).json({
-        message: "Le mot de passe est incorrect.",
-        code: "401",
+        message: "Identifiant ou mot de passe incorrecte.",
       });
     }
 
@@ -39,16 +37,13 @@ router.post("/", async (req, res) => {
 
     return res.json({
       message: "L'utilisateur a été connecté avec succès.",
-      code: "200",
       UUID: user.id,
       token,
     });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
-      message:
-        "Une erreur est survenue. L'utilisateur n'a pas pu être connecté. Réessayez dans quelques instants.",
-      code: "500",
+      message: "Serveur en maintenance. Réessayez dans quelques instants.",
     });
   }
 });
