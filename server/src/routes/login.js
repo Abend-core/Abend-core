@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "Identifiant ou mot de passe incorrecte.",
+        message: "Identifiant ou mot de passe incorrect.",
       });
     }
 
@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
     );
     if (!isPasswordValid) {
       return res.status(401).json({
-        message: "Identifiant ou mot de passe incorrecte.",
+        message: "Identifiant ou mot de passe incorrect.",
       });
     }
 
