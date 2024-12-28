@@ -17,7 +17,7 @@ if (port == 5000) {
       "http://127.0.0.1:5500",
     ],
     methods: ["GET", "HEAD", "POST"],
-    allowedHeaders: ["Content-Type"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     maxAge: 3000,
   };
 } else {

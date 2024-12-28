@@ -5,7 +5,7 @@ class Application {
   getPath() {
     return this.path;
   }
-  get(route, data) {
+  get(route) {
     return fetch(this.getPath() + route, {
       method: "GET",
       headers: {
