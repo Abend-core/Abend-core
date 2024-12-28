@@ -49,7 +49,7 @@ router.get("/", auth, role, (req, res) => {
 });
 
 // Selection d'un utilisateur
-router.get("/:id", auth, role, (req, res) => {
+router.get("/:id", auth, (req, res) => {
   const id = req.params.id;
   User.findByPk(id)
     .then((user) => {
