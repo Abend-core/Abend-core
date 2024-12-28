@@ -29,10 +29,6 @@ body {
   color: rgb(7, 94, 165);
 }
 
-#logout {
-  display: none;
-}
-
 #log {
   padding: 1%;
   width: 50%;

@@ -17,14 +17,14 @@ if (port == 5000) {
       "http://127.0.0.1:5500",
     ],
     methods: ["GET", "HEAD", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Statut"],
     maxAge: 3000,
   };
 } else {
   corsOptions = {
     origin: "www.abend-core.com",
     methods: ["GET", "HEAD", "POST"],
-    allowedHeaders: ["Content-Type"],
+    allowedHeaders: ["Content-Type", "Authorization", "Statut"],
     maxAge: 3000,
   };
 }

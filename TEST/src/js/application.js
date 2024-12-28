@@ -5,11 +5,12 @@ class Application {
   getPath() {
     return this.path;
   }
-  get(route) {
+  get(route, token) {
     return fetch(this.getPath() + route, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       },
     })
       .then((res) => res.json())
@@ -20,11 +21,12 @@ class Application {
         console.error("Erreur de connexion:", error);
       });
   }
-  post(route, data) {
+  post(route, data, token) {
     return fetch(this.getPath() + route, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       },
       body: JSON.stringify(data),
     })
