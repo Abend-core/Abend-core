@@ -35,7 +35,7 @@ export default {
       isAuthenticated: false,
     };
   },
-  //on utilise mounted car cela permet d'aller cherche le token une fois que le composant est monté, càd est
+  //on utilise mounted car cela permet d'aller cherche le token une fois que le composant est monté càd  que
   // tout le dom est prêt, il faut que l'entièrement du composant soit initialisé et prêt
   mounted() {
     this.isAuthenticated = sessionStorage.getItem("authToken") !== null;

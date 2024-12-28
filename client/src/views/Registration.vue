@@ -37,15 +37,15 @@
       <div class="registration-form-body p-[16px]">
         <form action="" class="flex flex-col" @submit.prevent="registration">
           <label for="name"> Nom </label>
-          <input type="text" id="name" v-model="name" />
+          <input type="text" id="name" v-model="name" required />
           <label for="firstName"> Prénom </label>
-          <input type="text" id="firstname" v-model="firstname" />
+          <input type="text" id="firstname" v-model="firstname" required />
           <label for="email"> Email </label>
-          <input type="email" id="email" v-model="email" />
+          <input type="email" id="email" v-model="email" required />
           <label for="birth"> Date de naissance </label>
-          <input type="date" id="birth" v-model="birth" />
+          <input type="date" id="birth" v-model="birth" required />
           <label for="login"> Identifiant </label>
-          <input type="text" id="login" v-model="loginRegister" />
+          <input type="text" id="login" v-model="loginRegister" required />
           <label for="password"> Mot de passe </label>
           <input
             type="password"
@@ -53,6 +53,7 @@
             class="input-password mb-[18px]"
             v-model="password"
             minlength="8"
+            required
           />
           <button
             class="w-full bg-[#4b9945] text-white font-bold border border-black"
@@ -120,14 +121,7 @@ export default {
           this.$router.push("/connexion");
         })
         .catch((error) => {
-          console.error("Erreur lors de l'inscription :", error);
           this.errorMessage = error.message;
-          this.name = "";
-          this.firstname = "";
-          this.email = "";
-          this.loginRegister = "";
-          this.birth = "";
-          this.password = "";
         });
     },
     closeError() {

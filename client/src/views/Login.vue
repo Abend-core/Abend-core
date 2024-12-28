@@ -44,6 +44,7 @@
             id="login"
             v-model="idLogin"
             class="mb-[8px] bg-white text-black"
+            required
           />
           <div class="position-relative relative">
             <label class="mb-[4px]" for="password"> Mot de passe </label>
@@ -52,6 +53,7 @@
               id="password"
               v-model="password"
               class="mb-[16px] bg-white text-black"
+              required
             />
             <a
               class="absolute text-[12px] underline top-0 right-0"
@@ -118,13 +120,35 @@ export default {
           sessionStorage.setItem("authToken", token);
           sessionStorage.setItem("id", id);
           this.$emit("login");
+          this.userInfos();
           this.$router.push("/");
         })
         .catch((error) => {
-          console.error("Erreur de connexion:", error);
           this.errorMessage = error.message;
           this.idLogin = "";
           this.password = "";
+        });
+    },
+    userInfos() {
+      const token = sessionStorage.getItem("authToken");
+      const id = sessionStorage.getItem("id");
+      fetch(`http://localhost:5000/users/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          console.log(res);
+          return res.json();
+        })
+        .then((responseData) => {
+          console.log(responseData);
+          return responseData;
+        })
+        .catch((error) => {
+          console.error(error);
         });
     },
     closeError() {
