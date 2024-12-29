@@ -75,7 +75,7 @@ const User = mariadb.define(
       type: DataTypes.STRING(25),
       allowNull: false,
       unique: {
-        msg: "L'identifiant doit être unique.",
+        msg: "L'identifiant est déjà utilisé.",
       },
       validate: {
         notNull: {

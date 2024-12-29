@@ -110,7 +110,6 @@ export default {
           this.$router.push("/connexion");
         })
         .catch((error) => {
-          console.log(error);
           this.errorMessage =
             error.response?.data?.errors[0] || "Inscription erreur";
         });
