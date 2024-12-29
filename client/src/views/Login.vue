@@ -81,6 +81,9 @@
 </template>
 
 <script>
+import { loginUser, getUserInfos } from "../api/auth";
+import { storeSessionData, getSessionData } from "../utils/session";
+
 export default {
   data() {
     return {
@@ -89,66 +92,38 @@ export default {
       errorMessage: "",
     };
   },
-  emits: ["login", "logout"],
+  emits: ["login", "logout", "role"],
   methods: {
     loginUser() {
       const data = {
         login: this.idLogin,
         password: this.password,
       };
-
-      fetch("http://localhost:5000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((res) => {
-          if (!res.ok) {
-            return res.json().then((errorData) => {
-              const message =
-                errorData.message || "Identifiant ou mot de passe incorrect.";
-              throw new Error(message);
-            });
-          }
-          return res.json();
-        })
-        .then((responseData) => {
-          const token = responseData.token;
-          const id = responseData.UUID;
-          sessionStorage.setItem("authToken", token);
-          sessionStorage.setItem("id", id);
+      loginUser(data)
+        .then((response) => {
+          const { token, UUID: id } = response.data;
+          storeSessionData(token, id);
           this.$emit("login");
-          this.userInfos();
+          this.userInfos(id);
           this.$router.push("/");
         })
         .catch((error) => {
-          this.errorMessage = error.message;
+          this.errorMessage = error.response?.data?.message || error.message;
           this.idLogin = "";
           this.password = "";
         });
     },
     userInfos() {
-      const token = sessionStorage.getItem("authToken");
-      const id = sessionStorage.getItem("id");
-      fetch(`http://localhost:5000/users/${id}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          console.log(res);
-          return res.json();
-        })
-        .then((responseData) => {
-          console.log(responseData);
-          return responseData;
+      const { id } = getSessionData();
+      getUserInfos(id)
+        .then((response) => {
+          const isAdmin = response.data.user.isAdmin;
+          sessionStorage.setItem("isAdmin", JSON.stringify(isAdmin));
+          this.$emit("role", isAdmin);
+          console.log("Informations utilisateur :", response.data);
         })
         .catch((error) => {
-          console.error(error);
+          console.error(error.response?.data || error.message);
         });
     },
     closeError() {

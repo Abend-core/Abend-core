@@ -21,16 +21,19 @@
         src="../assets/images/à-modifier-lune.png"
         alt="Mode Sombre"
       />
-      <RouterLink to="/connexion" v-if="!isAuthenticated">Login</RouterLink>
-      <RouterLink to="/inscription" v-if="!isAuthenticated"
-        >Inscription</RouterLink
-      >
+      <RouterLink to="/connexion" v-if="!isAuthenticated">Connexion</RouterLink>
+      <RouterLink v-if="isAuthenticated && isAdmin" to="/admin">
+        Admin Board
+      </RouterLink>
+      <RouterLink to="/profil" v-if="isAuthenticated">Profil</RouterLink>
       <button v-if="isAuthenticated" @click="logOut">Déconnexion</button>
     </div>
   </nav>
 </template>
 
 <script>
+import { clearSessionData } from "../utils/session";
+
 export default {
   emits: ["login", "logout"],
   // ces props permettent de recevoir la valeur de l'authentification de son parent Layout.vue
@@ -39,11 +42,16 @@ export default {
       type: Boolean,
       required: true,
     },
+    isAdmin: {
+      type: Boolean,
+      required: true,
+    },
   },
   methods: {
     logOut() {
-      sessionStorage.removeItem("authToken");
+      clearSessionData();
       this.$emit("logout");
+      this.$router.push("/");
     },
   },
 };

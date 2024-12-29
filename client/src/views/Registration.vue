@@ -74,6 +74,8 @@
 </template>
 
 <script>
+import { registrateUser } from "../api/auth";
+
 export default {
   data() {
     return {
@@ -100,30 +102,15 @@ export default {
         isLog: false,
       };
 
-      fetch("http://localhost:5000/inscription", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((res) => {
-          if (!res.ok) {
-            console.log(res);
-            return res.json().then((errorData) => {
-              const message = errorData.errors[0] || "Caca";
-              throw new Error(message);
-            });
-          }
-          return res.json();
-        })
-        .then((responseData) => {
+      registrateUser(data)
+        .then((response) => {
           this.$router.push("/connexion");
         })
         .catch((error) => {
           this.errorMessage = error.message;
         });
     },
+
     closeError() {
       this.errorMessage = "";
     },
