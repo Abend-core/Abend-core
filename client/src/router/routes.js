@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import Registration from "../views/Registration.vue";
 import Profil from "../views/Profil.vue";
 import BoardAdmin from "../views/BoardAdmin.vue";
+import Error from "../views/Error.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
@@ -19,7 +20,7 @@ const routes = [
     },
   },
   {
-    path: "/admin",
+    path: "/dashboard",
     name: "AdminDashboard",
     component: BoardAdmin,
     meta: {
@@ -27,6 +28,7 @@ const routes = [
       requiresAdmin: true,
     },
   },
+  { path: "/:pathMatch(.*)*", name: "ErrorPage", component: Error },
 ];
 
 const router = createRouter({

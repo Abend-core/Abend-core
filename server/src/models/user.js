@@ -14,14 +14,14 @@ const User = mariadb.define(
       allowNull: false,
       validate: {
         notNull: {
-          msg: "Le nom ne doit pas être null.",
+          msg: "Le nom ne doit pas être nul.",
         },
         notEmpty: {
           msg: "Le nom ne doit pas être vide.",
         },
         len: {
           args: [1, 25],
-          msg: "Le nom doit être de taille [1 à 25]",
+          msg: "Le nom doit être de taille [1 à 25].",
         },
       },
     },
@@ -30,14 +30,14 @@ const User = mariadb.define(
       allowNull: false,
       validate: {
         notNull: {
-          msg: "Le prénom ne doit pas être null.",
+          msg: "Le prénom ne doit pas être nul.",
         },
         notEmpty: {
           msg: "Le prénom ne doit pas être vide.",
         },
         len: {
           args: [1, 25],
-          msg: "Le prénom doit être de taille [1 à 25]",
+          msg: "Le prénom doit être de taille [1 à 25].",
         },
       },
     },
@@ -46,13 +46,13 @@ const User = mariadb.define(
       allowNull: false,
       validate: {
         notNull: {
-          msg: "Le mail ne doit pas être null.",
+          msg: "L'email ne doit pas être nul.",
         },
         notEmpty: {
-          msg: "Le mail ne doit pas être vide.",
+          msg: "L'email ne doit pas être vide.",
         },
         isEmail: {
-          msg: "Le mail n'est pas en format mail.",
+          msg: "L'email n'est pas en format mail.",
         },
       },
     },
@@ -61,7 +61,7 @@ const User = mariadb.define(
       allowNull: false,
       validate: {
         notNull: {
-          msg: "La date de naissance ne doit pas être null.",
+          msg: "La date de naissance ne doit pas être nulle.",
         },
         notEmpty: {
           msg: "La date de naissance ne doit pas être vide.",
@@ -75,18 +75,18 @@ const User = mariadb.define(
       type: DataTypes.STRING(25),
       allowNull: false,
       unique: {
-        msg: "Le login doit être unique !",
+        msg: "L'identifiant doit être unique.",
       },
       validate: {
         notNull: {
-          msg: "Le login ne doit pas être null.",
+          msg: "L'identifiant ne doit pas être nul.",
         },
         notEmpty: {
-          msg: "Le login ne doit pas être vide.",
+          msg: "L'identifiant ne doit pas être vide.",
         },
         len: {
           args: [1, 25],
-          msg: "Le login doit être de taille [1 à 25]",
+          msg: "L'identifiant doit être de taille [1 à 25].",
         },
       },
     },
@@ -95,14 +95,14 @@ const User = mariadb.define(
       allowNull: false,
       validate: {
         notNull: {
-          msg: "Le mot de passe ne doit pas être null.",
+          msg: "Le mot de passe ne doit pas être nul.",
         },
         notEmpty: {
           msg: "Le mot de passe ne doit pas être vide.",
         },
         len: {
           args: [8, 60],
-          msg: "Le mot de passe doit être de taille [8 à 60]",
+          msg: "Le mot de passe doit être de taille [8 à 60].",
         },
       },
     },

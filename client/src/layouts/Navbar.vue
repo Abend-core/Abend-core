@@ -22,8 +22,8 @@
         alt="Mode Sombre"
       />
       <RouterLink to="/connexion" v-if="!isAuthenticated">Connexion</RouterLink>
-      <RouterLink v-if="isAuthenticated && isAdmin" to="/admin">
-        Admin Board
+      <RouterLink v-if="isAuthenticated && isAdmin" to="/dashboard">
+        Dashboard
       </RouterLink>
       <RouterLink to="/profil" v-if="isAuthenticated">Profil</RouterLink>
       <button v-if="isAuthenticated" @click="logOut">Déconnexion</button>
@@ -33,7 +33,6 @@
 
 <script>
 import { clearSessionData } from "../utils/session";
-
 export default {
   emits: ["login", "logout"],
   // ces props permettent de recevoir la valeur de l'authentification de son parent Layout.vue

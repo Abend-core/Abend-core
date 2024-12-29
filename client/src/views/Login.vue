@@ -72,7 +72,9 @@
         <div class="text-[14px] mt-[16px]">
           <p>
             Nouveau sur Abend-core?
-            <a class="underline" href="/inscription">Créer un compte</a>
+            <router-link class="underline" to="/inscription"
+              >Créer un compte</router-link
+            >
           </p>
         </div>
       </div>
@@ -92,7 +94,9 @@ export default {
       errorMessage: "",
     };
   },
-  emits: ["login", "logout", "role"],
+  emits: ["login", "logout"],
+  //permet d'envoyer cette donnée aux autres composants
+  inject: ["isAdmin"],
   methods: {
     loginUser() {
       const data = {
@@ -119,8 +123,7 @@ export default {
         .then((response) => {
           const isAdmin = response.data.user.isAdmin;
           sessionStorage.setItem("isAdmin", JSON.stringify(isAdmin));
-          this.$emit("role", isAdmin);
-          console.log("Informations utilisateur :", response.data);
+          this.isAdmin = isAdmin;
         })
         .catch((error) => {
           console.error(error.response?.data || error.message);

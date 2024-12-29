@@ -65,7 +65,9 @@
         <div class="text-[14px] mt-[16px]">
           <p>
             Déjà inscrit?
-            <a class="underline" href="/connexion">Se connecter</a>
+            <router-link class="underline" to="/connexion"
+              >Se connecter</router-link
+            >
           </p>
         </div>
       </div>
@@ -104,10 +106,13 @@ export default {
 
       registrateUser(data)
         .then((response) => {
+          console.log(response);
           this.$router.push("/connexion");
         })
         .catch((error) => {
-          this.errorMessage = error.message;
+          console.log(error);
+          this.errorMessage =
+            error.response?.data?.errors[0] || "Inscription erreur";
         });
     },
 
