@@ -1,6 +1,6 @@
 <template>
   <main class="p-[20px]">
-    <div class="dashboard w-full h-[900px] bg-[#f0eeee94] rounded-md p-[20px]">
+    <div class="dashboard w-full bg-[#F4F6FA] rounded-md p-[20px]">
       <div class="dashboard-header mb-5">
         <div class="dashboard-header-content bg-white rounded-md p-[12px]">
           <h1 class="font-bold">Gestion des utilisateurs</h1>
@@ -15,43 +15,71 @@
             placeholder="Rechercher..."
           />
           <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
-            <img class="h-5 w-5" src="../assets/images/search-bar-icon.png" />
+            <img
+              class="h-5 w-5"
+              src="../assets/images/dashboard-icon/search-bar-icon.png"
+            />
           </span>
         </div>
         <div class="dashboard-selected-user flex gap-3">
           <input type="checkbox" />
-          <p class="text-[#746a6ade]">2 selected</p>
+          <p class="text-[#746a6ade]">{{ countUser }} selected</p>
         </div>
+        <img
+          class="cursor-pointer"
+          src="../assets/images/dashboard-icon/bin-icon.png"
+        />
+
         <div class="dashboard-add-user ml-auto">
           <button class="bg-[#4954ecde] p-[6px] rounded-md text-white">
             <span>+</span> Ajoutez un utilisateur
           </button>
         </div>
       </div>
-      <div class="dashboard-table h-[700px] bg-white p-[12px] rounded-md">
-        <table class="w-full">
+      <div
+        class="dashboard-table bg-white p-6 rounded-md max-h-[500px] overflow-auto"
+      >
+        <table class="w-full border-collapse">
           <thead>
-            <tr class="text-left">
-              <th><input type="checkbox" /></th>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Email</th>
-              <th>Date d'anniversaire</th>
-              <th>Date de création</th>
-              <th>Identifiant</th>
-              <th>Rôle</th>
+            <tr class="text-left border-b border-gray-200">
+              <th class="p-3">
+                <input
+                  type="checkbox"
+                  class="select-users cursor-pointer"
+                  @change="selectAllUsers"
+                />
+              </th>
+              <th class="p-3">Nom</th>
+              <th class="p-3">Prénom</th>
+              <th class="p-3">Email</th>
+              <th class="p-3">Date d'anniversaire</th>
+              <th class="p-3">Date de création</th>
+              <th class="p-3">Identifiant</th>
+              <th class="p-3">Rôle</th>
+              <th class="p-3">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in users" :key="user.id">
-              <td><input type="checkbox" /></td>
-              <td>{{ user.name }}</td>
-              <td>{{ user.firstname }}</td>
-              <td>{{ user.mail }}</td>
-              <td>{{ user.birth }}</td>
-              <td>{{ user.createdAt }}</td>
-              <td>{{ user.login }}</td>
-              <td>{{ user.isAdmin ? "Admin" : "User" }}</td>
+            <tr
+              v-for="user in users"
+              :key="user.id"
+              class="hover:bg-[#F4F6FA] transition duration-150"
+            >
+              <td class="p-3">
+                <input
+                  type="checkbox"
+                  class="cursor-pointer"
+                  @change="updateUserCount"
+                />
+              </td>
+              <td class="p-3">{{ user.name }}</td>
+              <td class="p-3">{{ user.firstname }}</td>
+              <td class="p-3">{{ user.mail }}</td>
+              <td class="p-3">{{ formatDate(user.birth) }}</td>
+              <td class="p-3">{{ formatDateTime(user.createdAt) }}</td>
+              <td class="p-3">{{ user.login }}</td>
+              <td class="p-3">{{ user.isAdmin ? "Admin" : "User" }}</td>
+              <td class="p-3">Jsp</td>
             </tr>
           </tbody>
         </table>
@@ -60,31 +88,30 @@
   </main>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
 import { findAll } from "../api/user";
+import { formatDate, formatDateTime } from "../utils/date";
 
-export default {
-  data() {
-    return {
-      users: [],
-    };
-  },
-  methods: {
-    allUsers() {
-      findAll()
-        .then((response) => {
-          console.log(response.data);
-          this.users = response.data.user;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-  },
-  mounted() {
-    this.allUsers();
-  },
+const users = ref([]);
+const countUser = ref(0);
+
+const selectUsers = ref();
+
+const allUsers = async () => {
+  try {
+    const response = await findAll();
+    users.value = response.data.user;
+  } catch (error) {
+    console.error(error);
+  }
 };
+
+const updateUserCount = (event) => {
+  countUser.value += event.target.checked ? 1 : -1;
+};
+
+allUsers();
 </script>
 
 <style scoped>
