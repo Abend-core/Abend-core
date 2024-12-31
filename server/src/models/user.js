@@ -44,6 +44,9 @@ const User = mariadb.define(
     mail: {
       type: DataTypes.STRING(25),
       allowNull: false,
+      unique: {
+        msg: "Le mail est déjà utilisé.",
+      },
       validate: {
         notNull: {
           msg: "L'email ne doit pas être nul.",

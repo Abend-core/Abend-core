@@ -1,0 +1,21 @@
+<div id="log">
+  <h1>Connexion</h1>
+  <div id="error"></div>
+  <form onsubmit="login(event)">
+    <div class="form-item">
+      <label>Login</label>
+      <input id="inputLogin" type="text" required />
+    </div>
+    <div class="form-item">
+      <label>Password</label>
+      <input id="inputPassword" type="password" required />
+    </div>
+    <div class="form-option">
+      <p id="oublie" onclick="modalOpen($(this))">Mot de passe oublié ?</p>
+      <p id="inscription" onclick="modalOpen($(this))">S'inscrire</p>
+    </div>
+    <div class="form-item">
+      <button type="submit">Connexion</button>
+    </div>
+  </form>
+</div>

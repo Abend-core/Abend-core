@@ -1,0 +1,42 @@
+#page-admin {
+  display: flex;
+}
+
+#admin-menu {
+  flex: 1;
+  background-color: white;
+  border-radius: 10px;
+}
+
+#admin-content {
+  flex: 10;
+  margin-left: 1%;
+}
+#admin-content #head {
+  background-color: white;
+  border-radius: 10px;
+  padding: 2%;
+}
+#admin-content #tableau {
+  margin-top: 1%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 2%;
+}
+
+.menu-item {
+  margin-top: 11%;
+  border-radius: 10px;
+  border: 1px solid black;
+  text-align: center;
+  width: 100px;
+  padding: 2%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.statut {
+  padding: 5% 5%;
+  border-radius: 5px;
+  color: white;
+}

@@ -5,20 +5,24 @@
       src="https://code.jquery.com/jquery-1.12.0.min.js"
     ></script>
     <script type="text/javascript" src="../js/abend-core/init.js"></script>
-    <script type="text/javascript" src="../js/abend-core/login.js"></script>
+    <script type="text/javascript" src="../js/abend-core/admin.js"></script>
+    <script type="text/javascript" src="../js/abend-core/log.js"></script>
     <script type="text/javascript" src="../js/abend-core/modal.js"></script>
     <script type="text/javascript" src="../js/session.js"></script>
     <script type="text/javascript" src="../js/application.js"></script>
     <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/admin.css" rel="stylesheet" />
+    <link href="../css/tableau.css" rel="stylesheet" />
   </head>
   <body>
     <div id="header">
       <div id="nav">
-        <div class="nav-item">Accueil</div>
-        <div class="nav-item" id="profil">Profil</div>
-        <div class="nav-item" id="login" onclick="modalLogin()">Connexion</div>
+        <div class="nav-item" id="login" onclick="modalOpen($(this))">
+          Connexion
+        </div>
       </div>
     </div>
+    <div id="content"></div>
     <div id="modal" class="modal">
       <div id="modal-content">
         <div id="modal-close" onclick="modalClose()">X</div>
