@@ -13,16 +13,23 @@ function login(event) {
           .get("users/" + curSession.id, curSession.token)
           .then((userData) => {
             if (userData.user) {
-              curSession.nom = userData.user.name;
-              curSession.prenom = userData.user.firstname;
-              curSession.initial =
-                userData.user.firstname.substr(0, 1) +
-                userData.user.name.substr(0, 1);
-              curSession.test = {
+              curSession.user = {
                 nom: userData.user.name,
                 prenom: userData.user.firstname,
                 admin: userData.user.isAdmin,
               };
+              if (userData.user.isAdmin == true) {
+                curSession.admin = {
+                  dataUser: {
+                    total: [],
+                    select: [],
+                  },
+                  dataModule: {
+                    total: [],
+                    select: [],
+                  },
+                };
+              }
               initMenu();
               modalClose();
             }

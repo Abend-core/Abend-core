@@ -1,4 +1,5 @@
 const express = require("express");
+const { Op } = require("sequelize");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const NewUUID = require("../tools/uuid.js");
@@ -125,6 +126,27 @@ router.post("/delete/:id", auth, role, async (req, res) => {
       return User.destroy({ where: { id: user.id } }).then((_) => {
         res.status(200).json({ message: "Utilisateur supprimé.", user });
       });
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    });
+});
+
+//Filtre utilisateur
+router.post("/filtre", async (req, res) => {
+  const search = req.body.search;
+  User.findAll({
+    where: {
+      [Op.or]: [
+        { name: { [Op.like]: "%" + search + "%" } },
+        { firstname: { [Op.like]: "%" + search + "%" } },
+        { mail: { [Op.like]: "%" + search + "%" } },
+        { login: { [Op.like]: "%" + search + "%" } },
+      ],
+    },
+  })
+    .then((user) => {
+      res.status(200).json({ message: "Utilisateur trouvé.", user });
     })
     .catch((error) => {
       res.status(500).json({ message: "Erreur serveur.", erreur: error });

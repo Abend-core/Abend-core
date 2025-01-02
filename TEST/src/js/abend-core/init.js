@@ -9,7 +9,7 @@ function init() {
 
 function initMenu() {
   if (curSession.token) {
-    if (curSession.test.admin == true) {
+    if (curSession.user.admin == true) {
       $("#nav").append(
         '<div class="nav-item" id="admin" onclick="initPage(admin)">Admin</div>'
       );
