@@ -37,11 +37,11 @@
         </div>
       </div>
       <div
-        class="dashboard-table bg-white p-6 rounded-md max-h-[500px] overflow-auto"
+        class="dashboard-table bg-white p-6 rounded-md max-h-[800px] overflow-auto"
       >
-        <table class="w-full border-collapse">
+        <table class="w-full">
           <thead>
-            <tr class="text-left border-b border-gray-200">
+            <tr class="text-left border-b border-[#F4F6FA]">
               <th class="p-3">
                 <input
                   type="checkbox"
@@ -60,11 +60,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="user in users"
-              :key="user.id"
-              class="hover:bg-[#F4F6FA] transition duration-150"
-            >
+            <tr v-for="user in users" :key="user.id" class="hover:bg-[#F4F6FA]">
               <td class="p-3">
                 <input
                   type="checkbox"
