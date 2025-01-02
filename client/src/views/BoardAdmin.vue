@@ -13,7 +13,9 @@
             class="search-bar-input pl-10 py-2 border rounded-md w-[300px]"
             type="text"
             placeholder="Rechercher..."
+            v-model="inputValueSearchBar"
           />
+          <span><button @click="testInput">Envoyer</button></span>
           <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
             <img
               class="h-5 w-5"
@@ -29,11 +31,53 @@
           class="cursor-pointer"
           src="../assets/images/dashboard-icon/bin-icon.png"
         />
-
         <div class="dashboard-add-user ml-auto">
           <button class="bg-[#4954ecde] p-[6px] rounded-md text-white">
             <span>+</span> Ajoutez un utilisateur
           </button>
+        </div>
+      </div>
+      <div class="dashboard-add-user bg-white mb-6 p-3 rounded-md relative">
+        <p class="font-bold mb-3">Ajoutez un utilisateur</p>
+        <div
+          class="close-dashboard-add-user absolute top-0 right-3 cursor-pointer"
+        >
+          <p class="text-[22px]">&times;</p>
+        </div>
+        <div class="add-user-input flex items-center gap-3">
+          <p>Nom</p>
+          <input
+            type="text"
+            class="pl-3 py-2 border rounded-md w-[300px]"
+            v-model="nomAddUser"
+          />
+          <p>Prénom</p>
+          <input
+            type="text"
+            class="pl-3 py-2 border rounded-md w-[300px]"
+            v-model="prenomAddUser"
+          />
+          <p>Email</p>
+          <input
+            type="text"
+            class="pl-3 py-2 border rounded-md w-[300px]"
+            v-model="emailAddUser"
+          />
+          <p>Identifiant</p>
+          <input
+            type="text"
+            class="pl-3 py-2 border rounded-md w-[300px]"
+            v-model="idenfiantAddUser"
+          />
+          <p>Rôle</p>
+          <input
+            type="text"
+            class="pl-3 py-2 border rounded-md w-[300px]"
+            v-model="roleAddUser"
+          />
+        </div>
+        <div class="add-user-search-btn">
+          <button type="submit" @click="addUser">Rechercher</button>
         </div>
       </div>
       <div
@@ -92,12 +136,51 @@ import { formatDate, formatDateTime } from "../utils/date";
 const users = ref([]);
 const countUser = ref(0);
 
-const selectUsers = ref();
+const inputValueSearchBar = ref("");
+
+const testInput = () => {
+  users.value = "";
+
+  const filterSearch = async () => {
+    try {
+      const response = await filter({ search: inputValueSearchBar.value });
+      if (response && response.data.user) {
+        users.value = response.data.user;
+      }
+      // users.value = response.data.user;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  filterSearch();
+};
+
+//mettre dans un tableau ou objet
+const nomAddUser = ref("");
+const prenomAddUser = ref("");
+const emailAddUser = ref("");
+const idenfiantAddUser = ref("");
+const roleAddUser = ref("");
+
+const addUser = () => {
+  console.log("Nom :", nomAddUser.value);
+  console.log("Prénom :", prenomAddUser.value);
+  console.log("Email :", emailAddUser.value);
+  console.log("Identifiant :", idenfiantAddUser.value);
+  console.log("Rôle :", roleAddUser.value);
+};
 
 const allUsers = async () => {
   try {
     const response = await findAll();
     users.value = response.data.user;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const filter = async () => {
+  try {
   } catch (error) {
     console.error(error);
   }
