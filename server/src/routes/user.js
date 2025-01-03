@@ -36,7 +36,9 @@ router.post("/add", auth, role, async (req, res) => {
 
 // Selection de tout les utilisateurs
 router.get("/", auth, role, (req, res) => {
-  User.findAll()
+  User.findAll({
+    order: [["createdAt", "desc"]],
+  })
     .then((user) => {
       res.status(200).json({ message: "Tout les utilisateurs.", user });
     })
