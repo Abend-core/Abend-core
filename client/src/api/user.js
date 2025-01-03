@@ -8,12 +8,12 @@ export const filter = (data) => {
   return apiClient.post("/users/filtre", data);
 };
 
-export const addUser = () => {
+export const addUser = (data) => {
   return apiClient.post("/users/add", data);
 };
 
 export const deleteUser = (id) => {
-  return apiClient.post(`/users/${id}`);
+  return apiClient.post(`/users/delete/${id}`);
 };
 
 export const getUserById = (id) => {

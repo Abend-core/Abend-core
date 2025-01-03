@@ -29,7 +29,7 @@
         <img
           class="cursor-pointer"
           src="../assets/images/dashboard-icon/bin-icon.png"
-          @click="deleteUser"
+          @click="deleteUserTable"
         />
         <div class="dashboard-add-user ml-auto">
           <button
@@ -59,7 +59,7 @@
             name="add_user_input_nom"
             type="text"
             class="pl-3 py-2 border rounded-md w-[250px]"
-            v-model="dataAddUser.nom.value"
+            v-model="dataAddUser.name.value"
           />
           <p>Prénom</p>
           <input
@@ -67,7 +67,7 @@
             name="add_user_input_prenom"
             type="text"
             class="pl-3 py-2 border rounded-md w-[250px]"
-            v-model="dataAddUser.prenom.value"
+            v-model="dataAddUser.firstname.value"
           />
           <p>Email</p>
           <input
@@ -75,7 +75,15 @@
             name="add_user_input_email"
             type="text"
             class="pl-3 py-2 border rounded-md w-[250px]"
-            v-model="dataAddUser.email.value"
+            v-model="dataAddUser.mail.value"
+          />
+          <p>Date de naissance</p>
+          <input
+            id="add-user-input-date-naissance"
+            name="add_user_input_date_naissance"
+            type="date"
+            class="pl-3 py-2 border rounded-md w-[250px]"
+            v-model="dataAddUser.birth.value"
           />
           <p>Identifiant</p>
           <input
@@ -83,22 +91,22 @@
             name="add_user_input_identifiant"
             type="text"
             class="pl-3 py-2 border rounded-md w-[250px]"
-            v-model="dataAddUser.identifiant.value"
+            v-model="dataAddUser.login.value"
           />
           <select
             id="add-user-select-role"
             name="add_user_select_role"
-            v-model="dataAddUser.role.value"
+            v-model="dataAddUser.isAdmin.value"
           >
             <option value="" disabled>Choisir le rôle</option>
-            <option value="admin">Administrateur</option>
-            <option value="user">Utilisateur</option>
+            <option value="true">Administrateur</option>
+            <option value="false">Utilisateur</option>
           </select>
           <div class="add-user-search-btn">
             <button
               class="bg-[#4954ecde] p-[6px] rounded-md text-white"
               type="submit"
-              @click="addUserFn"
+              @click="addUserFonction"
             >
               Créer
             </button>
@@ -137,7 +145,9 @@
                   name="checkbox_dashboard_table_oneUser"
                   type="checkbox"
                   class="cursor-pointer"
+                  @click="selectAllUsers"
                   @change="updateUserCount"
+                  :value="user.id"
                 />
               </td>
               <td class="p-3">{{ user.name }}</td>
@@ -160,8 +170,8 @@ import { ref, watch } from "vue";
 import { findAll, deleteUser, filter, addUser } from "../api/user";
 import { formatDate, formatDateTime } from "../utils/date";
 
-//Tableau d'utilisateur, initialisÃ© Ã  vide
-const users = ref([]);
+//Tableau d'utilisateur, initialisé à vide
+let users = ref([]);
 
 //Valeur de l'input de la search bar
 const inputValueSearchBar = ref("");
@@ -170,9 +180,9 @@ const filterSearch = async () => {
   //On vide le tableau des users
   users.value = [];
   try {
-    //On fait appel Ã  l'API qui a une mÃ©thode "filter" qui demande un paramÃ¨tre, la valeur de l'input de la search bar
+    //On fait appel à  l'API qui a une méthode "filter" qui demande un paramètre, la valeur de l'input de la search bar
     const response = await filter({ search: inputValueSearchBar.value });
-    //S'il y a une rÃ©ponse et qu'elle correspond aux donnÃ©es des utilisateurs, on attribue ces valeurs au tableau des users
+    //S'il y a une réponse et qu'elle correspond aux données des utilisateurs, on attribue ces valeurs au tableau des users
     if (response && response.data.user) {
       users.value = response.data.user;
     }
@@ -180,7 +190,7 @@ const filterSearch = async () => {
     console.error(error);
   }
 };
-//Permet de rendre la recherche dynamique, pas besoin de bouton submit, la fonction filterSearch est appelÃ©e Ã  chaque input de l'utilisateur
+//Permet de rendre la recherche dynamique, pas besoin de bouton submit, la fonction filterSearch est appelée à  chaque input de l'utilisateur
 watch(inputValueSearchBar, () => {
   filterSearch();
 });
@@ -188,65 +198,91 @@ watch(inputValueSearchBar, () => {
 //Fonction qui permet d'afficher tous les utilisateurs
 const allUsers = async () => {
   try {
-    //On fait appel Ã  l'API qui a une mÃ©thode "findAll"
+    //On fait appel à  l'API qui a une méthode "findAll"
     const response = await findAll();
-    //On associe le tableau vide users aux valeurs qu'on rÃ©cupÃ¨re grÃ¢ce Ã  la mÃ©thode findAll
+    //On associe le tableau vide users aux valeurs qu'on récupère gràce à  la méthode findAll
     users.value = response.data.user;
   } catch (error) {
     console.error(error);
   }
 };
 
-//Variable utilisÃ© pour compter le nombre de checkbox sÃ©lectionnÃ©, initialisÃ© Ã  0
-const countUser = ref(0);
-//Fonction qui permet de mettre Ã  jour la valeur de countUser selon les checkbox sÃ©lectionnÃ©es
+//Variable utilisée pour compter le nombre de checkbox sélectionnée, initialisé à 0
+let countUser = ref(0);
+//Fonction qui permet de mettre à jour la valeur de countUser selon les checkbox sélectionnéees
 const updateUserCount = (event) => {
   countUser.value += event.target.checked ? 1 : -1;
 };
 
-//Fonction qui permettra de sÃ©lectionner tous les utilisateurs
+let idUsers = [];
+//Fonction qui permettra de sélectionner tous les utilisateurs
 const selectAllUsers = (event) => {
-  console.log(event.target.checked);
+  const idUser = event.target.value;
+  const checked = event.target.checked;
+  if (checked) {
+    idUsers.push(idUser);
+  } else {
+    for (let i = 0; i < idUsers.length; i++) {
+      if (idUsers[i] === idUser) {
+        idUsers.splice(i, 1);
+      }
+    }
+  }
 };
 
-//Variable qui initialise la modal Ã  false pour ne pas la voir par dÃ©faut
+//Variable qui initialise la modal à  false pour ne pas la voir par défaut
 const isModalVisible = ref(false);
 //Fonction qui permet d'afficher et d'enlever la modal quand on appuie sur le bouton
 const displayModal = () => {
   isModalVisible.value = !isModalVisible.value;
 };
 
-const supprUser = async () => {
-  try {
-  } catch (error) {}
+const deleteUserTable = async () => {
+  for (let i = 0; i < idUsers.length; i++) {
+    try {
+      await deleteUser(idUsers[i]);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  countUser.value = 0;
+  idUsers = [];
+  allUsers();
 };
 
-//Objet qui rÃ©pertorie l'ensemble des donnÃ©es utiles pour crÃ©er un utilisateur
+//Objet qui répertorie l'ensemble des données utiles pour créer un utilisateur
 let dataAddUser = {
-  nom: ref(""),
-  prenom: ref(""),
-  email: ref(""),
-  identifiant: ref(""),
-  role: ref(""),
+  name: ref(""),
+  firstname: ref(""),
+  mail: ref(""),
+  birth: ref(""),
+  login: ref(""),
+  password: "password",
+  isAdmin: ref(""),
 };
 
-//Fonction qui permet de crÃ©er un utilisateur
-// const addUserFn = () => {
-//   console.log("Nom :", dataAddUser.nom.value);
-//   console.log("PrÃ©nom :", dataAddUser.prenom.value);
-//   console.log("Email :", dataAddUser.email.value);
-//   console.log("Identifiant :", dataAddUser.identifiant.value);
-//   console.log("RÃ´le :", dataAddUser.role.value);
-//   const addUser = async () => {
-//     try {
-//       const response = await findAll();
-//       users.value = response.data.user;
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-//   addUser();
-// };
+//Fonction qui permet de créer un utilisateur
+const addUserFonction = async () => {
+  try {
+    await addUser({
+      name: dataAddUser.name.value,
+      firstname: dataAddUser.firstname.value,
+      mail: dataAddUser.mail.value,
+      birth: dataAddUser.birth.value,
+      login: dataAddUser.login.value,
+      password: dataAddUser.password,
+      isAdmin: dataAddUser.isAdmin.value,
+    });
+    dataAddUser.name.value = "";
+    dataAddUser.firstname.value = "";
+    dataAddUser.mail.value = "";
+    dataAddUser.birth.value = "";
+    dataAddUser.login.value = "";
+    allUsers();
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 //Appel de la fonction allUsers pour qu'elle soit fonctionnelle
 allUsers();
