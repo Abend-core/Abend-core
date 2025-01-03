@@ -184,6 +184,8 @@ const filterSearch = async () => {
     const response = await filter({ search: inputValueSearchBar.value });
     //S'il y a une réponse et qu'elle correspond aux données des utilisateurs, on attribue ces valeurs au tableau des users
     if (response && response.data.user) {
+      idUsers = [];
+      countUser.value = 0;
       users.value = response.data.user;
     }
   } catch (error) {
