@@ -1,6 +1,5 @@
 module.exports = (req, res, next) => {
   const role = req.headers.role;
-  console.log("headers : ", req.headers.role);
   if (role != "true") {
     return res.status(401).json({
       message:

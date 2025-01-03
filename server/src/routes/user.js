@@ -133,7 +133,7 @@ router.post("/delete/:id", auth, role, async (req, res) => {
 });
 
 //Filtre utilisateur
-router.post("/filtre", async (req, res) => {
+router.post("/filtre", auth, role, async (req, res) => {
   const search = req.body.search;
   User.findAll({
     where: {
