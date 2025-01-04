@@ -17,6 +17,7 @@ const routes = [
     component: Profil,
     meta: {
       requiresAuth: false,
+      hideFooter: true,
     },
   },
   {
@@ -26,6 +27,7 @@ const routes = [
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
+      hideFooter: true,
     },
   },
   { path: "/:pathMatch(.*)*", name: "ErrorPage", component: Error },
