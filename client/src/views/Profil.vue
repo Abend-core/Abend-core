@@ -1,42 +1,75 @@
 <template>
-  <div class="layout-profil h-full flex">
-    <aside class="sidebar w-[20%] p-[100px]">
-      <div class="left-section-profil text-center mt-11">
-        <p class="mb-3 cursor-pointer" @click="setActiveSection('profile')">
+  <div class="h-full flex">
+    <aside class="w-[20%] p-[100px] hidden xl:block">
+      <div class="text-center mt-11">
+        <p
+          class="mb-3 cursor-pointer hover:bg-gray-100 transition duration-150 rounded-md p-2"
+          @click="setActiveSection('profile')"
+        >
           Mon profil
         </p>
-        <p class="mb-3 cursor-pointer" @click="setActiveSection('editInfo')">
+        <p
+          class="mb-3 cursor-pointer hover:bg-gray-100 transition duration-150 rounded-md p-2"
+          @click="setActiveSection('editInfo')"
+        >
           Modifier mes informations
         </p>
         <p
-          class="mb-3 cursor-pointer"
+          class="mb-3 cursor-pointer hover:bg-gray-100 transition duration-150 rounded-md p-2"
           @click="setActiveSection('manageModules')"
         >
           Gérer ses modules
         </p>
       </div>
     </aside>
-    <main class="content bg-[#FDFDFD] w-[80%] mr-[100px] relative">
+    <main class="bg-[#FDFDFD] w-[100%] xl:w-[80%] mr-0 xl:mr-[100px] relative">
       <div
-        class="background absolute w-full h-[225px] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-t-3xl z-[1]"
+        class="absolute w-full h-[225px] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-t-3xl z-[1]"
       ></div>
       <div class="p-[100px] relative z-[2]">
-        <div class="profil-content">
-          <div class="header-profil flex items-center gap-6 mt-[42px]">
-            <div class="profil-img">
+        <div>
+          <div
+            class="flex items-center gap-0 xl:gap-6 mt-[42px] xl:flex-row flex-col"
+          >
+            <div>
               <img
                 class="w-[200px] h-[200px] rounded-full border border-white p-1 bg-white"
                 src="../assets/images/profil-img/chien-mystique.png"
                 alt=""
               />
             </div>
-            <div class="profil-name flex gap-1 mt-[50px]">
-              <p class="text-[24px]">{{ user.firstname }}</p>
-              <p class="text-[24px]">{{ user.name }}</p>
+            <div class="mt-[20px] xl:mt-[80px]">
+              <div class="gap-3 flex xl:hidden">
+                <p
+                  class="mb-3 cursor-pointer"
+                  @click="setActiveSection('profile')"
+                >
+                  Mon profil
+                </p>
+                <p
+                  class="mb-3 cursor-pointer"
+                  @click="setActiveSection('editInfo')"
+                >
+                  Modifier mes informations
+                </p>
+                <p
+                  class="mb-3 cursor-pointer"
+                  @click="setActiveSection('manageModules')"
+                >
+                  Gérer ses modules
+                </p>
+              </div>
+              <div class="flex gap-2">
+                <p class="text-[24px]">{{ user.firstname }}</p>
+                <p class="text-[24px]">{{ user.name }}</p>
+              </div>
+              <p class="mt-2 text-[#8592A4]">
+                Mets à jour tes informations personnelles
+              </p>
             </div>
-            <div class="profil-save" v-if="activeSection === 'editInfo'">
+            <div v-if="activeSection === 'editInfo'">
               <button
-                class="absolute right-6 top-[250px] bg-[#3A84F5] p-[6px] rounded-md text-white"
+                class="absolute right-6 top-[250px] bg-[#3A84F5] p-[6px] rounded-md text-white border border-black"
                 @click="updateUserProfile"
               >
                 Modifier
@@ -44,18 +77,24 @@
             </div>
           </div>
           <div v-if="activeSection === 'profile'">
-            <div class="profil-data-user">
-              <div class="profil-data">
-                <p>{{ user.firstname }}</p>
-                <p>{{ user.name }}</p>
+            <div class="bg-white mt-5 p-0 xl:p-6 rounded-md">
+              <div>
+                <p class="underline mb-5">Informations personnelles</p>
+              </div>
+              <div>
+                <div class="flex gap-1">
+                  <p>{{ user.firstname }}</p>
+                  <p>{{ user.name }}</p>
+                </div>
                 <p>{{ user.mail }}</p>
-                <p>{{ user.birth }}</p>
+                <p>{{ formatDate(user.birth) }}</p>
                 <p>{{ user.login }}</p>
               </div>
             </div>
           </div>
+          <p class="text-[#4b9945] text-center">{{ successMessage }}</p>
           <div v-if="activeSection === 'editInfo'">
-            <div class="profil-edit-data pl-[226px]">
+            <div class="pl-[226px] mt-6">
               <div class="flex flex-col gap-[22px]">
                 <div class="flex items-center">
                   <p class="w-[150px] mr-[200px]">Prénom</p>
@@ -130,7 +169,7 @@
             </div>
           </div>
           <div v-if="activeSection === 'manageModules'">
-            <div class="profil-manage-modules">
+            <div>
               <p class="text-center">Gérer ses modules</p>
             </div>
           </div>
@@ -143,6 +182,7 @@
 <script setup>
 import { ref } from "vue";
 import { getUserById, editUserById } from "../api/user";
+import { formatDate } from "../utils/date";
 
 defineEmits(["login", "logout"]);
 
@@ -154,6 +194,12 @@ const nomProfil = ref("");
 const emailProfil = ref("");
 const birthProfil = ref("");
 const identifiantProfil = ref("");
+
+let successMessage = ref("");
+
+const setActiveSection = (section) => {
+  activeSection.value = section;
+};
 
 const updateUserProfile = async () => {
   const updatedData = {
@@ -167,13 +213,10 @@ const updateUserProfile = async () => {
   try {
     await editUserById(id, updatedData);
     getInfosProfil();
+    successMessage.value = "Profil modifié.";
   } catch (error) {
     console.error(error);
   }
-};
-
-const setActiveSection = (section) => {
-  activeSection.value = section;
 };
 
 const getInfosProfil = async () => {

@@ -1,17 +1,17 @@
 <template>
   <main>
-    <div class="registration-form m-auto w-[360px] mt-[80px]">
+    <div class="m-auto w-[360px] mt-[80px]">
       <img
         class="w-[56px] h-[56px] mx-auto mb-[12px]"
         src="../assets/images/abend-core-logo.png"
       />
-      <div class="registration-form-header">
+      <div>
         <h1 class="text-2xl text-center mb-[10px]">S'inscrire à Abend-core</h1>
       </div>
       <div class="pl-[16px] pr-[16px] pt-[8px]">
         <div
           v-if="errorMessage"
-          class="registration-form-error text-white rounded-[6px] p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
+          class="text-white rounded-[6px] p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
         >
           <div>
             <svg
@@ -34,8 +34,8 @@
           </div>
         </div>
       </div>
-      <div class="registration-form-body p-[16px]">
-        <form action="" class="flex flex-col" @submit.prevent="registration">
+      <div class="p-[16px]">
+        <form class="flex flex-col" @submit.prevent="registration">
           <label for="name"> Nom </label>
           <input type="text" id="name" v-model="name" required />
           <label for="firstName"> Prénom </label>

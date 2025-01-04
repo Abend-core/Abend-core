@@ -6,11 +6,17 @@ import Registration from "../views/Registration.vue";
 import Profil from "../views/Profil.vue";
 import BoardAdmin from "../views/BoardAdmin.vue";
 import Error from "../views/Error.vue";
+import ForgetPassword from "../views/ForgetPassword.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
   { path: "/connexion", name: "LoginPage", component: Login },
   { path: "/inscription", name: "InscriptionPage", component: Registration },
+  {
+    path: "/forgetPassword",
+    name: "ForgetPasswordPage",
+    component: ForgetPassword,
+  },
   {
     path: "/profil",
     name: "ProfilPage",

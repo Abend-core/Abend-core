@@ -1,11 +1,11 @@
 <template>
   <main>
-    <div class="auth-form m-auto w-[320px] mt-[80px]">
+    <div class="m-auto w-[320px] mt-[80px]">
       <img
         class="w-[56px] h-[56px] mx-auto mb-[12px]"
         src="../assets/images/abend-core-logo.png"
       />
-      <div class="auth-form-header">
+      <div>
         <h1 class="text-2xl text-center mb-[10px]">
           Se connecter à Abend-core
         </h1>
@@ -13,7 +13,7 @@
       <div class="pl-[16px] pr-[16px] pt-[8px]">
         <div
           v-if="errorMessage"
-          class="auth-form-error text-white rounded-[6px] p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
+          class="text-white rounded-[6px] p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
         >
           <div>
             <svg
@@ -36,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div class="auth-form-body p-[16px]">
+      <div class="p-[16px]">
         <form action="" class="flex flex-col" @submit.prevent="loginUser">
           <label class="mb-[4px]" for="login"> Identifiant</label>
           <input
@@ -55,12 +55,12 @@
               class="mb-[16px] bg-white text-black"
               required
             />
-            <a
+            <router-link
               class="absolute text-[12px] underline top-0 right-0"
               id="forgot-password"
-              href=""
+              to="/forgetPassword"
               >Mot de passe oublié ?
-            </a>
+            </router-link>
             <button
               class="w-full bg-[#4b9945] text-white font-bold border border-black"
               type="submit"
