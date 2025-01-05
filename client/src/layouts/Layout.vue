@@ -15,7 +15,11 @@
       <!-- router-view permet de rendre dynamique les composants, 
        c'est lui qui gère l'affichage selon les routes qu'on recherche  -->
       <!-- grâce à ce router-view, mon header et mon footer restent en place sur tous autres composants -->
-      <router-view @login="login" />
+      <router-view
+        @login="login"
+        :isAdmin="isAdmin"
+        :isAuthenticated="isAuthenticated"
+      />
     </div>
     <Footer v-if="!$route.meta.hideFooter" />
   </div>
