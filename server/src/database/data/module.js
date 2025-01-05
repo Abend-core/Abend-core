@@ -2,7 +2,7 @@ const modules = [
   {
     id: "01936500-7234-7627-801d-e8fddf0e7671",
     name: "Le cnam",
-    link: "https://idp.lecnam.net/idp/profile/SAML2/Redirect/SSO?execution=e1s1",
+    link: "https://idp.lecnam.net",
     color: "#7D7F7D",
     image: "ss",
     isShow: 1,
@@ -31,7 +31,9 @@ const modules = [
     name: "Portfolio Lucas",
     link: "https://lucas-rolland.netlify.app/",
     color: "#6DB1E4",
+    image: "ss",
     isShow: 1,
+    UserId: "019364fe-7464-770c-9781-19f1fea717ff",
   },
 ];
 
