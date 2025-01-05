@@ -11,21 +11,22 @@ mariadb
   .sync({ force: true })
   .then(async (_) => {
     try {
-      // Création des utilisateurs un par un
+      const modules = await Module.findAll();
+
       for (const user of dataUser) {
-        // Hashage du mot de passe
         user.password = await bcrypt.hash(user.password, 10);
 
-        // Création de chaque utilisateur
-        await User.create(user);
+        const createdUser = await User.create(user);
+
+        for (const module of modules) {
+          await createdUser.addModule(module.id);
+        }
       }
-
-      // Insérer le module si l'utilisateur existe ou si le UserId est optionnel
       await Module.bulkCreate(dataModule);
-
-      console.log("Utilisateurs et modules insérés avec succès.");
+      console.log("Utilisateurs insérés avec succès.");
+      console.log("Synchronisation effectuée !");
     } catch (err) {
-      console.error("Erreur lors de l'insertion :", err);
+      console.error("Erreur :", err);
     }
   })
   .catch((err) => {

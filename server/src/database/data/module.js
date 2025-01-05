@@ -6,7 +6,6 @@ const modules = [
     color: "#7D7F7D",
     image: "ss",
     isShow: 1,
-    UserId: "019364fe-7464-770c-9781-19f1fea717ff",
   },
   {
     id: "01936500-ab95-740b-8991-cde2dbe098ba",
@@ -15,7 +14,6 @@ const modules = [
     color: "#B32821",
     image: "ss",
     isShow: 1,
-    UserId: "019364fe-7464-770c-9781-19f1fea717ff",
   },
   {
     id: "01936500-da25-7360-888d-0fe83580691d",
@@ -24,7 +22,6 @@ const modules = [
     color: "#008F39",
     image: "ss",
     isShow: 1,
-    UserId: "019364fe-7464-770c-9781-19f1fea717ff",
   },
   {
     id: "01936500-eb36-8471-999e-f1f94691712e",
@@ -33,7 +30,6 @@ const modules = [
     color: "#6DB1E4",
     image: "ss",
     isShow: 1,
-    UserId: "019364fe-7464-770c-9781-19f1fea717ff",
   },
 ];
 

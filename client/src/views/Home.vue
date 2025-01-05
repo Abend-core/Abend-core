@@ -41,7 +41,6 @@
               placeholder="Nom"
               v-model="dataModule.isShow.value"
             />
-            <input type="hidden" v-model="dataModule.UserId" />
             <input type="hidden" v-model="dataModule.image" />
 
             <div class="flex justify-center mt-3">
@@ -109,7 +108,6 @@ let dataModule = {
   color: ref("#000000"),
   image: ref("test"),
   isShow: ref(true),
-  UserId: ref(""),
 };
 const id = sessionStorage.getItem("id");
 
@@ -121,7 +119,6 @@ const addModulesHome = async () => {
       color: dataModule.color.value,
       image: dataModule.image.value,
       isShow: dataModule.isShow.value ? 1 : 0,
-      UserId: id,
     });
     dataModule.name.value = "";
     dataModule.link.value = "";
