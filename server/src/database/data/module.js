@@ -24,7 +24,7 @@ const modules = [
     id: "01936500-eb36-8471-999e-f1f94691712e",
     name: "Portfolio Lucas",
     link: "https://lucas-rolland.netlify.app/",
-    color: "##6DB1E4",
+    color: "#6DB1E4",
     isShow: 1,
   },
 ];
