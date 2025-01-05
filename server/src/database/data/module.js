@@ -20,6 +20,13 @@ const modules = [
     color: "#008F39",
     isShow: 1,
   },
+  {
+    id: "",
+    name: "Portfolio Lucas",
+    link: "https://lucas-rolland.netlify.app/",
+    color: "##6DB1E4",
+    isShow: 1,
+  },
 ];
 
 module.exports = modules;
