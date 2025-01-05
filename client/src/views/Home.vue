@@ -1,20 +1,20 @@
 <template>
-  <div>
+  <div class="flex items-center justify-center gap-10 mt-[60px]">
     <!-- <img
           class="blur-sm w-full h-full object-cover"
           src="../assets/images/abend-core-logo.png"
           alt="Logo"
     /> -->
 
-    <div
-      class="flex items-center justify-center gap-10 mt-[50px]"
-      v-for="module in modules"
-      :key="module.id"
-    >
+    <div class="flex" v-for="module in modules" :key="module.id">
       <a
         :href="module.link"
-        class="carre"
-        :style="{ backgroundColor: module.color }"
+        class="carre rotate-45 rounded-2xl"
+        :style="{
+          border: `2px solid ${module.color}`,
+          backgroundColor: '#D9D9D9',
+        }"
+        target="_blank"
       ></a>
     </div>
   </div>
