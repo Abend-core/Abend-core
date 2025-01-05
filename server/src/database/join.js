@@ -1,6 +1,6 @@
 //Rappel des table dans l'annuaire
 const { User, Module } = require("../models/index.js");
-
+const DataTypes = require("sequelize");
 //Différentes jointure
 
 User.belongsToMany(Module, {
@@ -13,4 +13,11 @@ Module.belongsToMany(User, {
   through: "UserModule",
   foreignKey: "moduleId",
   otherKey: "userId",
+});
+
+Module.belongsTo(User, {
+  foreignKey: {
+    type: DataTypes.CHAR(36),
+    allowNull: false,
+  },
 });

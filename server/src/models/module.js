@@ -43,7 +43,7 @@ const Module = mariadb.define(
       },
     },
     color: {
-      type: DataTypes.STRING(7),
+      type: DataTypes.STRING(50),
       allowNull: false,
       validate: {
         notNull: {
@@ -53,8 +53,24 @@ const Module = mariadb.define(
           msg: "La couleur du module ne doit pas être vide.",
         },
         len: {
-          args: [7, 7],
-          msg: "La couleur du module doit avoir 7 caractères.",
+          args: [1, 50],
+          msg: "La couleur du module doit être compris entre 1 et 50 caractères.",
+        },
+      },
+    },
+    image: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "L'image du module ne doit pas être null.",
+        },
+        notEmpty: {
+          msg: "L'image du module ne doit pas être vide.",
+        },
+        len: {
+          args: [1, 50],
+          msg: "L'image du module doit être compris entre 1 et 50 caractères.",
         },
       },
     },

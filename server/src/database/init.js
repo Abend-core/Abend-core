@@ -5,13 +5,12 @@ const dataUser = require("./data/user");
 const User = require("../models/user");
 const Module = require("../models/module");
 
-const views = require("../views/index");
+// const views = require("../views/index");
 
 mariadb
   .sync({ force: true })
   .then(async (_) => {
     try {
-      await Module.bulkCreate(dataModule);
       const modules = await Module.findAll();
 
       for (const user of dataUser) {
@@ -23,7 +22,7 @@ mariadb
           await createdUser.addModule(module.id);
         }
       }
-
+      await Module.bulkCreate(dataModule);
       console.log("Utilisateurs insérés avec succès.");
       console.log("Synchronisation effectuée !");
     } catch (err) {
