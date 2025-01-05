@@ -14,9 +14,6 @@ router.post("/add", auth, role, async (req, res) => {
   Module.create(data)
     .then((module) => {
       res.status(200).json({ message: "Module créé avec succès.", module });
-      for (i = 0; i < users.length; i++) {
-        module.addUser(users[i].id);
-      }
     })
     .catch((error) => {
       if (error.name === "SequelizeValidationError") {

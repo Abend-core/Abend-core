@@ -2,15 +2,12 @@
 const { User, Module } = require("../models/index.js");
 const DataTypes = require("sequelize");
 //Différentes jointure
-
-User.belongsToMany(Module, {
-  through: "UserModule",
-  foreignKey: "userId",
-  otherKey: "moduleId",
+User.hasMany(Module, {
+  foreignKey: "userId", // Le nom de la clé étrangère dans le modèle Module
+  as: "modules", // Nom de la relation pour les jointures
 });
 
-Module.belongsToMany(User, {
-  through: "UserModule",
-  foreignKey: "moduleId",
-  otherKey: "userId",
+Module.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user",
 });

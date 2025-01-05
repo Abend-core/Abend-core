@@ -12,6 +12,8 @@ require("./src/database/init");
 if (port == 5000) {
   corsOptions = {
     origin: [
+      "http://localhost:5173/",
+      "localhost:5173/",
       "http://localhost:5000",
       "http://localhost:5173",
       "http://127.0.0.1:5500",

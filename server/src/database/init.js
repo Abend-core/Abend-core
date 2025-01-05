@@ -11,16 +11,9 @@ mariadb
   .sync({ force: true })
   .then(async (_) => {
     try {
-      const modules = await Module.findAll();
-
       for (const user of dataUser) {
         user.password = await bcrypt.hash(user.password, 10);
-
-        const createdUser = await User.create(user);
-
-        for (const module of modules) {
-          await createdUser.addModule(module.id);
-        }
+        await User.create(user);
       }
       await Module.bulkCreate(dataModule);
       console.log("Utilisateurs insérés avec succès.");
