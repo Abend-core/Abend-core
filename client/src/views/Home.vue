@@ -32,7 +32,7 @@
           <div class="w-[300px] mx-auto">
             <p class="mb-1">Nom</p>
             <input class="mb-3" type="text" v-model="dataModule.name.value" />
-            <p class="mb-1">Lien</p>
+            <p class="mb-1">Lien (url)</p>
             <input class="mb-3" type="text" v-model="dataModule.link.value" />
             <p class="mb-1">Couleur attribuée</p>
             <input type="color" v-model="dataModule.color.value" />
@@ -41,6 +41,9 @@
               placeholder="Nom"
               v-model="dataModule.isShow.value"
             />
+            <input type="hidden" v-model="dataModule.UserId" />
+            <input type="hidden" v-model="dataModule.image" />
+
             <div class="flex justify-center mt-3">
               <button
                 class="bg-[#4b9945] text-white font-bold border border-black"
@@ -86,7 +89,7 @@ defineProps({
 });
 
 const modules = ref([]);
-const getModules = async () => {
+const allModules = async () => {
   try {
     const response = await findAllModules();
     modules.value = response.data.module;
@@ -104,8 +107,11 @@ let dataModule = {
   name: ref(""),
   link: ref(""),
   color: ref("#000000"),
+  image: ref("test"),
   isShow: ref(true),
+  UserId: ref(""),
 };
+const id = sessionStorage.getItem("id");
 
 const addModulesHome = async () => {
   try {
@@ -113,19 +119,21 @@ const addModulesHome = async () => {
       name: dataModule.name.value,
       link: dataModule.link.value,
       color: dataModule.color.value,
+      image: dataModule.image.value,
       isShow: dataModule.isShow.value ? 1 : 0,
+      UserId: id,
     });
     dataModule.name.value = "";
     dataModule.link.value = "";
-    dataModule.isShow.value = "";
-    getModules();
+    dataModule.color.value = "";
+    allModules();
     displayAddModule();
   } catch (error) {
     console.error(error);
   }
 };
 
-getModules();
+allModules();
 </script>
 
 <style scoped>
