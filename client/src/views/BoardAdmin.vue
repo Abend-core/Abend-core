@@ -1,16 +1,18 @@
 <template>
   <main class="p-[20px]">
-    <div class="dashboard w-full bg-[#F4F6FA] rounded-md p-[20px]">
-      <div class="dashboard-header mb-5">
-        <div class="dashboard-header-content bg-white rounded-md p-[12px]">
+    <div class="w-full bg-[#F4F6FA] rounded-md p-[20px]">
+      <div class="mb-5">
+        <div class="bg-white rounded-md p-[12px]">
           <h1 class="font-bold">Gestion des utilisateurs</h1>
-          <p class="text-[#4954ecde] mt-1">Admin Dashboard</p>
+          <p class="text-[#4954ecde] mt-1">Utilisateurs Dashboard</p>
         </div>
       </div>
-      <div class="dashboard-top-content flex items-center gap-5 mb-5">
-        <div class="dashboard-search-bar relative">
+      <div
+        class="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-5 mb-5"
+      >
+        <div class="relative">
           <input
-            class="search-bar-input pl-10 py-2 border rounded-md w-[300px]"
+            class="pl-10 py-2 border rounded-md w-[300px]"
             type="text"
             placeholder="Rechercher..."
             v-model="inputValueSearchBar"
@@ -23,7 +25,7 @@
             />
           </span>
         </div>
-        <div class="dashboard-selected-user flex gap-3">
+        <div class="flex gap-3">
           <p class="text-[#746a6ade]">{{ countUser }} selected</p>
         </div>
         <img
@@ -31,80 +33,108 @@
           src="../assets/images/dashboard-icon/bin-icon.png"
           @click="deleteUserTable"
         />
-        <div class="dashboard-add-user ml-auto">
+
+        <div class="ml-0 sm:ml-0 md:ml-auto lg:ml-auto xl:ml-auto">
           <button
             @click="displayModal"
-            class="flex gap-1 bg-[#4954ecde] p-[6px] rounded-md text-white"
+            class="flex gap-1 bg-[#4954ecde] p-[6px] rounded-md text-white border border-black"
           >
             <span>+</span>
             <p>Ajoutez un utilisateur</p>
           </button>
         </div>
       </div>
+
       <div
         v-if="isModalVisible"
-        class="dashboard-add-user bg-white mb-6 p-3 rounded-md relative"
+        class="bg-white mb-6 p-6 rounded-md relative max-w-[100%] mx-auto"
       >
-        <p class="font-bold mb-3">Ajoutez un utilisateur</p>
+        <p class="font-bold mb-3 text-left">Ajoutez un utilisateur</p>
         <div
-          class="close-dashboard-add-user absolute top-0 right-3 cursor-pointer"
+          class="absolute top-0 right-3 cursor-pointer"
           @click="displayModal"
         >
           <p class="text-[22px]">&times;</p>
         </div>
-        <div class="add-user-input flex items-center gap-3">
-          <p>Nom</p>
-          <input
-            id="add-user-input-nom"
-            name="add_user_input_nom"
-            type="text"
-            class="pl-3 py-2 border rounded-md w-[250px]"
-            v-model="dataAddUser.name.value"
-          />
-          <p>Prénom</p>
-          <input
-            id="add-user-input-prenom"
-            name="add_user_input_prenom"
-            type="text"
-            class="pl-3 py-2 border rounded-md w-[250px]"
-            v-model="dataAddUser.firstname.value"
-          />
-          <p>Email</p>
-          <input
-            id="add-user-input-email"
-            name="add_user_input_email"
-            type="text"
-            class="pl-3 py-2 border rounded-md w-[250px]"
-            v-model="dataAddUser.mail.value"
-          />
-          <p>Date de naissance</p>
-          <input
-            id="add-user-input-date-naissance"
-            name="add_user_input_date_naissance"
-            type="date"
-            class="pl-3 py-2 border rounded-md w-[250px]"
-            v-model="dataAddUser.birth.value"
-          />
-          <p>Identifiant</p>
-          <input
-            id="add-user-input-identifiant"
-            name="add_user_input_identifiant"
-            type="text"
-            class="pl-3 py-2 border rounded-md w-[250px]"
-            v-model="dataAddUser.login.value"
-          />
-          <select
-            id="add-user-select-role"
-            name="add_user_select_role"
-            v-model="dataAddUser.isAdmin.value"
-          >
-            <option value="" disabled>Choisir le rôle</option>
-            <option value="true">Administrateur</option>
-            <option value="false">Utilisateur</option>
-          </select>
-          <div class="add-user-search-btn">
+        <div
+          class="grid gap-4 sm:flex sm:flex-col lg:flex-row lg:flex-wrap lg:items-end"
+        >
+          <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+            <label for="add-user-input-nom" class="mb-1">Nom</label>
+            <input
+              id="add-user-input-nom"
+              name="add_user_input_nom"
+              type="text"
+              class="pl-3 py-2 border rounded-md w-full"
+              v-model="dataAddUser.name.value"
+            />
+          </div>
+
+          <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+            <label for="add-user-input-prenom" class="mb-1">Prénom</label>
+            <input
+              id="add-user-input-prenom"
+              name="add_user_input_prenom"
+              type="text"
+              class="pl-3 py-2 border rounded-md w-full"
+              v-model="dataAddUser.firstname.value"
+            />
+          </div>
+
+          <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+            <label for="add-user-input-email" class="mb-1">Email</label>
+            <input
+              id="add-user-input-email"
+              name="add_user_input_email"
+              type="text"
+              class="pl-3 py-2 border rounded-md w-full"
+              v-model="dataAddUser.mail.value"
+            />
+          </div>
+
+          <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+            <label for="add-user-input-date-naissance" class="mb-1"
+              >Date de naissance</label
+            >
+            <input
+              id="add-user-input-date-naissance"
+              name="add_user_input_date_naissance"
+              type="date"
+              class="pl-3 py-2 border rounded-md w-full sm:w-full md:w-full lg:w-[195px] xl:[w-195px]"
+              v-model="dataAddUser.birth.value"
+            />
+          </div>
+
+          <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+            <label for="add-user-input-identifiant" class="mb-1"
+              >Identifiant</label
+            >
+            <input
+              id="add-user-input-identifiant"
+              name="add_user_input_identifiant"
+              type="text"
+              class="pl-3 py-2 border rounded-md w-full"
+              v-model="dataAddUser.login.value"
+            />
+          </div>
+
+          <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+            <label for="add-user-select-role" class="mb-1">Rôle</label>
+            <select
+              id="add-user-select-role"
+              name="add_user_select_role"
+              class="pl-3 py-2 border rounded-md w-full sm:w-full md:w-full lg:w-[195px] xl:[w-195px]"
+              v-model="dataAddUser.isAdmin.value"
+            >
+              <option value="" disabled>Choisir le rôle</option>
+              <option value="true">Administrateur</option>
+              <option value="false">Utilisateur</option>
+            </select>
+          </div>
+
+          <div class="flex justify-center lg:mt-0 sm:mt-4">
             <button
-              class="bg-[#4954ecde] p-[6px] rounded-md text-white"
+              class="bg-[#4954ecde] px-6 py-2 rounded-md text-white border border-black"
               type="submit"
               @click="addUserFonction"
             >
@@ -113,9 +143,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="dashboard-table bg-white p-6 rounded-md max-h-[800px] overflow-auto"
-      >
+      <div class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5">
         <table class="w-full">
           <thead>
             <tr class="text-left border-b border-[#F4F6FA]">
@@ -160,6 +188,10 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="bg-white rounded-md p-[12px] mb-6">
+        <h1 class="font-bold">Gestion des modules</h1>
+        <p class="text-[#4954ecde] mt-1">Modules Dashboard</p>
       </div>
     </div>
   </main>

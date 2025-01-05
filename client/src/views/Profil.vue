@@ -1,113 +1,239 @@
 <template>
-  <div class="layout-profil h-screen flex">
-    <aside class="sidebar w-[20%] p-[100px]">
-      <div class="left-section-profil text-center mt-11">
-        <p class="mb-3">Mon profil</p>
-        <p class="mb-3">Gérer ses modules</p>
-        <p class="mb-3">Modifier son mot de passe</p>
+  <div class="h-full flex">
+    <aside class="w-[20%] p-[100px] hidden xl:block">
+      <div class="text-center mt-11">
+        <p
+          class="mb-3 cursor-pointer hover:bg-gray-100 transition duration-150 rounded-md p-2"
+          @click="setActiveSection('profile')"
+        >
+          Mon profil
+        </p>
+        <p
+          class="mb-3 cursor-pointer hover:bg-gray-100 transition duration-150 rounded-md p-2"
+          @click="setActiveSection('editInfo')"
+        >
+          Modifier mes informations
+        </p>
+        <p
+          class="mb-3 cursor-pointer hover:bg-gray-100 transition duration-150 rounded-md p-2"
+          @click="setActiveSection('manageModules')"
+        >
+          Gérer ses modules
+        </p>
       </div>
     </aside>
-    <main class="content bg-[#FDFDFD] w-[80%] mr-[100px] relative">
+    <main class="bg-[#FDFDFD] w-[100%] xl:w-[80%] mr-0 xl:mr-[100px] relative">
       <div
-        class="background absolute w-full h-[225px] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-t-3xl z-[1]"
+        class="absolute w-full h-[225px] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-t-3xl z-[1]"
       ></div>
       <div class="p-[100px] relative z-[2]">
-        <div class="profil-content">
-          <div class="header-profil flex items-center gap-6 mt-[42px]">
-            <div class="profil-img">
+        <div>
+          <div
+            class="flex items-center gap-0 xl:gap-6 mt-[42px] xl:flex-row flex-col"
+          >
+            <div>
               <img
                 class="w-[200px] h-[200px] rounded-full border border-white p-1 bg-white"
                 src="../assets/images/profil-img/chien-mystique.png"
                 alt=""
               />
             </div>
-            <div class="profil-name flex gap-1 mt-[50px]">
-              <p class="text-[24px]">{{ user.firstname }}</p>
-              <p class="text-[24px]">{{ user.name }}</p>
+            <div class="mt-[20px] xl:mt-[80px]">
+              <div class="gap-3 flex xl:hidden">
+                <p
+                  class="mb-3 cursor-pointer"
+                  @click="setActiveSection('profile')"
+                >
+                  Mon profil
+                </p>
+                <p
+                  class="mb-3 cursor-pointer"
+                  @click="setActiveSection('editInfo')"
+                >
+                  Modifier mes informations
+                </p>
+                <p
+                  class="mb-3 cursor-pointer"
+                  @click="setActiveSection('manageModules')"
+                >
+                  Gérer ses modules
+                </p>
+              </div>
+              <div class="flex gap-2">
+                <p class="text-[24px]">{{ user.firstname }}</p>
+                <p class="text-[24px]">{{ user.name }}</p>
+              </div>
+              <p class="mt-2 text-[#8592A4]">
+                Mets à jour tes informations personnelles
+              </p>
             </div>
-            <div class="profil-save">
+            <div v-if="activeSection === 'editInfo'">
               <button
-                class="absolute right-6 top-[250px] bg-[#3A84F5] p-[6px] rounded-md text-white"
+                class="absolute right-6 top-[250px] bg-[#3A84F5] p-[6px] rounded-md text-white border border-black"
+                @click="updateUserProfile"
               >
                 Modifier
               </button>
             </div>
           </div>
-          <div class="profil-data-user pl-[226px]">
-            <div class="flex flex-col gap-[22px]">
-              <div class="flex items-center">
-                <p class="w-[150px] mr-[200px]">Prénom</p>
-                <input class="w-[450px]" type="text" placeholder="Prénom" />
+          <div v-if="activeSection === 'profile'">
+            <div class="bg-white mt-5 p-0 xl:p-6 rounded-md">
+              <div>
+                <p class="underline mb-5">Informations personnelles</p>
               </div>
-              <div class="flex items-center">
-                <p class="w-[150px] mr-[200px]">Nom</p>
-                <input class="w-[450px]" type="text" placeholder="Nom" />
+              <div>
+                <div class="flex gap-1">
+                  <p>{{ user.firstname }}</p>
+                  <p>{{ user.name }}</p>
+                </div>
+                <p>{{ user.mail }}</p>
+                <p>{{ formatDate(user.birth) }}</p>
+                <p>{{ user.login }}</p>
               </div>
-              <div class="flex items-center">
-                <p class="w-[150px] mr-[200px]">Email</p>
-                <input class="w-[450px]" type="text" placeholder="Email" />
+            </div>
+          </div>
+          <p class="text-[#4b9945] text-center">{{ successMessage }}</p>
+          <div v-if="activeSection === 'editInfo'">
+            <div class="pl-[226px] mt-6">
+              <div class="flex flex-col gap-[22px]">
+                <div class="flex items-center">
+                  <p class="w-[150px] mr-[200px]">Prénom</p>
+                  <input
+                    class="w-[450px]"
+                    type="text"
+                    placeholder="Prénom"
+                    v-model="prenomProfil"
+                  />
+                </div>
+                <div class="flex items-center">
+                  <p class="w-[150px] mr-[200px]">Nom</p>
+                  <input
+                    class="w-[450px]"
+                    type="text"
+                    placeholder="Nom"
+                    v-model="nomProfil"
+                  />
+                </div>
+                <div class="flex items-center">
+                  <p class="w-[150px] mr-[200px]">Email</p>
+                  <input
+                    class="w-[450px]"
+                    type="text"
+                    placeholder="Email"
+                    v-model="emailProfil"
+                  />
+                </div>
+                <div class="flex items-center">
+                  <p class="w-[150px] mr-[200px]">Date de naissance</p>
+                  <input
+                    class="w-[450px]"
+                    type="date"
+                    placeholder="Date de naissance"
+                    v-model="birthProfil"
+                  />
+                </div>
+                <div class="flex items-center">
+                  <p class="w-[150px] mr-[200px]">Identifiant</p>
+                  <input
+                    class="w-[450px]"
+                    type="text"
+                    placeholder="Identifiant"
+                    v-model="identifiantProfil"
+                  />
+                </div>
+                <div class="flex items-center">
+                  <p class="w-[150px] mr-[200px]">Ancien mot de passe</p>
+                  <input
+                    class="w-[450px]"
+                    type="text"
+                    placeholder="Ancien mot de passe"
+                  />
+                </div>
+                <div class="flex items-center">
+                  <p class="w-[150px] mr-[200px]">Nouveau mot de passe</p>
+                  <input
+                    class="w-[450px]"
+                    type="text"
+                    placeholder="Nouveau mot de passe"
+                  />
+                </div>
+                <div class="flex items-center">
+                  <p class="w-[150px] mr-[200px]">Répéter le mot de passe</p>
+                  <input
+                    class="w-[450px]"
+                    type="text"
+                    placeholder="Répéter le mot de passe"
+                  />
+                </div>
               </div>
-              <div class="flex items-center">
-                <p class="w-[150px] mr-[200px]">Date de naissance</p>
-                <input
-                  class="w-[450px]"
-                  type="text"
-                  placeholder="Date de naissance"
-                />
-              </div>
-              <div class="flex items-center">
-                <p class="w-[150px] mr-[200px]">Identifiant</p>
-                <input
-                  class="w-[450px]"
-                  type="text"
-                  placeholder="Identifiant"
-                />
-              </div>
+            </div>
+          </div>
+          <div v-if="activeSection === 'manageModules'">
+            <div>
+              <p class="text-center">Gérer ses modules</p>
             </div>
           </div>
         </div>
       </div>
     </main>
   </div>
-  <!-- <div class="profil-edit-data">
-    <div class="profil-data">
-      <p>{{ user.firstname }}</p>
-      <p>{{ user.name }}</p>
-      <p>{{ user.mail }}</p>
-      <p>{{ user.birth }}</p>
-      <p>{{ user.login }}</p>
-      <button>Modifier</button>
-      <button>Sauvegarder</button>
-    </div>
-  </div>
-  <div class="profil-edit-password">
-    <input type="text" placeholder="Ancien mot de passe" />
-    <input type="text" placeholder="Nouveau mot de passe" />
-    <input type="text" placeholder="Répéter le mot de passe" />
-    <button>Modifier</button>
-  </div> -->
-  <!-- <div class="profil-manage-modules">
-    <p>Gestion des modules</p>
-  </div> -->
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { getUserById } from "../api/user";
+import { getUserById, editUserById } from "../api/user";
+import { formatDate } from "../utils/date";
 
 defineEmits(["login", "logout"]);
 
-const user = ref([]);
 const id = sessionStorage.getItem("id");
+const user = ref([]);
+const activeSection = ref("profile");
+const prenomProfil = ref("");
+const nomProfil = ref("");
+const emailProfil = ref("");
+const birthProfil = ref("");
+const identifiantProfil = ref("");
+
+let successMessage = ref("");
+
+const setActiveSection = (section) => {
+  activeSection.value = section;
+};
+
+const updateUserProfile = async () => {
+  const updatedData = {
+    firstname: prenomProfil.value,
+    name: nomProfil.value,
+    mail: emailProfil.value,
+    birth: birthProfil.value,
+    login: identifiantProfil.value,
+  };
+
+  try {
+    await editUserById(id, updatedData);
+    getInfosProfil();
+    successMessage.value = "Profil modifié.";
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const getInfosProfil = async () => {
   try {
     const response = await getUserById(id);
     user.value = response.data.user;
+
+    prenomProfil.value = user.value.firstname;
+    nomProfil.value = user.value.name;
+    emailProfil.value = user.value.mail;
+    birthProfil.value = user.value.birth;
+    identifiantProfil.value = user.value.login;
   } catch (error) {
     console.error(error);
   }
 };
+
 getInfosProfil();
 </script>
 

@@ -19,3 +19,7 @@ export const deleteUser = (id) => {
 export const getUserById = (id) => {
   return apiClient.get(`/users/${id}`);
 };
+
+export const editUserById = (id, data) => {
+  return apiClient.post(`/users/update/${id}`, data);
+};

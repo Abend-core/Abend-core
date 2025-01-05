@@ -6,17 +6,24 @@ import Registration from "../views/Registration.vue";
 import Profil from "../views/Profil.vue";
 import BoardAdmin from "../views/BoardAdmin.vue";
 import Error from "../views/Error.vue";
+import ForgetPassword from "../views/ForgetPassword.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
   { path: "/connexion", name: "LoginPage", component: Login },
   { path: "/inscription", name: "InscriptionPage", component: Registration },
   {
+    path: "/forgetPassword",
+    name: "ForgetPasswordPage",
+    component: ForgetPassword,
+  },
+  {
     path: "/profil",
     name: "ProfilPage",
     component: Profil,
     meta: {
       requiresAuth: false,
+      hideFooter: true,
     },
   },
   {
@@ -26,6 +33,7 @@ const routes = [
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
+      hideFooter: true,
     },
   },
   { path: "/:pathMatch(.*)*", name: "ErrorPage", component: Error },
