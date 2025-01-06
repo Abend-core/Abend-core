@@ -61,7 +61,7 @@ router.post("/module", auth, role, async (req, res) => {
     const filenameMatch = filePart.match(/filename="(.+?)"/);
     const filename = filenameMatch ? filenameMatch[1] : `upload-${Date.now()}`;
 
-    const uploadPath = path.join("../uploads/module/", filename);
+    const uploadPath = path.join("./src/upload/module/", filename);
 
     // Écrire les données dans un fichier
     fs.writeFile(uploadPath, fileData, "binary", (err) => {
