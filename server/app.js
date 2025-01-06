@@ -1,5 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+
+const fs = require("fs");
+const path = require("path");
+
 const port = process.env.PORT || 5000;
 const cors = require("cors");
 let corsOptions;
@@ -49,6 +53,9 @@ app.use("/users", users);
 
 const modules = require("./src/routes/module");
 app.use("/modules", modules);
+
+const upload = require("./src/routes/upload");
+app.use("/upload", upload);
 
 app.get("/", (req, res) => {
   res.send("Hello Abend !");
