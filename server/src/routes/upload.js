@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth/auth.js");
 const role = require("../middleware/role.js");
+const path = require("path");
 
 // Création d'un nouvel utilisateur
 // router.post("/profil", auth, role, async (req, res) => {
@@ -26,7 +27,7 @@ const role = require("../middleware/role.js");
 //   });
 // });
 
-// Création d'un nouvel utilisateur
+// Traitement des images pour les modules
 router.post("/module", auth, role, async (req, res) => {
   const boundary = req.headers["content-type"].split("boundary=")[1];
 
