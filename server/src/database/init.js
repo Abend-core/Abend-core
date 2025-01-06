@@ -5,8 +5,6 @@ const dataUser = require("./data/user");
 const User = require("../models/user");
 const Module = require("../models/module");
 
-// const views = require("../views/index");
-
 mariadb
   .sync({ force: true })
   .then(async (_) => {
@@ -21,6 +19,7 @@ mariadb
     } catch (err) {
       console.error("Erreur :", err);
     }
+    require("../views/index");
   })
   .catch((err) => {
     console.log("Erreur de synchronisation :", err);
