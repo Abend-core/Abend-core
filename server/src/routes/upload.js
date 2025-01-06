@@ -28,7 +28,6 @@ const fs = require("fs");
 //   });
 // });
 
-// Traitement des images pour les modules
 router.post("/module", auth, role, async (req, res) => {
   const boundary = req.headers["content-type"].split("boundary=")[1];
 
@@ -36,14 +35,17 @@ router.post("/module", auth, role, async (req, res) => {
     return res.status(400).send("Invalid Content-Type header.");
   }
 
-  let rawData = "";
+  let rawData = [];
   req.on("data", (chunk) => {
-    rawData += chunk;
+    rawData.push(chunk); // Stocke les chunks sous forme de tableau binaire
   });
 
   req.on("end", () => {
-    // Extraire le fichier à partir des données brutes
-    const parts = rawData.split("--${boundary}");
+    // Reconstituer les données brutes
+    rawData = Buffer.concat(rawData);
+
+    // Extraire les parties du fichier
+    const parts = rawData.split(Buffer.from(`--${boundary}`));
     const filePart = parts.find(
       (part) =>
         part.includes("Content-Disposition") && part.includes("filename")
@@ -53,18 +55,19 @@ router.post("/module", auth, role, async (req, res) => {
       return res.status(400).send("No file uploaded.");
     }
 
-    const fileDataStart = filePart.indexOf("\r\n\r\n") + 4; // Skip headers
+    // Trouver les indices du fichier dans la partie
+    const fileDataStart = filePart.indexOf("\r\n\r\n") + 4; // Ignore les en-têtes
     const fileDataEnd = filePart.lastIndexOf("\r\n--");
     const fileData = filePart.slice(fileDataStart, fileDataEnd);
 
-    // Récupérer le nom de fichier à partir des en-têtes
-    const filenameMatch = filePart.match(/filename="(.+?)"/);
+    // Extraire le nom du fichier
+    const filenameMatch = filePart.toString().match(/filename="(.+?)"/);
     const filename = filenameMatch ? filenameMatch[1] : `upload-${Date.now()}`;
 
     const uploadPath = path.join("./src/upload/module/", filename);
 
     // Écrire les données dans un fichier
-    fs.writeFile(uploadPath, fileData, "binary", (err) => {
+    fs.writeFile(uploadPath, fileData, (err) => {
       if (err) {
         console.error(err);
         return res.status(500).send("Error saving file.");
@@ -78,5 +81,4 @@ router.post("/module", auth, role, async (req, res) => {
   });
 });
 
-//Renvoie de toute les routes
 module.exports = router;
