@@ -37,26 +37,44 @@ router.post("/module", auth, role, async (req, res) => {
 
   let rawData = [];
   req.on("data", (chunk) => {
-    rawData.push(chunk); // Stocke les chunks sous forme de tableau binaire
+    rawData.push(chunk); // On empile les chunks dans un tableau
   });
 
   req.on("end", () => {
-    // Reconstituer les données brutes
+    // Reconstituer les données brutes sous forme de Buffer
     rawData = Buffer.concat(rawData);
 
-    // Extraire les parties du fichier
-    const parts = rawData.split(Buffer.from(`--${boundary}`));
-    const filePart = parts.find(
-      (part) =>
-        part.includes("Content-Disposition") && part.includes("filename")
-    );
+    // Utilisation du Buffer pour découper avec le boundary correct
+    const boundaryBuffer = Buffer.from(`--${boundary}`, "utf8");
+    let startIndex = 0;
+    let filePart = null;
+
+    // Recherche du boundary et découpage des données
+    while ((startIndex = rawData.indexOf(boundaryBuffer, startIndex)) !== -1) {
+      const nextBoundaryIndex = rawData.indexOf(
+        boundaryBuffer,
+        startIndex + boundaryBuffer.length
+      );
+      if (nextBoundaryIndex === -1) break; // On s'arrête si on ne trouve pas un autre boundary
+
+      const part = rawData.slice(
+        startIndex + boundaryBuffer.length,
+        nextBoundaryIndex
+      );
+
+      if (part.includes("Content-Disposition") && part.includes("filename")) {
+        filePart = part;
+      }
+
+      startIndex = nextBoundaryIndex;
+    }
 
     if (!filePart) {
       return res.status(400).send("No file uploaded.");
     }
 
-    // Trouver les indices du fichier dans la partie
-    const fileDataStart = filePart.indexOf("\r\n\r\n") + 4; // Ignore les en-têtes
+    // Extraire les données du fichier
+    const fileDataStart = filePart.indexOf("\r\n\r\n") + 4; // Ignorer les en-têtes
     const fileDataEnd = filePart.lastIndexOf("\r\n--");
     const fileData = filePart.slice(fileDataStart, fileDataEnd);
 
@@ -69,7 +87,7 @@ router.post("/module", auth, role, async (req, res) => {
     // Écrire les données dans un fichier
     fs.writeFile(uploadPath, fileData, (err) => {
       if (err) {
-        console.error(err);
+        console.error("Error saving file:", err);
         return res.status(500).send("Error saving file.");
       }
 
