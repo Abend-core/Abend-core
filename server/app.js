@@ -58,6 +58,8 @@ app.get("/", (req, res) => {
   res.send("Hello Abend !");
 });
 
+app.use("/uploadsFile", express.static("./src/upload/module"));
+
 app.listen(port, () => {
   console.log("Serveur en ligne !");
 });
