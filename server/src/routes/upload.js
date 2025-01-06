@@ -72,7 +72,7 @@ router.post("/module", auth, role, async (req, res) => {
 
       res.json({
         message: "File uploaded successfully.",
-        filePath: uploadPath,
+        filePath: filename,
       });
     });
   });
