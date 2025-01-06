@@ -7,3 +7,7 @@ export const findAllModules = () => {
 export const addModules = (data) => {
   return apiClient.post("/modules/add", data);
 };
+
+export const deleteModule = (id) => {
+  return apiClient.post(`/modules/delete/${id}`);
+};
