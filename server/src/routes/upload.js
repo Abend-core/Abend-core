@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require("../middleware/auth/auth.js");
 const role = require("../middleware/role.js");
 const path = require("path");
+const fs = require("fs");
 
 // Création d'un nouvel utilisateur
 // router.post("/profil", auth, role, async (req, res) => {
