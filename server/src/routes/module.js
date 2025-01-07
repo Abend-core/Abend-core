@@ -8,7 +8,6 @@ const role = require("../middleware/role.js");
 
 // Création d'un nouveau module
 router.post("/add", auth, role, async (req, res) => {
-  const users = await User.findAll();
   const data = req.body;
   data.id = NewUUID();
   Module.create(data)
@@ -91,6 +90,27 @@ router.post("/delete/:id", auth, role, (req, res) => {
       return Module.destroy({ where: { id: module.id } }).then((_) => {
         res.status(200).json({ message: "Utilisateur supprimé.", module });
       });
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    });
+});
+
+//Filtre utilisateur
+router.post("/filtre", auth, role, async (req, res) => {
+  const search = req.body.search;
+  Module.findAll({
+    where: {
+      [Op.or]: [
+        { name: { [Op.like]: "%" + search + "%" } },
+        { link: { [Op.like]: "%" + search + "%" } },
+        { color: { [Op.like]: "%" + search + "%" } },
+        { image: { [Op.like]: "%" + search + "%" } },
+      ],
+    },
+  })
+    .then((module) => {
+      res.status(200).json({ message: "Module trouvé.", module });
     })
     .catch((error) => {
       res.status(500).json({ message: "Erreur serveur.", erreur: error });

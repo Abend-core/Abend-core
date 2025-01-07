@@ -11,8 +11,16 @@ const Module = require("../models/module");
 // Création d'un nouvel utilisateur
 router.post("/add", auth, role, async (req, res) => {
   const data = req.body;
-  const modules = await Module.findAll();
-  data.id = NewUUID();
+  data.id = "";
+  while (data.id == "") {
+    data.id = NewUUID();
+    User.findByPk(data.id).then((user) => {
+      if (user) {
+        console.log(user);
+        data.id == "";
+      }
+    });
+  }
   bcrypt.hash(data.password, 10).then((hash) => {
     data.password = hash;
     User.create(data)
