@@ -369,10 +369,21 @@
                 </td>
                 <td class="p-3">{{ module.name }}</td>
                 <td class="p-3">{{ module.link }}</td>
-                <td class="p-3" :style="{ backgroundColor: `${module.color}` }">
-                  {{ module.color }}
+                <td class="p-3">
+                  <p
+                    class="w-fit p-1 rounded-2xl"
+                    :style="{ backgroundColor: `${module.color}` }"
+                  >
+                    {{ module.color }}
+                  </p>
                 </td>
-                <td class="p-3">{{ module.image }}</td>
+                <td class="p-3">
+                  <img
+                    :src="`http://localhost:5000/uploadsFile/${module.image}`"
+                    alt="Module image"
+                    class="w-[50px] h-[50px] rounded-2xl"
+                  />
+                </td>
                 <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
                 <td class="p-3">{{ module.isShow }}</td>
               </tr>

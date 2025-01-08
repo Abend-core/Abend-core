@@ -73,7 +73,7 @@
             target="_blank"
           >
             <img
-              class="w-full h-full"
+              class="w-full h-full rounded-2xl"
               :src="`http://localhost:5000/uploadsFile/${module.image}`"
               alt=""
           /></a>
