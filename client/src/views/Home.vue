@@ -15,7 +15,7 @@
       </div>
       <div
         v-if="isModalVisible"
-        class="w-[700px] h-[700px] bg-[#f7f5f5] absolute left-[50%] transform -translate-x-1/2 z-20 rounded-md border border-black"
+        class="w-[700px] h-[700px] bg-[#f7f5f5] absolute left-[50%] transform -translate-x-1/2 -translate-y-1/2 top-[50%] z-20 rounded-md border border-black"
       >
         <p
           class="cursor-pointer relative left-[96%] w-fit text-[22px]"
