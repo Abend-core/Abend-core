@@ -21,7 +21,7 @@
         :isAuthenticated="isAuthenticated"
       />
     </div>
-    <Footer v-if="!$route.meta.hideFooter" />
+    <!-- <Footer v-if="!$route.meta.hideFooter" /> -->
   </div>
 </template>
 
