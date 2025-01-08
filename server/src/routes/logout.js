@@ -1,8 +1,11 @@
+//Express
+const express = require("express");
+const router = express.Router();
+//Tools
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const privateKey = require("../middleware/auth/key.js");
-const express = require("express");
-const router = express.Router();
+//Model & bdd
 const User = require("../models/user.js");
 
 router.post("/", async (req, res) => {

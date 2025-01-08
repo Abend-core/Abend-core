@@ -1,8 +1,11 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const privateKey = require("../middleware/auth/key.js");
+//Express
 const express = require("express");
 const router = express.Router();
+//Tools
+const { compare } = require("../tools/hash.js");
+const jwt = require("jsonwebtoken");
+const privateKey = require("../middleware/auth/key.js");
+
 const User = require("../models/user.js");
 
 router.post("/", async (req, res) => {
@@ -15,10 +18,7 @@ router.post("/", async (req, res) => {
       });
     }
 
-    const isPasswordValid = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
+    const isPasswordValid = compare(req.body.password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({
         message: "Identifiant ou mot de passe incorrect.",

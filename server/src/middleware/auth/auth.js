@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const privateKey = require("./key");
+const privateKey = require("./key.js");
 
 module.exports = (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
@@ -16,6 +16,9 @@ module.exports = (req, res, next) => {
 
     const userId = decodedToken.userId;
     if (req.body.userId && req.body.userId !== userId) {
+      console.log("/////////////");
+      console.log(req.body);
+      console.log("//////////////////");
       return res
         .status(401)
         .json({ message: "L'identifiant de l'utilisateur est invalide." });

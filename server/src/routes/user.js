@@ -1,42 +1,39 @@
+//Express
 const express = require("express");
-const { Op } = require("sequelize");
 const router = express.Router();
-const bcrypt = require("bcrypt");
+//Model & bdd
+const User = require("../models/user");
+const { Op } = require("sequelize");
+//Tools
+const { hash } = require("../tools/hash.js");
 const NewUUID = require("../tools/uuid.js");
+//Middleware
 const auth = require("../middleware/auth/auth.js");
 const role = require("../middleware/role.js");
-const User = require("../models/user");
-const Module = require("../models/module");
 
 // Création d'un nouvel utilisateur
 router.post("/add", auth, role, async (req, res) => {
   const data = req.body;
   data.id = "";
-  while (data.id == "") {
-    data.id = NewUUID();
-    User.findByPk(data.id).then((user) => {
-      if (user) {
-        console.log(user);
-        data.id == "";
-      }
-    });
+  while (data.id === "") {
+    const uuid = NewUUID();
+    const user = await User.findByPk(uuid);
+    if (!user) {
+      data.id = uuid;
+    }
   }
-  bcrypt.hash(data.password, 10).then((hash) => {
-    data.password = hash;
-    User.create(data)
-      .then((user) => {
-        res
-          .status(200)
-          .json({ message: "Utilisateur créé avec succès.", user });
-      })
-      .catch((error) => {
-        if (error.name === "SequelizeValidationError") {
-          const errors = error.errors.map((err) => err.message);
-          return res.status(400).json({ errors });
-        }
-        res.status(500).json({ message: "Erreur serveur.", erreur: error });
-      });
-  });
+  data.password = hash(data.password, 10);
+  User.create(data)
+    .then((user) => {
+      res.status(200).json({ message: "Utilisateur créé avec succès.", user });
+    })
+    .catch((error) => {
+      if (error.name === "SequelizeValidationError") {
+        const errors = error.errors.map((err) => err.message);
+        return res.status(400).json({ errors });
+      }
+      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    });
 });
 
 // Selection de tout les utilisateurs

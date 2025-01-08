@@ -1,1 +1,3 @@
-module.exports = 'abend-core'
+const key = "abend-core";
+
+module.exports = key;

@@ -1,15 +1,25 @@
+//Express
 const express = require("express");
 const router = express.Router();
+//Tools
 const NewUUID = require("../tools/uuid.js");
+//Model & bdd
 const Module = require("../models/module");
-const User = require("../models/user.js");
+//Middleware
 const auth = require("../middleware/auth/auth.js");
 const role = require("../middleware/role.js");
 
 // Création d'un nouveau module
 router.post("/add", auth, role, async (req, res) => {
   const data = req.body;
-  data.id = NewUUID();
+  data.id = "";
+  while (data.id === "") {
+    const uuid = NewUUID();
+    const user = await Module.findByPk(uuid);
+    if (!user) {
+      data.id = uuid;
+    }
+  }
   Module.create(data)
     .then((module) => {
       res.status(200).json({ message: "Module créé avec succès.", module });
