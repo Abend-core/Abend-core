@@ -5,7 +5,7 @@ const users = [
     birth: "1997-05-12",
     mail: "rudyalvs@gmail.com",
     login: "abend.rudy",
-    password: "mdp1",
+    password: "password1",
     isAdmin: true,
   },
   {
@@ -14,7 +14,7 @@ const users = [
     birth: "1997-05-12",
     mail: "lucasrolland@gmail.com",
     login: "abend.lucas",
-    password: "mdp1",
+    password: "password1",
     isAdmin: true,
   },
   {
@@ -23,7 +23,7 @@ const users = [
     birth: "1997-05-12",
     mail: "hlm@gmail.com",
     login: "abend.hugo",
-    password: "mdp1",
+    password: "password1",
     isAdmin: true,
   },
   {
@@ -32,7 +32,7 @@ const users = [
     birth: "1997-05-12",
     mail: "jerome@gmail.com",
     login: "abend.jerome",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -41,7 +41,7 @@ const users = [
     birth: "1997-05-12",
     mail: "abend-core@gmail.com",
     login: "abend.abend",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -50,7 +50,7 @@ const users = [
     birth: "1997-05-12",
     mail: "paul@gmail.com",
     login: "abend.paul",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -59,7 +59,7 @@ const users = [
     birth: "1997-05-12",
     mail: "patricia@gmail.com",
     login: "abend.patricia",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -68,7 +68,7 @@ const users = [
     birth: "1997-05-12",
     mail: "julie@gmail.com",
     login: "abend.julie",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -77,7 +77,7 @@ const users = [
     birth: "1997-05-12",
     mail: "kevin@gmail.com",
     login: "abend.kevin",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -86,7 +86,7 @@ const users = [
     birth: "1997-05-12",
     mail: "bob@gmail.com",
     login: "abend.bob",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -95,7 +95,7 @@ const users = [
     birth: "1997-05-12",
     mail: "franck@gmail.com",
     login: "abend.franck",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -104,7 +104,7 @@ const users = [
     birth: "1997-05-12",
     mail: "manon@gmail.com",
     login: "abend.manon",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -113,7 +113,7 @@ const users = [
     birth: "1997-05-12",
     mail: "lea@gmail.com",
     login: "abend.lea",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -122,7 +122,7 @@ const users = [
     birth: "1997-05-12",
     mail: "jeremy@gmail.com",
     login: "abend.jeremy",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -131,7 +131,7 @@ const users = [
     birth: "1997-05-12",
     mail: "luis@gmail.com",
     login: "abend.luis",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -140,7 +140,7 @@ const users = [
     birth: "1997-05-12",
     mail: "lyam@gmail.com",
     login: "abend.lyam",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -149,7 +149,7 @@ const users = [
     birth: "1997-05-12",
     mail: "noah@gmail.com",
     login: "abend.noah",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -158,7 +158,7 @@ const users = [
     birth: "1997-05-12",
     mail: "virginie@gmail.com",
     login: "abend.virginie",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -167,7 +167,7 @@ const users = [
     birth: "1997-05-12",
     mail: "sophie@gmail.com",
     login: "abend.sophie",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -176,7 +176,7 @@ const users = [
     birth: "1997-05-12",
     mail: "adeline@gmail.com",
     login: "abend.adeline",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -185,7 +185,7 @@ const users = [
     birth: "1997-05-12",
     mail: "anonyme@gmail.com",
     login: "abend.anonyme",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -194,7 +194,7 @@ const users = [
     birth: "1997-05-12",
     mail: "john@gmail.com",
     login: "abend.john",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -203,7 +203,7 @@ const users = [
     birth: "1997-05-12",
     mail: "jane@gmail.com",
     login: "abend.jane",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -212,7 +212,7 @@ const users = [
     birth: "1997-05-12",
     mail: "fred@gmail.com",
     login: "abend.fred",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -221,7 +221,7 @@ const users = [
     birth: "1997-05-12",
     mail: "vi@gmail.com",
     login: "abend.vi",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -230,7 +230,7 @@ const users = [
     birth: "1997-05-12",
     mail: "bertrand@gmail.com",
     login: "abend.bertrand",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -239,7 +239,7 @@ const users = [
     birth: "1997-05-12",
     mail: "axel@gmail.com",
     login: "abend.axel",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -248,7 +248,7 @@ const users = [
     birth: "1997-05-12",
     mail: "quentin@gmail.com",
     login: "abend.quentin",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -257,7 +257,7 @@ const users = [
     birth: "1997-05-12",
     mail: "olivier@gmail.com",
     login: "abend.olivier",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
   {
@@ -266,7 +266,7 @@ const users = [
     birth: "1997-05-12",
     mail: "beatrice@gmail.com",
     login: "abend.beatrice",
-    password: "mdp1",
+    password: "password1",
     isAdmin: false,
   },
 ];

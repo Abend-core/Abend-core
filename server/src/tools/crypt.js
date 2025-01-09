@@ -26,4 +26,21 @@ const decrypt = (value, login) => {
   return decrypted;
 };
 
-module.exports = { encrypt, decrypt };
+const encryptObj = (obj, login) => {
+  for (const property in obj) {
+    console.log(typeof obj[property]);
+    if (typeof obj[property] == "string") {
+      obj[property] = encrypt(obj[property], login);
+    }
+  }
+  return obj;
+};
+const decryptObj = (obj, login) => {
+  for (const property in obj) {
+    if (typeof obj[property] != "boolean") {
+      obj[property] = decrypt(obj[property], login);
+    }
+  }
+  return obj;
+};
+module.exports = { encrypt, decrypt, encryptObj, decryptObj };

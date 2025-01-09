@@ -7,7 +7,6 @@ const { Op } = require("sequelize");
 //Tools
 const { hash } = require("../tools/hash.js");
 const NewUUID = require("../tools/uuid.js");
-const { encrypt, decrypt } = require("../tools/crypt.js");
 //Middleware
 const auth = require("../middleware/auth/auth.js");
 const role = require("../middleware/role.js");
@@ -15,7 +14,6 @@ const role = require("../middleware/role.js");
 // Création d'un nouvel utilisateur
 router.post("/add", auth, role, async (req, res) => {
   const data = req.body;
-  data.name = encrypt(data.name, data.login)
   data.id = "";
   while (data.id === "") {
     const uuid = NewUUID();
@@ -24,9 +22,14 @@ router.post("/add", auth, role, async (req, res) => {
       data.id = uuid;
     }
   }
-  data.password = await hash(data.password, 10);
   User.create(data)
-    .then((user) => {
+    .then(async (user) => {
+      const userData = user.get();
+      userData.password = await hash(userData.password);
+      await User.update(userData, {
+        where: { id: userData.id },
+        validate: false,
+      });
       res.status(200).json({ message: "Utilisateur créé avec succès.", user });
     })
     .catch((error) => {
@@ -44,9 +47,9 @@ router.get("/", auth, role, (req, res) => {
     order: [["createdAt", "desc"]],
   })
     .then((user) => {
-      user.forEach(users =>{
-        users.name = decrypt(users.name, users.login)
-      })
+      user.forEach((users) => {
+        users.name = decrypt(users.name, users.login);
+      });
       res.status(200).json({ message: "Tout les utilisateurs.", user });
     })
     .catch((error) => {

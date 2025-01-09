@@ -74,7 +74,7 @@
           >
             <img
               class="w-full h-full rounded-2xl"
-              :src="`http://localhost:5000/uploadsFile/${module.image}`"
+              :src="`http://localhost:5000/uploadsFile/module/${module.image}`"
               alt=""
           /></a>
         </div>

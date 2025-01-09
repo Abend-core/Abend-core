@@ -10,7 +10,7 @@ const User = mariadb.define(
       primaryKey: true,
     },
     name: {
-      type: DataTypes.STRING(65),
+      type: DataTypes.STRING(25),
       allowNull: false,
       validate: {
         notNull: {
@@ -20,7 +20,7 @@ const User = mariadb.define(
           msg: "Le nom ne doit pas être vide.",
         },
         len: {
-          args: [1, 65],
+          args: [1, 25],
           msg: "Le nom doit être de taille [1 à 25].",
         },
       },
@@ -42,7 +42,7 @@ const User = mariadb.define(
       },
     },
     mail: {
-      type: DataTypes.STRING(25),
+      type: DataTypes.STRING(40),
       allowNull: false,
       unique: {
         msg: "Le mail est déjà utilisé.",
@@ -60,7 +60,7 @@ const User = mariadb.define(
       },
     },
     birth: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING(12),
       allowNull: false,
       validate: {
         notNull: {

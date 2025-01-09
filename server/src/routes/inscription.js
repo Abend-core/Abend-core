@@ -18,15 +18,16 @@ router.post("/", async (req, res) => {
       data.id = uuid;
     }
   }
-  if (data.password.length >= 8) {
-    data.password = hash(data.password);
-  }
 
   User.create(data)
-    .then((user) => {
-      res
-        .status(200)
-        .json({ message: "Utilisateur inscrit avec succès.", user });
+    .then(async (user) => {
+      const userData = user.get();
+      userData.password = await hash(userData.password);
+      await User.update(userData, {
+        where: { id: userData.id },
+        validate: false,
+      });
+      res.status(200).json({ message: "Utilisateur inscrit avec succès." });
     })
     .catch((error) => {
       if (

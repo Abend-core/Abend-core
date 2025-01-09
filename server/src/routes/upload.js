@@ -7,6 +7,10 @@ const role = require("../middleware/role.js");
 //Tools
 const path = require("path");
 const fs = require("fs");
+const NewUUID = require("../tools/uuid.js");
+//Bdd && Model
+const Module = require("../models/module.js");
+const User = require("../models/user.js");
 
 router.post("/module", auth, role, async (req, res) => {
   const boundary = req.headers["content-type"].split("boundary=")[1];
@@ -20,7 +24,7 @@ router.post("/module", auth, role, async (req, res) => {
     rawData.push(chunk); // On empile les chunks dans un tableau
   });
 
-  req.on("end", () => {
+  req.on("end", async () => {
     // Reconstituer les données brutes sous forme de Buffer
     rawData = Buffer.concat(rawData);
 
@@ -29,7 +33,58 @@ router.post("/module", auth, role, async (req, res) => {
       return res.status(400).send("No file uploaded.");
     }
 
-    const [uploadPath, fileData, filename] = extract(filePart);
+    const fileData = extract(filePart);
+
+    let filename = "";
+
+    while (filename === "") {
+      const uuid = NewUUID();
+      const module = await Module.findByPk(uuid);
+      if (!module) {
+        filename = uuid;
+      }
+    }
+
+    const uploadPath = path.join("./src/upload/module/", filename);
+
+    saveFile(uploadPath, fileData, filename, res);
+  });
+});
+
+router.post("/profil", auth, role, async (req, res) => {
+  const boundary = req.headers["content-type"].split("boundary=")[1];
+
+  if (!boundary) {
+    return res.status(400).send("Invalid Content-Type header.");
+  }
+
+  let rawData = [];
+  req.on("data", (chunk) => {
+    rawData.push(chunk); // On empile les chunks dans un tableau
+  });
+
+  req.on("end", async () => {
+    // Reconstituer les données brutes sous forme de Buffer
+    rawData = Buffer.concat(rawData);
+
+    const filePart = extractFilePart(rawData, boundary);
+    if (!filePart) {
+      return res.status(400).send("No file uploaded.");
+    }
+
+    const fileData = extract(filePart);
+
+    let filename = "";
+
+    while (filename === "") {
+      const uuid = NewUUID();
+      const user = await User.findByPk(uuid);
+      if (!user) {
+        filename = uuid;
+      }
+    }
+
+    const uploadPath = path.join("./src/upload/profil/", filename);
 
     saveFile(uploadPath, fileData, filename, res);
   });
@@ -68,13 +123,7 @@ function extract(filePart) {
   const fileDataEnd = filePart.lastIndexOf("\r\n--");
   const fileData = filePart.slice(fileDataStart, fileDataEnd);
 
-  // Extraire le nom du fichier
-  const filenameMatch = filePart.toString().match(/filename="(.+?)"/);
-  const filename = filenameMatch ? filenameMatch[1] : `upload-${Date.now()}`;
-
-  const uploadPath = path.join("./src/upload/module/", filename);
-
-  return [uploadPath, fileData, filename];
+  return fileData;
 }
 
 function saveFile(uploadPath, fileData, filename, res) {

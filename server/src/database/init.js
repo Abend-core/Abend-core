@@ -2,7 +2,6 @@ const mariadb = require("./db");
 const dataModule = require("./data/module");
 const { hash } = require("../tools/hash.js");
 const NewUUID = require("../tools/uuid.js");
-const { encrypt, decrypt } = require("../tools/crypt.js");
 const dataUser = require("./data/user");
 const User = require("../models/user");
 const Module = require("../models/module");
@@ -13,40 +12,42 @@ mariadb
   .sync({ force: true })
   .then(async (_) => {
     try {
-      for (const user of dataUser) {
-        user.id = "";
-        
-        while (user.id === "") {
+      for (const data of dataUser) {
+        data.id = "";
+        while (data.id === "") {
           const uuid = NewUUID();
-          const test = await User.findByPk(uuid);
-          if (!test) {
-            user.id = uuid;
+          const user = await User.findByPk(uuid);
+          if (!user) {
+            data.id = uuid;
             lastUUID = uuid;
           }
         }
-        user.name = await encrypt(user.name, user.login)
-        user.password = await hash(user.password);
-        await User.create(user);
+        await User.create(data);
+        data.password = await hash(data.password);
+        await User.update(data, {
+          where: { id: lastUUID },
+          validate: false,
+        });
       }
-      console.log('')
+      console.log("");
       console.log("Utilisateurs insérés avec succès.");
-      console.log('')
-      for (const module of dataModule) {
-        module.id = "";
-        
-        while (module.id === "") {
+      console.log("");
+      for (const data of dataModule) {
+        data.id = "";
+
+        while (data.id === "") {
           const uuid = NewUUID();
           const test = await Module.findByPk(uuid);
           if (!test) {
-            module.id = uuid;
+            data.id = uuid;
           }
         }
-        module.user_id = lastUUID;
-        await Module.create(module);
+        data.user_id = lastUUID;
+        await Module.create(data);
       }
-      console.log('')
+      console.log("");
       console.log("Modules insérés avec succès.");
-      console.log('')
+      console.log("");
       console.log("Synchronisation effectuée !");
     } catch (err) {
       console.error("Erreur :", err);
