@@ -1,6 +1,5 @@
 const users = [
   {
-    id: "019364fe-7464-770c-9781-19f1fea717ff",
     name: "Abend",
     firstname: "Rudy",
     birth: "1997-05-12",
@@ -10,7 +9,6 @@ const users = [
     isAdmin: true,
   },
   {
-    id: "019364fe-b7b5-731e-b241-2b8373f82a3c",
     name: "Abend",
     firstname: "Lucas",
     birth: "1997-05-12",
@@ -20,7 +18,6 @@ const users = [
     isAdmin: true,
   },
   {
-    id: "019364ff-83b7-75b4-aea5-7664212e04c7",
     name: "Abend",
     firstname: "Hugo",
     birth: "1997-05-12",
@@ -30,7 +27,6 @@ const users = [
     isAdmin: true,
   },
   {
-    id: "019364ff-c9ce-75e1-abbd-cfdc9b36698e",
     name: "Abend",
     firstname: "Jerome",
     birth: "1997-05-12",
@@ -40,7 +36,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Abend",
     birth: "1997-05-12",
@@ -50,7 +45,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1ccc-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Paul",
     birth: "1997-05-12",
@@ -60,7 +54,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c04-7ddc-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Patricia",
     birth: "1997-05-12",
@@ -70,7 +63,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c04-72fd-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Julie",
     birth: "1997-05-12",
@@ -80,7 +72,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c04-74ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Kevin",
     birth: "1997-05-12",
@@ -90,7 +81,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936400-1c04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Bob",
     birth: "1997-05-12",
@@ -100,7 +90,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936533-1c04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Franck",
     birth: "1997-05-12",
@@ -110,7 +99,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936595-1c04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Manon",
     birth: "1997-05-12",
@@ -120,7 +108,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01937500-1c04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Lea",
     birth: "1997-05-12",
@@ -130,7 +117,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1a04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Jeremy",
     birth: "1997-05-12",
@@ -140,7 +126,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1e04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Luis",
     birth: "1997-05-12",
@@ -150,7 +135,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c08-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Lyam",
     birth: "1997-05-12",
@@ -160,7 +144,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c31-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Noah",
     birth: "1997-05-12",
@@ -170,7 +153,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01556500-1c04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Virginie",
     birth: "1997-05-12",
@@ -180,7 +162,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01932500-1c04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Sophie",
     birth: "1997-05-12",
@@ -190,7 +171,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01776500-1c04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Adeline",
     birth: "1997-05-12",
@@ -200,7 +180,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1aa4-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Anonyme",
     birth: "1997-05-12",
@@ -210,7 +189,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c04-72ec-aa92-fdba4ff43d9c",
     name: "Abend",
     firstname: "John",
     birth: "1997-05-12",
@@ -220,7 +198,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1145-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Jane",
     birth: "1997-05-12",
@@ -230,7 +207,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c44-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Fred",
     birth: "1997-05-12",
@@ -240,7 +216,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c34-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "VI",
     birth: "1997-05-12",
@@ -250,7 +225,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-2204-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Bertrand",
     birth: "1997-05-12",
@@ -260,7 +234,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "22936500-1c04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Axel",
     birth: "1997-05-12",
@@ -270,7 +243,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c04-72ec-1192-fdba4ff43d9c",
     name: "Abend",
     firstname: "Quentin",
     birth: "1997-05-12",
@@ -280,7 +252,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936500-1c04-11ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Olivier",
     birth: "1997-05-12",
@@ -290,7 +261,6 @@ const users = [
     isAdmin: false,
   },
   {
-    id: "01936511-1c04-72ec-8d92-fdba4ff43d9c",
     name: "Abend",
     firstname: "Béatrice",
     birth: "1997-05-12",
