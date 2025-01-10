@@ -127,5 +127,17 @@ router.post("/filtre", auth, role, async (req, res) => {
     });
 });
 
+//Liste des modules par utilisateur
+router.post("/user/:id", auth, role, async (req, res) => {
+  const id = req.params.id;
+  Module.findByPk(id)
+    .then((module) => {
+      res.status(200).json({ message: "Module trouvé.", module });
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    });
+});
+
 //Renvoie de toute les routes
 module.exports = router;
