@@ -47,9 +47,6 @@ router.get("/", auth, role, (req, res) => {
     order: [["createdAt", "desc"]],
   })
     .then((user) => {
-      user.forEach((users) => {
-        users.name = decrypt(users.name, users.login);
-      });
       res.status(200).json({ message: "Tout les utilisateurs.", user });
     })
     .catch((error) => {
