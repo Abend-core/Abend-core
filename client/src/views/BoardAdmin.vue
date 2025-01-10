@@ -31,7 +31,7 @@
               type="text"
               placeholder="Rechercher..."
               v-model="inputValueSearchBar"
-              @change="filterSearch"
+              @change="filterSearchUser"
             />
             <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
               <img
@@ -218,8 +218,8 @@
               class="pl-10 py-2 border rounded-md w-[300px]"
               type="text"
               placeholder="Rechercher..."
-              v-model="inputValueSearchBar"
-              @change="filterSearch"
+              v-model="inputValueSearchBarModule"
+              @change="filterSearchModule"
             />
             <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
               <img
@@ -269,7 +269,7 @@
                 name="add_user_input_nom"
                 type="text"
                 class="pl-3 py-2 border rounded-md w-full"
-                v-model="dataAddUser.name.value"
+                v-model="dataModule.name.value"
               />
             </div>
 
@@ -278,19 +278,9 @@
               <input
                 id="add-user-input-lien"
                 name="add_user_input_lien"
-                type="text"
+                type="url"
                 class="pl-3 py-2 border rounded-md w-full"
-                v-model="dataAddUser.firstname.value"
-              />
-            </div>
-
-            <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
-              <label for="add-user-input-email" class="mb-1">Couleur</label>
-              <input
-                id="add-user-input-couleur"
-                name="add_user_input_couleur"
-                type="color"
-                v-model="dataAddUser.mail.value"
+                v-model="dataModule.link.value"
               />
             </div>
 
@@ -301,29 +291,31 @@
               <input
                 id="add-user-input-image"
                 name="add_user_input_image"
-                type="text"
                 class="pl-3 py-2 border rounded-md w-full sm:w-full md:w-full lg:w-[195px] xl:[w-195px]"
-                v-model="dataAddUser.birth.value"
+                type="file"
+                accept="image/png, image/jpeg"
+                @change="handleFileChange"
               />
             </div>
 
-            <input
-              id="add-user-input-createdAt"
-              name="add_user_input_createdAt"
-              type="hidden"
-            />
+            <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+              <label for="add-user-input-email" class="mb-1">Couleur</label>
+              <input
+                id="add-user-input-couleur"
+                name="add_user_input_couleur"
+                type="color"
+                v-model="dataModule.color.value"
+              />
+            </div>
 
-            <input
-              id="add-user-input-isShow"
-              name="add_user_input_isShow"
-              type="hidden"
-            />
+            <input type="hidden" v-model="dataModule.isShow.value" />
+            <input type="hidden" v-model="dataModule.image" />
 
             <div class="flex justify-center lg:mt-0 sm:mt-4">
               <button
                 class="bg-[#4954ecde] px-6 py-2 rounded-md text-white border border-black"
                 type="submit"
-                @click="addUserFonction"
+                @click="addModulesDashboard"
               >
                 Créer
               </button>
@@ -399,7 +391,13 @@
 import { ref, watch } from "vue";
 import { findAll, deleteUser, filter, addUser } from "../api/user";
 import { formatDate, formatDateTime } from "../utils/date";
-import { findAllModules, addModules, deleteModule } from "../api/module";
+import {
+  findAllModules,
+  addModules,
+  deleteModule,
+  filterModule,
+} from "../api/module";
+import { uploadImageDashbaord } from "../api/upload";
 
 const activeSection = ref("manageUsers");
 const setActiveSection = (section) => {
@@ -409,7 +407,7 @@ const setActiveSection = (section) => {
 //Valeur de l'input de la search bar
 const inputValueSearchBar = ref("");
 //Fonction qui permet de filtrer les utilisateurs
-const filterSearch = async () => {
+const filterSearchUser = async () => {
   //On vide le tableau des users
   users.value = [];
   try {
@@ -427,7 +425,7 @@ const filterSearch = async () => {
 };
 //Permet de rendre la recherche dynamique, pas besoin de bouton submit, la fonction filterSearch est appelée à  chaque input de l'utilisateur
 watch(inputValueSearchBar, () => {
-  filterSearch();
+  filterSearchUser();
 });
 
 //Tableau d'utilisateur, initialisé à vide
@@ -572,6 +570,85 @@ const addUserFonction = async () => {
     console.error(error);
   }
 };
+
+const imageURL = ref(null);
+const selectedImageFile = ref(null);
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    selectedImageFile.value = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imageURL.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+let dataModule = {
+  name: ref(""),
+  link: ref(""),
+  color: ref("#000000"),
+  image: ref(""),
+  isShow: ref(true),
+};
+const id = sessionStorage.getItem("id");
+
+const addModulesDashboard = async () => {
+  try {
+    let imagePath = null;
+
+    if (selectedImageFile.value) {
+      const formData = new FormData();
+      formData.append("image", selectedImageFile.value);
+
+      const uploadResponse = await uploadImageDashbaord(formData);
+      imagePath = uploadResponse.data.filePath;
+    }
+
+    await addModules({
+      name: dataModule.name.value,
+      link: dataModule.link.value,
+      color: dataModule.color.value,
+      image: imagePath || "",
+      isShow: dataModule.isShow.value ? 1 : 0,
+      user_id: id,
+    });
+
+    dataModule.name.value = "";
+    dataModule.link.value = "";
+    dataModule.color.value = "#000000";
+    dataModule.image.value = "";
+    imageURL.value = null;
+    selectedImageFile.value = null;
+
+    allModules();
+  } catch (error) {
+    console.error("Error adding module:", error);
+  }
+};
+
+const inputValueSearchBarModule = ref("");
+const filterSearchModule = async () => {
+  modules.value = [];
+  try {
+    const response = await filterModule({
+      search: inputValueSearchBarModule.value,
+    });
+    if (response && response.data.module) {
+      idModules = [];
+      countModule.value = 0;
+      modules.value = response.data.module;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+watch(inputValueSearchBarModule, () => {
+  filterSearchModule();
+});
 
 //Appel de la fonction allUsers pour qu'elle soit fonctionnelle
 allUsers();

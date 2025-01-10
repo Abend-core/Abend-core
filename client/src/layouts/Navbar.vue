@@ -21,6 +21,7 @@
         src="../assets/images/à-modifier-lune.png"
         alt="Mode Sombre"
       />
+      <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/connexion" v-if="!isAuthenticated">Connexion</RouterLink>
       <RouterLink v-if="isAuthenticated && isAdmin" to="/dashboard">
         Dashboard

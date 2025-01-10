@@ -11,3 +11,7 @@ export const addModules = (data) => {
 export const deleteModule = (id) => {
   return apiClient.post(`/modules/delete/${id}`);
 };
+
+export const filterModule = (data) => {
+  return apiClient.post("/modules/filtre", data);
+};
