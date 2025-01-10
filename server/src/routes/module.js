@@ -5,6 +5,7 @@ const router = express.Router();
 const NewUUID = require("../tools/uuid.js");
 //Model & bdd
 const Module = require("../models/module");
+const { Op } = require("sequelize");
 //Middleware
 const auth = require("../middleware/auth/auth.js");
 const role = require("../middleware/role.js");
@@ -106,7 +107,7 @@ router.post("/delete/:id", auth, role, (req, res) => {
     });
 });
 
-//Filtre utilisateur
+//Filtre module
 router.post("/filtre", auth, role, async (req, res) => {
   const search = req.body.search;
   Module.findAll({
@@ -139,5 +140,5 @@ router.post("/user/:id", auth, role, async (req, res) => {
     });
 });
 
-//Renvoie de toute les routes
+//Renvoi de toute les routes
 module.exports = router;
