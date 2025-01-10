@@ -18,7 +18,8 @@ router.post("/", async (req, res) => {
       });
     }
 
-    const isPasswordValid = compare(req.body.password, user.password);
+    const isPasswordValid = await compare(req.body.password, user.password);
+
     if (!isPasswordValid) {
       return res.status(401).json({
         message: "Identifiant ou mot de passe incorrect.",
