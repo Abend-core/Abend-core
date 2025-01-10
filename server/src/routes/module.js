@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 //Tools
 const NewUUID = require("../tools/uuid.js");
+const fs = require("fs");
+const path = require("path");
 //Model & bdd
 const Module = require("../models/module");
 const { Op } = require("sequelize");
@@ -93,13 +95,36 @@ router.post("/update/:id", auth, role, (req, res) => {
 
 router.post("/delete/:id", auth, role, (req, res) => {
   Module.findByPk(req.params.id)
-    .then((module) => {
-      if (module === null) {
-        res.status(404).json({ message: "Utilisateur introuvable.", module });
+    .then((data) => {
+      if (data === null) {
+        return res
+          .status(404)
+          .json({ message: "Utilisateur introuvable.", data });
       }
 
-      return Module.destroy({ where: { id: module.id } }).then((_) => {
-        res.status(200).json({ message: "Utilisateur supprimé.", module });
+      const module = data.get();
+      const fileDelete = path.join("./src/upload/module/", module.image);
+
+      // Suppression du fichier avant de supprimer le module
+      fs.unlink(fileDelete, (err) => {
+        if (err) {
+          console.error("Erreur lors de la suppression du fichier :", err);
+          return res.status(500).json({
+            message: "Erreur lors de la suppression du fichier.",
+            error: err,
+          });
+        }
+
+        Module.destroy({ where: { id: data.id } })
+          .then(() => {
+            res.status(200).json({ message: "Utilisateur supprimé.", data });
+          })
+          .catch((error) => {
+            res.status(500).json({
+              message: "Erreur lors de la suppression de l'utilisateur.",
+              error,
+            });
+          });
       });
     })
     .catch((error) => {

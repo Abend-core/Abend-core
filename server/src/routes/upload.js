@@ -20,6 +20,7 @@ router.post("/module", auth, role, async (req, res) => {
   }
 
   let rawData = [];
+
   req.on("data", (chunk) => {
     rawData.push(chunk); // On empile les chunks dans un tableau
   });
