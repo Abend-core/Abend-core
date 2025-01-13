@@ -29,7 +29,7 @@ router.post("/register", async (req, res) => {
         where: { id: userData.id },
         validate: false,
       });
-      res.status(200).json({ message: "Utilisateur inscrit avec succès." });
+      res.status(201).json({ message: "Utilisateur inscrit avec succès." });
     })
     .catch((error) => {
       if (
@@ -37,9 +37,9 @@ router.post("/register", async (req, res) => {
         error.name === "SequelizeUniqueConstraintError"
       ) {
         const errors = error.errors.map((err) => err.message);
-        return res.status(400).json({ errors });
+        return res.status(401).json({ errors });
       }
-      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+      res.status(501).json({ message: "Erreur serveur.", erreur: error });
     });
 });
 
@@ -48,7 +48,7 @@ router.post("/signin", async (req, res) => {
     const user = await User.findOne({ where: { login: req.body.login } });
 
     if (!user) {
-      return res.status(404).json({
+      return res.status(401).json({
         message: "Identifiant ou mot de passe incorrect.",
       });
     }
@@ -56,7 +56,7 @@ router.post("/signin", async (req, res) => {
     const isPasswordValid = await compare(req.body.password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({
+      return res.status(402).json({
         message: "Identifiant ou mot de passe incorrect.",
       });
     }
@@ -71,14 +71,14 @@ router.post("/signin", async (req, res) => {
       }
     );
 
-    return res.json({
+    return res.status(201).json({
       message: "L'utilisateur a été connecté avec succès.",
       UUID: user.id,
       token,
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
+    return res.status(501).json({
       message: "Serveur en maintenance. Réessayez dans quelques instants.",
     });
   }

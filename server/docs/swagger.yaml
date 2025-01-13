@@ -1,0 +1,252 @@
+openapi: 3.0.0
+info:
+  title: API Abend-core
+  version: 1.0.0
+  contact:
+    name: Abend-core
+    url: http://localhost:5000
+tags:
+  - name: Auth
+    description: Opérations liées à la connexion
+  - name: Upload
+    description: Permet de charger des images
+  - name: Utilisateurs
+    description: Opérations liées aux utilisateurs
+  - name: Modules
+    description: Opérations liées aux modules
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Inscription à l'application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - firstname
+                - mail
+                - birth
+                - login
+                - password
+              properties:
+                nom:
+                  type: string
+                prix:
+                  type: number
+                  format: float
+      responses:
+        201:
+          description: Utilisateur inscrit avec succès.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nom:
+                      type: string
+                    prix:
+                      type: number
+                    id:
+                      type: integer
+        401:
+          description: Validateurs. Champs mal renseigné.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nom:
+                      type: string
+                    prix:
+                      type: number
+        501:
+          description: Validateurs. Champs mal renseigné.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nom:
+                      type: string
+                    prix:
+                      type: number
+  /auth/signin:
+    post:
+      tags:
+        - Auth
+      summary: Se connecter à l'application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nom
+                - prix
+              properties:
+                nom:
+                  type: string
+                prix:
+                  type: number
+                  format: float
+      responses:
+        200:
+          description: Liste des produits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nom:
+                      type: string
+                    prix:
+                      type: number
+  /upload/module:
+    post:
+      tags:
+        - Upload
+      summary: Charger une image pour un module
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nom
+                - prix
+              properties:
+                nom:
+                  type: string
+                prix:
+                  type: number
+                  format: float
+      responses:
+        200:
+          description: Liste des produits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nom:
+                      type: string
+                    prix:
+                      type: number
+  /upload/profil:
+    post:
+      tags:
+        - Upload
+      summary: Charger une image pour un utilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nom
+                - prix
+              properties:
+                nom:
+                  type: string
+                prix:
+                  type: number
+                  format: float
+      responses:
+        200:
+          description: Liste des produits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nom:
+                      type: string
+                    prix:
+                      type: number
+  /users:
+    get:
+      tags:
+        - Utilisateurs
+      summary: Récupérer tout les utilisateurs
+      responses:
+        200:
+          description: Liste des utilisateurs récupéré avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nom:
+                      type: string
+                    prix:
+                      type: number
+    post:
+      tags:
+        - Utilisateurs
+      summary: Récupérer tout les produits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nom
+                - prix
+              properties:
+                nom:
+                  type: string
+                prix:
+                  type: number
+                  format: float
+      responses:
+        200:
+          description: Liste des produits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nom:
+                      type: string
+                    prix:
+                      type: number

@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5000
 
 # Commande pour démarrer le serveur
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

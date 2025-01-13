@@ -1,10 +1,10 @@
 const { Sequelize } = require("sequelize");
 
 //Instanciation de la bdd
-const mariadb = new Sequelize("abend-core", "root", "", {
+const mariadb = new Sequelize("abend-core", "root", "root", {
   host: "localhost",
   port: 3306,
-  dialect: "mariadb",
+  dialect: "mysql",
 });
 
 async function connect() {

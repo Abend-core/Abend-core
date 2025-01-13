@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
 
 const port = process.env.PORT || 5000;
 const cors = require("cors");
@@ -55,6 +57,12 @@ app.use("/upload", upload);
 app.get("/", (req, res) => {
   res.send("Hello Abend !");
 });
+
+// Charger la spécification Swagger à partir du fichier YAML
+const swaggerDocument = YAML.load("./docs/swagger.yaml");
+
+// Utiliser Swagger UI pour rendre la documentation
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/uploadsFile/module", express.static("./src/upload/module"));
 app.use("/uploadsFile/profil", express.static("./src/upload/profil"));
