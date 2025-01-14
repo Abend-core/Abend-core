@@ -45,7 +45,6 @@ mariadb
         data.user_id = lastUUID;
         await Module.create(data);
       }
-      console.log("");
       console.log("Modules insérés avec succès.");
       console.log("");
       console.log("Synchronisation effectuée !");

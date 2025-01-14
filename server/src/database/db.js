@@ -1,10 +1,15 @@
 const { Sequelize } = require("sequelize");
+const logger = require("../tools/logger.js");
 
 //Instanciation de la bdd
 const mariadb = new Sequelize("abend-core", "root", "root", {
   host: "localhost",
   port: 3306,
   dialect: "mysql",
+  logging: (msg) => {
+    msg = msg.split(":")[1].trim();
+    logger.info(msg);
+  },
 });
 
 async function connect() {

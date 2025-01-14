@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  server:
+    image: node:16
+    container_name: Abend-server
+    working_dir: /server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/server
+    networks:
+      - ab-net
+  bdd:
+    image: mysql
+    container_name: Abend-sql
+    environment:
+      - MYSQL_DATABASE=abend-core
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - db-data-abend:/var/lib/mysql
+    networks:
+      - ab-net
+networks:
+  ab-net:
+volumes:
+  db-data-abend: {}
