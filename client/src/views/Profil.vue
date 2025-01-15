@@ -1,28 +1,6 @@
 <template>
   <div class="h-full flex">
-    <aside class="w-[20%] p-[100px] hidden xl:block">
-      <div class="text-center mt-11">
-        <p
-          class="mb-3 cursor-pointer hover:bg-gray-100 transition duration-150 rounded-md p-2"
-          @click="setActiveSection('profile')"
-        >
-          Mon profil
-        </p>
-        <p
-          class="mb-3 cursor-pointer hover:bg-gray-100 transition duration-150 rounded-md p-2"
-          @click="setActiveSection('editInfo')"
-        >
-          Modifier mes informations
-        </p>
-        <p
-          class="mb-3 cursor-pointer hover:bg-gray-100 transition duration-150 rounded-md p-2"
-          @click="setActiveSection('manageModules')"
-        >
-          Gérer ses modules
-        </p>
-      </div>
-    </aside>
-    <main class="bg-[#FDFDFD] w-[100%] xl:w-[80%] mr-0 xl:mr-[100px] relative">
+    <main class="bg-[#FDFDFD] w-[100%] xl:w-[100%] mr-0 relative">
       <div
         class="absolute w-full h-[225px] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-t-3xl z-[1]"
       ></div>
@@ -39,7 +17,7 @@
               />
             </div>
             <div class="mt-[20px] xl:mt-[80px]">
-              <div class="gap-3 flex xl:hidden">
+              <div class="gap-3 flex">
                 <p
                   class="mb-3 cursor-pointer"
                   @click="setActiveSection('profile')"
