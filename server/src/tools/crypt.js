@@ -43,4 +43,5 @@ const decryptObj = (obj, login) => {
   }
   return obj;
 };
+
 module.exports = { encrypt, decrypt, encryptObj, decryptObj };

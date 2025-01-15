@@ -1,13 +1,5 @@
-FROM node:16
+FROM node:20
 
-WORKDIR /Client
+COPY package*.json .
 
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
-EXPOSE 5000
-
-CMD ["npm", "run", "dev"]
+RUN npm i -g

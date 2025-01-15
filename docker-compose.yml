@@ -11,21 +11,23 @@ services:
     networks:
       - ab-net
   server:
-    image: node:16
+    image: node:18
     container_name: Abend-server
-    build: ./server
     ports:
       - "5000:5000"
+    working_dir: /server
+    command: "npm run dev"
     volumes:
       - ./server:/server
     networks:
       - ab-net
   client:
-    image: node:16
-    container_name: Abend-client
     build: ./client
+    container_name: Abend-client
     ports:
-      - "3000:3000"
+      - "5173:5173"
+    working_dir: /client
+    command: "npm run dev"
     volumes:
       - ./client:/client
     networks:

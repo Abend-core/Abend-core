@@ -55,7 +55,7 @@ const upload = require("./src/routes/upload");
 app.use("/upload", upload);
 
 app.get("/", (req, res) => {
-  res.send("Hello Abend !");
+  res.send("Hello ped !");
 });
 
 // Charger la spécification Swagger à partir du fichier YAML
