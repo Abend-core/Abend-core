@@ -3,7 +3,7 @@ const logger = require("../tools/logger.js");
 
 //Instanciation de la bdd
 const mariadb = new Sequelize("abend-core", "root", "root", {
-  host: "Abend-sql",
+  host: "localhost",
   port: 3306,
   dialect: "mysql",
   logging: (msg) => {
