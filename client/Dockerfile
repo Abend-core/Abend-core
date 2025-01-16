@@ -1,5 +1,7 @@
 FROM node:20
 
-COPY package*.json .
+COPY . . 
 
-RUN npm i -g
+RUN rm -rf ./node_modules
+
+RUN npm install
