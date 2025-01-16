@@ -16129,3 +16129,899 @@ SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt
 [2025-01-15T23:47:17.777Z] 
 INFO
 SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module`;
+
+[2025-01-16T15:11:50.167Z] 
+INFO
+SELECT 1+1 AS result
+
+[2025-01-16T15:11:50.170Z] 
+INFO
+DROP TABLE IF EXISTS `Modules`;
+
+[2025-01-16T15:11:50.190Z] 
+INFO
+DROP TABLE IF EXISTS `Users`;
+
+[2025-01-16T15:11:50.201Z] 
+INFO
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Users' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='abend-core' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+[2025-01-16T15:11:50.219Z] 
+INFO
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Modules' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='abend-core' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+[2025-01-16T15:11:50.220Z] 
+INFO
+DROP TABLE IF EXISTS `Users`;
+
+[2025-01-16T15:11:50.223Z] 
+INFO
+DROP TABLE IF EXISTS `Modules`;
+
+[2025-01-16T15:11:50.226Z] 
+INFO
+DROP TABLE IF EXISTS `Users`;
+
+[2025-01-16T15:11:50.229Z] 
+INFO
+CREATE TABLE IF NOT EXISTS `Users` (`id` CHAR(36) BINARY NOT NULL , `name` VARCHAR(25) NOT NULL, `firstname` VARCHAR(25) NOT NULL, `mail` VARCHAR(40) NOT NULL, `birth` VARCHAR(12) NOT NULL, `login` VARCHAR(25) NOT NULL, `password` VARCHAR(60) NOT NULL, `isAdmin` TINYINT(1) NOT NULL, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, UNIQUE `Users_mail_unique` (`mail`), UNIQUE `Users_login_unique` (`login`), PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+[2025-01-16T15:11:50.252Z] 
+INFO
+SHOW INDEX FROM `Users`
+
+[2025-01-16T15:11:50.264Z] 
+INFO
+DROP TABLE IF EXISTS `Modules`;
+
+[2025-01-16T15:11:50.267Z] 
+INFO
+CREATE TABLE IF NOT EXISTS `Modules` (`id` CHAR(36) BINARY NOT NULL , `name` VARCHAR(255) NOT NULL UNIQUE, `link` VARCHAR(50) NOT NULL, `color` VARCHAR(50) NOT NULL, `image` VARCHAR(50) NOT NULL, `isShow` TINYINT(1) NOT NULL, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `user_id` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+[2025-01-16T15:11:50.289Z] 
+INFO
+SHOW INDEX FROM `Modules`
+
+[2025-01-16T15:11:50.297Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b015-73ee-9a37-aed2a8de0cbc';
+
+[2025-01-16T15:11:50.312Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:50.395Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:50.402Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b081-7009-8a30-6d40ef289b32';
+
+[2025-01-16T15:11:50.406Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:50.486Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:50.492Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b0dc-7571-9011-24d7dd374cf0';
+
+[2025-01-16T15:11:50.495Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:50.575Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:50.580Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b134-750f-8cfc-c61f74c7089a';
+
+[2025-01-16T15:11:50.582Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:50.659Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:50.668Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b18b-7617-9fb6-ce8a4a008f08';
+
+[2025-01-16T15:11:50.670Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:50.673Z] 
+INFO
+SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module`;
+
+[2025-01-16T15:11:50.746Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:50.751Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b1de-708a-8420-01f66c92025f';
+
+[2025-01-16T15:11:50.752Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:50.822Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:50.826Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b22a-7198-ae43-0e298a254696';
+
+[2025-01-16T15:11:50.828Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:50.899Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:50.903Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b277-74d0-8290-0d011d338c7b';
+
+[2025-01-16T15:11:50.905Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:50.972Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:50.977Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b2c1-769b-aac1-5f30c149b37f';
+
+[2025-01-16T15:11:50.979Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.049Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.053Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b30c-75de-a6ab-6dec67b8be6a';
+
+[2025-01-16T15:11:51.054Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.123Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.127Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b356-739d-be70-1f184f5c8d43';
+
+[2025-01-16T15:11:51.128Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.199Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.203Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b3a2-741a-a3a5-467023b53e8a';
+
+[2025-01-16T15:11:51.204Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.272Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.277Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b3ec-7579-80d9-51f811e8ac90';
+
+[2025-01-16T15:11:51.278Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.344Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.349Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b434-72db-80fe-a7761b1f152b';
+
+[2025-01-16T15:11:51.351Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.418Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.421Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b47d-71a0-b084-d36731ff2ae2';
+
+[2025-01-16T15:11:51.422Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.489Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.492Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b4c4-71bd-a8c1-d68edb51902e';
+
+[2025-01-16T15:11:51.493Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.560Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.563Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b50b-7559-8177-6b3c047c58f0';
+
+[2025-01-16T15:11:51.565Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.631Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.635Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b552-766d-92e1-905e55eee094';
+
+[2025-01-16T15:11:51.636Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.703Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.706Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b59a-72be-bb62-20e2f5842b72';
+
+[2025-01-16T15:11:51.708Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.774Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.777Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b5e1-7217-90e5-cb65b2af50cc';
+
+[2025-01-16T15:11:51.779Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.845Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.849Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b628-7359-a9a7-a2984884d580';
+
+[2025-01-16T15:11:51.850Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.918Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.922Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b672-75fa-ac62-3a2c06faefd5';
+
+[2025-01-16T15:11:51.923Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:51.989Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:51.993Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b6b9-777d-b672-43a1d8d1159a';
+
+[2025-01-16T15:11:51.994Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.061Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:52.064Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b700-739e-a7b3-3bac70c26107';
+
+[2025-01-16T15:11:52.065Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.132Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:52.135Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b747-7484-aeec-3ac049448546';
+
+[2025-01-16T15:11:52.137Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.204Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:52.208Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b790-77ef-b2bd-86e12263f1db';
+
+[2025-01-16T15:11:52.210Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.277Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:52.281Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b7d8-7432-9a22-47a8df6484c2';
+
+[2025-01-16T15:11:52.282Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.348Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:52.351Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b81f-7334-95f9-d9279d42063f';
+
+[2025-01-16T15:11:52.353Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.420Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:52.423Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b867-71bf-8622-a8dd8410ee73';
+
+[2025-01-16T15:11:52.424Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.493Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:52.497Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fab-b8b1-71fe-8962-292463aa740a';
+
+[2025-01-16T15:11:52.499Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.566Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:11:52.570Z] 
+INFO
+SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module` WHERE `Module`.`id` = '01946fab-b8fa-7462-b05c-1e8c9d9fbcdc';
+
+[2025-01-16T15:11:52.572Z] 
+INFO
+INSERT INTO `Modules` (`id`,`name`,`link`,`color`,`image`,`isShow`,`createdAt`,`updatedAt`,`user_id`) VALUES (?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.575Z] 
+INFO
+SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module` WHERE `Module`.`id` = '01946fab-b8ff-73fa-9783-4a77a81460ab';
+
+[2025-01-16T15:11:52.576Z] 
+INFO
+INSERT INTO `Modules` (`id`,`name`,`link`,`color`,`image`,`isShow`,`createdAt`,`updatedAt`,`user_id`) VALUES (?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.579Z] 
+INFO
+SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module` WHERE `Module`.`id` = '01946fab-b903-7479-a3e5-835deaf9e5b0';
+
+[2025-01-16T15:11:52.580Z] 
+INFO
+INSERT INTO `Modules` (`id`,`name`,`link`,`color`,`image`,`isShow`,`createdAt`,`updatedAt`,`user_id`) VALUES (?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:11:52.583Z] 
+INFO
+SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module` WHERE `Module`.`id` = '01946fab-b907-77fa-9ab2-57ed3e8e021e';
+
+[2025-01-16T15:11:52.584Z] 
+INFO
+INSERT INTO `Modules` (`id`,`name`,`link`,`color`,`image`,`isShow`,`createdAt`,`updatedAt`,`user_id`) VALUES (?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:29.698Z] 
+INFO
+SELECT 1+1 AS result
+
+[2025-01-16T15:12:29.700Z] 
+INFO
+DROP TABLE IF EXISTS `Modules`;
+
+[2025-01-16T15:12:29.716Z] 
+INFO
+DROP TABLE IF EXISTS `Users`;
+
+[2025-01-16T15:12:29.728Z] 
+INFO
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Users' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='abend-core' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+[2025-01-16T15:12:29.731Z] 
+INFO
+SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Modules' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='abend-core' AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+[2025-01-16T15:12:29.733Z] 
+INFO
+DROP TABLE IF EXISTS `Users`;
+
+[2025-01-16T15:12:29.737Z] 
+INFO
+DROP TABLE IF EXISTS `Modules`;
+
+[2025-01-16T15:12:29.740Z] 
+INFO
+DROP TABLE IF EXISTS `Users`;
+
+[2025-01-16T15:12:29.743Z] 
+INFO
+CREATE TABLE IF NOT EXISTS `Users` (`id` CHAR(36) BINARY NOT NULL , `name` VARCHAR(25) NOT NULL, `firstname` VARCHAR(25) NOT NULL, `mail` VARCHAR(40) NOT NULL, `birth` VARCHAR(12) NOT NULL, `login` VARCHAR(25) NOT NULL, `password` VARCHAR(60) NOT NULL, `isAdmin` TINYINT(1) NOT NULL, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, UNIQUE `Users_mail_unique` (`mail`), UNIQUE `Users_login_unique` (`login`), PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+[2025-01-16T15:12:29.764Z] 
+INFO
+SHOW INDEX FROM `Users`
+
+[2025-01-16T15:12:29.770Z] 
+INFO
+DROP TABLE IF EXISTS `Modules`;
+
+[2025-01-16T15:12:29.773Z] 
+INFO
+CREATE TABLE IF NOT EXISTS `Modules` (`id` CHAR(36) BINARY NOT NULL , `name` VARCHAR(255) NOT NULL UNIQUE, `link` VARCHAR(50) NOT NULL, `color` VARCHAR(50) NOT NULL, `image` VARCHAR(50) NOT NULL, `isShow` TINYINT(1) NOT NULL, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `user_id` CHAR(36) BINARY, PRIMARY KEY (`id`), FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB;
+
+[2025-01-16T15:12:29.795Z] 
+INFO
+SHOW INDEX FROM `Modules`
+
+[2025-01-16T15:12:29.804Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4a69-72c8-adcb-36ea67c56600';
+
+[2025-01-16T15:12:29.818Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:29.896Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:29.901Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4acc-72a8-91f8-1a954f00f8d9';
+
+[2025-01-16T15:12:29.903Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:29.971Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:29.977Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4b19-72aa-82e8-697515cb1527';
+
+[2025-01-16T15:12:29.981Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.060Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.068Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4b72-707f-9e09-f2ea2a1e47d8';
+
+[2025-01-16T15:12:30.070Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.146Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.150Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4bc5-74c8-8979-96e7b82a8645';
+
+[2025-01-16T15:12:30.152Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.225Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.229Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4c15-776e-b86e-55dc4e171423';
+
+[2025-01-16T15:12:30.230Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.299Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.303Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4c5e-738a-9959-82bae734e893';
+
+[2025-01-16T15:12:30.304Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.371Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.375Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4ca7-75ff-9c7c-db0e48df0143';
+
+[2025-01-16T15:12:30.377Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.444Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.448Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4cef-7712-a213-0ff6b359d417';
+
+[2025-01-16T15:12:30.449Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.517Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.521Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4d38-76c0-b957-bfe0236b405f';
+
+[2025-01-16T15:12:30.522Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.592Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.596Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4d83-74da-b5fe-92f60379491d';
+
+[2025-01-16T15:12:30.597Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.664Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.668Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4dcb-7649-a10f-1fc88dc5384a';
+
+[2025-01-16T15:12:30.669Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.736Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.740Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4e13-71ff-83fd-f944eda878a0';
+
+[2025-01-16T15:12:30.741Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.807Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.812Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4e5b-707f-acca-1630d08f95d5';
+
+[2025-01-16T15:12:30.813Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.879Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.883Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4ea2-7168-96e1-ca110cba0bed';
+
+[2025-01-16T15:12:30.884Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:30.951Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:30.954Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4eea-74f8-ab7d-85c695ad005d';
+
+[2025-01-16T15:12:30.956Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.024Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.028Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4f33-777f-b727-79f918220568';
+
+[2025-01-16T15:12:31.029Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.097Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.101Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4f7c-717b-9f33-614c0ad074f4';
+
+[2025-01-16T15:12:31.102Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.170Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.174Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-4fc6-70bf-94d1-faf1809009ae';
+
+[2025-01-16T15:12:31.175Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.242Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.245Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-500d-70f9-a132-1bd05ac663d6';
+
+[2025-01-16T15:12:31.246Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.313Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.317Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-5054-7633-8f2f-a47021b33afe';
+
+[2025-01-16T15:12:31.318Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.385Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.389Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-509c-726a-a91d-0d052c20f094';
+
+[2025-01-16T15:12:31.390Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.456Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.461Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-50e4-7592-9a4d-0a36f44358de';
+
+[2025-01-16T15:12:31.462Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.530Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.533Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-512d-76be-9c22-db31c2c31e4d';
+
+[2025-01-16T15:12:31.535Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.602Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.606Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-5175-7199-b6e8-f9c3a5d4ae64';
+
+[2025-01-16T15:12:31.607Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.673Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.678Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-51bd-71cb-ad18-c6193fe3de11';
+
+[2025-01-16T15:12:31.679Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.747Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.750Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-5206-7344-b0bc-967491e19a39';
+
+[2025-01-16T15:12:31.752Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.818Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.821Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-524d-73db-93be-833152890a17';
+
+[2025-01-16T15:12:31.822Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.890Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.895Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-5297-7382-8826-5da16af6d226';
+
+[2025-01-16T15:12:31.896Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:31.963Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:31.967Z] 
+INFO
+SELECT `id`, `name`, `firstname`, `mail`, `birth`, `login`, `password`, `isAdmin`, `createdAt`, `updatedAt` FROM `Users` AS `User` WHERE `User`.`id` = '01946fac-52de-7622-8cb8-48b8e6bcfbeb';
+
+[2025-01-16T15:12:31.968Z] 
+INFO
+INSERT INTO `Users` (`id`,`name`,`firstname`,`mail`,`birth`,`login`,`password`,`isAdmin`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:32.036Z] 
+INFO
+UPDATE `Users` SET `name`=?,`firstname`=?,`birth`=?,`mail`=?,`login`=?,`password`=?,`isAdmin`=?,`id`=?,`updatedAt`=? WHERE `id` = ?
+
+[2025-01-16T15:12:32.040Z] 
+INFO
+SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module` WHERE `Module`.`id` = '01946fac-5327-7126-8051-39d785e36d43';
+
+[2025-01-16T15:12:32.042Z] 
+INFO
+INSERT INTO `Modules` (`id`,`name`,`link`,`color`,`image`,`isShow`,`createdAt`,`updatedAt`,`user_id`) VALUES (?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:32.046Z] 
+INFO
+SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module` WHERE `Module`.`id` = '01946fac-532e-7481-936c-584a752a860b';
+
+[2025-01-16T15:12:32.047Z] 
+INFO
+INSERT INTO `Modules` (`id`,`name`,`link`,`color`,`image`,`isShow`,`createdAt`,`updatedAt`,`user_id`) VALUES (?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:32.050Z] 
+INFO
+SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module` WHERE `Module`.`id` = '01946fac-5332-75d0-83fb-7b29a9dea062';
+
+[2025-01-16T15:12:32.052Z] 
+INFO
+INSERT INTO `Modules` (`id`,`name`,`link`,`color`,`image`,`isShow`,`createdAt`,`updatedAt`,`user_id`) VALUES (?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:32.054Z] 
+INFO
+SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module` WHERE `Module`.`id` = '01946fac-5336-744f-a235-d086a28c429f';
+
+[2025-01-16T15:12:32.056Z] 
+INFO
+INSERT INTO `Modules` (`id`,`name`,`link`,`color`,`image`,`isShow`,`createdAt`,`updatedAt`,`user_id`) VALUES (?,?,?,?,?,?,?,?,?);
+
+[2025-01-16T15:12:35.033Z] 
+INFO
+SELECT `id`, `name`, `link`, `color`, `image`, `isShow`, `createdAt`, `updatedAt`, `user_id` FROM `Modules` AS `Module`;
