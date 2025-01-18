@@ -77,14 +77,7 @@ const Module = mariadb.define(
     description: {
       type: DataTypes.TEXT,
       allowNull: true,
-      validate: {
-        notNull: {
-          msg: "L'image du module ne doit pas être null.",
-        },
-        notEmpty: {
-          msg: "L'image du module ne doit pas être vide.",
-        },
-      },
+      validate: {},
     },
     isShow: {
       type: DataTypes.BOOLEAN,

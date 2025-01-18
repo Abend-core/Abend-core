@@ -1,16 +1,20 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "src/app.ts",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon -L app.js"
+    "start": "node src/app.ts",
+    "dev": "nodemon -L src/app.ts"
   },
   "author": "Rudy",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.7",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

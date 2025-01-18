@@ -1,4 +1,4 @@
-const express = require("express");
+import express, { Request, Response } from "express";
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
@@ -8,9 +8,9 @@ const cors = require("cors");
 let corsOptions;
 
 //Appel des models et les jointures
-require("./src/database/join");
+require("./database/join");
 //Initialisation de la bdd
-require("./src/database/init");
+require("./database/init");
 
 if (port == 5000) {
   corsOptions = {
@@ -42,20 +42,20 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-const auth = require("./src/routes/auth");
+const auth = require("./routes/auth");
 app.use("/auth", auth);
 
-const users = require("./src/routes/user");
+const users = require("./routes/user");
 app.use("/users", users);
 
-const modules = require("./src/routes/module");
+const modules = require("./routes/module");
 app.use("/modules", modules);
 
-const upload = require("./src/routes/upload");
+const upload = require("./routes/upload");
 app.use("/upload", upload);
 
-app.get("/", (req, res) => {
-  res.send("Hello ped !");
+app.get("/", (res: Response) => {
+  res.send("Hello Abend !");
 });
 
 // Charger la spécification Swagger à partir du fichier YAML
@@ -64,8 +64,8 @@ const swaggerDocument = YAML.load("./docs/swagger.yaml");
 // Utiliser Swagger UI pour rendre la documentation
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use("/uploadsFile/module", express.static("./src/upload/module"));
-app.use("/uploadsFile/profil", express.static("./src/upload/profil"));
+app.use("/uploadsFile/module", express.static("./upload/module"));
+app.use("/uploadsFile/profil", express.static("./upload/profil"));
 
 app.listen(port, () => {
   console.log("Serveur en ligne !");
