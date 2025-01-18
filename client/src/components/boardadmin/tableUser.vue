@@ -183,8 +183,8 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { findAll, deleteUser, filter, addUser } from "../api/user";
-import { formatDate, formatDateTime } from "../utils/date";
+import { findAll, deleteUser, filter, addUser } from "../../api/user";
+import { formatDate, formatDateTime } from "../../utils/date";
 
 const inputValueSearchBar = ref("");
 const filterSearchUser = async () => {

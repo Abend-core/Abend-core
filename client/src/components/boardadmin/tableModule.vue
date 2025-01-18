@@ -173,14 +173,14 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { formatDateTime } from "../utils/date";
+import { formatDateTime } from "../../utils/date";
 import {
   findAllModules,
   addModules,
   deleteModule,
   filterModule,
-} from "../api/module";
-import { uploadImageDashbaord } from "../api/upload";
+} from "../../api/module";
+import { uploadImageDashbaord } from "../../api/upload";
 
 const modules = ref([]);
 const allModules = async () => {

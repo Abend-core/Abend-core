@@ -34,8 +34,8 @@
 
 <script setup>
 import { ref } from "vue";
-import tableModule from "../components/tableModule.vue";
-import tableUser from "../components/tableUser.vue";
+import tableModule from "../components/boardadmin/tableModule.vue";
+import tableUser from "../components/boardadmin/tableUser.vue";
 
 const activeSection = ref("manageUsers");
 const setActiveSection = (section) => {
