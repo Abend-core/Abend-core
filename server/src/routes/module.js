@@ -54,20 +54,22 @@ router.get("/", (req, res) => {
 // Selection d'un module
 router.get("/:id", (req, res) => {
   const id = req.params.id;
-  Module.findByPk(id)
-    .then((module) => {
-      if (module) {
-        res.status(200).json({ message: "Module trouvé.", module });
+  Module.findAll({ where: { user_id: id } })
+    .then((modules) => {
+      if (modules.length > 0) {
+        res.status(200).json({ message: "Modules trouvés.", modules });
       } else {
-        res.status(404).json({ message: "Module introuvable." });
+        res.status(200).json({ message: "Aucun module trouvé.", modules: [] });
       }
     })
     .catch((error) => {
-      if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
-        return res.status(400).json({ errors });
-      }
-      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+      console.error("Erreur serveur :", error);
+      res
+        .status(500)
+        .json({
+          message: "Erreur serveur lors de la récupération des modules.",
+          erreur: error.message,
+        });
     });
 });
 
