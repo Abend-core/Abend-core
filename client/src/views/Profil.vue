@@ -112,7 +112,7 @@
           </div>
           <div v-if="activeSection === 'editInfo'">
             <div class="bg-white rounded-md p-[12px] mt-3 mb-3">
-              <h1 class="font-bold">Gérer ses informations</h1>
+              <h1 class="font-bold">Gérer mes informations</h1>
               <p class="text-[#4954ecde] mt-1">Profil Dashboard</p>
             </div>
             <div>
@@ -166,7 +166,7 @@
                 </div>
               </div>
               <div class="bg-white rounded-md mt-3 p-[12px]">
-                <p class="font-bold">Gérer son mot de passe</p>
+                <p class="font-bold">Gérer mon mot de passe</p>
                 <p class="text-[#4954ecde] mt-1">Modification Dashboard</p>
               </div>
               <div

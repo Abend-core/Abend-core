@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white rounded-md p-[12px] mt-3 mb-3">
-    <h1 class="font-bold">Gérer ses modules</h1>
+    <h1 class="font-bold">Gérer mes modules</h1>
     <p class="text-[#4954ecde] mt-1">Profil Dashboard</p>
   </div>
   <div class="flex justify-end mt-3 mb-3">

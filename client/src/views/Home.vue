@@ -4,18 +4,28 @@
       <div class="flex" v-for="module in modules" :key="module.id">
         <a
           :href="module.link"
-          class="carre rotate-45 rounded-2xl"
+          class="w-[400px] h-[200px] rounded-2xl relative bg-[#141A22] text-white"
           :style="{
-            border: `2px solid ${module.color}`,
-            backgroundColor: '#D9D9D9',
+            border: `1px solid black`,
           }"
           target="_blank"
         >
           <img
-            class="w-full h-full rounded-2xl"
+            class="absolute w-[50px] h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
             :src="`http://localhost:5000/uploadsFile/module/${module.image}`"
             alt=""
-        /></a>
+          />
+          <div class="p-3 h-full">
+            <p class="text-xl font-bold">{{ module.name }}</p>
+            <p class="mt-6">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Distinctio, enim.
+            </p>
+            <p class="absolute bottom-4 text-sm">
+              {{ formatDate(module.createdAt) }}
+            </p>
+          </div>
+        </a>
       </div>
     </div>
   </main>
@@ -24,7 +34,8 @@
 <script setup>
 import { ref } from "vue";
 import { findAllModules, addModules } from "../api/module";
-import { uploadImageModule } from "../api/upload";
+import { formatDate } from "../utils/date";
+
 defineProps({
   isAuthenticated: {
     type: Boolean,
@@ -114,11 +125,6 @@ allModules();
 </script>
 
 <style scoped>
-.carre {
-  width: 112px;
-  height: 112px;
-}
-
 input {
   border: 1px solid #d1d9e0;
   display: block;
