@@ -1,8 +1,7 @@
-const { v7: uuidv7 } = require('uuid');
+import { v7 as uuidv7 } from "uuid";
 
 const NewUUID = () => {
-    return uuidv7();
-}
+  return uuidv7();
+};
 
-module.exports = NewUUID
-
+export default NewUUID;

@@ -1,4 +1,4 @@
-const bcrypt = require("bcryptjs");
+import bcrypt from "bcryptjs";
 
 const hash = async (value) => {
   const data = await bcrypt.hash(value, 10);
@@ -10,4 +10,4 @@ const compare = async (value, valueHash) => {
   return data;
 };
 
-module.exports = { hash, compare };
+exports = { hash, compare };

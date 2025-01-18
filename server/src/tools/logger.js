@@ -1,4 +1,4 @@
-const winston = require("winston");
+import winston from "winston";
 
 // Créez une instance de logger avec winston
 const logger = winston.createLogger({
@@ -21,4 +21,4 @@ ${message}`
   ],
 });
 
-module.exports = logger;
+export default logger;

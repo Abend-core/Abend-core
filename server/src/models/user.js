@@ -1,7 +1,7 @@
-const DataTypes = require("sequelize");
-const mariadb = require("../database/db");
+import DataTypes from "sequelize";
+import mysql from "../database/db";
 
-const User = mariadb.define(
+const User = mysql.define(
   "User",
   {
     id: {
@@ -123,4 +123,4 @@ const User = mariadb.define(
   }
 );
 
-module.exports = User;
+export default User;

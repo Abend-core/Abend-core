@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+import crypto from "crypto";
 
 const generateKey = (login) => {
   return crypto.createHash("sha256").update(login).digest();
@@ -44,4 +44,4 @@ const decryptObj = (obj, login) => {
   return obj;
 };
 
-module.exports = { encrypt, decrypt, encryptObj, decryptObj };
+exports = { encrypt, decrypt, encryptObj, decryptObj };

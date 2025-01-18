@@ -1,16 +1,16 @@
 //Express
-const express = require("express");
+import express from "express";
 const router = express.Router();
 //Middleware
-const auth = require("../middleware/auth/auth.js");
-const role = require("../middleware/role.js");
+import auth from "../middleware/auth/auth.js";
+import role from "../middleware/role.js";
 //Tools
-const path = require("path");
-const fs = require("fs");
-const NewUUID = require("../tools/uuid.js");
+import path from "path";
+import fs from "fs";
+import NewUUID from "../tools/uuid.js";
 //Bdd && Model
-const Module = require("../models/module.js");
-const User = require("../models/user.js");
+import Module from "../models/module.js";
+import User from "../models/user.js";
 
 router.post("/module", auth, role, async (req, res) => {
   const boundary = req.headers["content-type"].split("boundary=")[1];
@@ -141,4 +141,4 @@ function saveFile(uploadPath, fileData, filename, res) {
   });
 }
 
-module.exports = router;
+export default router;

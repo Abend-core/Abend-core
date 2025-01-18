@@ -1,16 +1,16 @@
 //Express
-const express = require("express");
+import express from "express";
 const router = express.Router();
 //Tools
-const NewUUID = require("../tools/uuid.js");
-const fs = require("fs");
-const path = require("path");
+import NewUUID from "../tools/uuid.js";
+import fs from "fs";
+import path from "path";
 //Model & bdd
-const Module = require("../models/module");
-const { Op } = require("sequelize");
+import Module from "../models/module";
+import { Op } from "sequelize";
 //Middleware
-const auth = require("../middleware/auth/auth.js");
-const role = require("../middleware/role.js");
+import auth from "../middleware/auth/auth.js";
+import role from "../middleware/role.js";
 
 // Création d'un nouveau module
 router.post("/add", auth, async (req, res) => {
@@ -166,4 +166,4 @@ router.post("/user/:id", auth, async (req, res) => {
 });
 
 //Renvoi de toute les routes
-module.exports = router;
+export default router;

@@ -1,15 +1,15 @@
 //Express
-const express = require("express");
+import express from "express";
 const router = express.Router();
 //Model & bdd
-const User = require("../models/user");
-const { Op } = require("sequelize");
+import User from "../models/user";
+import { Op } from "sequelize";
 //Tools
-const { hash } = require("../tools/hash.js");
-const NewUUID = require("../tools/uuid.js");
+import { hash } from "../tools/hash.js";
+import NewUUID from "../tools/uuid.js";
 //Middleware
-const auth = require("../middleware/auth/auth.js");
-const role = require("../middleware/role.js");
+import auth from "../middleware/auth/auth.js";
+import role from "../middleware/role.js";
 
 // Création d'un nouvel utilisateur
 router.post("/add", auth, role, async (req, res) => {
@@ -140,4 +140,4 @@ router.post("/filtre", auth, role, async (req, res) => {
 });
 
 //Renvoie de toute les routes
-module.exports = router;
+export default router;

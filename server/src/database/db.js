@@ -1,8 +1,8 @@
-const { Sequelize } = require("sequelize");
-const logger = require("../tools/logger.js");
+import { Sequelize } from "sequelize";
+import logger from "../tools/logger.js";
 
 //Instanciation de la bdd
-const mariadb = new Sequelize("abend-core", "root", "root", {
+const mysql = new Sequelize("abend-core", "root", "root", {
   host: "Abend-sql",
   port: 3306,
   dialect: "mysql",
@@ -14,7 +14,7 @@ const mariadb = new Sequelize("abend-core", "root", "root", {
 
 async function connect() {
   try {
-    await mariadb.authenticate();
+    await mysql.authenticate();
     console.log("Vous êtes connecté à la base de donnée");
   } catch (error) {
     console.error("Erreur de connection", error);
@@ -25,4 +25,4 @@ async function connect() {
 connect();
 
 //Export de l'instance de bdd, afin de l'utilisé dans d'autre fichier.
-module.exports = mariadb;
+export default mysql;

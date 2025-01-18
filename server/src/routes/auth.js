@@ -1,14 +1,14 @@
 //Express
-const express = require("express");
+import express from "express";
 const router = express.Router();
 //Tools
-const { hash } = require("../tools/hash.js");
-const NewUUID = require("../tools/uuid.js");
-const { compare } = require("../tools/hash.js");
-const jwt = require("jsonwebtoken");
-const privateKey = require("../middleware/auth/key.js");
+import { hash } from "../tools/hash.js";
+import NewUUID from "../tools/uuid.js";
+import { compare } from "../tools/hash.js";
+import jwt from "jsonwebtoken";
+import privateKey from "../middleware/auth/key.js";
 //Modele & bdd
-const User = require("../models/user.js");
+import User from "../models/user.js";
 
 router.post("/register", async (req, res) => {
   const data = req.body;
@@ -84,4 +84,4 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

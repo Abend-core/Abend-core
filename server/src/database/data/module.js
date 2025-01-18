@@ -29,4 +29,4 @@ const modules = [
   },
 ];
 
-module.exports = modules;
+export default modules;

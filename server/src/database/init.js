@@ -1,14 +1,14 @@
-const mariadb = require("./db");
-const dataModule = require("./data/module");
-const { hash } = require("../tools/hash.js");
-const NewUUID = require("../tools/uuid.js");
-const dataUser = require("./data/user");
-const User = require("../models/user");
-const Module = require("../models/module");
+import mysql from "./db";
+import dataModule from "./data/module";
+import { hash } from "../tools/hash.js";
+import NewUUID from "../tools/uuid.js";
+import dataUser from "./data/user";
+import User from "../models/user";
+import Module from "../models/module";
 
 let lastUUID;
 
-mariadb
+mysql
   .sync({ force: true })
   .then(async (_) => {
     try {
@@ -51,7 +51,6 @@ mariadb
     } catch (err) {
       console.error("Erreur :", err);
     }
-    // require("../views/index");
   })
   .catch((err) => {
     console.log("Erreur de synchronisation :", err);
