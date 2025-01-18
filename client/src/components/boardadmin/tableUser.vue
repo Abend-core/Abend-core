@@ -13,7 +13,7 @@
       <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
         <img
           class="h-5 w-5 cursor-pointer"
-          src="../assets/images/dashboard-icon/search-bar-icon.png"
+          src="../../assets/images/dashboard-icon/search-bar-icon.png"
         />
       </span>
     </div>
@@ -22,7 +22,7 @@
     </div>
     <img
       class="cursor-pointer"
-      src="../assets/images/dashboard-icon/bin-icon.png"
+      src="../../assets/images/dashboard-icon/bin-icon.png"
       @click="deleteUserTable"
     />
 

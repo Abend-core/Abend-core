@@ -106,7 +106,6 @@ export default {
 
       registrateUser(data)
         .then((response) => {
-          console.log(response);
           this.$router.push("/connexion");
         })
         .catch((error) => {

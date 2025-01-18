@@ -1,83 +1,21 @@
 <template>
-  <main class="h-full relative">
-    <div
-      v-if="isModalVisible"
-      class="absolute w-full h-full backdrop-blur-md z-10"
-    ></div>
-    <div class="absolute w-[100%] h-[100%]">
-      <div class="p-6" v-if="isAuthenticated && isAdmin">
-        <img
-          class="w-[32px] h-[32px] cursor-pointer"
-          src="../assets/images/home-icon/add.png"
-          alt="Ajoutez un module"
-          @click="displayAddModule"
-        />
-      </div>
-      <div
-        v-if="isModalVisible"
-        class="w-[700px] h-[700px] bg-[#f7f5f5] absolute left-[50%] transform -translate-x-1/2 -translate-y-1/2 top-[50%] z-20 rounded-md border border-black"
-      >
-        <p
-          class="cursor-pointer relative left-[96%] w-fit text-[22px]"
-          @click="displayAddModule"
+  <main class="h-full">
+    <div class="flex items-center justify-center flex-wrap gap-10 mt-[60px]">
+      <div class="flex" v-for="module in modules" :key="module.id">
+        <a
+          :href="module.link"
+          class="carre rotate-45 rounded-2xl"
+          :style="{
+            border: `2px solid ${module.color}`,
+            backgroundColor: '#D9D9D9',
+          }"
+          target="_blank"
         >
-          &times;
-        </p>
-        <div>
           <img
-            class="w-[56px] h-[56px] mx-auto mb-[12px]"
-            src="../assets/images/abend-core-logo.png"
-          />
-          <p class="text-center mb-3 text-2xl">Ajoutez un module</p>
-          <div class="w-[300px] mx-auto">
-            <p class="mb-1">Nom</p>
-            <input class="mb-3" type="text" v-model="dataModule.name.value" />
-            <p class="mb-1">Lien (url)</p>
-            <input class="mb-3" type="url" v-model="dataModule.link.value" />
-            <p class="mb-1">Image</p>
-            <input
-              class="mb-3"
-              type="file"
-              accept="image/png, image/jpeg"
-              @change="handleFileChange"
-            />
-            <div v-if="imageURL">
-              <img :src="imageURL" alt="Image prévisualisée" width="300" />
-            </div>
-            <p class="mb-1">Couleur attribuée</p>
-            <input type="color" v-model="dataModule.color.value" />
-            <input type="hidden" v-model="dataModule.isShow.value" />
-            <input type="hidden" v-model="dataModule.image" />
-
-            <div class="flex justify-center mt-3">
-              <button
-                class="bg-[#4b9945] text-white font-bold border border-black"
-                type="submit"
-                @click="addModulesHome"
-              >
-                Créer
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="flex items-center justify-center flex-wrap gap-10 mt-[60px]">
-        <div class="flex" v-for="module in modules" :key="module.id">
-          <a
-            :href="module.link"
-            class="carre rotate-45 rounded-2xl"
-            :style="{
-              border: `2px solid ${module.color}`,
-              backgroundColor: '#D9D9D9',
-            }"
-            target="_blank"
-          >
-            <img
-              class="w-full h-full rounded-2xl"
-              :src="`http://localhost:5000/uploadsFile/module/${module.image}`"
-              alt=""
-          /></a>
-        </div>
+            class="w-full h-full rounded-2xl"
+            :src="`http://localhost:5000/uploadsFile/module/${module.image}`"
+            alt=""
+        /></a>
       </div>
     </div>
   </main>
