@@ -10,7 +10,7 @@ const User = mariadb.define(
       primaryKey: true,
     },
     name: {
-      type: DataTypes.STRING(25),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -20,13 +20,13 @@ const User = mariadb.define(
           msg: "Le nom ne doit pas être vide.",
         },
         len: {
-          args: [1, 25],
-          msg: "Le nom doit être de taille [1 à 25].",
+          args: [1, 255],
+          msg: "Trop de caractères, 255 maximum.",
         },
       },
     },
     firstname: {
-      type: DataTypes.STRING(25),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -36,13 +36,13 @@ const User = mariadb.define(
           msg: "Le prénom ne doit pas être vide.",
         },
         len: {
-          args: [1, 25],
-          msg: "Le prénom doit être de taille [1 à 25].",
+          args: [1, 255],
+          msg: "Trop de caractères, 255 maximum.",
         },
       },
     },
     mail: {
-      type: DataTypes.STRING(40),
+      type: DataTypes.STRING,
       allowNull: false,
       unique: {
         msg: "Le mail est déjà utilisé.",
@@ -56,6 +56,10 @@ const User = mariadb.define(
         },
         isEmail: {
           msg: "L'email n'est pas en format mail.",
+        },
+        len: {
+          args: [1, 255],
+          msg: "Trop de caractères, 255 maximum.",
         },
       },
     },
@@ -75,7 +79,7 @@ const User = mariadb.define(
       },
     },
     login: {
-      type: DataTypes.STRING(25),
+      type: DataTypes.STRING,
       allowNull: false,
       unique: {
         msg: "L'identifiant est déjà utilisé.",
@@ -88,13 +92,13 @@ const User = mariadb.define(
           msg: "L'identifiant ne doit pas être vide.",
         },
         len: {
-          args: [1, 25],
-          msg: "L'identifiant doit être de taille [1 à 25].",
+          args: [1, 255],
+          msg: "Trop de caractères, 255 maximum.",
         },
       },
     },
     password: {
-      type: DataTypes.STRING(60),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -104,8 +108,8 @@ const User = mariadb.define(
           msg: "Le mot de passe ne doit pas être vide.",
         },
         len: {
-          args: [8, 60],
-          msg: "Le mot de passe doit être de taille [8 à 60].",
+          args: [8, 255],
+          msg: "Le mot de passe doit contenir [8 à 255] caractères.",
         },
       },
     },

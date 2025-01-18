@@ -13,7 +13,7 @@ const auth = require("../middleware/auth/auth.js");
 const role = require("../middleware/role.js");
 
 // Création d'un nouveau module
-router.post("/add", auth, role, async (req, res) => {
+router.post("/add", auth, async (req, res) => {
   const data = req.body;
   data.id = "";
   while (data.id === "") {
@@ -64,16 +64,14 @@ router.get("/:id", (req, res) => {
     })
     .catch((error) => {
       console.error("Erreur serveur :", error);
-      res
-        .status(500)
-        .json({
-          message: "Erreur serveur lors de la récupération des modules.",
-          erreur: error.message,
-        });
+      res.status(500).json({
+        message: "Erreur serveur lors de la récupération des modules.",
+        erreur: error.message,
+      });
     });
 });
 
-router.post("/update/:id", auth, role, (req, res) => {
+router.post("/update/:id", auth, (req, res) => {
   const id = req.params.id;
   Module.update(req.body, {
     where: { id: id },
@@ -95,7 +93,7 @@ router.post("/update/:id", auth, role, (req, res) => {
     });
 });
 
-router.post("/delete/:id", auth, role, (req, res) => {
+router.post("/delete/:id", auth, (req, res) => {
   Module.findByPk(req.params.id)
     .then((data) => {
       if (data === null) {
@@ -135,7 +133,7 @@ router.post("/delete/:id", auth, role, (req, res) => {
 });
 
 //Filtre module
-router.post("/filtre", auth, role, async (req, res) => {
+router.post("/filtre", auth, async (req, res) => {
   const search = req.body.search;
   Module.findAll({
     where: {
@@ -156,7 +154,7 @@ router.post("/filtre", auth, role, async (req, res) => {
 });
 
 //Liste des modules par utilisateur
-router.post("/user/:id", auth, role, async (req, res) => {
+router.post("/user/:id", auth, async (req, res) => {
   const id = req.params.id;
   Module.findByPk(id)
     .then((module) => {

@@ -21,13 +21,13 @@ const Module = mariadb.define(
           msg: "Le nom du module ne doit pas être vide.",
         },
         len: {
-          args: [1, 25],
-          msg: "Le nom du module doit être compris entre 1 et 25 caractères.",
+          args: [1, 255],
+          msg: "Trop de caractères, 255 maximum.",
         },
       },
     },
     link: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -37,13 +37,13 @@ const Module = mariadb.define(
           msg: "Le lien du module ne doit pas être vide.",
         },
         len: {
-          args: [1, 50],
-          msg: "Le lien du module doit être compris entre 1 et 50 caractères.",
+          args: [1, 255],
+          msg: "Trop de caractères, 255 maximum.",
         },
       },
     },
     color: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -53,13 +53,13 @@ const Module = mariadb.define(
           msg: "La couleur du module ne doit pas être vide.",
         },
         len: {
-          args: [1, 50],
-          msg: "La couleur du module doit être compris entre 1 et 50 caractères.",
+          args: [1, 255],
+          msg: "Trop de caractères, 255 maximum.",
         },
       },
     },
     image: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
@@ -69,8 +69,20 @@ const Module = mariadb.define(
           msg: "L'image du module ne doit pas être vide.",
         },
         len: {
-          args: [1, 50],
-          msg: "L'image du module doit être compris entre 1 et 50 caractères.",
+          args: [1, 255],
+          msg: "Trop de caractères, 255 maximum.",
+        },
+      },
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      validate: {
+        notNull: {
+          msg: "L'image du module ne doit pas être null.",
+        },
+        notEmpty: {
+          msg: "L'image du module ne doit pas être vide.",
         },
       },
     },

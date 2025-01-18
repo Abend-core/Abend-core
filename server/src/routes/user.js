@@ -79,30 +79,7 @@ router.get("/:id", auth, (req, res) => {
 });
 
 // Modification d'un utilisateur
-router.post("/update/:id", auth, role, (req, res) => {
-  const id = req.params.id;
-  User.update(req.body, {
-    where: { id: id },
-  })
-    .then((_) => {
-      return User.findByPk(id).then((user) => {
-        if (user === null) {
-          res.status(404).json({ message: "Utilisateur introuvable." });
-        }
-        res.status(200).json({ message: "Utilisateur modifié.", user });
-      });
-    })
-    .catch((error) => {
-      if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
-        return res.status(400).json({ errors });
-      }
-      res.status(500).json({ message: "Erreur serveur.", erreur: error });
-    });
-});
-
-// Modification du champs dernière
-router.post("/update/:id", auth, role, (req, res) => {
+router.post("/update/:id", auth, (req, res) => {
   const id = req.params.id;
   User.update(req.body, {
     where: { id: id },
@@ -161,7 +138,6 @@ router.post("/filtre", auth, role, async (req, res) => {
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
     });
 });
-
 
 //Renvoie de toute les routes
 module.exports = router;
