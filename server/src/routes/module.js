@@ -2,15 +2,15 @@
 import express from "express";
 const router = express.Router();
 //Tools
-import NewUUID from "../tools/uuid.js";
+import NewUUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
 //Model & bdd
 import Module from "../models/module";
 import { Op } from "sequelize";
 //Middleware
-import auth from "../middleware/auth/auth.js";
-import role from "../middleware/role.js";
+import auth from "../middleware/auth/auth";
+import role from "../middleware/role";
 
 // Création d'un nouveau module
 router.post("/add", auth, async (req, res) => {

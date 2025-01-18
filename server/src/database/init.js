@@ -1,7 +1,7 @@
 import mysql from "./db";
 import dataModule from "./data/module";
-import { hash } from "../tools/hash.js";
-import NewUUID from "../tools/uuid.js";
+import { hash } from "../tools/hash";
+import NewUUID from "../tools/uuid";
 import dataUser from "./data/user";
 import User from "../models/user";
 import Module from "../models/module";

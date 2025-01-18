@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import logger from "../tools/logger.js";
+import logger from "../tools/logger";
 
 //Instanciation de la bdd
 const mysql = new Sequelize("abend-core", "root", "root", {

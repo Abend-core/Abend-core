@@ -2,15 +2,15 @@
 import express from "express";
 const router = express.Router();
 //Middleware
-import auth from "../middleware/auth/auth.js";
-import role from "../middleware/role.js";
+import auth from "../middleware/auth/auth";
+import role from "../middleware/role";
 //Tools
 import path from "path";
 import fs from "fs";
-import NewUUID from "../tools/uuid.js";
+import NewUUID from "../tools/uuid";
 //Bdd && Model
-import Module from "../models/module.js";
-import User from "../models/user.js";
+import Module from "../models/module";
+import User from "../models/user";
 
 router.post("/module", auth, role, async (req, res) => {
   const boundary = req.headers["content-type"].split("boundary=")[1];

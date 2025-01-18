@@ -5,11 +5,11 @@ const router = express.Router();
 import User from "../models/user";
 import { Op } from "sequelize";
 //Tools
-import { hash } from "../tools/hash.js";
-import NewUUID from "../tools/uuid.js";
+import { hash } from "../tools/hash";
+import NewUUID from "../tools/uuid";
 //Middleware
-import auth from "../middleware/auth/auth.js";
-import role from "../middleware/role.js";
+import auth from "../middleware/auth/auth";
+import role from "../middleware/role";
 
 // Création d'un nouvel utilisateur
 router.post("/add", auth, role, async (req, res) => {

@@ -1,5 +1,5 @@
 //Rappel des table dans l'annuaire
-import { User, Module } from "../models/index.js";
+import { User, Module } from "../models/index";
 
 //Différentes jointure
 User.hasMany(Module, {

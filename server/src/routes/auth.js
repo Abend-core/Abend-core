@@ -2,13 +2,13 @@
 import express from "express";
 const router = express.Router();
 //Tools
-import { hash } from "../tools/hash.js";
-import NewUUID from "../tools/uuid.js";
-import { compare } from "../tools/hash.js";
+import { hash } from "../tools/hash";
+import NewUUID from "../tools/uuid";
+import { compare } from "../tools/hash";
 import jwt from "jsonwebtoken";
-import privateKey from "../middleware/auth/key.js";
+import privateKey from "../middleware/auth/key";
 //Modele & bdd
-import User from "../models/user.js";
+import User from "../models/user";
 
 router.post("/register", async (req, res) => {
   const data = req.body;
