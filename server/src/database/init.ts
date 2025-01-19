@@ -1,18 +1,27 @@
-import mysql from "./db";
-import dataModule from "./data/module";
+import sequelize from "./db";
+const dataModule = require("./data/module");
 import { hash } from "../tools/hash";
 import NewUUID from "../tools/uuid";
-import dataUser from "./data/user";
+const dataUser = require("./data/user");
 import User from "../models/user";
 import Module from "../models/module";
 
-let lastUUID;
+let lastUUID: string;
 
-mysql
+// Vérification du contenu de dataUser
+console.log("Contenu de dataUser:", dataModule);
+
+if (!Array.isArray(dataModule)) {
+  console.error("Erreur: dataUser n'est pas un tableau");
+} else {
+  console.log("dataUser est un tableau, début du processus.");
+}
+
+sequelize
   .sync({ force: true })
   .then(async (_) => {
     try {
-      for (const data of dataUser) {
+      for (const data of dataUser.users) {
         data.id = "";
         while (data.id === "") {
           const uuid = NewUUID();
@@ -32,7 +41,7 @@ mysql
       console.log("");
       console.log("Utilisateurs insérés avec succès.");
       console.log("");
-      for (const data of dataModule) {
+      for (const data of dataModule.modules) {
         data.id = "";
 
         while (data.id === "") {

@@ -1,8 +1,34 @@
-import DataTypes from "sequelize";
-import mysql from "../database/db";
+import { DataTypes, Model, Optional } from "sequelize";
+import sequelize from "../database/db";
 
-const User = mysql.define(
-  "User",
+interface UserAttributes {
+  id: number;
+  name: string;
+  firstname: string;
+  mail: string;
+  birth: Date;
+  login: string;
+  password: string;
+  isAdmin: boolean;
+}
+
+interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+
+class User
+  extends Model<UserAttributes, UserCreationAttributes>
+  implements UserAttributes
+{
+  public id!: number;
+  public name!: string;
+  public firstname!: string;
+  public mail!: string;
+  public birth!: Date;
+  public login!: string;
+  public password!: string;
+  public isAdmin!: boolean;
+}
+
+User.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -44,9 +70,7 @@ const User = mysql.define(
     mail: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: {
-        msg: "Le mail est déjà utilisé.",
-      },
+      unique: true,
       validate: {
         notNull: {
           msg: "L'email ne doit pas être nul.",
@@ -73,17 +97,13 @@ const User = mysql.define(
         notEmpty: {
           msg: "La date de naissance ne doit pas être vide.",
         },
-        isDate: {
-          msg: "La date de naissance doit être une date.",
-        },
+        isDate: true,
       },
     },
     login: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: {
-        msg: "L'identifiant est déjà utilisé.",
-      },
+      unique: true,
       validate: {
         notNull: {
           msg: "L'identifiant ne doit pas être nul.",
@@ -119,7 +139,9 @@ const User = mysql.define(
     },
   },
   {
-    // Other model options go here
+    sequelize,
+    modelName: "User",
+    tableName: "users",
   }
 );
 

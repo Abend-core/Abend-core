@@ -1,8 +1,34 @@
-import DataTypes from "sequelize";
-import mysql from "../database/db";
+import { DataTypes, Model, Optional } from "sequelize";
+import sequelize from "../database/db";
 
-const Module = mysql.define(
-  "Module",
+interface UserAttributes {
+  id: number;
+  name: string;
+  link: string;
+  color: string;
+  image: string;
+  description: string;
+  isShow: boolean;
+  user_id: string;
+}
+
+interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+
+class Module
+  extends Model<UserAttributes, UserCreationAttributes>
+  implements UserAttributes
+{
+  public id!: number;
+  public name!: string;
+  public link!: string;
+  public color!: string;
+  public image!: string;
+  public description!: string;
+  public isShow!: boolean;
+  public user_id!: string;
+}
+
+Module.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -83,9 +109,19 @@ const Module = mysql.define(
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
+    user_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "id",
+      },
+    },
   },
   {
-    // Other model options go here
+    sequelize,
+    modelName: "Module",
+    tableName: "Modules",
   }
 );
 

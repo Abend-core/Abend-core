@@ -42,16 +42,17 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-const auth = require("./routes/auth");
+import auth from "./routes/auth";
 app.use("/auth", auth);
 
-const users = require("./routes/user");
+import users from "./routes/user";
 app.use("/users", users);
 
-const modules = require("./routes/module");
+import modules from "./routes/module";
 app.use("/modules", modules);
 
-const upload = require("./routes/upload");
+import upload from "./routes/upload";
+
 app.use("/upload", upload);
 
 app.get("/", (res: Response) => {

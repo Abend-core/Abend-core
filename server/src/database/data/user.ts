@@ -271,4 +271,4 @@ const users = [
   },
 ];
 
-export default users;
+export { users };

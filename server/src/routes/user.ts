@@ -1,5 +1,5 @@
 //Express
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 const router = express.Router();
 //Model & bdd
 import User from "../models/user";
@@ -12,7 +12,7 @@ import auth from "../middleware/auth/auth";
 import role from "../middleware/role";
 
 // Création d'un nouvel utilisateur
-router.post("/add", auth, role, async (req, res) => {
+router.post("/add", auth, role, async (req: Request, res: Response) => {
   const data = req.body;
   data.id = "";
   while (data.id === "") {
@@ -34,7 +34,7 @@ router.post("/add", auth, role, async (req, res) => {
     })
     .catch((error) => {
       if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+        const errors = error.errors.map((err: { message: any }) => err.message);
         return res.status(400).json({ errors });
       }
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -42,7 +42,7 @@ router.post("/add", auth, role, async (req, res) => {
 });
 
 // Selection de tout les utilisateurs
-router.get("/", auth, role, (req, res) => {
+router.get("/", auth, role, (req: Request, res: Response) => {
   User.findAll({
     order: [["createdAt", "desc"]],
   })
@@ -51,7 +51,7 @@ router.get("/", auth, role, (req, res) => {
     })
     .catch((error) => {
       if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+        const errors = error.errors.map((err: { message: any }) => err.message);
         return res.status(400).json({ errors });
       }
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -59,7 +59,7 @@ router.get("/", auth, role, (req, res) => {
 });
 
 // Selection d'un utilisateur
-router.get("/:id", auth, (req, res) => {
+router.get("/:id", auth, (req: Request, res: Response) => {
   const id = req.params.id;
   User.findByPk(id)
     .then((user) => {
@@ -71,7 +71,7 @@ router.get("/:id", auth, (req, res) => {
     })
     .catch((error) => {
       if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+        const errors = error.errors.map((err: { message: any }) => err.message);
         return res.status(400).json({ errors });
       }
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -79,7 +79,7 @@ router.get("/:id", auth, (req, res) => {
 });
 
 // Modification d'un utilisateur
-router.post("/update/:id", auth, (req, res) => {
+router.post("/update/:id", auth, (req: Request, res: Response) => {
   const id = req.params.id;
   User.update(req.body, {
     where: { id: id },
@@ -94,7 +94,7 @@ router.post("/update/:id", auth, (req, res) => {
     })
     .catch((error) => {
       if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+        const errors = error.errors.map((err: { message: any }) => err.message);
         return res.status(400).json({ errors });
       }
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -102,24 +102,32 @@ router.post("/update/:id", auth, (req, res) => {
 });
 
 //Suppression d'un utilisateur
-router.post("/delete/:id", auth, role, async (req, res) => {
-  User.findByPk(req.params.id)
-    .then((user) => {
+router.post(
+  "/delete/:id",
+  auth,
+  role,
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const user = await User.findByPk(req.params.id);
+
       if (user === null) {
-        res.status(404).json({ message: "Utilisateur introuvable.", user });
+        res.status(404).json({ message: "Utilisateur introuvable." });
+        return;
       }
 
-      return User.destroy({ where: { id: user.id } }).then((_) => {
-        res.status(200).json({ message: "Utilisateur supprimé.", user });
-      });
-    })
-    .catch((error) => {
+      await User.destroy({ where: { id: user.id } });
+
+      res.status(200).json({ message: "Utilisateur supprimé.", user });
+      return;
+    } catch (error) {
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
-    });
-});
+      return;
+    }
+  }
+);
 
 //Filtre utilisateur
-router.post("/filtre", auth, role, async (req, res) => {
+router.post("/filtre", auth, role, async (req: Request, res: Response) => {
   const search = req.body.search;
   User.findAll({
     where: {

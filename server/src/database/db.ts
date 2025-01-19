@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import logger from "../tools/logger";
 
 //Instanciation de la bdd
-const mysql = new Sequelize("abend-core", "root", "root", {
+const sequelize = new Sequelize("abend-core", "root", "root", {
   host: "Abend-sql",
   port: 3306,
   dialect: "mysql",
@@ -14,7 +14,7 @@ const mysql = new Sequelize("abend-core", "root", "root", {
 
 async function connect() {
   try {
-    await mysql.authenticate();
+    await sequelize.authenticate();
     console.log("Vous êtes connecté à la base de donnée");
   } catch (error) {
     console.error("Erreur de connection", error);
@@ -25,4 +25,4 @@ async function connect() {
 connect();
 
 //Export de l'instance de bdd, afin de l'utilisé dans d'autre fichier.
-export default mysql;
+export default sequelize;

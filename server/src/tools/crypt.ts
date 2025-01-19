@@ -1,10 +1,10 @@
 import crypto from "crypto";
 
-const generateKey = (login) => {
+const generateKey = (login: string) => {
   return crypto.createHash("sha256").update(login).digest();
 };
 
-const encrypt = (value, login) => {
+const encrypt = (value: string, login: string) => {
   const secretKey = generateKey(login);
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv("aes-256-cbc", secretKey, iv);
@@ -14,7 +14,7 @@ const encrypt = (value, login) => {
   return iv.toString("hex") + ":" + encrypted;
 };
 
-const decrypt = (value, login) => {
+const decrypt = (value: string, login: string) => {
   const secretKey = generateKey(login);
   const [ivHex, dataHex] = value.split(":");
   const iv = Buffer.from(ivHex, "hex");
@@ -26,7 +26,7 @@ const decrypt = (value, login) => {
   return decrypted;
 };
 
-const encryptObj = (obj, login) => {
+const encryptObj = (obj: Record<string, string>, login: string) => {
   for (const property in obj) {
     console.log(typeof obj[property]);
     if (typeof obj[property] == "string") {
@@ -35,7 +35,7 @@ const encryptObj = (obj, login) => {
   }
   return obj;
 };
-const decryptObj = (obj, login) => {
+const decryptObj = (obj: Record<string, string>, login: string) => {
   for (const property in obj) {
     if (typeof obj[property] != "boolean") {
       obj[property] = decrypt(obj[property], login);

@@ -1,6 +1,6 @@
 //Express
-import express from "express";
-const router = express.Router();
+import express, { Request, Response } from "express";
+
 //Tools
 import { hash } from "../tools/hash";
 import NewUUID from "../tools/uuid";
@@ -9,6 +9,13 @@ import jwt from "jsonwebtoken";
 import privateKey from "../middleware/auth/key";
 //Modele & bdd
 import User from "../models/user";
+
+interface SignInBody {
+  login: string;
+  password: string;
+}
+
+const router = express.Router();
 
 router.post("/register", async (req, res) => {
   const data = req.body;
@@ -36,51 +43,49 @@ router.post("/register", async (req, res) => {
         error.name === "SequelizeValidationError" ||
         error.name === "SequelizeUniqueConstraintError"
       ) {
-        const errors = error.errors.map((err) => err.message);
+        const errors = error.errors.map((err: { message: any }) => err.message);
         return res.status(401).json({ errors });
       }
       res.status(501).json({ message: "Erreur serveur.", erreur: error });
     });
 });
 
-router.post("/signin", async (req, res) => {
+router.post("/signin", async (req, res): Promise<void> => {
   try {
     const user = await User.findOne({ where: { login: req.body.login } });
 
     if (!user) {
-      return res.status(401).json({
+      res.status(401).json({
         message: "Identifiant ou mot de passe incorrect.",
       });
+      return;
     }
 
     const isPasswordValid = await compare(req.body.password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(402).json({
+      res.status(402).json({
         message: "Identifiant ou mot de passe incorrect.",
       });
+      return;
     }
 
     const token = jwt.sign({ userId: user.login }, privateKey, {
       expiresIn: "1h",
     });
-    User.update(
-      { dateLog: new Date() },
-      {
-        where: { id: user.id },
-      }
-    );
 
-    return res.status(201).json({
+    res.status(201).json({
       message: "L'utilisateur a été connecté avec succès.",
       UUID: user.id,
       token,
     });
+    return;
   } catch (error) {
     console.error(error);
-    return res.status(501).json({
+    res.status(501).json({
       message: "Serveur en maintenance. Réessayez dans quelques instants.",
     });
+    return;
   }
 });
 

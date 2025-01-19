@@ -1,5 +1,5 @@
 //Express
-import express from "express";
+import express, { Request, Response } from "express";
 const router = express.Router();
 //Tools
 import NewUUID from "../tools/uuid";
@@ -29,7 +29,7 @@ router.post("/add", auth, async (req, res) => {
     })
     .catch((error) => {
       if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+        const errors = error.errors.map((err: { message: any }) => err.message);
         return res.status(400).json({ errors });
       }
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -44,7 +44,7 @@ router.get("/", (req, res) => {
     })
     .catch((error) => {
       if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+        const errors = error.errors.map((err: { message: any }) => err.message);
         return res.status(400).json({ errors });
       }
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -86,7 +86,7 @@ router.post("/update/:id", auth, (req, res) => {
     })
     .catch((error) => {
       if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+        const errors = error.errors.map((err: { message: any }) => err.message);
         return res.status(400).json({ errors });
       }
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
