@@ -33,7 +33,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { findAllModules, addModules } from "../api/module";
+import { findAllModules } from "../api/module";
 import { formatDate } from "../utils/date";
 
 defineProps({
@@ -47,21 +47,6 @@ defineProps({
   },
 });
 
-const imageURL = ref(null);
-const selectedImageFile = ref(null);
-
-const handleFileChange = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    selectedImageFile.value = file;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      imageURL.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-};
-
 const modules = ref([]);
 const allModules = async () => {
   try {
@@ -69,55 +54,6 @@ const allModules = async () => {
     modules.value = response.data.module;
   } catch (error) {
     console.error(error);
-  }
-};
-
-const isModalVisible = ref(false);
-const displayAddModule = () => {
-  isModalVisible.value = !isModalVisible.value;
-};
-
-let dataModule = {
-  name: ref(""),
-  link: ref(""),
-  color: ref("#000000"),
-  image: ref(""),
-  isShow: ref(true),
-};
-const id = sessionStorage.getItem("id");
-
-const addModulesHome = async () => {
-  try {
-    let imagePath = null;
-
-    if (selectedImageFile.value) {
-      const formData = new FormData();
-      formData.append("image", selectedImageFile.value);
-
-      const uploadResponse = await uploadImageModule(formData);
-      imagePath = uploadResponse.data.filePath;
-    }
-
-    await addModules({
-      name: dataModule.name.value,
-      link: dataModule.link.value,
-      color: dataModule.color.value,
-      image: imagePath || "",
-      isShow: dataModule.isShow.value ? 1 : 0,
-      user_id: id,
-    });
-
-    dataModule.name.value = "";
-    dataModule.link.value = "";
-    dataModule.color.value = "#000000";
-    dataModule.image.value = "";
-    imageURL.value = null;
-    selectedImageFile.value = null;
-
-    allModules();
-    displayAddModule();
-  } catch (error) {
-    console.error("Error adding module:", error);
   }
 };
 

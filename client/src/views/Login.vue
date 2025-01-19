@@ -95,7 +95,6 @@ export default {
     };
   },
   emits: ["login", "logout"],
-  //permet d'envoyer cette donnée aux autres composants
   inject: ["isAdmin"],
   methods: {
     loginUser() {

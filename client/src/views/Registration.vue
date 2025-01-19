@@ -4,6 +4,7 @@
       <img
         class="w-[56px] h-[56px] mx-auto mb-[12px]"
         src="../assets/images/abend-core-logo.png"
+        alt="Abend-core Logo"
       />
       <div>
         <h1 class="text-2xl text-center mb-[10px]">S'inscrire à Abend-core</h1>
@@ -38,7 +39,7 @@
         <form class="flex flex-col" @submit.prevent="registration">
           <label for="name"> Nom </label>
           <input type="text" id="name" v-model="name" required />
-          <label for="firstName"> Prénom </label>
+          <label for="firstname"> Prénom </label>
           <input type="text" id="firstname" v-model="firstname" required />
           <label for="email"> Email </label>
           <input type="email" id="email" v-model="email" required />
@@ -75,49 +76,46 @@
   </main>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { registrateUser } from "../api/auth";
 
-export default {
-  data() {
-    return {
-      name: "",
-      firstname: "",
-      email: "",
-      loginRegister: "",
-      birth: "",
-      password: "",
-      errorMessage: "",
-    };
-  },
-  emits: ["login"],
-  methods: {
-    registration() {
-      const data = {
-        name: this.name,
-        firstname: this.firstname,
-        mail: this.email,
-        login: this.loginRegister,
-        birth: this.birth,
-        password: this.password,
-        isAdmin: false,
-        isLog: false,
-      };
+defineEmits(["login"]);
 
-      registrateUser(data)
-        .then((response) => {
-          this.$router.push("/connexion");
-        })
-        .catch((error) => {
-          this.errorMessage =
-            error.response?.data?.errors[0] || "Inscription erreur";
-        });
-    },
+const name = ref("");
+const firstname = ref("");
+const email = ref("");
+const loginRegister = ref("");
+const birth = ref("");
+const password = ref("");
+const errorMessage = ref("");
 
-    closeError() {
-      this.errorMessage = "";
-    },
-  },
+const router = useRouter();
+
+const registration = async () => {
+  const data = {
+    name: name.value,
+    firstname: firstname.value,
+    mail: email.value,
+    login: loginRegister.value,
+    birth: birth.value,
+    password: password.value,
+    isAdmin: false,
+    isLog: false,
+  };
+
+  try {
+    await registrateUser(data);
+    router.push("/connexion");
+  } catch (error) {
+    errorMessage.value =
+      error.response?.data?.errors[0] || "Erreur lors de l'inscription.";
+  }
+};
+
+const closeError = () => {
+  errorMessage.value = "";
 };
 </script>
 
