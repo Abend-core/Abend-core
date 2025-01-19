@@ -8,17 +8,8 @@ import Module from "../models/module";
 
 let lastUUID: string;
 
-// Vérification du contenu de dataUser
-console.log("Contenu de dataUser:", dataModule);
-
-if (!Array.isArray(dataModule)) {
-  console.error("Erreur: dataUser n'est pas un tableau");
-} else {
-  console.log("dataUser est un tableau, début du processus.");
-}
-
 sequelize
-  .sync({ force: true })
+  .sync()
   .then(async (_) => {
     try {
       for (const data of dataUser.users) {
