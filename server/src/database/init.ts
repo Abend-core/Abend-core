@@ -9,7 +9,7 @@ import Module from "../models/module";
 let lastUUID: string;
 
 sequelize
-  .sync()
+  .sync({ force: true })
   .then(async (_) => {
     try {
       for (const data of dataUser.users) {
