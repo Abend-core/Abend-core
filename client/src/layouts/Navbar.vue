@@ -13,12 +13,12 @@
     <div class="right-content flex items-center flex-1 justify-end gap-[20px]">
       <img
         class="w-[20px] h-[20px]"
-        src="../assets/images/à-modifier-soleil.png"
+        src="../assets/images/icon-light.png"
         alt="Mode Clair"
       />
       <img
         class="w-[20px] h-[20px]"
-        src="../assets/images/à-modifier-lune.png"
+        src="../assets/images/icon-dark.png"
         alt="Mode Sombre"
       />
       <RouterLink to="/">Home</RouterLink>
