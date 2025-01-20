@@ -17,7 +17,6 @@ type RawData = Buffer[];
 router.post(
   "/module",
   auth,
-  role,
   async (req: Request, res: Response): Promise<void> => {
     const contentType = req.headers["content-type"];
 
@@ -65,7 +64,6 @@ router.post(
 router.post(
   "/profil",
   auth,
-  role,
   async (req: Request, res: Response): Promise<void> => {
     const contentType = req.headers["content-type"];
 

@@ -68,8 +68,8 @@ const swaggerDocument = YAML.load("./docs/swagger.yaml");
 // Utiliser Swagger UI pour rendre la documentation
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use("/uploadsFile/module", express.static("./upload/module"));
-app.use("/uploadsFile/profil", express.static("./upload/profil"));
+app.use("/uploadsFile/module", express.static("src/upload/module"));
+app.use("/uploadsFile/profil", express.static("src/upload/profil"));
 
 app.listen(port, () => {
   console.log("Serveur en ligne ! Environnement : ", env);
