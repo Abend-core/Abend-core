@@ -1,13 +1,13 @@
 import express, { Request, Response } from "express";
-const bodyParser = require("body-parser");
-const swaggerUi = require("swagger-ui-express");
-const YAML = require("yamljs");
+import bodyParser from "body-parser";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
 
 import config from "config";
 const port: number = config.get("server.port");
 const env: string = config.get("server.env");
 
-const cors = require("cors");
+import cors from "cors";
 let corsOptions;
 
 //Appel des models et les jointures
