@@ -2,11 +2,14 @@ import { Sequelize } from "sequelize";
 import logger from "../tools/logger";
 import config from "config";
 
+const dbName: string = config.get("db.name");
+const dbUser: string = config.get("db.user");
+const dbPassword: string = config.get("db.password");
 const dbHost: string = config.get("db.host");
 const dbPort: number = config.get("db.port");
 const dbDial: undefined = config.get("db.dialect");
 //Instanciation de la bdd
-const sequelize = new Sequelize("abend-core", "root", "root", {
+const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
   host: dbHost,
   port: dbPort,
   dialect: dbDial,
