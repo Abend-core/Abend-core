@@ -11,7 +11,7 @@
     <!-- : est utilisé pour passer des données d'un composant à un autre -->
     <!-- alors que @ est utilisé pour écouter un événement émis par un composant enfant (ici, 
      logout provient de header plus précisément navbar) -->
-    <div class="flex-1">
+    <div class="flex-1 dark:bg-gray-800 dark:text-white">
       <!-- router-view permet de rendre dynamique les composants, 
        c'est lui qui gère l'affichage selon les routes qu'on recherche  -->
       <!-- grâce à ce router-view, mon header et mon footer restent en place sur tous autres composants -->

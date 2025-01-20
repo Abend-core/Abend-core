@@ -1,5 +1,5 @@
 <template>
-  <main class="h-full">
+  <main>
     <div class="flex items-center justify-center flex-wrap gap-10 mt-[60px]">
       <div class="flex" v-for="module in modules" :key="module.id">
         <a

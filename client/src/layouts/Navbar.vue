@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex items-center p-[20px]">
+  <nav class="flex items-center p-[20px] dark:bg-gray-800 dark:text-white">
     <div class="left-content flex items-center gap-[10px]">
       <RouterLink to="/">
         <img
@@ -12,14 +12,18 @@
     </div>
     <div class="right-content flex items-center flex-1 justify-end gap-[20px]">
       <img
-        class="w-[20px] h-[20px]"
+        v-if="!isDark"
+        class="w-[20px] h-[20px] cursor-pointer"
         src="../assets/images/icon-light.png"
         alt="Mode Clair"
+        @click="toggleDarkMode"
       />
       <img
-        class="w-[20px] h-[20px]"
+        v-if="isDark"
+        class="w-[20px] h-[20px] cursor-pointer"
         src="../assets/images/icon-dark.png"
         alt="Mode Sombre"
+        @click="toggleDarkMode"
       />
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/connexion" v-if="!isAuthenticated">Connexion</RouterLink>
@@ -34,6 +38,8 @@
 
 <script>
 import { clearSessionData } from "../utils/session";
+import { useDark, useToggle } from "@vueuse/core";
+import { watch } from "vue";
 export default {
   emits: ["login", "logout"],
   // ces props permettent de recevoir la valeur de l'authentification de son parent Layout.vue
@@ -46,6 +52,19 @@ export default {
       type: Boolean,
       required: true,
     },
+  },
+  setup() {
+    const isDark = useDark();
+    const toggleDarkMode = useToggle(isDark);
+
+    const darkModeActivation = () => {
+      toggleDarkMode();
+    };
+
+    return {
+      isDark,
+      toggleDarkMode: darkModeActivation,
+    };
   },
   methods: {
     logOut() {

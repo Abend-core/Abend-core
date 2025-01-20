@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-white rounded-md p-[12px] mt-3 mb-3">
+  <div
+    class="bg-white rounded-md p-[12px] mt-3 mb-3 dark:bg-gray-800 dark:text-white"
+  >
     <h1 class="font-bold">Gérer mes informations</h1>
     <p class="text-[#4954ecde] mt-1">Profil Dashboard</p>
   </div>
@@ -20,11 +22,13 @@
     </div>
   </div>
   <div>
-    <div class="flex flex-col gap-[22px] p-[12px] bg-white rounded-md">
+    <div
+      class="flex flex-col gap-[22px] p-[12px] bg-white rounded-md dark:bg-gray-800 dark:text-white"
+    >
       <div class="flex items-center">
         <p class="w-[150px] mr-[200px]">Prénom</p>
         <input
-          class="w-[450px]"
+          class="w-[450px] dark:text-white dark:bg-gray-900"
           type="text"
           placeholder="Prénom"
           v-model="prenomProfil"
@@ -33,7 +37,7 @@
       <div class="flex items-center">
         <p class="w-[150px] mr-[200px]">Nom</p>
         <input
-          class="w-[450px]"
+          class="w-[450px] dark:text-white dark:bg-gray-900"
           type="text"
           placeholder="Nom"
           v-model="nomProfil"
@@ -42,7 +46,7 @@
       <div class="flex items-center">
         <p class="w-[150px] mr-[200px]">Email</p>
         <input
-          class="w-[450px]"
+          class="w-[450px] dark:text-white dark:bg-gray-900"
           type="text"
           placeholder="Email"
           v-model="emailProfil"
@@ -51,7 +55,7 @@
       <div class="flex items-center">
         <p class="w-[150px] mr-[200px]">Date de naissance</p>
         <input
-          class="w-[450px]"
+          class="w-[450px] dark:text-white dark:bg-gray-900"
           type="date"
           placeholder="Date de naissance"
           v-model="birthProfil"
@@ -60,24 +64,28 @@
       <div class="flex items-center">
         <p class="w-[150px] mr-[200px]">Identifiant</p>
         <input
-          class="w-[450px]"
+          class="w-[450px] dark:text-white dark:bg-gray-900"
           type="text"
           placeholder="Identifiant"
           v-model="identifiantProfil"
         />
       </div>
     </div>
-    <div class="bg-white rounded-md mt-3 p-[12px]">
+    <div
+      class="bg-white rounded-md mt-3 p-[12px] dark:bg-gray-800 dark:text-white"
+    >
       <p class="font-bold">Gérer mon mot de passe</p>
       <p class="text-[#4954ecde] mt-1">Modification Dashboard</p>
     </div>
-    <div class="flex flex-col gap-[22px] bg-white rounded-md mt-3 p-[12px]">
+    <div
+      class="flex flex-col gap-[22px] bg-white rounded-md mt-3 p-[12px] dark:bg-gray-800 dark:text-white"
+    >
       <div class="flex items-center">
         <p class="w-[150px] mr-[200px] whitespace-nowrap">
           Ancien mot de passe
         </p>
         <input
-          class="w-[450px]"
+          class="w-[450px] dark:text-white dark:bg-gray-900"
           type="text"
           placeholder="Ancien mot de passe"
         />
@@ -87,7 +95,7 @@
           Nouveau mot de passe
         </p>
         <input
-          class="w-[450px]"
+          class="w-[450px] dark:text-white dark:bg-gray-900"
           type="text"
           placeholder="Nouveau mot de passe"
         />
@@ -97,7 +105,7 @@
           Répéter le mot de passe
         </p>
         <input
-          class="w-[450px]"
+          class="w-[450px] dark:text-white dark:bg-gray-900"
           type="text"
           placeholder="Répéter le mot de passe"
         />

@@ -38,20 +38,50 @@
       <div class="p-[16px]">
         <form class="flex flex-col" @submit.prevent="registration">
           <label for="name"> Nom </label>
-          <input type="text" id="name" v-model="name" required />
+          <input
+            class="dark:text-white dark:bg-gray-900"
+            type="text"
+            id="name"
+            v-model="name"
+            required
+          />
           <label for="firstname"> Prénom </label>
-          <input type="text" id="firstname" v-model="firstname" required />
+          <input
+            class="dark:text-white dark:bg-gray-900"
+            type="text"
+            id="firstname"
+            v-model="firstname"
+            required
+          />
           <label for="email"> Email </label>
-          <input type="email" id="email" v-model="email" required />
+          <input
+            class="dark:text-white dark:bg-gray-900"
+            type="email"
+            id="email"
+            v-model="email"
+            required
+          />
           <label for="birth"> Date de naissance </label>
-          <input type="date" id="birth" v-model="birth" required />
+          <input
+            class="dark:text-white dark:bg-gray-900"
+            type="date"
+            id="birth"
+            v-model="birth"
+            required
+          />
           <label for="login"> Identifiant </label>
-          <input type="text" id="login" v-model="loginRegister" required />
+          <input
+            class="dark:text-white dark:bg-gray-900"
+            type="text"
+            id="login"
+            v-model="loginRegister"
+            required
+          />
           <label for="password"> Mot de passe </label>
           <input
             type="password"
             id="password"
-            class="input-password mb-[18px]"
+            class="input-password mb-[18px] dark:text-white dark:bg-gray-900"
             v-model="password"
             minlength="8"
             required

@@ -4,7 +4,7 @@
   >
     <div class="relative">
       <input
-        class="pl-10 py-2 border rounded-md w-[300px]"
+        class="pl-10 py-2 border rounded-md w-[300px] dark:text-white dark:bg-gray-900"
         type="text"
         placeholder="Rechercher..."
         v-model="inputValueSearchBar"
@@ -39,7 +39,7 @@
 
   <div
     v-if="isModalVisibleUser"
-    class="bg-white mb-6 p-6 rounded-md relative max-w-[100%] mx-auto"
+    class="bg-white mb-6 p-6 rounded-md relative max-w-[100%] mx-auto dark:bg-gray-800 dark:text-white dark:border-2 dark:border-black"
   >
     <p class="font-bold mb-3 text-left">Ajoutez un utilisateur</p>
     <div
@@ -57,7 +57,7 @@
           id="add-user-input-nom"
           name="add_user_input_nom"
           type="text"
-          class="pl-3 py-2 border rounded-md w-full"
+          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
           v-model="dataAddUser.name.value"
         />
       </div>
@@ -68,7 +68,7 @@
           id="add-user-input-prenom"
           name="add_user_input_prenom"
           type="text"
-          class="pl-3 py-2 border rounded-md w-full"
+          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
           v-model="dataAddUser.firstname.value"
         />
       </div>
@@ -79,7 +79,7 @@
           id="add-user-input-email"
           name="add_user_input_email"
           type="text"
-          class="pl-3 py-2 border rounded-md w-full"
+          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
           v-model="dataAddUser.mail.value"
         />
       </div>
@@ -92,7 +92,7 @@
           id="add-user-input-date-naissance"
           name="add_user_input_date_naissance"
           type="date"
-          class="pl-3 py-2 border rounded-md w-full sm:w-full md:w-full lg:w-[195px] xl:[w-195px]"
+          class="pl-3 py-2 border rounded-md w-full sm:w-full md:w-full lg:w-[195px] xl:[w-195px] dark:text-white dark:bg-gray-900"
           v-model="dataAddUser.birth.value"
         />
       </div>
@@ -103,7 +103,7 @@
           id="add-user-input-identifiant"
           name="add_user_input_identifiant"
           type="text"
-          class="pl-3 py-2 border rounded-md w-full"
+          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
           v-model="dataAddUser.login.value"
         />
       </div>
@@ -113,7 +113,7 @@
         <select
           id="add-user-select-role"
           name="add_user_select_role"
-          class="pl-3 py-2 border rounded-md w-full sm:w-full md:w-full lg:w-[195px] xl:[w-195px]"
+          class="pl-3 py-2 border rounded-md w-full sm:w-full md:w-full lg:w-[195px] xl:[w-195px] dark:text-white dark:bg-gray-900"
           v-model="dataAddUser.isAdmin.value"
         >
           <option value="" disabled>Choisir le rôle</option>
@@ -133,7 +133,9 @@
       </div>
     </div>
   </div>
-  <div class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5">
+  <div
+    class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
+  >
     <table class="w-full">
       <thead>
         <tr class="text-left border-b border-[#F4F6FA]">
@@ -156,7 +158,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.id" class="hover:bg-[#F4F6FA]">
+        <tr
+          v-for="user in users"
+          :key="user.id"
+          class="hover:bg-[#F4F6FA] dark:hover:text-black dark:hover:bg-gray-500"
+        >
           <td class="p-3">
             <input
               id="checkbox-dashboard-table-oneUser"

@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-white rounded-md p-[12px] mt-3 mb-3">
+  <div
+    class="bg-white rounded-md p-[12px] mt-3 mb-3 dark:bg-gray-800 dark:text-white"
+  >
     <h1 class="font-bold">Gérer mes modules</h1>
     <p class="text-[#4954ecde] mt-1">Profil Dashboard</p>
   </div>
@@ -14,7 +16,7 @@
   </div>
   <div
     v-if="isModalVisibleModule"
-    class="bg-white mb-6 p-6 rounded-md relative max-w-[100%] mx-auto"
+    class="bg-white mb-6 p-6 rounded-md relative max-w-[100%] mx-auto dark:bg-gray-800 dark:text-white dark:border-2 dark:border-gray-900"
   >
     <p class="font-bold mb-3 text-left">Ajoutez un module</p>
     <div
@@ -32,7 +34,7 @@
           id="add-module-input-nom"
           name="module_input_nom"
           type="text"
-          class="pl-3 py-2 border rounded-md w-full"
+          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
           v-model="dataModule.name.value"
         />
       </div>
@@ -43,7 +45,7 @@
           id="add-module-input-lien"
           name="add_module_input_lien"
           type="url"
-          class="pl-3 py-2 border rounded-md w-full"
+          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
           v-model="dataModule.link.value"
         />
       </div>

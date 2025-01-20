@@ -1,8 +1,8 @@
 <template>
-  <div class="h-full flex">
+  <div class="flex">
     <main class="bg-[#FDFDFD] w-[100%] xl:w-[100%] mr-0 relative">
       <div class="absolute w-full h-[225px] bg-black z-[1]"></div>
-      <div class="p-[100px] relative z-[2]">
+      <div class="p-[100px] relative z-[2] dark:bg-gray-800 dark:text-white">
         <div>
           <div
             class="flex items-center gap-0 xl:gap-6 mt-[42px] xl:flex-row flex-col"

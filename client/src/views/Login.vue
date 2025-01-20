@@ -43,7 +43,7 @@
             type="text"
             id="login"
             v-model="idLogin"
-            class="mb-[8px] bg-white text-black"
+            class="mb-[8px] bg-white text-black dark:text-white dark:bg-gray-900"
             required
           />
           <div class="position-relative relative">
@@ -52,7 +52,7 @@
               type="password"
               id="password"
               v-model="password"
-              class="mb-[16px] bg-white text-black"
+              class="mb-[16px] bg-white text-black dark:text-white dark:bg-gray-900"
               required
             />
             <router-link

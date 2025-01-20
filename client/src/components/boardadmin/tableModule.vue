@@ -4,7 +4,7 @@
   >
     <div class="relative">
       <input
-        class="pl-10 py-2 border rounded-md w-[300px]"
+        class="pl-10 py-2 border rounded-md w-[300px] dark:text-white dark:bg-gray-900"
         type="text"
         placeholder="Rechercher..."
         v-model="inputValueSearchBarModule"
@@ -39,7 +39,7 @@
 
   <div
     v-if="isModalVisibleModule"
-    class="bg-white mb-6 p-6 rounded-md relative max-w-[100%] mx-auto"
+    class="bg-white mb-6 p-6 rounded-md relative max-w-[100%] mx-auto dark:bg-gray-800 dark:text-white dark:border-2 dark:border-black"
   >
     <p class="font-bold mb-3 text-left">Ajoutez un module</p>
     <div
@@ -57,7 +57,7 @@
           id="add-module-input-nom"
           name="module_input_nom"
           type="text"
-          class="pl-3 py-2 border rounded-md w-full"
+          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
           v-model="dataModule.name.value"
         />
       </div>
@@ -68,7 +68,7 @@
           id="add-module-input-lien"
           name="add_module_input_lien"
           type="url"
-          class="pl-3 py-2 border rounded-md w-full"
+          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
           v-model="dataModule.link.value"
         />
       </div>
@@ -109,7 +109,9 @@
       </div>
     </div>
   </div>
-  <div class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5">
+  <div
+    class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
+  >
     <table class="w-full">
       <thead>
         <tr class="text-left border-b border-[#F4F6FA]">
@@ -133,7 +135,7 @@
         <tr
           v-for="module in modules"
           :key="module.id"
-          class="hover:bg-[#F4F6FA]"
+          class="hover:bg-[#F4F6FA] dark:hover:text-black dark:hover:bg-gray-500"
         >
           <td class="p-3">
             <input
