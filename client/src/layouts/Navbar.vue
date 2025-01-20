@@ -1,5 +1,7 @@
 <template>
-  <nav class="flex items-center p-[20px] dark:bg-gray-800 dark:text-white">
+  <nav
+    class="flex items-center p-[20px] dark:bg-gray-800 dark:text-white border-b border-gray-200"
+  >
     <div class="left-content flex items-center gap-[10px]">
       <RouterLink to="/">
         <img
