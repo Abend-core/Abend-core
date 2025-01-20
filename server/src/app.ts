@@ -3,7 +3,10 @@ const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 
-const port = process.env.PORT || 5000;
+import config from "config";
+const port: number = config.get("server.port");
+const env: string = config.get("server.env");
+
 const cors = require("cors");
 let corsOptions;
 
@@ -69,5 +72,5 @@ app.use("/uploadsFile/module", express.static("./upload/module"));
 app.use("/uploadsFile/profil", express.static("./upload/profil"));
 
 app.listen(port, () => {
-  console.log("Serveur en ligne !");
+  console.log("Serveur en ligne ! Environnement : ", env);
 });

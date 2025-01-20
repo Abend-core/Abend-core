@@ -1,0 +1,11 @@
+{
+  "db": {
+    "host": "Abend-sql",
+    "port": 3306,
+    "dialect": "mysql"
+  },
+  "server": {
+    "env": "Dev",
+    "port": 5000
+  }
+}
