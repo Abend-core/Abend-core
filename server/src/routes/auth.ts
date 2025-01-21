@@ -52,7 +52,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/signin", async (req, res): Promise<void> => {
   try {
-    const user = await User.findOne({ where: { login: req.body.login } });
+    const user = await User.findOne({ where: { mail: req.body.mail } });
 
     if (!user) {
       res.status(401).json({
@@ -70,7 +70,7 @@ router.post("/signin", async (req, res): Promise<void> => {
       return;
     }
 
-    const token = jwt.sign({ userId: user.login }, privateKey, {
+    const token = jwt.sign({ userId: user.mail }, privateKey, {
       expiresIn: "1h",
     });
 
