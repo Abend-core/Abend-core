@@ -132,10 +132,8 @@ router.post("/filtre", auth, role, async (req: Request, res: Response) => {
   User.findAll({
     where: {
       [Op.or]: [
-        { name: { [Op.like]: "%" + search + "%" } },
-        { firstname: { [Op.like]: "%" + search + "%" } },
+        { username: { [Op.like]: "%" + search + "%" } },
         { mail: { [Op.like]: "%" + search + "%" } },
-        { login: { [Op.like]: "%" + search + "%" } },
       ],
     },
   })

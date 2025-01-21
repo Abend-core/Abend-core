@@ -71,18 +71,7 @@ User.init(
       type: DataTypes.STRING,
       allowNull: true,
       unique: true,
-      validate: {
-        notNull: {
-          msg: "L'identifiant ne doit pas être nul.",
-        },
-        notEmpty: {
-          msg: "L'identifiant ne doit pas être vide.",
-        },
-        len: {
-          args: [1, 255],
-          msg: "Trop de caractères, 255 maximum.",
-        },
-      },
+      validate: {},
     },
     password: {
       type: DataTypes.STRING,
