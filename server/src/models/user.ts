@@ -70,7 +70,6 @@ User.init(
     image: {
       type: DataTypes.STRING,
       allowNull: true,
-      unique: true,
       validate: {},
     },
     password: {

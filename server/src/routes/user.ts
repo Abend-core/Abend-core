@@ -127,7 +127,7 @@ router.post(
 );
 
 //Filtre utilisateur
-router.post("/filtre", auth, role, async (req: Request, res: Response) => {
+router.post("/filtre", auth, async (req: Request, res: Response) => {
   const search = req.body.search;
   User.findAll({
     where: {
