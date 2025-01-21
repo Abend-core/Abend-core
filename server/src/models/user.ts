@@ -3,11 +3,9 @@ import sequelize from "../database/db";
 
 interface UserAttributes {
   id: number;
-  name: string;
-  firstname: string;
+  username: string;
   mail: string;
-  birth: Date;
-  login: string;
+  image: string;
   password: string;
   isAdmin: boolean;
 }
@@ -19,11 +17,9 @@ class User
   implements UserAttributes
 {
   public id!: number;
-  public name!: string;
-  public firstname!: string;
+  public username!: string;
   public mail!: string;
-  public birth!: Date;
-  public login!: string;
+  public image!: string;
   public password!: string;
   public isAdmin!: boolean;
 }
@@ -35,31 +31,15 @@ User.init(
       allowNull: false,
       primaryKey: true,
     },
-    name: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
-          msg: "Le nom ne doit pas être nul.",
+          msg: "L'username ne doit pas être nul.",
         },
         notEmpty: {
-          msg: "Le nom ne doit pas être vide.",
-        },
-        len: {
-          args: [1, 255],
-          msg: "Trop de caractères, 255 maximum.",
-        },
-      },
-    },
-    firstname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "Le prénom ne doit pas être nul.",
-        },
-        notEmpty: {
-          msg: "Le prénom ne doit pas être vide.",
+          msg: "L'username ne doit pas être vide.",
         },
         len: {
           args: [1, 255],
@@ -87,22 +67,9 @@ User.init(
         },
       },
     },
-    birth: {
-      type: DataTypes.STRING(12),
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "La date de naissance ne doit pas être nulle.",
-        },
-        notEmpty: {
-          msg: "La date de naissance ne doit pas être vide.",
-        },
-        isDate: true,
-      },
-    },
-    login: {
+    image: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
       validate: {
         notNull: {
