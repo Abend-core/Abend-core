@@ -52,28 +52,6 @@
       class="grid gap-4 sm:flex sm:flex-col lg:flex-row lg:flex-wrap lg:items-end"
     >
       <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
-        <label for="add-user-input-nom" class="mb-1">Nom</label>
-        <input
-          id="add-user-input-nom"
-          name="add_user_input_nom"
-          type="text"
-          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
-          v-model="dataAddUser.name.value"
-        />
-      </div>
-
-      <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
-        <label for="add-user-input-prenom" class="mb-1">Prénom</label>
-        <input
-          id="add-user-input-prenom"
-          name="add_user_input_prenom"
-          type="text"
-          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
-          v-model="dataAddUser.firstname.value"
-        />
-      </div>
-
-      <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
         <label for="add-user-input-email" class="mb-1">Email</label>
         <input
           id="add-user-input-email"
@@ -83,20 +61,6 @@
           v-model="dataAddUser.mail.value"
         />
       </div>
-
-      <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
-        <label for="add-user-input-date-naissance" class="mb-1"
-          >Date de naissance</label
-        >
-        <input
-          id="add-user-input-date-naissance"
-          name="add_user_input_date_naissance"
-          type="date"
-          class="pl-3 py-2 border rounded-md w-full sm:w-full md:w-full lg:w-[195px] xl:[w-195px] dark:text-white dark:bg-gray-900"
-          v-model="dataAddUser.birth.value"
-        />
-      </div>
-
       <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
         <label for="add-user-input-identifiant" class="mb-1">Identifiant</label>
         <input
@@ -104,10 +68,9 @@
           name="add_user_input_identifiant"
           type="text"
           class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
-          v-model="dataAddUser.login.value"
+          v-model="dataAddUser.username.value"
         />
       </div>
-
       <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
         <label for="add-user-select-role" class="mb-1">Rôle</label>
         <select
@@ -148,12 +111,10 @@
               @change="selectAllUsers"
             />
           </th>
-          <th class="p-3">Nom</th>
-          <th class="p-3">Prénom</th>
           <th class="p-3">Email</th>
-          <th class="p-3">Date d'anniversaire</th>
           <th class="p-3">Date de création</th>
           <th class="p-3">Identifiant</th>
+          <th class="p-3">Photo de profil</th>
           <th class="p-3">Rôle</th>
         </tr>
       </thead>
@@ -174,13 +135,19 @@
               :value="user.id"
             />
           </td>
-          <td class="p-3">{{ user.name }}</td>
-          <td class="p-3">{{ user.firstname }}</td>
           <td class="p-3">{{ user.mail }}</td>
-          <td class="p-3">{{ formatDate(user.birth) }}</td>
           <td class="p-3">{{ formatDateTime(user.createdAt) }}</td>
-          <td class="p-3">{{ user.login }}</td>
-          <td class="p-3">{{ user.isAdmin ? "Admin" : "User" }}</td>
+          <td class="p-3">{{ user.username }}</td>
+          <td class="p-3">
+            <img
+              class="w-[50px] h-[50px] rounded-2xl"
+              :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
+              alt=""
+            />
+          </td>
+          <td class="p-3">
+            {{ user.isAdmin ? "Administrateur" : "Utilisateur" }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -190,7 +157,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { findAll, deleteUser, filter, addUser } from "../../api/user";
-import { formatDate, formatDateTime } from "../../utils/date";
+import { formatDateTime } from "../../utils/date";
 
 const inputValueSearchBar = ref("");
 const filterSearchUser = async () => {
@@ -260,11 +227,8 @@ const deleteUserTable = async () => {
 };
 
 let dataAddUser = {
-  name: ref(""),
-  firstname: ref(""),
   mail: ref(""),
-  birth: ref(""),
-  login: ref(""),
+  username: ref(""),
   password: "password",
   isAdmin: ref(""),
 };
@@ -272,19 +236,13 @@ let dataAddUser = {
 const addUserFonction = async () => {
   try {
     await addUser({
-      name: dataAddUser.name.value,
-      firstname: dataAddUser.firstname.value,
       mail: dataAddUser.mail.value,
-      birth: dataAddUser.birth.value,
-      login: dataAddUser.login.value,
+      username: dataAddUser.username.value,
       password: dataAddUser.password,
       isAdmin: dataAddUser.isAdmin.value,
     });
-    dataAddUser.name.value = "";
-    dataAddUser.firstname.value = "";
     dataAddUser.mail.value = "";
-    dataAddUser.birth.value = "";
-    dataAddUser.login.value = "";
+    dataAddUser.username.value = "";
     allUsers();
   } catch (error) {
     console.error(error);

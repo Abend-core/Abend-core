@@ -14,7 +14,7 @@
           type="text"
           id="email"
           v-model="email"
-          class="mb-[16px] bg-white text-black"
+          class="mb-[16px] bg-white text-black dark:text-white dark:bg-gray-800"
           required
         />
         <button

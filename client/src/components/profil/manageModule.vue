@@ -97,7 +97,10 @@
         </div>
       </div>
     </div>
-    <table v-if="modules.length > 0" class="w-full">
+    <table
+      v-if="modules.length > 0"
+      class="w-full dark:text-white dark:bg-gray-800"
+    >
       <thead>
         <tr class="text-left border-b border-[#F4F6FA]">
           <th class="p-3">Nom</th>
@@ -113,7 +116,7 @@
         <tr
           v-for="module in modules"
           :key="module.id"
-          class="hover:bg-[#F4F6FA]"
+          class="hover:bg-[#F4F6FA] dark:hover:text-black dark:hover:bg-gray-500"
         >
           <td class="p-3">{{ module.name }}</td>
           <td class="p-3">{{ module.link }}</td>

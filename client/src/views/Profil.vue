@@ -10,7 +10,7 @@
             <div>
               <img
                 class="w-[200px] h-[200px] rounded-full border border-white p-1 bg-white"
-                src="../assets/images/profil-img/chien-mystique.png"
+                :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
                 alt=""
               />
             </div>
@@ -80,6 +80,7 @@ const getInfosProfil = async () => {
   try {
     const response = await getUserById(id);
     user.value = response.data.user;
+    console.log(response);
   } catch (error) {
     console.error(error);
   }

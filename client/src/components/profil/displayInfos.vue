@@ -33,14 +33,6 @@
     <div class="flex items-center gap-3 w-[300px]">
       <img
         class="w-[45px] h-[45px]"
-        src="../../assets/images/profil-icon/icon-profil-4.png"
-        alt=""
-      />
-      <p>{{ formatDate(user.birth) }}</p>
-    </div>
-    <div class="flex items-center gap-3 w-[300px]">
-      <img
-        class="w-[45px] h-[45px]"
         src="../../assets/images/profil-icon/icon-profil-1.png"
         alt=""
       />

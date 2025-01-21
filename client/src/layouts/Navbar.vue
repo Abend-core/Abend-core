@@ -13,20 +13,16 @@
       <RouterLink to="/">Abend-core</RouterLink>
     </div>
     <div class="right-content flex items-center flex-1 justify-end gap-[20px]">
-      <img
+      <i
         v-if="!isDark"
-        class="w-[20px] h-[20px] cursor-pointer"
-        src="../assets/images/icon-light.png"
-        alt="Mode Clair"
+        class="ri-sun-fill text-[20px] cursor-pointer"
         @click="toggleDarkMode"
-      />
-      <img
+      ></i>
+      <i
         v-if="isDark"
-        class="w-[20px] h-[20px] cursor-pointer"
-        src="../assets/images/icon-dark.png"
-        alt="Mode Sombre"
+        class="ri-moon-fill text-[20px] cursor-pointer"
         @click="toggleDarkMode"
-      />
+      ></i>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/connexion" v-if="!isAuthenticated">Connexion</RouterLink>
       <RouterLink v-if="isAuthenticated && isAdmin" to="/dashboard">
@@ -41,7 +37,8 @@
 <script>
 import { clearSessionData } from "../utils/session";
 import { useDark, useToggle } from "@vueuse/core";
-import { watch } from "vue";
+import "remixicon/fonts/remixicon.css";
+
 export default {
   emits: ["login", "logout"],
   // ces props permettent de recevoir la valeur de l'authentification de son parent Layout.vue

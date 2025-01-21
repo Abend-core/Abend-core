@@ -37,22 +37,6 @@
       </div>
       <div class="p-[16px]">
         <form class="flex flex-col" @submit.prevent="registration">
-          <label for="name"> Nom </label>
-          <input
-            class="dark:text-white dark:bg-gray-900"
-            type="text"
-            id="name"
-            v-model="name"
-            required
-          />
-          <label for="firstname"> Prénom </label>
-          <input
-            class="dark:text-white dark:bg-gray-900"
-            type="text"
-            id="firstname"
-            v-model="firstname"
-            required
-          />
           <label for="email"> Email </label>
           <input
             class="dark:text-white dark:bg-gray-900"
@@ -61,12 +45,13 @@
             v-model="email"
             required
           />
-          <label for="birth"> Date de naissance </label>
+          <label for="password"> Mot de passe </label>
           <input
-            class="dark:text-white dark:bg-gray-900"
-            type="date"
-            id="birth"
-            v-model="birth"
+            type="password"
+            id="password"
+            class="input-password mb-[6px] dark:text-white dark:bg-gray-900"
+            v-model="password"
+            minlength="8"
             required
           />
           <label for="login"> Identifiant </label>
@@ -77,17 +62,8 @@
             v-model="loginRegister"
             required
           />
-          <label for="password"> Mot de passe </label>
-          <input
-            type="password"
-            id="password"
-            class="input-password mb-[18px] dark:text-white dark:bg-gray-900"
-            v-model="password"
-            minlength="8"
-            required
-          />
           <button
-            class="w-full bg-[#4b9945] text-white font-bold border border-black"
+            class="w-full mt-[6px] bg-[#4b9945] text-white font-bold border border-black"
             type="submit"
           >
             Rejoindre Abend-core !
@@ -113,11 +89,8 @@ import { registrateUser } from "../api/auth";
 
 defineEmits(["login"]);
 
-const name = ref("");
-const firstname = ref("");
 const email = ref("");
 const loginRegister = ref("");
-const birth = ref("");
 const password = ref("");
 const errorMessage = ref("");
 
@@ -125,11 +98,8 @@ const router = useRouter();
 
 const registration = async () => {
   const data = {
-    name: name.value,
-    firstname: firstname.value,
     mail: email.value,
-    login: loginRegister.value,
-    birth: birth.value,
+    username: loginRegister.value,
     password: password.value,
     isAdmin: false,
     isLog: false,

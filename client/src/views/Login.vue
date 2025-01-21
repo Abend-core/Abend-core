@@ -30,7 +30,7 @@
                 d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"
               ></path>
             </svg>
-            <div class="text-[14px] text-[#1f2328]">
+            <div class="text-[14px] text-[#1f2328] dark:text-white">
               {{ errorMessage }}
             </div>
           </div>
@@ -38,11 +38,11 @@
       </div>
       <div class="p-[16px]">
         <form action="" class="flex flex-col" @submit.prevent="loginUser">
-          <label class="mb-[4px]" for="login"> Identifiant</label>
+          <label class="mb-[4px]" for="mail">Email</label>
           <input
             type="text"
-            id="login"
-            v-model="idLogin"
+            id="mail"
+            v-model="mail"
             class="mb-[8px] bg-white text-black dark:text-white dark:bg-gray-900"
             required
           />
@@ -89,7 +89,7 @@ import { storeSessionData, getSessionData } from "../utils/session";
 export default {
   data() {
     return {
-      idLogin: "",
+      mail: "",
       password: "",
       errorMessage: "",
     };
@@ -99,7 +99,7 @@ export default {
   methods: {
     loginUser() {
       const data = {
-        login: this.idLogin,
+        mail: this.mail,
         password: this.password,
       };
       loginUser(data)
@@ -112,7 +112,7 @@ export default {
         })
         .catch((error) => {
           this.errorMessage = error.response?.data?.message || error.message;
-          this.idLogin = "";
+          this.mail = "";
           this.password = "";
         });
     },
