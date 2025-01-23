@@ -40,14 +40,14 @@
       >
       <RouterLink to="/profil" v-if="isAuthenticated">
         <div class="flex gap-2 items-center">
-          <img
+          <!-- <img
             class="w-[45px] h-[45px] rounded-full"
             :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
             alt=""
-          />
+          /> -->
           <div class="flex flex-col">
             <span class="text-[10px]">PROFIL</span>
-            <span class="text-m">{{ user.username }}</span>
+            <!-- <span class="text-m">{{ user.username }}</span> -->
           </div>
         </div>
       </RouterLink>
@@ -77,7 +77,7 @@ const getInfosProfil = async () => {
     console.error(error);
   }
 };
-getInfosProfil();
+// getInfosProfil();
 
 const props = defineProps({
   isAuthenticated: Boolean,

@@ -10,5 +10,11 @@
   "server": {
     "env": "Default",
     "port": 5000
-  }
+  },
+  "cors": {
+	  "origin": ["http://localhost:5000"],
+	  "method": ["GET", "HEAD", "POST"],
+	  "allowedHeaders": ["Content-Type", "Authorization", "role"],
+	  "maxAge":3000
+	}
 }

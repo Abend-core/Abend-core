@@ -14,9 +14,9 @@ sequelize
     try {
       for (const data of dataUser.users) {
         data.id = "";
-        if(data.image == undefined){
+        // if(data.image == undefined){
           data.image = "bank-img-" + Math.trunc(Math.random() * 30) + ".png";
-        }
+        // }
         
         while (data.id === "") {
           const uuid = NewUUID();
