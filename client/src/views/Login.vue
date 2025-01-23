@@ -104,6 +104,7 @@ export default {
       };
       loginUser(data)
         .then((response) => {
+          console.log(response);
           const { token, UUID: id } = response.data;
           storeSessionData(token, id);
           this.$emit("login");

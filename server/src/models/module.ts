@@ -10,7 +10,7 @@ interface moduleAttributes {
   description: string;
   views: number;
   visited: number;
-  statut_id: number;
+  isShow: boolean;
   user_id: string;
 }
 
@@ -28,7 +28,7 @@ class Module
   public description!: string;
   public views!: number;
   public visited!: number;
-  public statut_id!: number;
+  public isShow!: boolean;
   public user_id!: string;
 }
 
@@ -117,13 +117,9 @@ Module.init(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    statut_id: {
-      type: DataTypes.INTEGER,
+    isShow: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      references: {
-        model: "Statuts",
-        key: "id",
-      },
     },
     user_id: {
       type: DataTypes.UUID,

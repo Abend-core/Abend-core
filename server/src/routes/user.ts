@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 const router = express.Router();
 //Model & bdd
 import User from "../models/user";
+import Statut from "../models/statut";
 import { Op } from "sequelize";
 //Tools
 import { hash } from "../tools/hash";
@@ -15,7 +16,7 @@ import role from "../middleware/role";
 router.post("/add", auth, role, async (req: Request, res: Response) => {
   const data = req.body;
   data.id = "";
-  if(data.image == undefined){
+  if (data.image == undefined) {
     data.image = "bank-img-" + Math.trunc(Math.random() * 30) + ".png";
   }
   while (data.id === "") {
@@ -139,6 +140,20 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
         { mail: { [Op.like]: "%" + search + "%" } },
       ],
     },
+  })
+    .then((user) => {
+      res.status(200).json({ message: "Utilisateur trouvé.", user });
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    });
+});
+
+//Filtre utilisateur
+router.post("/test", async (req: Request, res: Response) => {
+  const id = req.body.id;
+  User.findOne({
+    where: { id: id },
   })
     .then((user) => {
       res.status(200).json({ message: "Utilisateur trouvé.", user });

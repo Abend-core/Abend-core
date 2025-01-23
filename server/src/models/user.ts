@@ -7,6 +7,7 @@ interface UserAttributes {
   mail: string;
   image: string;
   password: string;
+  isAdmin: boolean;
   statut_id: number;
 }
 
@@ -21,6 +22,7 @@ class User
   public mail!: string;
   public image!: string;
   public password!: string;
+  public isAdmin!: boolean;
   public statut_id!: number;
 }
 
@@ -88,9 +90,13 @@ User.init(
         },
       },
     },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
     statut_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "Statuts",
         key: "id",

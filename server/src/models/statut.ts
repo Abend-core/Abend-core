@@ -27,13 +27,12 @@ Statut.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         notNull: {
-          msg: "Le nom du statut ne doit pas être null.",
+          msg: "L'username ne doit pas être nul.",
         },
         notEmpty: {
-          msg: "Le nom du statut ne doit pas être vide.",
+          msg: "L'username ne doit pas être vide.",
         },
         len: {
           args: [1, 255],

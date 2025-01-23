@@ -9,6 +9,7 @@ services:
       - db-data-abend:/var/lib/mysql
     networks:
       - ab-net
+
   server:
     image: node:18
     container_name: Abend-server
@@ -20,7 +21,8 @@ services:
       - ./server:/server
     networks:
       - ab-net
-    stop_grace_period: 2s
+    stop_grace_period: 1s
+
   client:
     build: ./client
     container_name: Abend-client
@@ -32,7 +34,8 @@ services:
       - ./client:/client
     networks:
       - ab-net
-    stop_grace_period: 2s
+    stop_grace_period: 1s
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: Abend-phpmyadmin

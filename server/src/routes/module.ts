@@ -16,7 +16,6 @@ import role from "../middleware/role";
 router.post("/add", auth, async (req, res) => {
   const data = req.body;
   data.id = "";
-  data.statut_id = 3;
   data.views = 0;
   data.visited = 0;
   while (data.id === "") {

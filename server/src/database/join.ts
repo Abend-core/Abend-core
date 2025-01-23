@@ -1,14 +1,12 @@
-//Rappel des table dans l'annuaire
 import User from "../models/user";
-import Module from "../models/module";
+import Statut from "../models/statut";
 
-//Différentes jointure
-// User.hasMany(Module, {
-//   foreignKey: "user_id",
-//   as: "modules",
-// });
+Statut.hasMany(User, {
+  foreignKey: "statut_id",
+  as: "Users",
+});
 
-// Module.belongsTo(User, {
-//   foreignKey: "user_id",
-//   as: "user",
-// });
+User.belongsTo(Statut, {
+  foreignKey: "statut_id",
+  as: "Statut",
+});

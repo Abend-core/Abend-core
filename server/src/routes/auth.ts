@@ -15,6 +15,11 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
   const data = req.body;
   data.id = "";
+
+  if (data.image == undefined) {
+    data.image = "bank-img-" + Math.trunc(Math.random() * 13) + ".png";
+  }
+
   while (data.id === "") {
     const uuid = NewUUID();
     const user = await User.findByPk(uuid);
@@ -27,7 +32,6 @@ router.post("/register", async (req, res) => {
     .then(async (user) => {
       const userData = user.get();
       userData.password = await hash(userData.password);
-      userData.statut_id = 2;
       await User.update(userData, {
         where: { id: userData.id },
         validate: false,
@@ -48,7 +52,9 @@ router.post("/register", async (req, res) => {
 
 router.post("/signin", async (req, res): Promise<void> => {
   try {
-    const user = await User.findOne({ where: { mail: req.body.mail } });
+    const user = await User.findOne({
+      where: { mail: req.body.mail },
+    });
 
     if (!user) {
       res.status(401).json({
