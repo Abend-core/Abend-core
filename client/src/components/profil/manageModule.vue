@@ -130,7 +130,7 @@
           </td>
           <td class="p-3">
             <img
-              :src="`http://${config}:5000/uploadsFile/module/${module.image}`"
+              :src="`http://localhost:5000/uploadsFile/module/${module.image}`"
               alt="Module image"
               class="w-[50px] h-[50px] rounded-2xl"
             />

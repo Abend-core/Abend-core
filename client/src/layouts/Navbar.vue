@@ -42,7 +42,7 @@
         <div class="flex gap-2 items-center">
           <img
             class="w-[45px] h-[45px] rounded-full"
-            :src="`http://${config}:5000/uploadsFile/profil/${user.image}`"
+            :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
             alt=""
           />
           <div class="flex flex-col">
@@ -66,7 +66,6 @@ import { useRouter } from "vue-router";
 import { getUserById } from "../api/user";
 import "remixicon/fonts/remixicon.css";
 
-const config = config.get("server.url");
 const user = ref({});
 const id = sessionStorage.getItem("id");
 

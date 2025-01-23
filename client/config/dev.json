@@ -1,8 +1,0 @@
-{
-  "server": {
-    "url": "localhost"
-  },
-  "client": {
-    "port": "5173"
-  }
-}

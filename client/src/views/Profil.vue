@@ -10,7 +10,7 @@
             <div>
               <img
                 class="w-[200px] h-[200px] rounded-full border border-white p-1 bg-white"
-                :src="`http://${config}}:5000/uploadsFile/profil/${user.image}`"
+                :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
                 alt=""
               />
             </div>

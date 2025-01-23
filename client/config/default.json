@@ -1,8 +1,0 @@
-{
-  "server": {
-    "url": "abend-core.org"
-  },
-  "client": {
-    "port": "80"
-  }
-}
