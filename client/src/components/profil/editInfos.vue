@@ -91,6 +91,8 @@
 import { ref } from "vue";
 import { getUserById, editUserById } from "../../api/user";
 
+const emit = defineEmits(["profileUpdated"]);
+
 const id = sessionStorage.getItem("id");
 const user = ref({});
 const emailProfil = ref("");
@@ -118,9 +120,10 @@ const updateUserProfile = async () => {
 
   try {
     await editUserById(id, updatedData);
-    getInfosProfil();
     successMessage.value = "Profil mis à jour avec succès !";
     setTimeout(() => (successMessage.value = ""), 3000);
+
+    emit("profileUpdated");
   } catch (error) {
     console.error(error);
   }

@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="flex items-center p-[12px] dark:bg-gray-800 dark:text-white border-b border-gray-200"
+    class="flex items-center relative p-[12px] dark:bg-gray-800 dark:text-white border-b border-gray-200"
   >
     <div class="left-content flex items-center gap-[10px]">
       <RouterLink to="/">
@@ -33,13 +33,16 @@
         >Connexion</RouterLink
       >
       <RouterLink
-        class="hover:text-[#F82B30]"
+        class="hover:text-[#F82B30] font-bold"
         v-if="isAuthenticated && isAdmin"
         to="/dashboard"
         >Dashboard</RouterLink
       >
-      <RouterLink to="/profil" v-if="isAuthenticated">
-        <div class="flex gap-2 items-center">
+      <div v-if="isAuthenticated" class="relative">
+        <div
+          class="flex gap-2 items-center cursor-pointer"
+          @click="displayMenu"
+        >
           <img
             class="w-[45px] h-[45px] rounded-full"
             :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
@@ -50,10 +53,35 @@
             <span class="text-m">{{ user.username }}</span>
           </div>
         </div>
-      </RouterLink>
-      <button v-if="isAuthenticated" @click="logOut">
-        <i class="ri-logout-box-line text-[25px]"></i>
-      </button>
+
+        <div
+          v-if="isMenuProfilOpen"
+          class="absolute right-0 w-[150px] h-[150px] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:bg-[#1F2937]"
+        >
+          <div class="flex items-center gap-1 mb-5">
+            <RouterLink
+              to="/profil"
+              class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30]"
+            >
+              <i class="ri-user-line text-gray-400 text-[20px]"></i>
+              Profil
+            </RouterLink>
+          </div>
+          <div>
+            <button
+              class="absolute left-0 right-0 flex items-center gap-1 border-t px-2 group"
+              @click="logOut"
+            >
+              <i class="ri-logout-box-line text-gray-400 text-[20px]"></i>
+              <span
+                class="text-[#111827] text-[14px] dark:text-white group-hover:text-[#F82B30]"
+              >
+                Déconnexion
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
@@ -62,12 +90,13 @@
 import { ref, watch, onMounted } from "vue";
 import { clearSessionData } from "../utils/session";
 import { useDark, useToggle } from "@vueuse/core";
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { getUserById } from "../api/user";
 import "remixicon/fonts/remixicon.css";
 
 const user = ref({});
 const id = ref(sessionStorage.getItem("id"));
+const isMenuProfilOpen = ref(false);
 
 const getInfosProfil = async () => {
   if (!props.isAuthenticated || !id.value) return;
@@ -79,7 +108,6 @@ const getInfosProfil = async () => {
   }
 };
 
-// Props et événements
 const props = defineProps({
   isAuthenticated: Boolean,
   isAdmin: Boolean,
@@ -99,6 +127,10 @@ const logOut = () => {
   clearSessionData();
   emit("logout");
   router.push("/");
+};
+
+const displayMenu = () => {
+  isMenuProfilOpen.value = !isMenuProfilOpen.value;
 };
 
 watch(

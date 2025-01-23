@@ -47,7 +47,7 @@
             <display-infos />
           </div>
           <div v-if="activeSection === 'editInfo'">
-            <edit-infos />
+            <edit-infos @profileUpdated="getInfosProfil" />
           </div>
           <div v-if="activeSection === 'manageModules'">
             <manage-module />
@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import manageModule from "../components/profil/manageModule.vue";
 import editInfos from "../components/profil/editInfos.vue";
 import displayInfos from "../components/profil/displayInfos.vue";
@@ -85,10 +85,6 @@ const getInfosProfil = async () => {
 };
 
 getInfosProfil();
-
-watch(user, () => {
-  getInfosProfil();
-});
 </script>
 
 <style scoped></style>
