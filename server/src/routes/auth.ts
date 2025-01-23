@@ -17,7 +17,7 @@ router.post("/register", async (req, res) => {
   data.id = "";
 
   if (data.image == undefined) {
-    data.image = "bank-img-" + Math.trunc(Math.random() * 13) + ".png";
+    data.image = "bank-img-" + Math.trunc(Math.random() * 28) + ".png";
   }
 
   while (data.id === "") {

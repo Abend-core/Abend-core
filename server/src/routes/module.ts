@@ -7,7 +7,8 @@ import fs from "fs";
 import path from "path";
 //Model & bdd
 import Module from "../models/module";
-import { Op } from "sequelize";
+import Liked from "../models/liked";
+import { Op, Sequelize } from "sequelize";
 //Middleware
 import auth from "../middleware/auth/auth";
 import role from "../middleware/role";
@@ -16,8 +17,6 @@ import role from "../middleware/role";
 router.post("/add", auth, async (req, res) => {
   const data = req.body;
   data.id = "";
-  data.views = 0;
-  data.visited = 0;
   while (data.id === "") {
     const uuid = NewUUID();
     const user = await Module.findByPk(uuid);
@@ -156,7 +155,7 @@ router.post("/filtre", auth, async (req, res) => {
 });
 
 //Liste des modules par utilisateur
-router.post("/user/:id", auth, async (req, res) => {
+router.get("/user/:id", auth, async (req, res) => {
   const id = req.params.id;
   Module.findByPk(id)
     .then((module) => {
@@ -165,6 +164,56 @@ router.post("/user/:id", auth, async (req, res) => {
     .catch((error) => {
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
     });
+});
+
+// Liste des modules par utilisateur
+router.post("/liked", async (req, res) => {
+  const { UserId, ModuleId } = req.body;
+
+  try {
+    const like = await Liked.create(req.body);
+
+    await Module.increment("likes", { where: { id: ModuleId } });
+
+    res
+      .status(200)
+      .json({ message: "Module liké et compteur mis à jour.", like });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur.", erreur: error });
+  }
+});
+
+// Sélection de tous les modules avec la colonne `is_liked`
+router.post("/modules/liked", async (req, res) => {
+  try {
+    const { userId } = req.body; // Récupérer l'ID utilisateur depuis le corps de la requête
+
+    const modules = await Module.findAll({
+      attributes: {
+        include: [
+          [
+            Sequelize.literal(`
+              CASE
+                WHEN EXISTS (
+                  SELECT 1
+                  FROM Likes
+                  WHERE Likes.ModuleId = Module.id
+                  AND Likes.UserId = '${userId}'
+                ) THEN 1
+                ELSE 0
+              END
+            `),
+            "is_liked",
+          ],
+        ],
+      },
+    });
+
+    res.status(200).json({ message: "Tous les modules.", modules });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur.", erreur: error });
+  }
 });
 
 //Renvoi de toute les routes

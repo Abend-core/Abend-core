@@ -26,7 +26,7 @@ sequelize
       for (const data of dataUser.users) {
         data.id = "";
         if (data.image == undefined) {
-          data.image = "bank-img-" + Math.trunc(Math.random() * 13) + ".png";
+          data.image = "bank-img-" + Math.trunc(Math.random() * 29) + ".png";
         }
 
         while (data.id === "") {

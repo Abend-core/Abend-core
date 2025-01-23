@@ -9,7 +9,7 @@ interface moduleAttributes {
   image: string;
   description: string;
   views: number;
-  visited: number;
+  likes: number;
   isShow: boolean;
   user_id: string;
 }
@@ -27,7 +27,7 @@ class Module
   public image!: string;
   public description!: string;
   public views!: number;
-  public visited!: number;
+  public likes!: number;
   public isShow!: boolean;
   public user_id!: string;
 }
@@ -111,11 +111,11 @@ Module.init(
     },
     views: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      defaultValue: 0,
     },
-    visited: {
+    likes: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      defaultValue: 0,
     },
     isShow: {
       type: DataTypes.BOOLEAN,
@@ -138,3 +138,25 @@ Module.init(
 );
 
 export default Module;
+
+// SELECT
+//     m.id AS module_id,
+//     m.name AS module_name,
+//     m.description,
+//     m.likes AS total_likes,
+//     CASE
+//         WHEN l.UserId IS NOT NULL THEN 1
+//         ELSE 0
+//     END AS is_liked
+// FROM Modules m
+// LEFT JOIN Likes l ON m.id = l.ModuleId AND l.UserId = '019494fe-56f4-75f7-8907-e76dc77dba76'
+// WHERE l.UserId = '019494fe-56f4-75f7-8907-e76dc77dba76';
+
+// SELECT
+//     m.*,
+//     CASE
+//         WHEN l.UserId IS NOT NULL THEN 1
+//         ELSE 0
+//     END AS is_liked
+// FROM Modules m
+// LEFT JOIN Likes l ON m.id = l.ModuleId AND l.UserId = '019494fe-56f4-75f7-8907-e76dc77dba76'

@@ -6,10 +6,10 @@ import cors from "cors";
 import config from "config";
 
 const port: number = config.get("server.port");
-const origin: Array<string> = config.get("cors.origin")
-const method: Array<string>  = config.get("cors.method") 
-const allowedHeaders: Array<string>  = config.get("cors.allowedHeaders") 
-const maxAge: number = config.get("cors.maxAge") 
+const origin: Array<string> = config.get("cors.origin");
+const method: Array<string> = config.get("cors.method");
+const allowedHeaders: Array<string> = config.get("cors.allowedHeaders");
+const maxAge: number = config.get("cors.maxAge");
 const env: string = config.get("server.env");
 let corsOptions;
 
@@ -19,24 +19,14 @@ require("./database/join");
 require("./database/init");
 if (port == 5000) {
   corsOptions = {
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5000",
-      "http://127.0.0.1:5500",
-    ],
+    origin: ["http://localhost:5173", "http://abend-core.org:5173"],
     methods: ["GET", "HEAD", "POST"],
     allowedHeaders: ["Content-Type", "Authorization", "role"],
     maxAge: 3000,
   };
 } else {
   corsOptions = {
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5000",
-      "http://127.0.0.1:5500",
-    ],
+    origin: ["http://localhost:5173", "http://abend-core.org:5173"],
     methods: ["GET", "HEAD", "POST"],
     allowedHeaders: ["Content-Type", "Authorization", "role"],
     maxAge: 3000,

@@ -17,7 +17,7 @@ router.post("/add", auth, role, async (req: Request, res: Response) => {
   const data = req.body;
   data.id = "";
   if (data.image == undefined) {
-    data.image = "bank-img-" + Math.trunc(Math.random() * 30) + ".png";
+    data.image = "bank-img-" + Math.trunc(Math.random() * 29) + ".png";
   }
   while (data.id === "") {
     const uuid = NewUUID();
