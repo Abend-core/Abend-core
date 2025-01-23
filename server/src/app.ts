@@ -2,19 +2,21 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
-
-import config from "config";
-const port: number = config.get("server.port");
-const env: string = config.get("server.env");
-
 import cors from "cors";
+import config from "config";
+
+const port: number = config.get("server.port");
+const origin: Array<string> = config.get("cors.origin")
+const method: Array<string>  = config.get("cors.method") 
+const allowedHeaders: Array<string>  = config.get("cors.allowedHeaders") 
+const maxAge: number = config.get("cors.maxAge") 
+const env: string = config.get("server.env");
 let corsOptions;
 
 //Appel des models et les jointures
 require("./database/join");
 //Initialisation de la bdd
 require("./database/init");
-
 if (port == 5000) {
   corsOptions = {
     origin: [

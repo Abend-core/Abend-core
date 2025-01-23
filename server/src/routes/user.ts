@@ -15,6 +15,9 @@ import role from "../middleware/role";
 router.post("/add", auth, role, async (req: Request, res: Response) => {
   const data = req.body;
   data.id = "";
+  if(data.image == undefined){
+    data.image = "bank-img-" + Math.trunc(Math.random() * 30) + ".png";
+  }
   while (data.id === "") {
     const uuid = NewUUID();
     const user = await User.findByPk(uuid);

@@ -15,7 +15,6 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
   const data = req.body;
   data.id = "";
-  data.image = "bank-img-" + Math.trunc(Math.random() * 13) + ".png";
   while (data.id === "") {
     const uuid = NewUUID();
     const user = await User.findByPk(uuid);

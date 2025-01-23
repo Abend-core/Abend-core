@@ -26,10 +26,7 @@ sequelize
       console.log("");
       for (const data of dataUser.users) {
         data.id = "";
-        if (data.image == undefined) {
-          data.image = "bank-img-" + Math.trunc(Math.random() * 13) + ".png";
-        }
-
+        data.image = "bank-img-" + Math.trunc(Math.random() * 13) + ".png";
         while (data.id === "") {
           const uuid = NewUUID();
           const user = await User.findByPk(uuid);
