@@ -7,7 +7,7 @@ interface UserAttributes {
   mail: string;
   image: string;
   password: string;
-  isAdmin: boolean;
+  statut_id: number;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
@@ -21,7 +21,7 @@ class User
   public mail!: string;
   public image!: string;
   public password!: string;
-  public isAdmin!: boolean;
+  public statut_id!: number;
 }
 
 User.init(
@@ -88,9 +88,13 @@ User.init(
         },
       },
     },
-    isAdmin: {
-      type: DataTypes.BOOLEAN,
+    statut_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "Statuts",
+        key: "id",
+      },
     },
   },
   {

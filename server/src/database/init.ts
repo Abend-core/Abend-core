@@ -1,10 +1,16 @@
-import sequelize from "./db";
-const dataModule = require("./data/module");
+//tools
 import { hash } from "../tools/hash";
 import NewUUID from "../tools/uuid";
-const dataUser = require("./data/user");
+//Db & Model
+import sequelize from "./db";
 import User from "../models/user";
 import Module from "../models/module";
+import Statut from "../models/statut";
+
+//Data
+const dataUser = require("./data/user");
+const dataModule = require("./data/module");
+const dataSatut = require("./data/statut");
 
 let lastUUID: string;
 
@@ -12,9 +18,18 @@ sequelize
   .sync({ force: true })
   .then(async (_) => {
     try {
+      for (const data of dataSatut.statuts) {
+        await Statut.create(data);
+      }
+      console.log("");
+      console.log("Utilisateurs insérés avec succès.");
+      console.log("");
       for (const data of dataUser.users) {
         data.id = "";
-        data.image = "bank-img-" + Math.trunc(Math.random() * 13) + ".png";
+        if (data.image == undefined) {
+          data.image = "bank-img-" + Math.trunc(Math.random() * 13) + ".png";
+        }
+
         while (data.id === "") {
           const uuid = NewUUID();
           const user = await User.findByPk(uuid);

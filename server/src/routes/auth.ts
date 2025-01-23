@@ -10,16 +10,12 @@ import privateKey from "../middleware/auth/key";
 //Modele & bdd
 import User from "../models/user";
 
-interface SignInBody {
-  login: string;
-  password: string;
-}
-
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
   const data = req.body;
   data.id = "";
+  data.image = "bank-img-" + Math.trunc(Math.random() * 13) + ".png";
   while (data.id === "") {
     const uuid = NewUUID();
     const user = await User.findByPk(uuid);
@@ -32,6 +28,7 @@ router.post("/register", async (req, res) => {
     .then(async (user) => {
       const userData = user.get();
       userData.password = await hash(userData.password);
+      userData.statut_id = 2;
       await User.update(userData, {
         where: { id: userData.id },
         validate: false,

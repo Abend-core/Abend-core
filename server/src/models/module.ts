@@ -1,22 +1,24 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../database/db";
 
-interface UserAttributes {
+interface moduleAttributes {
   id: number;
   name: string;
   link: string;
   color: string;
   image: string;
   description: string;
-  isShow: boolean;
+  views: number;
+  visited: number;
+  statut_id: number;
   user_id: string;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+interface moduleCreationAttributes extends Optional<moduleAttributes, "id"> {}
 
 class Module
-  extends Model<UserAttributes, UserCreationAttributes>
-  implements UserAttributes
+  extends Model<moduleAttributes, moduleCreationAttributes>
+  implements moduleAttributes
 {
   public id!: number;
   public name!: string;
@@ -24,7 +26,9 @@ class Module
   public color!: string;
   public image!: string;
   public description!: string;
-  public isShow!: boolean;
+  public views!: number;
+  public visited!: number;
+  public statut_id!: number;
   public user_id!: string;
 }
 
@@ -105,9 +109,21 @@ Module.init(
       allowNull: true,
       validate: {},
     },
-    isShow: {
-      type: DataTypes.BOOLEAN,
+    views: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    visited: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    statut_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "Statuts",
+        key: "id",
+      },
     },
     user_id: {
       type: DataTypes.UUID,
