@@ -10,5 +10,11 @@
   "server": {
     "env": "Dockerless",
     "port": 5000
-  }
+  },
+  "cors": {
+	  "origin": ["http://localhost:80"],
+	  "method": ["GET", "HEAD", "POST"],
+	  "allowedHeaders": ["Content-Type", "Authorization", "role"],
+	  "maxAge":3000
+	}
 }

@@ -1,0 +1,21 @@
+{
+	"db": {
+	  "name": "abend-core",
+	  "user": "root",
+	  "password": "root",
+	  "host": "Abend-sql",
+	  "port": 3306,
+	  "dialect": "mysql"
+	},
+	"server": {
+	  "env": "Prod",
+	  "port": 5000
+	},
+  	"cors": {
+	  "origin": ["http://abend-core.org:80"],
+	  "method":["GET", "HEAD", "POST"],
+	  "allowedHeaders":["Content-Type", "Authorization", "role"],
+	  "maxAge":3000
+	}
+}
+  

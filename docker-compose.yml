@@ -20,19 +20,19 @@ services:
       - ./server:/server
     networks:
       - ab-net
-    stop_grace_period: 3s
+    stop_grace_period: 2s
   client:
     build: ./client
     container_name: Abend-client
     ports:
-      - "5173:5173"
+      - "8181:80"
     working_dir: /client
     command: sh -c "npm install && npm run dev"
     volumes:
       - ./client:/client
     networks:
       - ab-net
-    stop_grace_period: 3s
+    stop_grace_period: 2s
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: Abend-phpmyadmin

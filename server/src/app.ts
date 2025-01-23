@@ -2,12 +2,15 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
-
-import config from "config";
-const port: number = config.get("server.port");
-const env: string = config.get("server.env");
-
 import cors from "cors";
+import config from "config";
+
+const port: number = config.get("server.port");
+const origin: Array<string> = config.get("cors.origin")
+const method: Array<string>  = config.get("cors.method") 
+const allowedHeaders: Array<string>  = config.get("cors.allowedHeaders") 
+const maxAge: number = config.get("cors.maxAge") 
+const env: string = config.get("server.env");
 let corsOptions;
 
 //Appel des models et les jointures
@@ -15,31 +18,12 @@ require("./database/join");
 //Initialisation de la bdd
 require("./database/init");
 
-if (port == 5000) {
-  corsOptions = {
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5000",
-      "http://127.0.0.1:5500",
-    ],
-    methods: ["GET", "HEAD", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization", "role"],
-    maxAge: 3000,
+corsOptions = {
+    origin:origin,
+    methods: method,
+    allowedHeaders: allowedHeaders,
+    maxAge: maxAge,
   };
-} else {
-  corsOptions = {
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5000",
-      "http://127.0.0.1:5500",
-    ],
-    methods: ["GET", "HEAD", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization", "role"],
-    maxAge: 3000,
-  };
-}
 
 const app = express();
 app.use(cors(corsOptions));
