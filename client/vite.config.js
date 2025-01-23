@@ -1,20 +1,17 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import config from 'config'
-
-const port = config.get("client.port")
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
   server: {
     host: true,
-    port: port,
+    port: 5173,
   },
   hmr: {
     protocol: "ws",
     host: "host.docker.internal",
-    port: port,
+    port: 5173,
   },
   watch: {
     usePolling: true, // C'est déjà configuré, assure-toi que cette option est activée
