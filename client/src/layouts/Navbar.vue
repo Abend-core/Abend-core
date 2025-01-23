@@ -42,7 +42,7 @@
         <div class="flex gap-2 items-center">
           <img
             class="w-[45px] h-[45px] rounded-full"
-            :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
+            :src="`http://${config}:5000/uploadsFile/profil/${user.image}`"
             alt=""
           />
           <div class="flex flex-col">
@@ -62,11 +62,11 @@
 import { ref } from "vue";
 import { clearSessionData } from "../utils/session";
 import { useDark, useToggle } from "@vueuse/core";
-import { defineProps, defineEmits } from "vue";
 import { useRouter } from "vue-router";
 import { getUserById } from "../api/user";
 import "remixicon/fonts/remixicon.css";
 
+const config = config.get("server.url");
 const user = ref({});
 const id = sessionStorage.getItem("id");
 
@@ -74,7 +74,6 @@ const getInfosProfil = async () => {
   try {
     const response = await getUserById(id);
     user.value = response.data.user;
-    console.log(response);
   } catch (error) {
     console.error(error);
   }

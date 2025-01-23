@@ -12,7 +12,7 @@
         >
           <img
             class="absolute w-[50px] h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
-            :src="`http://localhost:5000/uploadsFile/module/${module.image}`"
+            :src="`http://${config}:5000/uploadsFile/module/${modules.image}`"
             alt=""
           />
           <div class="p-3 h-full">

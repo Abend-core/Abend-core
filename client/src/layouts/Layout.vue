@@ -28,13 +28,11 @@
 <script>
 import { ref, provide } from "vue";
 import Header from "../layouts/Header.vue";
-import Footer from "../layouts/Footer.vue";
 import Home from "../views/Home.vue";
 export default {
   name: "Layout",
   components: {
     Header,
-    Footer,
     Home,
   },
   setup() {

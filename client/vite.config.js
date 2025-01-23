@@ -15,7 +15,7 @@ export default defineConfig({
   },
   watch: {
     usePolling: true, // C'est déjà configuré, assure-toi que cette option est activée
-    interval: 1000,    // Vérifie les fichiers toutes les 1000ms
-    binaryInterval: 3000, 
+    interval: 1000, // Vérifie les fichiers toutes les 1000ms
+    binaryInterval: 3000,
   },
 });

@@ -141,7 +141,7 @@
           <td class="p-3">
             <img
               class="w-[50px] h-[50px] rounded-2xl"
-              :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
+              :src="`http://${config}:5000/uploadsFile/profil/${user.image}`"
               alt=""
             />
           </td>
