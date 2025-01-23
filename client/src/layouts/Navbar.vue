@@ -40,14 +40,14 @@
       >
       <RouterLink to="/profil" v-if="isAuthenticated">
         <div class="flex gap-2 items-center">
-          <!-- <img
+          <img
             class="w-[45px] h-[45px] rounded-full"
             :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
-            alt=""
-          /> -->
+            alt="Photo de profil"
+          />
           <div class="flex flex-col">
             <span class="text-[10px]">PROFIL</span>
-            <!-- <span class="text-m">{{ user.username }}</span> -->
+            <span class="text-m">{{ user.username }}</span>
           </div>
         </div>
       </RouterLink>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { clearSessionData } from "../utils/session";
 import { useDark, useToggle } from "@vueuse/core";
 import { useRouter } from "vue-router";
@@ -67,18 +67,19 @@ import { getUserById } from "../api/user";
 import "remixicon/fonts/remixicon.css";
 
 const user = ref({});
-const id = sessionStorage.getItem("id");
+const id = ref(sessionStorage.getItem("id"));
 
 const getInfosProfil = async () => {
+  if (!props.isAuthenticated || !id.value) return;
   try {
-    const response = await getUserById(id);
+    const response = await getUserById(id.value);
     user.value = response.data.user;
   } catch (error) {
-    console.error(error);
+    console.error("Erreur lors de la récupération du profil :", error);
   }
 };
-// getInfosProfil();
 
+// Props et événements
 const props = defineProps({
   isAuthenticated: Boolean,
   isAdmin: Boolean,
@@ -99,4 +100,23 @@ const logOut = () => {
   emit("logout");
   router.push("/");
 };
+
+watch(
+  () => props.isAuthenticated,
+  (newVal) => {
+    if (newVal) {
+      id.value = sessionStorage.getItem("id");
+      getInfosProfil();
+    } else {
+      user.value = {};
+    }
+  }
+);
+
+onMounted(() => {
+  if (props.isAuthenticated) {
+    id.value = sessionStorage.getItem("id");
+    getInfosProfil();
+  }
+});
 </script>
