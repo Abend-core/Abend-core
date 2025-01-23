@@ -26,39 +26,12 @@
       class="flex flex-col gap-[22px] p-[12px] bg-white rounded-md dark:bg-gray-800 dark:text-white"
     >
       <div class="flex items-center">
-        <p class="w-[150px] mr-[200px]">Prénom</p>
-        <input
-          class="w-[450px] dark:text-white dark:bg-gray-900"
-          type="text"
-          placeholder="Prénom"
-          v-model="prenomProfil"
-        />
-      </div>
-      <div class="flex items-center">
-        <p class="w-[150px] mr-[200px]">Nom</p>
-        <input
-          class="w-[450px] dark:text-white dark:bg-gray-900"
-          type="text"
-          placeholder="Nom"
-          v-model="nomProfil"
-        />
-      </div>
-      <div class="flex items-center">
         <p class="w-[150px] mr-[200px]">Email</p>
         <input
           class="w-[450px] dark:text-white dark:bg-gray-900"
           type="text"
           placeholder="Email"
           v-model="emailProfil"
-        />
-      </div>
-      <div class="flex items-center">
-        <p class="w-[150px] mr-[200px]">Date de naissance</p>
-        <input
-          class="w-[450px] dark:text-white dark:bg-gray-900"
-          type="date"
-          placeholder="Date de naissance"
-          v-model="birthProfil"
         />
       </div>
       <div class="flex items-center">
@@ -115,17 +88,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { getUserById, editUserById } from "../../api/user";
-
-defineEmits(["login", "logout"]);
 
 const id = sessionStorage.getItem("id");
 const user = ref({});
-const prenomProfil = ref("");
-const nomProfil = ref("");
 const emailProfil = ref("");
-const birthProfil = ref("");
 const identifiantProfil = ref("");
 
 let successMessage = ref("");
@@ -135,11 +103,8 @@ const getInfosProfil = async () => {
     const response = await getUserById(id);
     user.value = response.data.user;
 
-    prenomProfil.value = user.value.firstname;
-    nomProfil.value = user.value.name;
     emailProfil.value = user.value.mail;
-    birthProfil.value = user.value.birth;
-    identifiantProfil.value = user.value.login;
+    identifiantProfil.value = user.value.username;
   } catch (error) {
     console.error(error);
   }
@@ -147,17 +112,15 @@ const getInfosProfil = async () => {
 
 const updateUserProfile = async () => {
   const updatedData = {
-    firstname: prenomProfil.value,
-    name: nomProfil.value,
     mail: emailProfil.value,
-    birth: birthProfil.value,
-    login: identifiantProfil.value,
+    username: identifiantProfil.value,
   };
 
   try {
     await editUserById(id, updatedData);
     getInfosProfil();
     successMessage.value = "Profil mis à jour avec succès !";
+    setTimeout(() => (successMessage.value = ""), 3000);
   } catch (error) {
     console.error(error);
   }

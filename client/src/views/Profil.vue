@@ -36,10 +36,9 @@
                 </p>
               </div>
               <div class="flex gap-2">
-                <p class="text-[24px]">{{ user.firstname }}</p>
-                <p class="text-[24px]">{{ user.name }}</p>
+                <p class="text-[24px]">{{ user.username }}</p>
               </div>
-              <p class="mt-2 text-[#8592A4]">
+              <p class="text-[#8592A4]">
                 Mets à jour tes informations personnelles
               </p>
             </div>
@@ -60,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import manageModule from "../components/profil/manageModule.vue";
 import editInfos from "../components/profil/editInfos.vue";
 import displayInfos from "../components/profil/displayInfos.vue";
@@ -80,13 +79,16 @@ const getInfosProfil = async () => {
   try {
     const response = await getUserById(id);
     user.value = response.data.user;
-    console.log(response);
   } catch (error) {
     console.error(error);
   }
 };
 
 getInfosProfil();
+
+watch(user, () => {
+  getInfosProfil();
+});
 </script>
 
 <style scoped></style>

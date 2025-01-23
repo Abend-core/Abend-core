@@ -8,34 +8,16 @@
   <div
     class="bg-white p-[12px] flex flex-col items-center dark:bg-gray-800 dark:text-white"
   >
-    <div>
-      <img
-        class="w-[64px] h-[64px] mx-auto"
-        src="../../assets/images/profil-icon/icon-profil-2.png"
-        alt=""
-      />
-      <div class="flex gap-2">
-        <p class="text-2xl">{{ user.firstname }}</p>
-        <p class="text-2xl">{{ user.name }}</p>
-      </div>
-      <p class="text-gray-400 mb-4">{{ user.login }}</p>
-    </div>
-    <div class="flex items-center gap-3 w-[300px]">
-      <img
-        class="w-[45px] h-[45px]"
-        src="../../assets/images/profil-icon/icon-profil-3.png"
-        alt=""
-      />
+    <i class="ri-account-pin-circle-fill text-[64px]"></i>
+    <p class="mb-4 mt-[-12px] text-2xl">{{ user.username }}</p>
+    <div class="flex items-center gap-3 w-[210px]">
+      <i class="ri-mail-fill text-[30px]"></i>
       <p>
         {{ user.mail }}
       </p>
     </div>
-    <div class="flex items-center gap-3 w-[300px]">
-      <img
-        class="w-[45px] h-[45px]"
-        src="../../assets/images/profil-icon/icon-profil-1.png"
-        alt=""
-      />
+    <div class="flex items-center gap-3 w-[210px]">
+      <i class="ri-time-fill text-[30px]"></i>
       <p>{{ formatDateTime(user.createdAt) }}</p>
     </div>
   </div>
@@ -51,10 +33,7 @@ defineEmits(["login", "logout"]);
 const id = sessionStorage.getItem("id");
 const user = ref({});
 
-const prenomProfil = ref("");
-const nomProfil = ref("");
 const emailProfil = ref("");
-const birthProfil = ref("");
 const identifiantProfil = ref("");
 
 const getInfosProfil = async () => {
@@ -62,11 +41,8 @@ const getInfosProfil = async () => {
     const response = await getUserById(id);
     user.value = response.data.user;
 
-    prenomProfil.value = user.value.firstname;
-    nomProfil.value = user.value.name;
     emailProfil.value = user.value.mail;
-    birthProfil.value = user.value.birth;
-    identifiantProfil.value = user.value.login;
+    identifiantProfil.value = user.value.username;
   } catch (error) {
     console.error(error);
   }
