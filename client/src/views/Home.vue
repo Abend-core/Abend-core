@@ -12,7 +12,7 @@
         >
           <img
             class="absolute w-[50px] h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
-            :src="`http://localhost:5000/uploadsFile/module/${module.image}`"
+            :src="`${apiUrl}/uploadsFile/module/${module.image}`"
             alt=""
           />
           <div class="p-3 h-full">
@@ -35,6 +35,8 @@
 import { ref } from "vue";
 import { findAllModules } from "../api/module";
 import { formatDate } from "../utils/date";
+
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 defineProps({
   isAuthenticated: {

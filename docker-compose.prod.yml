@@ -19,6 +19,8 @@ services:
     command: sh -c "npm install && npm run prod"
     volumes:
       - ./server:/server
+    environment:
+      - NODE_ENV=prod
     networks:
       - ab-net
     stop_grace_period: 1s
@@ -33,10 +35,11 @@ services:
     command: sh -c "npm install && npm run prod"
     volumes:
       - ./client:/client
+    environment:
+      - VITE_API_URL=http://abend-core.org:5000
     networks:
       - ab-net
     stop_grace_period: 1s
-
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
