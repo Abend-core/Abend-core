@@ -298,6 +298,7 @@ async function goodList(text: string): Promise<string> {
 async function blackList(text: string): Promise<string> {
   const listeDomaine: Array<string> = [
     "porn",
+    "porno",
     "sexe",
     "adult",
     "xxx",
