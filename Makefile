@@ -1,5 +1,5 @@
 DOCKER_COMPOSE = docker compose
-ENV = Prod
+ENV = prod
 
 deploy:	vscode gitP
 	docker compose up -d

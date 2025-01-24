@@ -29,10 +29,9 @@ if(env == 'Dev'){
     });
 }else{
   sequelize
-    .sync({ force: true })
+    .sync()
     .then(async (_) => {
     
-      pushDb_prod()
     
     })
     .catch((err) => {
