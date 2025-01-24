@@ -1,7 +1,9 @@
 <template>
   <div class="flex">
     <main class="bg-[#FDFDFD] w-[100%] xl:w-[100%] mr-0 relative">
-      <div class="p-[50px] relative z-[2] dark:bg-gray-800 dark:text-white">
+      <div
+        class="pt-[1px] pl-[50px] relative z-[2] dark:bg-gray-800 dark:text-white"
+      >
         <div>
           <div
             class="flex items-center gap-0 xl:gap-6 mt-[42px] xl:flex-row flex-col"

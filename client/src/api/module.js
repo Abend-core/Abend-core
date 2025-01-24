@@ -19,3 +19,7 @@ export const filterModule = (data) => {
 export const getModuleById = (id) => {
   return apiClient.get(`/modules/${id}`);
 };
+
+export const updateModuleById = (id, data) => {
+  return apiClient.post(`/modules/update/${id}`, data);
+};

@@ -161,7 +161,7 @@ import {
   deleteModule,
   filterModule,
 } from "../../api/module";
-import { uploadImageDashbaord } from "../../api/upload";
+import { uploadImageDashboard } from "../../api/upload";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -246,7 +246,7 @@ const addModulesDashboard = async () => {
       const formData = new FormData();
       formData.append("image", selectedImageFile.value);
 
-      const uploadResponse = await uploadImageDashbaord(formData);
+      const uploadResponse = await uploadImageDashboard(formData);
       imagePath = uploadResponse.data.filePath;
     }
 

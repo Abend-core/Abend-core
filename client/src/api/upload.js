@@ -4,6 +4,6 @@ export const uploadImageModule = (data) => {
   return apiClient.post("/upload/module", data);
 };
 
-export const uploadImageDashbaord = (data) => {
+export const uploadImageDashboard = (data) => {
   return apiClient.post("/upload/module", data);
 };

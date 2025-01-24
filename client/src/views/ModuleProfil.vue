@@ -17,7 +17,7 @@
     </div>
     <div
       v-if="isModalVisibleModule"
-      class="bg-white mb-6 p-6 rounded-md relative max-w-[100%] mx-auto dark:bg-gray-800 dark:text-white dark:border-2 dark:border-gray-900"
+      class="bg-white mb-6 p-7 rounded-md relative max-w-[100%] mx-auto dark:bg-gray-800 dark:text-white dark:border-2 dark:border-gray-900"
     >
       <p class="font-bold mb-3 text-left">Ajoutez un module</p>
       <div
@@ -40,7 +40,7 @@
           />
         </div>
 
-        <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+        <div class="relative flex flex-col lg:w-auto lg:mr-4 sm:w-full">
           <label for="add-module-input-prenom" class="mb-1">Lien</label>
           <input
             id="add-module-input-lien"
@@ -49,6 +49,9 @@
             class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
             v-model="dataModule.link.value"
           />
+          <p class="absolute text-[#8592A4] bottom-[-25px]">
+            https://<span class="">abend-core</span>.org
+          </p>
         </div>
 
         <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
@@ -118,11 +121,22 @@
               />
             </td>
             <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
-            <td class="p-3">{{ module.isShow ? "Visible" : "Invisible" }}</td>
+            <td class="p-3">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  v-model="module.isShow"
+                  @change="toggleVisibility(module.id, module.isShow)"
+                />
+                <span class="slider round"></span>
+              </label>
+            </td>
             <td class="p-3">
               <div class="flex gap-3">
-                <i class="ri-pencil-fill text-[24px] cursor-pointer"></i>
-                <i class="ri-delete-bin-4-fill text-[24px] cursor-pointer"></i>
+                <i
+                  class="ri-delete-bin-4-fill text-[24px] cursor-pointer"
+                  @click="deleteModuleTable(module.id)"
+                ></i>
               </div>
             </td>
           </tr>
@@ -134,18 +148,17 @@
 
 <script setup>
 import { ref } from "vue";
-import { getModuleById } from "../api/module";
+import { getModuleById, updateModuleById } from "../api/module";
 import { formatDateTime } from "../utils/date";
 import { addModules } from "../api/module";
-import { uploadImageDashbaord } from "../api/upload";
-
+import { uploadImageDashboard } from "../api/upload";
+import { deleteModule } from "../api/module";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 defineProps({
   isAuthenticated: Boolean,
   isAdmin: Boolean,
 });
-
 defineEmits(["login"]);
 
 const id = sessionStorage.getItem("id");
@@ -157,7 +170,7 @@ const getModulesById = async () => {
   try {
     const response = await getModuleById(id);
     if (response.data.modules.length === 0) {
-      errorMessage.value = "Vous n'avez pas encore créé de module.";
+      errorMessage.value = "Vous n'avez pas encore créé de module !";
       modules.value = [];
     } else {
       modules.value = response.data.modules;
@@ -204,11 +217,11 @@ const addModulesDashboard = async () => {
       const formData = new FormData();
       formData.append("image", selectedImageFile.value);
 
-      const uploadResponse = await uploadImageDashbaord(formData);
+      const uploadResponse = await uploadImageDashboard(formData);
       imagePath = uploadResponse.data.filePath;
     }
 
-    await addModules({
+    const result = await addModules({
       name: dataModule.name.value,
       link: dataModule.link.value,
       image: imagePath || "",
@@ -222,12 +235,95 @@ const addModulesDashboard = async () => {
     imageURL.value = null;
     selectedImageFile.value = null;
     errorMessage.value = "";
-
     getModulesById();
   } catch (error) {
-    console.error("Error adding module:", error);
+    errorMessage.value = error.response.data.message;
+    setTimeout(() => (errorMessage.value = ""), 5000);
+  }
+};
+
+const deleteModuleTable = async (idModule) => {
+  try {
+    await deleteModule(idModule);
+    await getModulesById();
+  } catch (error) {
+    console.error("Erreur lors de la suppression du module :", error);
+  }
+};
+
+const toggleVisibility = async (idModule, data) => {
+  try {
+    const response = await updateModuleById(idModule, {
+      isShow: data,
+    });
+  } catch (error) {
+    errorMessage.value =
+      "Une erreur s'est produite lors de la récupération des modules.";
+    console.error(error);
   }
 };
 
 getModulesById();
 </script>
+
+<style scoped>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #f82b30;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #f82b30;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
