@@ -16,41 +16,39 @@ const dataModule = require("./data/module");
 const dataStatut = require("./data/statut");
 
 let lastUUID: string;
-if(env == 'Dev'){
+if (env == "Dev") {
   sequelize
     .sync({ force: true })
     .then(async (_) => {
-    
-      pushDb_dev()
-    
+      pushDb_dev();
     })
     .catch((err) => {
       console.log("Erreur de synchronisation :", err);
     });
 }
 
-async function pushDb_dev(){
+async function pushDb_dev() {
   try {
-      console.log("Début de synchronisation...")
-      initStatus()
-      console.log("");
-      initUsers()
-      console.log("");
-      initModules();
-      console.log("");
-      console.log("Synchronisation terminée !");
+    console.log("Début de synchronisation...");
+    await initStatus();
+    console.log("");
+    await initUsers();
+    console.log("");
+    await initModules();
+    console.log("");
+    console.log("Synchronisation terminée !");
   } catch (err) {
     console.error("Erreur :", err);
   }
 }
 
-async function initStatus(){
+async function initStatus() {
   for (const data of dataStatut.statuts) {
     await Statut.create(data);
-    }
+  }
   console.log("Status insérés avec succès.");
 }
-async function initUsers(){
+async function initUsers() {
   for (const data of dataUser.users) {
     data.id = "";
     if (data.image == undefined) {
@@ -73,8 +71,8 @@ async function initUsers(){
     });
   }
   console.log("Utilisateurs insérés avec succès.");
-} 
-async function initModules(){
+}
+async function initModules() {
   for (const data of dataModule.modules) {
     data.id = "";
 
@@ -85,8 +83,8 @@ async function initModules(){
         data.id = uuid;
       }
     }
-  data.user_id = lastUUID;
-  await Module.create(data);
+    data.user_id = lastUUID;
+    await Module.create(data);
   }
   console.log("Modules insérés avec succès.");
 }

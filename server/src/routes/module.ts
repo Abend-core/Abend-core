@@ -15,6 +15,12 @@ import role from "../middleware/role";
 
 // Création d'un nouveau module
 router.post("/add", auth, async (req, res) => {
+  const link: string = req.body.link;
+  if (link.includes("https://") == false) {
+    res.status(402).json({ message: "Ce site n'est pas sécurise." });
+    return;
+  }
+
   const data = req.body;
   data.id = "";
   while (data.id === "") {
@@ -31,7 +37,7 @@ router.post("/add", auth, async (req, res) => {
     .catch((error) => {
       if (error.name === "SequelizeValidationError") {
         const errors = error.errors.map((err: { message: any }) => err.message);
-        return res.status(400).json({ errors });
+        return res.status(401).json({ errors });
       }
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
     });
@@ -39,7 +45,11 @@ router.post("/add", auth, async (req, res) => {
 
 // Selection de tout les modules
 router.get("/", (req, res) => {
-  Module.findAll()
+  Module.findAll({
+    where: {
+      isShow: true,
+    },
+  })
     .then((module) => {
       res.status(200).json({ message: "Tout les modules.", module });
     })

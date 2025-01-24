@@ -50,7 +50,7 @@ router.post(
         const uuid = NewUUID();
         const module = await Module.findByPk(uuid);
         if (!module) {
-          filename = uuid;
+          filename = uuid + ".png";
         }
       }
 
@@ -97,7 +97,7 @@ router.post(
         const uuid = NewUUID();
         const user = await User.findByPk(uuid);
         if (!user) {
-          filename = uuid;
+          filename = uuid + ".png";
         }
       }
 
