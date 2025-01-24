@@ -5,7 +5,6 @@ interface moduleAttributes {
   id: number;
   name: string;
   link: string;
-  color: string;
   image: string;
   description: string;
   views: number;
@@ -23,7 +22,6 @@ class Module
   public id!: number;
   public name!: string;
   public link!: string;
-  public color!: string;
   public image!: string;
   public description!: string;
   public views!: number;
@@ -65,22 +63,6 @@ Module.init(
         },
         notEmpty: {
           msg: "Le lien du module ne doit pas être vide.",
-        },
-        len: {
-          args: [1, 255],
-          msg: "Trop de caractères, 255 maximum.",
-        },
-      },
-    },
-    color: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "La couleur du module ne doit pas être null.",
-        },
-        notEmpty: {
-          msg: "La couleur du module ne doit pas être vide.",
         },
         len: {
           args: [1, 255],
