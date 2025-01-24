@@ -50,7 +50,7 @@ import upload from "./routes/upload";
 
 app.use("/upload", upload);
 
-app.get("/", (res: Response) => {
+app.get("/", (req:Request, res: Response) => {
   res.send("Hello Abend !");
 });
 
