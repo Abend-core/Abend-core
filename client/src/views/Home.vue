@@ -6,7 +6,7 @@
       <div class="flex" v-for="module in modules" :key="module.id">
         <a
           :href="module.link"
-          class="max-w-[400px] max-h-[200px] rounded-2xl relative bg-[#141A22] text-white"
+          class="max-w-[400px] h-[200px] rounded-2xl relative bg-[#141A22] text-white"
           :style="{
             border: `1px solid black`,
           }"
@@ -23,9 +23,9 @@
               Lorem ipsum dolor sit, amet consectetur adipisicing elit.
               Distinctio, enim.
             </p>
-            <!-- <p class="absolute bottom-4 text-sm">
+            <p class="absolute bottom-4 text-sm">
               {{ formatDate(module.createdAt) }}
-            </p> -->
+            </p>
           </div>
         </a>
       </div>
