@@ -141,7 +141,6 @@ router.post("/filtre", auth, async (req, res) => {
       [Op.or]: [
         { name: { [Op.like]: "%" + search + "%" } },
         { link: { [Op.like]: "%" + search + "%" } },
-        { color: { [Op.like]: "%" + search + "%" } },
         { image: { [Op.like]: "%" + search + "%" } },
       ],
     },
