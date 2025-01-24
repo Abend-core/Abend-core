@@ -1,8 +1,11 @@
 DOCKER_COMPOSE = docker compose
-ENV = prod
+ENV = dev
 
-deploy:	vscode gitP
-	docker compose up -d
+run: vscode gitP deploy
+
+deploy:
+	docker compose -f docker-compose.$(ENV).yml up -d
+
 gitP:
 	git pull
 
