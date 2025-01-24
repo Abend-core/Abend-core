@@ -247,6 +247,9 @@ async function checkLink(link: string): Promise<string> {
   for (let i = 0; i < split.length - 1; i++) {
     message = await blackList(split[i]);
   }
+  if (message != "ok") {
+    return message;
+  }
   message = await goodList(split[split.length - 1]);
 
   return message;
