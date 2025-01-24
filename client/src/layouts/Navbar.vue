@@ -52,7 +52,7 @@
         >
           <img
             class="w-[45px] h-[45px] rounded-full"
-            :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
+            :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
             alt="Photo de profil"
           />
           <div class="flex flex-col">
@@ -105,6 +105,7 @@ import { isDark, toggleDarkMode } from "../store/darkMode.js";
 import { RouterLink, useRouter } from "vue-router";
 import { getUserById } from "../api/user";
 import "remixicon/fonts/remixicon.css";
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const user = ref({});
 const id = ref(sessionStorage.getItem("id"));

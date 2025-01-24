@@ -26,7 +26,7 @@
 <script setup>
 import { ref } from "vue";
 import { getUserById } from "../../api/user";
-import { formatDate, formatDateTime } from "../../utils/date";
+import { formatDateTime } from "../../utils/date";
 
 defineEmits(["login", "logout"]);
 

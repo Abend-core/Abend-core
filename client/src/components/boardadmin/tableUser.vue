@@ -138,7 +138,7 @@
           <td class="p-3">
             <img
               class="w-[50px] h-[50px] rounded-2xl"
-              :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
+              :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
               alt=""
             />
           </td>
@@ -155,6 +155,7 @@
 import { ref, watch } from "vue";
 import { findAll, deleteUser, filter, addUser } from "../../api/user";
 import { formatDateTime } from "../../utils/date";
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const inputValueSearchBar = ref("");
 const filterSearchUser = async () => {

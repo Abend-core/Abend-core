@@ -158,7 +158,7 @@
           </td>
           <td class="p-3">
             <img
-              :src="`http://localhost:5000/uploadsFile/module/${module.image}`"
+              :src="`${apiUrl}/uploadsFile/module/${module.image}`"
               alt="Module image"
               class="w-[50px] h-[50px] rounded-2xl"
             />
@@ -181,6 +181,8 @@ import {
   filterModule,
 } from "../../api/module";
 import { uploadImageDashbaord } from "../../api/upload";
+
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const modules = ref([]);
 const allModules = async () => {

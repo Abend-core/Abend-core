@@ -9,7 +9,7 @@
             <div>
               <img
                 class="w-[200px] h-[200px] rounded-full border border-white p-1 bg-white"
-                :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
+                :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
                 alt=""
               />
             </div>
@@ -63,6 +63,8 @@ import manageModule from "../components/profil/manageModule.vue";
 import editInfos from "../components/profil/editInfos.vue";
 import displayInfos from "../components/profil/displayInfos.vue";
 import { getUserById } from "../api/user";
+
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 defineEmits(["login", "logout"]);
 
