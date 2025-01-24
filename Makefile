@@ -1,13 +1,16 @@
 DOCKER_COMPOSE = docker compose
 ENV = dev
 
-run: vscode gitP deploy
+run: vscode gitPull up
 
-deploy:
+up:
 	docker compose -f docker-compose.$(ENV).yml up -d
 
-gitP:
+gitPull:
 	git pull
 
 vscode:
 	code .
+
+down:
+	docker compose -f docker-compose.$(ENV).yml down

@@ -6,7 +6,7 @@ import User from "../models/user";
 import Statut from "../models/statut";
 import { Op } from "sequelize";
 //Tools
-import { hash } from "../tools/hash";
+import { hash, compare } from "../tools/hash";
 import NewUUID from "../tools/uuid";
 //Middleware
 import auth from "../middleware/auth/auth";
@@ -148,6 +148,47 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
     });
 });
+
+//Update password
+router.post(
+  "/password",
+  auth,
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const user = await User.findByPk(req.body.id);
+
+      if (user === null) {
+        res.status(404).json({ message: "Utilisateur introuvable." });
+        return;
+      }
+
+      const isPasswordValid = await compare(req.body.password, user.password);
+
+      if (!isPasswordValid) {
+        res.status(402).json({
+          message: "Identifiant ou mot de passe incorrect.",
+        });
+        return;
+      }
+
+      User.update(
+        { password: req.body.NewPassword },
+        {
+          where: { id: user.id },
+        }
+      )
+        .then((user) => {
+          res.status(200).json({ message: "Mot de passe modifié.", user });
+        })
+        .catch((error) => {
+          res.status(500).json({ message: "Erreur serveur.", erreur: error });
+        });
+    } catch (error) {
+      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+      return;
+    }
+  }
+);
 
 //Filtre utilisateur
 router.post("/test", async (req: Request, res: Response) => {
