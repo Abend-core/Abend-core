@@ -7,6 +7,7 @@ import Profil from "../views/Profil.vue";
 import BoardAdmin from "../views/BoardAdmin.vue";
 import Error from "../views/Error.vue";
 import ForgetPassword from "../views/ForgetPassword.vue";
+import ModuleProfil from "../views/ModuleProfil.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
@@ -21,6 +22,14 @@ const routes = [
     path: "/profil",
     name: "ProfilPage",
     component: Profil,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/module",
+    name: "ModulePage",
+    component: ModuleProfil,
     meta: {
       requiresAuth: true,
     },
