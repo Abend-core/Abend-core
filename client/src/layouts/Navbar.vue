@@ -96,9 +96,9 @@
                 }
               "
             >
-              <i class="ri-logout-box-line text-gray-400 text-[20px]"></i>
+              <i class="ri-logout-box-line text-gray-400 text-[20px] mt-2"></i>
               <span
-                class="text-[#111827] text-[14px] dark:text-white group-hover:text-[#F82B30]"
+                class="text-[#111827] text-[14px] dark:text-white group-hover:text-[#F82B30] mt-2"
               >
                 Déconnexion
               </span>
