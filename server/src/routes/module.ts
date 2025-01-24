@@ -16,8 +16,13 @@ import role from "../middleware/role";
 // Création d'un nouveau module
 router.post("/add", auth, async (req, res) => {
   const link: string = req.body.link;
-  if (link.includes("https://") == false) {
-    res.status(402).json({ message: "Ce site n'est pas sécurise." });
+
+  const response: string = await checkLink(link);
+
+  if (response != "ok") {
+    res
+      .status(402)
+      .json({ message: "Le lien ne correspond pas au format attendu." });
     return;
   }
 
@@ -224,6 +229,91 @@ router.post("/modules/liked", async (req, res) => {
     res.status(500).json({ message: "Erreur serveur.", erreur: error });
   }
 });
+
+async function checkLink(link: string): Promise<string> {
+  let message: string = "ok";
+  if (link.includes("https://") == false) {
+    message = "Le lien n'est pas au bon format.";
+  }
+  const parts = link.split("//");
+  if (parts[0] != "https:") {
+    message = "Le lien n'est pas au bon format.";
+  }
+
+  const domainExtension = parts[1];
+  const split = domainExtension.split(".");
+  for (let i = 0; i < split.length - 1; i++) {
+    message = await blackList(split[i]);
+  }
+  message = await goodList(split[split.length - 1]);
+
+  return message;
+}
+
+async function goodList(text: string): Promise<string> {
+  const listeExtension: Array<string> = [
+    "fr",
+    "com",
+    "org",
+    "app",
+    "net",
+    "pt",
+    "es",
+    "pro",
+    "de",
+    "ru",
+    "ir",
+    "in",
+    "uk",
+    "au",
+    "ua",
+    "tv",
+    "de",
+    "online",
+    "info",
+    "eu",
+    "tk",
+    "cn",
+    "xyz",
+    "site",
+    "top",
+    "icu",
+  ];
+
+  const containsExtension = listeExtension.some((extension) =>
+    text.includes(extension)
+  );
+  if (!containsExtension) {
+    return "Le lien n'est pas au bon format.";
+  }
+
+  return "ok";
+}
+
+async function blackList(text: string): Promise<string> {
+  const listeDomaine: Array<string> = [
+    "porn",
+    "sexe",
+    "adult",
+    "xxx",
+    "sex",
+    "onlyfans",
+    "escort",
+    "camgirl",
+    "casino",
+    "gambling",
+    "bet",
+    "poker",
+    "ads",
+  ];
+
+  const containsDomain = listeDomaine.some((domain) => text.includes(domain));
+  if (containsDomain) {
+    return "Le lien n'est pas au bon format.";
+  }
+
+  return "ok";
+}
 
 //Renvoi de toute les routes
 export default router;
