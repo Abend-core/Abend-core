@@ -1,7 +1,8 @@
 DOCKER_COMPOSE = docker compose
+ENV = Prod
 
 deploy:	vscode gitP
-	$(DOCKER_COMPOSE) up -d
+	docker compose up -d
 gitP:
 	git pull
 
