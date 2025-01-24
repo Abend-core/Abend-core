@@ -122,7 +122,6 @@ const updateUserProfile = async () => {
     await editUserById(id, updatedData);
     successMessage.value = "Profil mis à jour avec succès !";
     setTimeout(() => (successMessage.value = ""), 3000);
-
     emit("profileUpdated");
   } catch (error) {
     console.error(error);

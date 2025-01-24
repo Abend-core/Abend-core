@@ -2,8 +2,16 @@
   <main>
     <div class="m-auto w-[320px] mt-[80px]">
       <img
+        v-if="!isDark"
         class="w-[56px] h-[56px] mx-auto mb-[12px]"
         src="../assets/images/abend-core-logo.png"
+        alt="Logo principal connexion"
+      />
+      <img
+        v-else
+        class="w-[56px] h-[56px] mx-auto mb-[12px]"
+        src="../assets/images/abend-core-logo-dark.png"
+        alt="Logo principal connexion"
       />
       <div>
         <h1 class="text-2xl text-center mb-[10px]">
@@ -85,6 +93,7 @@
 <script>
 import { loginUser, getUserInfos } from "../api/auth";
 import { storeSessionData, getSessionData } from "../utils/session";
+import { isDark } from "../store/darkMode.js";
 
 export default {
   data() {
@@ -95,7 +104,7 @@ export default {
     };
   },
   emits: ["login", "logout"],
-  inject: ["isAdmin"],
+  inject: ["isAdmin", "isDark"],
   methods: {
     loginUser() {
       const data = {

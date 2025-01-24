@@ -5,9 +5,16 @@
     <div class="left-content flex items-center gap-[10px]">
       <RouterLink to="/">
         <img
+          v-if="!isDark"
           class="w-[50px] h-[50px]"
           src="../assets/images/abend-core-logo.png"
-          alt="Main Icon"
+          alt="Logo principal"
+        />
+        <img
+          v-else
+          class="w-[50px] h-[50px]"
+          src="../assets/images/abend-core-logo-dark.png"
+          alt="Logo principal"
         />
       </RouterLink>
       <RouterLink to="/">Abend-core</RouterLink>
@@ -53,15 +60,15 @@
             <span class="text-m">{{ user.username }}</span>
           </div>
         </div>
-
         <div
           v-if="isMenuProfilOpen"
-          class="absolute right-0 w-[150px] h-[150px] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:bg-[#1F2937]"
+          class="absolute right-0 w-[150px] h-[150px] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
         >
           <div class="flex items-center gap-1 mb-5">
             <RouterLink
               to="/profil"
-              class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30]"
+              class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30] dark:hover:text-[#F82B30]"
+              @click="closeMenu"
             >
               <i class="ri-user-line text-gray-400 text-[20px]"></i>
               Profil
@@ -70,7 +77,12 @@
           <div>
             <button
               class="absolute left-0 right-0 flex items-center gap-1 border-t px-2 group"
-              @click="logOut"
+              @click="
+                () => {
+                  closeMenu();
+                  logOut();
+                }
+              "
             >
               <i class="ri-logout-box-line text-gray-400 text-[20px]"></i>
               <span
@@ -89,7 +101,7 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { clearSessionData } from "../utils/session";
-import { useDark, useToggle } from "@vueuse/core";
+import { isDark, toggleDarkMode } from "../store/darkMode.js";
 import { RouterLink, useRouter } from "vue-router";
 import { getUserById } from "../api/user";
 import "remixicon/fonts/remixicon.css";
@@ -116,9 +128,6 @@ const props = defineProps({
 const router = useRouter();
 const emit = defineEmits(["login", "logout"]);
 
-const isDark = useDark();
-const toggleDarkMode = useToggle(isDark);
-
 const darkModeActivation = () => {
   toggleDarkMode();
 };
@@ -131,6 +140,10 @@ const logOut = () => {
 
 const displayMenu = () => {
   isMenuProfilOpen.value = !isMenuProfilOpen.value;
+};
+
+const closeMenu = () => {
+  isMenuProfilOpen.value = false;
 };
 
 watch(

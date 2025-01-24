@@ -1,8 +1,7 @@
 <template>
   <div class="flex">
     <main class="bg-[#FDFDFD] w-[100%] xl:w-[100%] mr-0 relative">
-      <div class="absolute w-full h-[225px] bg-black z-[1]"></div>
-      <div class="p-[100px] relative z-[2] dark:bg-gray-800 dark:text-white">
+      <div class="p-[50px] relative z-[2] dark:bg-gray-800 dark:text-white">
         <div>
           <div
             class="flex items-center gap-0 xl:gap-6 mt-[42px] xl:flex-row flex-col"
@@ -17,19 +16,19 @@
             <div class="mt-[20px] xl:mt-[80px]">
               <div class="gap-3 flex">
                 <p
-                  class="mb-3 cursor-pointer"
+                  class="mb-3 cursor-pointer hover:text-[#F82B30]"
                   @click="setActiveSection('profile')"
                 >
                   Mon profil
                 </p>
                 <p
-                  class="mb-3 cursor-pointer"
+                  class="mb-3 cursor-pointer hover:text-[#F82B30]"
                   @click="setActiveSection('editInfo')"
                 >
                   Modifier mes informations
                 </p>
                 <p
-                  class="mb-3 cursor-pointer"
+                  class="mb-3 cursor-pointer hover:text-[#F82B30]"
                   @click="setActiveSection('manageModules')"
                 >
                   Gérer ses modules

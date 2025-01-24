@@ -2,8 +2,16 @@
   <main>
     <div class="m-auto w-[320px] mt-[80px]">
       <img
+        v-if="!isDark"
         class="w-[56px] h-[56px] mx-auto mb-[12px]"
         src="../assets/images/abend-core-logo.png"
+        alt="Logo principal connexion"
+      />
+      <img
+        v-else
+        class="w-[56px] h-[56px] mx-auto mb-[12px]"
+        src="../assets/images/abend-core-logo-dark.png"
+        alt="Logo principal connexion"
       />
       <div>
         <h1 class="text-2xl text-center mb-[10px]">Mot de passe oublié</h1>
@@ -36,7 +44,9 @@
   </main>
 </template>
 
-<script setup></script>
+<script setup>
+import { isDark } from "../store/darkMode.js";
+</script>
 
 <style scoped>
 label,

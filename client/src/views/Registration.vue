@@ -2,9 +2,16 @@
   <main>
     <div class="m-auto w-[360px] mt-[80px]">
       <img
+        v-if="!isDark"
         class="w-[56px] h-[56px] mx-auto mb-[12px]"
         src="../assets/images/abend-core-logo.png"
-        alt="Abend-core Logo"
+        alt="Logo principal connexion"
+      />
+      <img
+        v-else
+        class="w-[56px] h-[56px] mx-auto mb-[12px]"
+        src="../assets/images/abend-core-logo-dark.png"
+        alt="Logo principal connexion"
       />
       <div>
         <h1 class="text-2xl text-center mb-[10px]">S'inscrire à Abend-core</h1>
@@ -86,6 +93,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { registrateUser } from "../api/auth";
+import { isDark } from "../store/darkMode.js";
 
 defineEmits(["login"]);
 
