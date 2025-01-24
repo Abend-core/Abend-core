@@ -234,10 +234,12 @@ async function checkLink(link: string): Promise<string> {
   let message: string = "ok";
   if (link.includes("https://") == false) {
     message = "Le lien n'est pas au bon format.";
+    return message;
   }
   const parts = link.split("//");
   if (parts[0] != "https:") {
     message = "Le lien n'est pas au bon format.";
+    return message;
   }
 
   const domainExtension = parts[1];
