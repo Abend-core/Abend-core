@@ -29,9 +29,10 @@ if(env == 'Dev'){
     });
 }else{
   sequelize
-    .sync()
+    .sync({ force: true })
     .then(async (_) => {
-    
+      
+      pushDb_dev()
     
     })
     .catch((err) => {
