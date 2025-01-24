@@ -64,9 +64,9 @@
         </div>
         <div
           v-if="isMenuProfilOpen"
-          class="absolute right-0 w-[150px] h-[150px] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
+          class="absolute right-0 w-[125px] h-[125px] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
         >
-          <div class="flex items-center gap-1 mb-5">
+          <div class="flex items-center gap-1">
             <RouterLink
               to="/profil"
               class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30] dark:hover:text-[#F82B30]"
@@ -74,6 +74,16 @@
             >
               <i class="ri-user-line text-gray-400 text-[20px]"></i>
               Profil
+            </RouterLink>
+          </div>
+          <div class="flex items-center gap-1 mb-3">
+            <RouterLink
+              to="/module"
+              class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30] dark:hover:text-[#F82B30]"
+              @click="closeMenu"
+            >
+              <i class="ri-seo-line text-gray-400 text-[20px]"></i>
+              Module
             </RouterLink>
           </div>
           <div>

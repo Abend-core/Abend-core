@@ -16,22 +16,18 @@
             <div class="mt-[20px] xl:mt-[80px]">
               <div class="gap-3 flex">
                 <p
+                  :class="{ 'text-[#F82B30]': activeSection === 'profile' }"
                   class="mb-3 cursor-pointer hover:text-[#F82B30]"
                   @click="setActiveSection('profile')"
                 >
                   Mon profil
                 </p>
                 <p
+                  :class="{ 'text-[#F82B30]': activeSection === 'editInfo' }"
                   class="mb-3 cursor-pointer hover:text-[#F82B30]"
                   @click="setActiveSection('editInfo')"
                 >
                   Modifier mes informations
-                </p>
-                <p
-                  class="mb-3 cursor-pointer hover:text-[#F82B30]"
-                  @click="setActiveSection('manageModules')"
-                >
-                  Gérer ses modules
                 </p>
               </div>
               <div class="flex gap-2">
@@ -48,9 +44,6 @@
           <div v-if="activeSection === 'editInfo'">
             <edit-infos @profileUpdated="getInfosProfil" />
           </div>
-          <div v-if="activeSection === 'manageModules'">
-            <manage-module />
-          </div>
         </div>
       </div>
     </main>
@@ -59,7 +52,6 @@
 
 <script setup>
 import { ref } from "vue";
-import manageModule from "../components/profil/manageModule.vue";
 import editInfos from "../components/profil/editInfos.vue";
 import displayInfos from "../components/profil/displayInfos.vue";
 import { getUserById } from "../api/user";
