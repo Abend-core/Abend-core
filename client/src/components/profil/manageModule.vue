@@ -62,16 +62,6 @@
         />
       </div>
 
-      <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
-        <label for="add-module-input-couleur" class="mb-1">Couleur</label>
-        <input
-          id="add-module-input-couleur"
-          name="add_module_input_couleur"
-          type="color"
-          v-model="dataModule.color.value"
-        />
-      </div>
-
       <input type="hidden" v-model="dataModule.isShow.value" />
       <input type="hidden" v-model="dataModule.image" />
 
@@ -105,7 +95,6 @@
         <tr class="text-left border-b border-[#F4F6FA]">
           <th class="p-3">Nom</th>
           <th class="p-3">Lien</th>
-          <th class="p-3">Couleur</th>
           <th class="p-3">Image</th>
           <th class="p-3">Date de création</th>
           <th class="p-3">Visibilité</th>
@@ -120,14 +109,6 @@
         >
           <td class="p-3">{{ module.name }}</td>
           <td class="p-3">{{ module.link }}</td>
-          <td class="p-3">
-            <p
-              class="w-fit p-1 rounded-2xl"
-              :style="{ backgroundColor: `${module.color}` }"
-            >
-              {{ module.color }}
-            </p>
-          </td>
           <td class="p-3">
             <img
               :src="`${apiUrl}/uploadsFile/module/${module.image}`"
@@ -187,7 +168,6 @@ const displayModalModule = () => {
 let dataModule = {
   name: ref(""),
   link: ref(""),
-  color: ref("#000000"),
   image: ref(""),
   isShow: ref(true),
 };
@@ -222,7 +202,6 @@ const addModulesDashboard = async () => {
     await addModules({
       name: dataModule.name.value,
       link: dataModule.link.value,
-      color: dataModule.color.value,
       image: imagePath || "",
       isShow: dataModule.isShow.value ? 1 : 0,
       user_id: id,
@@ -230,7 +209,6 @@ const addModulesDashboard = async () => {
 
     dataModule.name.value = "";
     dataModule.link.value = "";
-    dataModule.color.value = "#000000";
     dataModule.image.value = "";
     imageURL.value = null;
     selectedImageFile.value = null;
