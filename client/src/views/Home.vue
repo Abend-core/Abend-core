@@ -1,10 +1,12 @@
 <template>
-  <main>
-    <div class="flex items-center justify-center flex-wrap gap-10 mt-[60px]">
+  <main class="p-2">
+    <div
+      class="flex items-center justify-center flex-wrap gap-10 mt-[60px] mb-[60px]"
+    >
       <div class="flex" v-for="module in modules" :key="module.id">
         <a
           :href="module.link"
-          class="w-[400px] h-[200px] rounded-2xl relative bg-[#141A22] text-white"
+          class="max-w-[400px] max-h-[200px] rounded-2xl relative bg-[#141A22] text-white"
           :style="{
             border: `1px solid black`,
           }"
@@ -21,9 +23,9 @@
               Lorem ipsum dolor sit, amet consectetur adipisicing elit.
               Distinctio, enim.
             </p>
-            <p class="absolute bottom-4 text-sm">
+            <!-- <p class="absolute bottom-4 text-sm">
               {{ formatDate(module.createdAt) }}
-            </p>
+            </p> -->
           </div>
         </a>
       </div>

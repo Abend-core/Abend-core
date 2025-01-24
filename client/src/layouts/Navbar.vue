@@ -17,9 +17,11 @@
           alt="Logo principal"
         />
       </RouterLink>
-      <RouterLink to="/">Abend-core</RouterLink>
+      <RouterLink to="/" class="hidden sm:block">Abend-core</RouterLink>
     </div>
-    <div class="right-content flex items-center flex-1 justify-end gap-[20px]">
+    <div
+      class="right-content flex items-center flex-1 justify-end gap-[10px] sm:gap-[20px]"
+    >
       <i
         v-if="!isDark"
         class="ri-sun-fill text-[20px] cursor-pointer"
