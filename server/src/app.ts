@@ -11,27 +11,17 @@ const method: Array<string> = config.get("cors.method");
 const allowedHeaders: Array<string> = config.get("cors.allowedHeaders");
 const maxAge: number = config.get("cors.maxAge");
 const env: string = config.get("server.env");
-let corsOptions;
 
 //Appel des models et les jointures
 require("./database/join");
 //Initialisation de la bdd
 require("./database/init");
-if (port == 5000) {
-  corsOptions = {
-    origin: ["http://localhost:5173", "http://abend-core.org:5173"],
-    methods: ["GET", "HEAD", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization", "role"],
-    maxAge: 3000,
-  };
-} else {
-  corsOptions = {
-    origin: ["http://localhost:5173", "http://abend-core.org:5173"],
-    methods: ["GET", "HEAD", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization", "role"],
-    maxAge: 3000,
-  };
-}
+let corsOptions = {
+    origin: origin,
+    methods: method,
+    allowedHeaders: allowedHeaders,
+    maxAge: maxAge,
+};
 
 const app = express();
 app.use(cors(corsOptions));
@@ -54,11 +44,12 @@ app.get("/", (req:Request, res: Response) => {
   res.send("Hello Abend !");
 });
 
-// Charger la spécification Swagger à partir du fichier YAML
-const swaggerDocument = YAML.load("./docs/swagger.yaml");
-
-// Utiliser Swagger UI pour rendre la documentation
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+if(env == 'dev'){
+  // Charger la spécification Swagger à partir du fichier YAML
+  const swaggerDocument = YAML.load("./docs/swagger.yaml");
+  // Utiliser Swagger UI pour rendre la documentation
+  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+}
 
 app.use("/uploadsFile/module", express.static("src/upload/module"));
 app.use("/uploadsFile/profil", express.static("src/upload/profil"));

@@ -12,7 +12,7 @@
 	  "port": 5000
 	},
   	"cors": {
-	  "origin": ["http://abend-core.org:80"],
+	  "origin": ["http://localhost:5173", "http://abend-core.org:5173"],
 	  "method":["GET", "HEAD", "POST"],
 	  "allowedHeaders":["Content-Type", "Authorization", "role"],
 	  "maxAge":3000
