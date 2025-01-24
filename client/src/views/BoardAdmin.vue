@@ -22,7 +22,7 @@
           class="bg-white rounded-md p-[12px] dark:bg-gray-800 dark:text-white"
         >
           <h1 class="font-bold">Gestion des utilisateurs et des modules</h1>
-          <p class="text-[#4954ecde] mt-1">Administrateur Dashboard</p>
+          <p class="text-[#F82B30] mt-1">Administrateur Dashboard</p>
         </div>
       </div>
       <div v-if="activeSection === 'manageUsers'">

@@ -11,25 +11,22 @@
         @change="filterSearchUser"
       />
       <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
-        <img
-          class="h-5 w-5 cursor-pointer"
-          src="../../assets/images/dashboard-icon/search-bar-icon.png"
-        />
+        <i class="ri-search-line text-[20px] text-[#D9DCE1]"></i>
       </span>
     </div>
     <div class="flex gap-3">
-      <p class="text-[#746a6ade]">{{ countUser }} selected</p>
+      <p class="text-[#746a6ade] dark:text-gray-400">
+        {{ countUser }} selected
+      </p>
     </div>
-    <img
-      class="cursor-pointer"
-      src="../../assets/images/dashboard-icon/bin-icon.png"
+    <i
+      class="ri-delete-bin-4-fill text-[28px] text-[#D9DCE1] cursor-pointer"
       @click="deleteUserTable"
-    />
-
+    ></i>
     <div class="ml-0 sm:ml-0 md:ml-auto lg:ml-auto xl:ml-auto">
       <button
         @click="displayModalUser"
-        class="flex gap-1 bg-[#4954ecde] p-[6px] rounded-md text-white border border-black"
+        class="flex gap-1 bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
       >
         <span>+</span>
         <p>Ajoutez un utilisateur</p>
@@ -87,7 +84,7 @@
 
       <div class="flex justify-center lg:mt-0 sm:mt-4">
         <button
-          class="bg-[#4954ecde] px-6 py-2 rounded-md text-white border border-black"
+          class="bg-[#F82B30] px-6 py-2 rounded-md text-white border border-black"
           type="submit"
           @click="addUserFonction"
         >

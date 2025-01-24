@@ -3,10 +3,10 @@
     class="bg-white rounded-md p-[12px] mt-3 mb-3 dark:bg-gray-800 dark:text-white"
   >
     <h1 class="font-bold">Gérer mes informations</h1>
-    <p class="text-[#4954ecde] mt-1">Profil Dashboard</p>
+    <p class="text-[#F82B30] mt-1">Profil Dashboard</p>
   </div>
   <button
-    class="absolute right-6 top-[250px] bg-[#4954ecde] p-[6px] rounded-md text-white border border-black"
+    class="absolute right-6 top-[250px] bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
     @click="updateUserProfile"
   >
     Modifier mon profil
@@ -48,7 +48,7 @@
       class="bg-white rounded-md mt-3 p-[12px] dark:bg-gray-800 dark:text-white"
     >
       <p class="font-bold">Gérer mon mot de passe</p>
-      <p class="text-[#4954ecde] mt-1">Modification Dashboard</p>
+      <p class="text-[#F82B30] mt-1">Modification Dashboard</p>
     </div>
     <div
       class="flex flex-col gap-[22px] bg-white rounded-md mt-3 p-[12px] dark:bg-gray-800 dark:text-white"

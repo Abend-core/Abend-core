@@ -3,12 +3,12 @@
     class="bg-white rounded-md p-[12px] mt-3 mb-3 dark:bg-gray-800 dark:text-white"
   >
     <h1 class="font-bold">Gérer mes modules</h1>
-    <p class="text-[#4954ecde] mt-1">Profil Dashboard</p>
+    <p class="text-[#F82B30] mt-1">Profil Dashboard</p>
   </div>
   <div class="flex justify-end mt-3 mb-3">
     <button
       @click="displayModalModule"
-      class="flex gap-1 bg-[#4954ecde] p-[6px] rounded-md text-white border border-black"
+      class="flex gap-1 bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
     >
       <span>+</span>
       <p>Ajoutez un module</p>
@@ -77,7 +77,7 @@
 
       <div class="flex justify-center lg:mt-0 sm:mt-4">
         <button
-          class="bg-[#4954ecde] px-6 py-2 rounded-md text-white border border-black"
+          class="bg-[#F82B30] px-6 py-2 rounded-md text-white border border-black"
           type="submit"
           @click="addModulesDashboard"
         >
@@ -139,16 +139,8 @@
           <td class="p-3">{{ module.isShow ? "Visible" : "Invisible" }}</td>
           <td class="p-3">
             <div class="flex gap-3">
-              <img
-                class="cursor-pointer w-[24px] h-[24px]"
-                src="../../assets/images/profil-icon/icon-profil-5.png"
-                alt=""
-              />
-              <img
-                class="cursor-pointer w-[24px] h-[24px]"
-                src="../../assets/images/profil-icon/icon-profil-6.png"
-                alt=""
-              />
+              <i class="ri-pencil-fill text-[24px] cursor-pointer"></i>
+              <i class="ri-delete-bin-4-fill text-[24px] cursor-pointer"></i>
             </div>
           </td>
         </tr>

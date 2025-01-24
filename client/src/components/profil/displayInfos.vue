@@ -3,7 +3,7 @@
     class="bg-white rounded-md p-[12px] mt-3 mb-3 dark:bg-gray-800 dark:text-white"
   >
     <h1 class="font-bold">Mes informations personnelles</h1>
-    <p class="text-[#4954ecde] mt-1">Profil Dashboard</p>
+    <p class="text-[#F82B30] mt-1">Profil Dashboard</p>
   </div>
   <div
     class="bg-white p-[12px] flex flex-col items-center dark:bg-gray-800 dark:text-white"
