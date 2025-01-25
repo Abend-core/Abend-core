@@ -6,24 +6,24 @@
     <p class="text-[#F82B30] mt-1">Profil Dashboard</p>
   </div>
   <button
-    class="absolute right-6 top-[250px] bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
+    class="absolute right-12 top-[250px] bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
     @click="updateUserProfile"
   >
     Modifier mes informations
   </button>
   <div
     v-if="successMessage"
-    class="text-white rounded-[6px] p-4 mt-3 bg-gradient-to-r from-[#4b9945] to-[#4b9945] border border-black"
+    class="text-white rounded-[6px] p-4 mb-3 bg-gradient-to-r from-[#4b9945] to-[#4b9945] border border-black"
   >
     <div>
-      <div class="text-[14px] text-[#1f2328]">
+      <div class="text-[14px] text-white">
         {{ successMessage }}
       </div>
     </div>
   </div>
   <div
     v-if="errorMessage"
-    class="text-white rounded-[6px] p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
+    class="text-white rounded-[6px] p-4 mb-3 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-black"
   >
     <div>
       <div class="text-[14px] text-white">
@@ -61,7 +61,7 @@
       <p class="text-[#F82B30] mt-1">Modification Dashboard</p>
     </div>
     <button
-      class="absolute right-6 top-[475px] bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
+      class="absolute right-12 top-[475px] bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
       @click="updatePassword"
     >
       Modifier mon mot de passe

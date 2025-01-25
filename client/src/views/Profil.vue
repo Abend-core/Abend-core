@@ -2,7 +2,7 @@
   <div class="flex">
     <main class="bg-[#FDFDFD] w-[100%] xl:w-[100%] mr-0 relative">
       <div
-        class="pt-[1px] pl-[50px] relative z-[2] dark:bg-gray-800 dark:text-white"
+        class="pt-[1px] pl-[50px] pr-[50px] relative z-[2] dark:bg-gray-800 dark:text-white"
       >
         <div>
           <div
