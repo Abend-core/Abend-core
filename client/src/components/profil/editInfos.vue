@@ -21,6 +21,16 @@
       </div>
     </div>
   </div>
+  <div
+    v-if="errorMessage"
+    class="text-white rounded-[6px] p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
+  >
+    <div>
+      <div class="text-[14px] text-white">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
   <div>
     <div
       class="flex flex-col gap-[22px] p-[12px] bg-white rounded-md dark:bg-gray-800 dark:text-white"
@@ -113,6 +123,7 @@ const newPassword = ref("");
 const confirmNewPassword = ref("");
 
 let successMessage = ref("");
+let errorMessage = ref("");
 
 const getInfosProfil = async () => {
   try {
@@ -146,15 +157,23 @@ const updatePassword = async () => {
   const passwordData = {
     id: id,
     password: oldPassword.value,
-    NewPassword: newPassword.value,
+    newPassword: newPassword.value,
+    confirmPassword: confirmNewPassword.value,
   };
 
   try {
     const response = await editPasswordById(passwordData);
     successMessage.value = "Mot de passe modifié avec succès !";
     setTimeout(() => (successMessage.value = ""), 3000);
+    oldPassword.value = "";
+    newPassword.value = "";
+    confirmNewPassword.value = "";
   } catch (error) {
-    console.error(error);
+    errorMessage.value = error.response.data.message;
+    setTimeout(() => (errorMessage.value = ""), 3000);
+    oldPassword.value = "";
+    newPassword.value = "";
+    confirmNewPassword.value = "";
   }
 };
 
