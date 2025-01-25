@@ -49,8 +49,8 @@ Module.init(
                     msg: "Le nom du module ne doit pas être vide.",
                 },
                 len: {
-                    args: [1, 255],
-                    msg: "Trop de caractères, 255 maximum.",
+                    args: [1, 13],
+                    msg: "Trop de caractères, 13 maximum.",
                 },
             },
         },
@@ -84,9 +84,17 @@ Module.init(
             },
         },
         content: {
-            type: DataTypes.TEXT,
-            allowNull: true,
-            validate: {},
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: "L'image du module ne doit pas être vide.",
+                },
+                len: {
+                    args: [1, 120],
+                    msg: "Trop de caractères, 120 maximum.",
+                },
+            },
         },
         views: {
             type: DataTypes.INTEGER,

@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 const router = express.Router();
 //Model & bdd
 import User from "../models/user";
+import Module from "../models/module";
 import Statut from "../models/statut";
 import { Op } from "sequelize";
 //Tools
@@ -134,18 +135,41 @@ router.post(
                 res.status(404).json({ message: "Utilisateur introuvable." });
                 return;
             }
-
             const user = data.get();
+            const Modules = await Module.findAll({
+                where: { user_id: data.id },
+            });
+
+            Modules.forEach(async (module) => {
+                console.log(`Module nom: ${module.name}, Id: ${module.image}`);
+
+                const fileDelete = path.join(
+                    "./src/uploads/module/",
+                    module.image
+                );
+                try {
+                    await fs.promises.unlink(fileDelete);
+                } catch (err) {
+                    console.error(
+                        "Erreur lors de la suppression du fichier :",
+                        err
+                    );
+                    res.status(500).json({
+                        message: "Erreur lors de la suppression du fichier.",
+                        error: err,
+                    });
+                    return;
+                }
+            });
+
             if (!user.image.includes("bank")) {
                 const fileDelete = path.join(
                     "./src/uploads/profil/",
                     user.image
                 );
-                console.log("Suppression du fichier :", fileDelete);
 
                 try {
-                    await fs.promises.unlink(fileDelete); // Utilisation de fs.promises pour gérer l'asynchrone
-                    console.log("Fichier supprimé avec succès.");
+                    await fs.promises.unlink(fileDelete);
                 } catch (err) {
                     console.error(
                         "Erreur lors de la suppression du fichier :",
@@ -158,7 +182,7 @@ router.post(
                     return;
                 }
             }
-
+            await Module.destroy({ where: { user_id: data.id } });
             await User.destroy({ where: { id: data.id } });
             res.status(200).json({ message: "Utilisateur supprimé." });
             return;

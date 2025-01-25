@@ -4,21 +4,24 @@ import Like from "../models/liked";
 import Module from "../models/module";
 
 Statut.hasMany(User, {
-  foreignKey: "statut_id",
-  as: "Users",
+    foreignKey: "statut_id",
+    as: "Users",
 });
 
 User.belongsTo(Statut, {
-  foreignKey: "statut_id",
-  as: "Statut",
+    foreignKey: "statut_id",
+    as: "Statut",
 });
 
+User.hasMany(Module, { onDelete: "CASCADE" });
+Module.belongsTo(User);
+
 User.belongsToMany(Module, {
-  through: Like,
-  foreignKey: "UserId",
+    through: Like,
+    foreignKey: "UserId",
 });
 
 Module.belongsToMany(User, {
-  through: Like,
-  foreignKey: "ModuleId",
+    through: Like,
+    foreignKey: "ModuleId",
 });
