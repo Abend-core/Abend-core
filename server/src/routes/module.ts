@@ -50,12 +50,10 @@ router.post("/uploadImg", auth, (req, res) => {
     uploadModule.single("image")(req, res, (err) => {
         // Vérification des erreurs
         if (err) {
-            return res
-                .status(500)
-                .json({
-                    message: "Erreur lors de l'upload de l'image.",
-                    error: err.message,
-                });
+            return res.status(500).json({
+                message: "Erreur lors de l'upload de l'image.",
+                error: err.message,
+            });
         }
 
         // Vérifier si le fichier a bien été téléchargé
@@ -68,7 +66,12 @@ router.post("/uploadImg", auth, (req, res) => {
         // Récupérer les informations du fichier téléchargé
         const filePath = req.file.path;
         const fileName = req.file.filename;
-
+        Module.update(
+            { image: fileName },
+            {
+                where: { id: req.body.id },
+            }
+        );
         // Réponse de succès
         res.status(200).json({
             message: "Image téléchargée avec succès.",
