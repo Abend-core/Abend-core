@@ -170,6 +170,12 @@ router.post(
         });
         return;
       }
+      if(req.body.newPassword.length < 8){
+        res.status(405).json({
+          message: "Le mot de passe doit avoir au moins 8 caractères.",
+        });
+        return;
+      }
 
       if(req.body.newPassword != req.body.confirmPassword){
         res.status(403).json({
