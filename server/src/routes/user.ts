@@ -166,11 +166,19 @@ router.post(
 
       if (!isPasswordValid) {
         res.status(402).json({
-          message: "Identifiant ou mot de passe incorrect.",
+          message: "Mot de passe incorrect.",
         });
         return;
       }
-      let password:string = await hash(req.body.NewPassword);
+
+      if(req.body.newPassword != req.body.confirmPassword){
+        res.status(403).json({
+          message: "Les mots de passe ne correspondent pas.",
+        });
+        return;
+      }
+
+      let password:string = await hash(req.body.newPassword);
       User.update(
         { password: password },
         {
