@@ -29,7 +29,7 @@
         class="flex gap-1 bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
       >
         <span>+</span>
-        <p>Ajoutez un utilisateur</p>
+        <p>Ajoutez un utilisateurr</p>
       </button>
     </div>
   </div>
