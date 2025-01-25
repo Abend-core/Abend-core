@@ -170,9 +170,9 @@ router.post(
         });
         return;
       }
-
+      let password:string = await hash(req.body.NewPassword);
       User.update(
-        { password: req.body.NewPassword },
+        { password: password },
         {
           where: { id: user.id },
         }
