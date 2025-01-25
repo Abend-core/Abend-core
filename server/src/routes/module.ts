@@ -16,46 +16,49 @@ import role from "../middleware/role";
 
 // Création d'un nouveau module
 router.post("/add", auth, async (req, res) => {
-  const link: string = req.body.link;
-
-  const response: string = await checkLink(link);
-
-  if (response != "ok") {
-    res
-      .status(402)
-      .json({ message: "Le lien ne correspond pas au format attendu." });
-    return;
-  }
-
-  const data = req.body;
-  data.id = "";
-  while (data.id === "") {
-    const uuid = NewUUID();
-    const user = await Module.findByPk(uuid);
-    if (!user) {
-      data.id = uuid;
-    }
-  }
   uploadModule.single('image')(req, res, (err) => {
-    if (err) {
-      return res.status(500).json({ error: 'Erreur lors de l\'upload de l\'image.' });
-    }
-    if (!req.file) {
-      return res.status(400).json({ error: 'L\'image est requise.' });
-    }
-    data.image = req.file.filename;
+
+    const data =  req.body;
+    console.log(data)
+    return
+  //   const link: string = req.body.link;
+  //   const response: string = await checkLink(link);
+  // data.id = "";
+  // while (data.id === "") {
+  //   const uuid = NewUUID();
+  //   const user = await Module.findByPk(uuid);
+  //   if (!user) {
+  //     data.id = uuid;
+  //   }
+  // }
+  //   if (response != "ok") {
+  //     res
+  //       .status(402)
+  //       .json({ message: "Le lien ne correspond pas au format attendu." });
+  //     return;
+  //   }
+  //   if (err) {
+  //     return res.status(500).json({ error: 'Erreur lors de l\'upload de l\'image.' });
+  //   }
+  //   if (!req.file) {
+  //     return res.status(400).json({ error: 'L\'image est requise.' });
+  //   }
+  //   data.image = req.file.filename;
   });
-  Module.create(data)
-    .then((module) => {
-      res.status(200).json({ message: "Module créé avec succès.", module });
-    })
-    .catch((error) => {
-      if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err: { message: any }) => err.message);
-        return res.status(401).json({ errors });
-      }
-      res.status(500).json({ message: "Erreur serveur.", erreur: error });
-    });
+
+
+
+  // Module.create(data)
+  //   .then((module) => {
+  //     res.status(200).json({ message: "Module créé avec succès.", module });
+  //   })
+  //   .catch((error) => {
+  //     if (error.name === "SequelizeValidationError") {
+  //       const errors = error.errors.map((err: { message: any }) => err.message);
+  //       return res.status(401).json({ errors });
+  //     }
+  //     res.status(500).json({ message: "Erreur serveur.", erreur: error });
+  //   });
 });
 
 // Selection de tout les modules visible
