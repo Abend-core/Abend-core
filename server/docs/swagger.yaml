@@ -1,252 +1,217 @@
 openapi: 3.0.0
 info:
   title: API Abend-core
-  version: 1.0.0
-  contact:
-    name: Abend-core
-    url: http://localhost:5173
+    version: 1.0.0
+    contact:
+        name: Abend-core
+        url: http://localhost:5173
 tags:
-  - name: Auth
-    description: Opérations liées à la connexion
-  - name: Upload
-    description: Permet de charger des images
-  - name: Utilisateurs
-    description: Opérations liées aux utilisateurs
-  - name: Modules
-    description: Opérations liées aux modules
+    - name: Auth
+      description: Opérations liées à la connexion
+    - name: Utilisateurs
+      description: Opérations liées aux utilisateurs
+    - name: Modules
+      description: Opérations liées aux modules
 
 paths:
-  /auth/register:
-    post:
-      tags:
-        - Auth
-      summary: Inscription à l'application
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - name
-                - firstname
-                - mail
-                - birth
-                - login
-                - password
-              properties:
-                nom:
-                  type: string
-                prix:
-                  type: number
-                  format: float
-      responses:
-        201:
-          description: Utilisateur inscrit avec succès.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    nom:
-                      type: string
-                    prix:
-                      type: number
-                    id:
-                      type: integer
-        401:
-          description: Validateurs. Champs mal renseigné.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    nom:
-                      type: string
-                    prix:
-                      type: number
-        501:
-          description: Validateurs. Champs mal renseigné.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    nom:
-                      type: string
-                    prix:
-                      type: number
-  /auth/signin:
-    post:
-      tags:
-        - Auth
-      summary: Se connecter à l'application
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - nom
-                - prix
-              properties:
-                nom:
-                  type: string
-                prix:
-                  type: number
-                  format: float
-      responses:
-        200:
-          description: Liste des produits
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    nom:
-                      type: string
-                    prix:
-                      type: number
-  /upload/module:
-    post:
-      tags:
-        - Upload
-      summary: Charger une image pour un module
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - nom
-                - prix
-              properties:
-                nom:
-                  type: string
-                prix:
-                  type: number
-                  format: float
-      responses:
-        200:
-          description: Liste des produits
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    nom:
-                      type: string
-                    prix:
-                      type: number
-  /upload/profil:
-    post:
-      tags:
-        - Upload
-      summary: Charger une image pour un utilisateur
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - nom
-                - prix
-              properties:
-                nom:
-                  type: string
-                prix:
-                  type: number
-                  format: float
-      responses:
-        200:
-          description: Liste des produits
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    nom:
-                      type: string
-                    prix:
-                      type: number
-  /users:
-    get:
-      tags:
-        - Utilisateurs
-      summary: Récupérer tout les utilisateurs
-      responses:
-        200:
-          description: Liste des utilisateurs récupéré avec succès
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    nom:
-                      type: string
-                    prix:
-                      type: number
-    post:
-      tags:
-        - Utilisateurs
-      summary: Récupérer tout les produits
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - nom
-                - prix
-              properties:
-                nom:
-                  type: string
-                prix:
-                  type: number
-                  format: float
-      responses:
-        200:
-          description: Liste des produits
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    nom:
-                      type: string
-                    prix:
-                      type: number
+    /auth/signin:
+        post:
+            tags:
+                - Auth
+            summary: Inscription à l'application
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - mail
+                                - password
+                            properties:
+                                mail:
+                                    type: string
+                                    description: Mail de l'utilisateur
+                                    example: abend-core@gmail.com
+                                password:
+                                    type: string
+                                    description: Mot de passe utilisateur
+                                    example: password1
+            responses:
+                201:
+                    description: Connexion réussi
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: L'utilisateur a été connecté avec succès.
+                                        UUID:
+                                            type: string
+                                            example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+                                        token: 
+                                            type: string
+                                            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhcnVkeSIsImlhdCI6MTczMTc4ODY3MywiZXhwIjoxNzMxODc1MDczfQ.AmyzfjxAtcOOAFzWk2RXGjMu2VNWRLetrcjhtamJOU0
+                401:
+                    description: L'utilisateur a mal renseigner son identifiant.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Identifiant ou mot de passe incorrect.
+                402:
+                    description: L'utilisateur a mal renseigner son mot de passe.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Identifiant ou mot de passe incorrect.
+                501:
+                    description: Erreur du serveur
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Serveur en maintenance. Réessayez dans quelques instants.
+                                        erreur:
+                                            type: object
+    /auth/register:
+        post:
+            tags:
+                - Auth
+            summary: S'inscrire sur l'application
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - mail
+                                - password
+                                - identifiant
+                            properties:
+                                mail:
+                                    type: string
+                                    description: Mail valide de l'utilisateur
+                                    example: abend-core@gmail.com
+                                password:
+                                    type: string
+                                    description: Mot de passe d'au moins 8 caractères
+                                    example: password1
+                                identifiant:
+                                    type: string
+                                    example: Abend
+            responses:
+                201:
+                    description: Inscription réussis !
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Utilisateur inscrit avec succès.
+                401:
+                    description: L'utilisateur c'est trompé dans la saisie.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        errors:
+                                            type: object
+                501:
+                    description: Le serveur ne répond pas.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur serveur.
+                                        erreur: 
+                                            type: object
+    /users:
+        get:
+            tags:
+                - Utilisateurs
+            summary: Récupérer tout les utilisateurs
+            responses:
+                200:
+                    description: Liste des utilisateurs récupéré avec succès
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        id:
+                                            type: integer
+                                        nom:
+                                            type: string
+                                        prix:
+                                            type: number
+        post:
+            tags:
+                - Utilisateurs
+            summary: Récupérer tout les produits
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - nom
+                                - prix
+                            properties:
+                                nom:
+                                    type: string
+                                prix:
+                                    type: number
+                                    format: float
+            responses:
+                200:
+                    description: Liste des produits
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        id:
+                                            type: integer
+                                        nom:
+                                            type: string
+                                        prix:
+                                            type: number

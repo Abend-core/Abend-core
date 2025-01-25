@@ -1,7 +1,7 @@
-DOCKER_COMPOSE = docker compose
 ENV = dev
 
 run: vscode gitPull up
+reset: down up
 
 up:
 	docker compose -f docker-compose.$(ENV).yml up -d
@@ -14,3 +14,5 @@ vscode:
 
 down:
 	docker compose -f docker-compose.$(ENV).yml down
+
+ 
