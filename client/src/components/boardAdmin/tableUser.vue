@@ -23,17 +23,8 @@
       class="ri-delete-bin-4-fill text-[28px] text-[#D9DCE1] cursor-pointer"
       @click="deleteUserTable"
     ></i>
-    <div class="ml-0 sm:ml-0 md:ml-auto lg:ml-auto xl:ml-auto">
-      <button
-        @click="displayModalUser"
-        class="flex gap-1 bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
-      >
-        <span>+</span>
-        <p>Ajoutez un utilisateurr</p>
-      </button>
-    </div>
   </div>
-
+  <modal-add-user @refresh-users="allUsers" />
   <div
     v-if="isModalVisibleUser"
     class="bg-white mb-6 p-6 rounded-md relative max-w-[100%] mx-auto dark:bg-gray-800 dark:text-white dark:border-2 dark:border-black"
@@ -155,6 +146,8 @@
 import { ref, watch } from "vue";
 import { findAll, deleteUser, filter, addUser } from "../../api/user";
 import { formatDateTime } from "../../utils/date";
+import modalAddUser from "../../components/modal/modalAddUser.vue";
+
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const inputValueSearchBar = ref("");
