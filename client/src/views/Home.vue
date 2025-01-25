@@ -6,7 +6,7 @@
       <div class="flex" v-for="module in modules" :key="module.id">
         <a
           :href="module.link"
-          class="w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
+          class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
           :style="{
             border: `1px solid black`,
           }"
@@ -104,5 +104,13 @@ button {
   padding: 5px 12px;
   font-size: 14px;
   border-radius: 6px;
+}
+
+.module-card {
+  transition: transform 0.3s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-10px) scale(1.05);
 }
 </style>

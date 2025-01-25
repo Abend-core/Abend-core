@@ -8,12 +8,13 @@
           class="text-center bg-black p-1 rounded-md cursor-pointer"
           @click="setActiveSection('manageUsers')"
         >
-          Gérer les utilisateurs
+          <i class="ri-group-3-fill mr-2"></i>Gérer les utilisateurs
         </p>
         <p
           class="text-center bg-black p-1 rounded-md cursor-pointer"
           @click="setActiveSection('manageModules')"
         >
+          <i class="ri-layout-horizontal-line"></i>
           Gérer les modules
         </p>
       </div>
@@ -38,8 +39,8 @@
 
 <script setup>
 import { ref } from "vue";
-import tableModule from "../components/boardadmin/tableModule.vue";
-import tableUser from "../components/boardadmin/tableUser.vue";
+import tableModule from "../components/boardAdmin/tableModule.vue";
+import tableUser from "../components/boardAdmin/tableUser.vue";
 
 const activeSection = ref("manageUsers");
 const setActiveSection = (section) => {
