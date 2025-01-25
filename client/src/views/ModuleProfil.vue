@@ -123,9 +123,27 @@
             :key="module.id"
             class="hover:bg-[#F4F6FA] dark:hover:text-black dark:hover:bg-gray-500"
           >
-            <td class="p-3">{{ module.name }}</td>
+            <td class="p-3">
+              <template v-if="module.id === editingModuleId">
+                <input
+                  v-model="module.name"
+                  type="text"
+                  class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
+                />
+              </template>
+              <template v-else>{{ module.name }}</template>
+            </td>
             <td class="p-3">{{ module.link }}</td>
-            <td class="p-3">{{ module.content }}</td>
+            <td class="p-3">
+              <template v-if="module.id === editingModuleId">
+                <input
+                  v-model="module.content"
+                  type="text"
+                  class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
+                />
+              </template>
+              <template v-else>{{ module.content }}</template>
+            </td>
             <td class="p-3">
               <img
                 :src="`${apiUrl}/uploadsFile/module/${module.image}`"
@@ -146,10 +164,26 @@
             </td>
             <td class="p-3">
               <div class="flex gap-3">
-                <i
-                  class="ri-delete-bin-4-fill text-[24px] cursor-pointer"
-                  @click="deleteModuleTable(module.id)"
-                ></i>
+                <div v-if="module.id !== editingModuleId">
+                  <i
+                    class="ri-pencil-fill text-[24px] cursor-pointer"
+                    @click="editModule(module.id)"
+                  ></i>
+                </div>
+                <div v-if="module.id !== editingModuleId">
+                  <i
+                    class="ri-delete-bin-4-fill text-[24px] cursor-pointer"
+                    @click="deleteModuleTable(module.id)"
+                  ></i>
+                </div>
+                <div v-if="module.id === editingModuleId">
+                  <button
+                    @click="saveModule(module.id)"
+                    class="bg-[#F82B30] px-6 py-2 rounded-md text-white border border-black"
+                  >
+                    Valider
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
@@ -177,6 +211,8 @@ defineEmits(["login"]);
 const id = sessionStorage.getItem("id");
 
 const modules = ref([]);
+const editingModuleId = ref(null);
+
 let errorMessage = ref("");
 
 const getModulesById = async () => {
@@ -258,6 +294,20 @@ const deleteModuleTable = async (idModule) => {
   }
 };
 
+const editModule = (idModule) => {
+  editingModuleId.value = idModule;
+};
+
+const saveModule = async (idModule) => {
+  try {
+    const moduleToSave = modules.value.find((module) => module.id === idModule);
+    await updateModuleById(idModule, moduleToSave);
+    editingModuleId.value = null;
+    await getModulesById();
+  } catch (error) {
+    console.error("Erreur lors de la sauvegarde du module", error);
+  }
+};
 const toggleVisibility = async (idModule, data) => {
   try {
     const response = await updateModuleById(idModule, {

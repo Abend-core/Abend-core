@@ -5,13 +5,13 @@
     >
       <div class="flex gap-5 mb-3 text-white">
         <p
-          class="bg-black p-1 rounded-md cursor-pointer"
+          class="text-center bg-black p-1 rounded-md cursor-pointer"
           @click="setActiveSection('manageUsers')"
         >
           Gérer les utilisateurs
         </p>
         <p
-          class="bg-black p-1 rounded-md cursor-pointer"
+          class="text-center bg-black p-1 rounded-md cursor-pointer"
           @click="setActiveSection('manageModules')"
         >
           Gérer les modules

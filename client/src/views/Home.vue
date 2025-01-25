@@ -6,38 +6,41 @@
       <div class="flex" v-for="module in modules" :key="module.id">
         <a
           :href="module.link"
-          class="w-[400px] h-[200px] rounded-2xl relative bg-[#141A22] text-white"
+          class="w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
           :style="{
             border: `1px solid black`,
           }"
           target="_blank"
         >
           <img
-            class="absolute w-[50px] h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
+            class="absolute w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
             :src="`${apiUrl}/uploadsFile/module/${module.image}`"
             alt="Photo du module"
+            loading="lazy"
           />
           <div class="p-3 h-full">
             <div class="flex items-center gap-2">
-              <p class="text-xl font-bold">{{ module.name }}</p>
+              <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
               <i
-                class="ri-verified-badge-fill text-[26px] text-white cursor-pointer"
+                class="ri-verified-badge-fill text-[20px] lg:text-[26px] text-white cursor-pointer"
               ></i>
             </div>
-            <p class="mt-6">
-              {{ module.content }}
-            </p>
-            <p class="absolute bottom-4 text-xs">
+            <div>
+              <p class="mt-4 lg:mt-6 text-sm lg:text-base">
+                {{ module.content }}
+              </p>
+            </div>
+            <p class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs">
               {{ formatDate(module.createdAt) }}
             </p>
             <i
               v-if="getEtatLike(module.id)"
-              class="ri-heart-fill absolute bottom-3 right-4 text-[26px] cursor-pointer text-red-500 z-10"
+              class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-[20px] lg:text-[26px] cursor-pointer text-red-500 z-10"
               @click="toggleLike(module.id, $event)"
             ></i>
             <i
               v-else
-              class="ri-heart-line absolute bottom-3 right-4 text-[26px] cursor-pointer z-10"
+              class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-[20px] lg:text-[26px] cursor-pointer z-10"
               @click="toggleLike(module.id, $event)"
             ></i>
           </div>
