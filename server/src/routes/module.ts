@@ -5,6 +5,7 @@ const router = express.Router();
 import NewUUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
+import { uploadModule } from '../tools/multer';
 //Model & bdd
 import Module from "../models/module";
 import Liked from "../models/liked";
@@ -35,6 +36,7 @@ router.post("/add", auth, async (req, res) => {
       data.id = uuid;
     }
   }
+  uploadModule.single('image')
   Module.create(data)
     .then((module) => {
       res.status(200).json({ message: "Module créé avec succès.", module });
@@ -149,11 +151,11 @@ router.post("/delete/:id", auth, (req, res) => {
       if (data === null) {
         return res
           .status(404)
-          .json({ message: "Utilisateur introuvable.", data });
+          .json({ message: "Module introuvable.", data });
       }
 
       const module = data.get();
-      const fileDelete = path.join("./src/upload/module/", module.image);
+      const fileDelete = path.join("./src/uploads/module/", module.image);
 
       // Suppression du fichier avant de supprimer le module
       fs.unlink(fileDelete, (err) => {
@@ -167,11 +169,11 @@ router.post("/delete/:id", auth, (req, res) => {
 
         Module.destroy({ where: { id: data.id } })
           .then(() => {
-            res.status(200).json({ message: "Utilisateur supprimé.", data });
+            res.status(200).json({ message: "Module supprimé.", data });
           })
           .catch((error) => {
             res.status(500).json({
-              message: "Erreur lors de la suppression de l'utilisateur.",
+              message: "Erreur lors de la suppression du module.",
               error,
             });
           });

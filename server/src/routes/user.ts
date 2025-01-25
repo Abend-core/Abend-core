@@ -8,6 +8,9 @@ import { Op } from "sequelize";
 //Tools
 import { hash, compare } from "../tools/hash";
 import NewUUID from "../tools/uuid";
+import fs from "fs";
+import path from "path";
+import { uploadProfil } from '../tools/multer';
 //Middleware
 import auth from "../middleware/auth/auth";
 import role from "../middleware/role";
@@ -106,29 +109,46 @@ router.post("/update/:id", auth, (req: Request, res: Response) => {
 });
 
 //Suppression d'un utilisateur
-router.post(
-  "/delete/:id",
-  auth,
-  role,
-  async (req: Request, res: Response): Promise<void> => {
-    try {
-      const user = await User.findByPk(req.params.id);
-
-      if (user === null) {
-        res.status(404).json({ message: "Utilisateur introuvable." });
-        return;
+router.post("/delete/:id", auth, role, async (req: Request, res: Response): Promise<void> => {
+    User.findByPk(req.params.id)
+    .then((data) => {
+      if (data === null) {
+        return res
+          .status(404)
+          .json({ message: "Utilisateur introuvable.", data });
       }
 
-      await User.destroy({ where: { id: user.id } });
+      const user = data.get();
+      if(user.image.includes('bank') == false){
+        const fileDelete = path.join("./src/uploads/profil/", user.image);
+      
+        // Suppression du fichier avant de supprimer le l'utilisateur
+        fs.unlink(fileDelete, (err) => {
+          if (err) {
+            console.error("Erreur lors de la suppression du fichier :", err);
+            return res.status(500).json({
+              message: "Erreur lors de la suppression du fichier.",
+              error: err,
+            });
+          }
 
-      res.status(200).json({ message: "Utilisateur supprimé.", user });
-      return;
-    } catch (error) {
+          User.destroy({ where: { id: data.id } })
+            .then(() => {
+              res.status(200).json({ message: "Utilisateur supprimé.", data });
+            })
+            .catch((error) => {
+              res.status(500).json({
+                message: "Erreur lors de la suppression de l'utilisateur.",
+                error,
+              });
+            });
+        });
+      }
+    })
+    .catch((error) => {
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
-      return;
-    }
-  }
-);
+    });
+});
 
 //Filtre utilisateur
 router.post("/filtre", auth, async (req: Request, res: Response) => {
