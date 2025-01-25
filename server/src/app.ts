@@ -51,8 +51,8 @@ if(env == 'dev'){
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
 
-app.use("/uploadsFile/module", express.static("src/upload/module"));
-app.use("/uploadsFile/profil", express.static("src/upload/profil"));
+app.use("/uploadsFile/module", express.static("src/uploads/module"));
+app.use("/uploadsFile/profil", express.static("src/uploads/profil"));
 
 app.listen(port, () => {
   console.log("Serveur en ligne ! Environnement : ", env);
