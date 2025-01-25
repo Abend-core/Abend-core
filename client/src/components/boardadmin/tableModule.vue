@@ -184,7 +184,7 @@ import {
   filterModule,
   updateModuleById,
 } from "../../api/module";
-import { uploadImageDashboard } from "../../api/upload";
+import { uploadImageModule } from "../../api/upload";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -264,22 +264,20 @@ const addModulesDashboard = async () => {
   try {
     let imagePath = null;
 
-    if (selectedImageFile.value) {
-      const formData = new FormData();
-      formData.append("image", selectedImageFile.value);
-
-      const uploadResponse = await uploadImageDashboard(formData);
-      imagePath = uploadResponse.data.filePath;
-    }
-
-    await addModules({
+    const result = await addModules({
       name: dataModule.name.value,
       link: dataModule.link.value,
       content: dataModule.content.value,
-      image: imagePath || "",
-      isShow: dataModule.isShow.value ? 1 : 0,
+      isShow: dataModule.isShow.value,
       user_id: id,
     });
+
+    if (result.status === 200 && selectedImageFile.value) {
+      const formData = new FormData();
+      formData.append("id", result.data.module.id);
+      formData.append("image", selectedImageFile.value);
+      const uploadResponse = await uploadImageModule(formData);
+    }
 
     dataModule.name.value = "";
     dataModule.link.value = "";
@@ -287,10 +285,9 @@ const addModulesDashboard = async () => {
     dataModule.image.value = "";
     imageURL.value = null;
     selectedImageFile.value = null;
-
     allModules();
   } catch (error) {
-    console.error("Error adding module:", error);
+    console.log(error);
   }
 };
 
