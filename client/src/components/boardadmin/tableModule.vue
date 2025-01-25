@@ -72,6 +72,17 @@
       </div>
 
       <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+        <label for="add-module-input-content" class="mb-1">Description</label>
+        <input
+          id="add-module-input-content"
+          name="add_module_input_content"
+          type="text"
+          class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
+          v-model="dataModule.content.value"
+        />
+      </div>
+
+      <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
         <label for="add-module-input-image" class="mb-1">Image</label>
         <input
           id="add-module-input-image"
@@ -113,6 +124,7 @@
           </th>
           <th class="p-3">Nom</th>
           <th class="p-3">Lien</th>
+          <th class="p-3">Description</th>
           <th class="p-3">Image</th>
           <th class="p-3">Date de création</th>
           <th class="p-3">Visibilité</th>
@@ -137,6 +149,7 @@
           </td>
           <td class="p-3">{{ module.name }}</td>
           <td class="p-3">{{ module.link }}</td>
+          <td class="p-3">{{ module.content }}</td>
           <td class="p-3">
             <img
               :src="`${apiUrl}/uploadsFile/module/${module.image}`"
@@ -145,7 +158,16 @@
             />
           </td>
           <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
-          <td class="p-3">{{ module.isShow ? "Visible" : "Invisible" }}</td>
+          <td class="p-3">
+            <label class="switch">
+              <input
+                type="checkbox"
+                v-model="module.isShow"
+                @change="toggleVisibility(module.id, module.isShow)"
+              />
+              <span class="slider round"></span>
+            </label>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -160,6 +182,7 @@ import {
   addModules,
   deleteModule,
   filterModule,
+  updateModuleById,
 } from "../../api/module";
 import { uploadImageDashboard } from "../../api/upload";
 
@@ -174,8 +197,6 @@ const allModules = async () => {
     console.error(error);
   }
 };
-
-allModules();
 
 let countModule = ref(0);
 const updateUserCountModule = (event) => {
@@ -233,6 +254,7 @@ const handleFileChange = (event) => {
 let dataModule = {
   name: ref(""),
   link: ref(""),
+  content: ref(""),
   image: ref(""),
   isShow: ref(true),
 };
@@ -253,6 +275,7 @@ const addModulesDashboard = async () => {
     await addModules({
       name: dataModule.name.value,
       link: dataModule.link.value,
+      content: dataModule.content.value,
       image: imagePath || "",
       isShow: dataModule.isShow.value ? 1 : 0,
       user_id: id,
@@ -260,6 +283,7 @@ const addModulesDashboard = async () => {
 
     dataModule.name.value = "";
     dataModule.link.value = "";
+    dataModule.content.value = "";
     dataModule.image.value = "";
     imageURL.value = null;
     selectedImageFile.value = null;
@@ -290,10 +314,81 @@ const filterSearchModule = async () => {
 watch(inputValueSearchBarModule, () => {
   filterSearchModule();
 });
+
+const toggleVisibility = async (idModule, data) => {
+  try {
+    const response = await updateModuleById(idModule, {
+      isShow: data,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+allModules();
 </script>
 
 <style scoped>
 li {
   list-style-type: none;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #f82b30;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #f82b30;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 </style>

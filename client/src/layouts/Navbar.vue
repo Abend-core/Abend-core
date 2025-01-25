@@ -82,7 +82,9 @@
               class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30] dark:hover:text-[#F82B30]"
               @click="closeMenu"
             >
-              <i class="ri-seo-line text-gray-400 text-[20px]"></i>
+              <i
+                class="ri-layout-horizontal-line text-gray-400 text-[20px]"
+              ></i>
               Module
             </RouterLink>
           </div>

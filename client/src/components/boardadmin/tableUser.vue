@@ -109,8 +109,8 @@
             />
           </th>
           <th class="p-3">Email</th>
-          <th class="p-3">Date de création</th>
           <th class="p-3">Identifiant</th>
+          <th class="p-3">Date de création</th>
           <th class="p-3">Photo de profil</th>
           <th class="p-3">Rôle</th>
         </tr>
@@ -133,8 +133,8 @@
             />
           </td>
           <td class="p-3">{{ user.mail }}</td>
-          <td class="p-3">{{ formatDateTime(user.createdAt) }}</td>
           <td class="p-3">{{ user.username }}</td>
+          <td class="p-3">{{ formatDateTime(user.createdAt) }}</td>
           <td class="p-3">
             <img
               class="w-[50px] h-[50px] rounded-2xl"

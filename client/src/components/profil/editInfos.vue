@@ -9,7 +9,7 @@
     class="absolute right-6 top-[250px] bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
     @click="updateUserProfile"
   >
-    Modifier mon profil
+    Modifier mes informations
   </button>
   <div
     v-if="successMessage"
@@ -50,6 +50,12 @@
       <p class="font-bold">Gérer mon mot de passe</p>
       <p class="text-[#F82B30] mt-1">Modification Dashboard</p>
     </div>
+    <button
+      class="absolute right-6 top-[475px] bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
+      @click="updatePassword"
+    >
+      Modifier mon mot de passe
+    </button>
     <div
       class="flex flex-col gap-[22px] bg-white rounded-md mt-3 p-[12px] dark:bg-gray-800 dark:text-white"
     >
@@ -59,8 +65,9 @@
         </p>
         <input
           class="w-[450px] dark:text-white dark:bg-gray-900"
-          type="text"
+          type="password"
           placeholder="Ancien mot de passe"
+          v-model="oldPassword"
         />
       </div>
       <div class="flex items-center">
@@ -69,8 +76,9 @@
         </p>
         <input
           class="w-[450px] dark:text-white dark:bg-gray-900"
-          type="text"
+          type="password"
           placeholder="Nouveau mot de passe"
+          v-model="newPassword"
         />
       </div>
       <div class="flex items-center">
@@ -79,8 +87,9 @@
         </p>
         <input
           class="w-[450px] dark:text-white dark:bg-gray-900"
-          type="text"
+          type="password"
           placeholder="Répéter le mot de passe"
+          v-model="confirmNewPassword"
         />
       </div>
     </div>
@@ -89,14 +98,19 @@
 
 <script setup>
 import { ref } from "vue";
-import { getUserById, editUserById } from "../../api/user";
+import { getUserById, editUserById, editPasswordById } from "../../api/user";
 
 const emit = defineEmits(["profileUpdated"]);
 
 const id = sessionStorage.getItem("id");
+
 const user = ref({});
 const emailProfil = ref("");
 const identifiantProfil = ref("");
+
+const oldPassword = ref("");
+const newPassword = ref("");
+const confirmNewPassword = ref("");
 
 let successMessage = ref("");
 
@@ -123,6 +137,22 @@ const updateUserProfile = async () => {
     successMessage.value = "Profil mis à jour avec succès !";
     setTimeout(() => (successMessage.value = ""), 3000);
     emit("profileUpdated");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const updatePassword = async () => {
+  const passwordData = {
+    id: id,
+    password: oldPassword.value,
+    NewPassword: newPassword.value,
+  };
+
+  try {
+    const response = await editPasswordById(passwordData);
+    successMessage.value = "Mot de passe modifié avec succès !";
+    setTimeout(() => (successMessage.value = ""), 3000);
   } catch (error) {
     console.error(error);
   }

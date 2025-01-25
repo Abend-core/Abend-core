@@ -50,8 +50,19 @@
             v-model="dataModule.link.value"
           />
           <p class="absolute text-[#8592A4] bottom-[-25px]">
-            https://<span class="">abend-core</span>.org
+            https://abend-core.org
           </p>
+        </div>
+
+        <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+          <label for="add-user-input-content" class="mb-1">Description</label>
+          <input
+            id="add-module-input-content"
+            name="module_input_content"
+            type="text"
+            class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
+            v-model="dataModule.content.value"
+          />
         </div>
 
         <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
@@ -99,6 +110,7 @@
           <tr class="text-left border-b border-[#F4F6FA]">
             <th class="p-3">Nom</th>
             <th class="p-3">Lien</th>
+            <th class="p-3">Description</th>
             <th class="p-3">Image</th>
             <th class="p-3">Date de création</th>
             <th class="p-3">Visibilité</th>
@@ -113,6 +125,7 @@
           >
             <td class="p-3">{{ module.name }}</td>
             <td class="p-3">{{ module.link }}</td>
+            <td class="p-3">{{ module.content }}</td>
             <td class="p-3">
               <img
                 :src="`${apiUrl}/uploadsFile/module/${module.image}`"
@@ -190,6 +203,7 @@ const displayModalModule = () => {
 let dataModule = {
   name: ref(""),
   link: ref(""),
+  content: ref(""),
   image: ref(""),
   isShow: ref(true),
 };
@@ -224,6 +238,7 @@ const addModulesDashboard = async () => {
     const result = await addModules({
       name: dataModule.name.value,
       link: dataModule.link.value,
+      content: dataModule.content.value,
       image: imagePath || "",
       isShow: dataModule.isShow.value ? 1 : 0,
       user_id: id,
@@ -231,6 +246,7 @@ const addModulesDashboard = async () => {
 
     dataModule.name.value = "";
     dataModule.link.value = "";
+    dataModule.content.value = "";
     dataModule.image.value = "";
     imageURL.value = null;
     selectedImageFile.value = null;

@@ -1,5 +1,9 @@
 import apiClient from "../api/axios";
 
+export const findAllModulesVisible = () => {
+  return apiClient.get("/modules/show");
+};
+
 export const findAllModules = () => {
   return apiClient.get("/modules");
 };

@@ -6,7 +6,7 @@
       <div class="flex" v-for="module in modules" :key="module.id">
         <a
           :href="module.link"
-          class="max-w-[400px] h-[200px] rounded-2xl relative bg-[#141A22] text-white"
+          class="w-[400px] h-[200px] rounded-2xl relative bg-[#141A22] text-white"
           :style="{
             border: `1px solid black`,
           }"
@@ -15,17 +15,31 @@
           <img
             class="absolute w-[50px] h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
             :src="`${apiUrl}/uploadsFile/module/${module.image}`"
-            alt=""
+            alt="Photo du module"
           />
           <div class="p-3 h-full">
-            <p class="text-xl font-bold">{{ module.name }}</p>
+            <div class="flex items-center gap-2">
+              <p class="text-xl font-bold">{{ module.name }}</p>
+              <i
+                class="ri-verified-badge-fill text-[26px] text-white cursor-pointer"
+              ></i>
+            </div>
             <p class="mt-6">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Distinctio, enim.
+              {{ module.content }}
             </p>
-            <p class="absolute bottom-4 text-sm">
+            <p class="absolute bottom-4 text-xs">
               {{ formatDate(module.createdAt) }}
             </p>
+            <i
+              v-if="getEtatLike(module.id)"
+              class="ri-heart-fill absolute bottom-3 right-4 text-[26px] cursor-pointer text-red-500 z-10"
+              @click="toggleLike(module.id, $event)"
+            ></i>
+            <i
+              v-else
+              class="ri-heart-line absolute bottom-3 right-4 text-[26px] cursor-pointer z-10"
+              @click="toggleLike(module.id, $event)"
+            ></i>
           </div>
         </a>
       </div>
@@ -35,10 +49,12 @@
 
 <script setup>
 import { ref } from "vue";
-import { findAllModules } from "../api/module";
+import { findAllModulesVisible } from "../api/module";
 import { formatDate } from "../utils/date";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const modules = ref([]);
+const etatLike = ref({});
 
 defineProps({
   isAuthenticated: {
@@ -51,14 +67,23 @@ defineProps({
   },
 });
 
-const modules = ref([]);
 const allModules = async () => {
   try {
-    const response = await findAllModules();
+    const response = await findAllModulesVisible();
     modules.value = response.data.module;
   } catch (error) {
     console.error(error);
   }
+};
+
+const getEtatLike = (idModule) => {
+  return etatLike.value[idModule];
+};
+
+const toggleLike = (idModule, event) => {
+  etatLike.value[idModule] = !etatLike.value[idModule];
+  event.stopPropagation();
+  event.preventDefault();
 };
 
 allModules();

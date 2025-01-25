@@ -23,3 +23,7 @@ export const getUserById = (id) => {
 export const editUserById = (id, data) => {
   return apiClient.post(`/users/update/${id}`, data);
 };
+
+export const editPasswordById = (data) => {
+  return apiClient.post("/users/password/", data);
+};
