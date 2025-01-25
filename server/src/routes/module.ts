@@ -48,6 +48,44 @@ router.post("/add", auth, async (req, res) => {
     });
 });
 
+// Selection de tout les modules visible
+router.get("/show", (req, res) => {
+  Module.findAll({
+    where: {
+      isShow: true,
+    },
+  })
+    .then((module) => {
+      res.status(200).json({ message: "Tout les modules.", module });
+    })
+    .catch((error) => {
+      if (error.name === "SequelizeValidationError") {
+        const errors = error.errors.map((err: { message: any }) => err.message);
+        return res.status(400).json({ errors });
+      }
+      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    });
+});
+
+// Selection de tout les modules invisible
+router.get("/hide", (req, res) => {
+  Module.findAll({
+    where: {
+      isShow: false,
+    },
+  })
+    .then((module) => {
+      res.status(200).json({ message: "Tout les modules.", module });
+    })
+    .catch((error) => {
+      if (error.name === "SequelizeValidationError") {
+        const errors = error.errors.map((err: { message: any }) => err.message);
+        return res.status(400).json({ errors });
+      }
+      res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    });
+});
+
 // Selection de tout les modules
 router.get("/", (req, res) => {
   Module.findAll({
@@ -173,7 +211,7 @@ router.get("/user/:id", auth, async (req, res) => {
   const id = req.params.id;
   Module.findByPk(id)
     .then((module) => {
-      res.status(200).json({ message: "Module trouvé.", module });
+      res.status(200).json({ message: "Modules trouvés.", module });
     })
     .catch((error) => {
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
