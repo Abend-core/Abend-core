@@ -88,11 +88,7 @@ router.get("/hide", (req, res) => {
 
 // Selection de tout les modules
 router.get("/", (req, res) => {
-  Module.findAll({
-    where: {
-      isShow: true,
-    },
-  })
+  Module.findAll()
     .then((module) => {
       res.status(200).json({ message: "Tout les modules.", module });
     })
