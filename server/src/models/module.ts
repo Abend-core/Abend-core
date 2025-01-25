@@ -6,7 +6,7 @@ interface moduleAttributes {
   name: string;
   link: string;
   image: string;
-  description: string;
+  content: string;
   views: number;
   likes: number;
   isShow: boolean;
@@ -23,7 +23,7 @@ class Module
   public name!: string;
   public link!: string;
   public image!: string;
-  public description!: string;
+  public content!: string;
   public views!: number;
   public likes!: number;
   public isShow!: boolean;
@@ -86,7 +86,7 @@ Module.init(
         },
       },
     },
-    description: {
+    content: {
       type: DataTypes.TEXT,
       allowNull: true,
       validate: {},
