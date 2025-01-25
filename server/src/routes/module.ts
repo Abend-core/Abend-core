@@ -36,7 +36,15 @@ router.post("/add", auth, async (req, res) => {
       data.id = uuid;
     }
   }
-  uploadModule.single('image')
+  uploadModule.single('image')(req, res, (err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Erreur lors de l\'upload de l\'image.' });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: 'L\'image est requise.' });
+    }
+    data.image = req.file.filename;
+  });
   Module.create(data)
     .then((module) => {
       res.status(200).json({ message: "Module créé avec succès.", module });
