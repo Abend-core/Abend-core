@@ -47,7 +47,7 @@ router.post("/add", auth, (req, res) => {
 
 // Création d'un nouveau module
 router.post("/uploadImg", auth, (req, res) => {
-    uploadModule.single("image")(req, res, (err) => {
+    uploadModule.single("image")(req, res, async (err) => {
         // Vérification des erreurs
         if (err) {
             return res.status(500).json({
@@ -66,7 +66,7 @@ router.post("/uploadImg", auth, (req, res) => {
         // Récupérer les informations du fichier téléchargé
         const filePath = req.file.path;
         const fileName = req.file.filename;
-        Module.update(
+        await Module.update(
             { image: fileName },
             {
                 where: { id: req.body.id },
