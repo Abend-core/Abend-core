@@ -198,7 +198,7 @@ import { ref } from "vue";
 import { getModuleById, updateModuleById } from "../api/module";
 import { formatDateTime } from "../utils/date";
 import { addModules } from "../api/module";
-import { uploadImageDashboard } from "../api/upload";
+import { uploadImageModule } from "../api/upload";
 import { deleteModule } from "../api/module";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -261,15 +261,22 @@ const handleFileChange = (event) => {
 
 const addModulesDashboard = async () => {
   try {
-    const formData = new FormData();
-    formData.append("name", dataModule.name.value);
-    formData.append("link", dataModule.link.value);
-    formData.append("content", dataModule.content.value);
-    formData.append("image", selectedImageFile.value);
-    formData.append("isShow", dataModule.isShow.value);
-    formData.append("user_id", id);
+    let imagePath = null;
 
-    const result = await addModules(formData);
+    const result = await addModules({
+      name: dataModule.name.value,
+      link: dataModule.link.value,
+      content: dataModule.content.value,
+      isShow: dataModule.isShow.value,
+      user_id: id,
+    });
+
+    if (result.status === 200 && selectedImageFile.value) {
+      const formData = new FormData();
+      formData.append("id", result.data.module.id);
+      formData.append("image", selectedImageFile.value);
+      const uploadResponse = await uploadImageModule(formData);
+    }
 
     dataModule.name.value = "";
     dataModule.link.value = "";
