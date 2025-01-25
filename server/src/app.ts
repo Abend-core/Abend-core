@@ -36,22 +36,20 @@ app.use("/users", users);
 import modules from "./routes/module";
 app.use("/modules", modules);
 
-
-
-app.get("/", (req:Request, res: Response) => {
-  res.send("Hello Abend !");
+app.get("/", (req: Request, res: Response) => {
+    res.send("Hello Abend !");
 });
 
-if(env == 'dev'){
-  // Charger la spécification Swagger à partir du fichier YAML
-  const swaggerDocument = YAML.load("./docs/swagger.yaml");
-  // Utiliser Swagger UI pour rendre la documentation
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+if (env == "Dev") {
+    // Charger la spécification Swagger à partir du fichier YAML
+    const swaggerDocument = YAML.load("./docs/swagger.yaml");
+    // Utiliser Swagger UI pour rendre la documentation
+    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
 
 app.use("/uploadsFile/module", express.static("src/uploads/module"));
 app.use("/uploadsFile/profil", express.static("src/uploads/profil"));
 
 app.listen(port, () => {
-  console.log("Serveur en ligne ! Environnement : ", env);
+    console.log("Serveur en ligne ! Environnement : ", env);
 });
