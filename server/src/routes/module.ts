@@ -346,9 +346,11 @@ async function blackList(text: string): Promise<string> {
     "poker",
     "ads",
   ];
+  // Construire une expression régulière pour détecter des mots interdits
+  const regex = new RegExp(`\\b(${listeDomaine.join("|")})\\b`, "i");
 
-  const containsDomain = listeDomaine.some((domain) => text.includes(domain));
-  if (containsDomain) {
+  // Vérifier si le texte correspond à la liste des mots interdits
+  if (regex.test(text)) {
     return "Le lien n'est pas au bon format.";
   }
 
