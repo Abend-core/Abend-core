@@ -25,6 +25,14 @@ if (env == "Dev") {
     .catch((err) => {
       console.log("Erreur de synchronisation :", err);
     });
+}else{
+  sequelize
+    .sync({ alter: true })
+    .then(async (_) => {
+    })
+    .catch((err) => {
+      console.log("Erreur de synchronisation :", err);
+    });
 }
 
 async function pushDb_dev() {
