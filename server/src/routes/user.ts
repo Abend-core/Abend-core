@@ -35,7 +35,7 @@ router.post("/add", auth, role, async (req: Request, res: Response) => {
                 where: { id: userData.id },
                 validate: false,
             });
-            res.status(200).json({
+            res.status(201).json({
                 message: "Utilisateur créé avec succès.",
                 user,
             });
@@ -45,9 +45,9 @@ router.post("/add", auth, role, async (req: Request, res: Response) => {
                 const errors = error.errors.map(
                     (err: { message: any }) => err.message
                 );
-                return res.status(400).json({ errors });
+                return res.status(401).json({ errors });
             }
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
+            res.status(501).json({ message: "Erreur serveur.", erreur: error });
         });
 });
 
@@ -57,16 +57,10 @@ router.get("/", auth, role, (req: Request, res: Response) => {
         order: [["createdAt", "desc"]],
     })
         .then((user) => {
-            res.status(200).json({ message: "Tout les utilisateurs.", user });
+            res.status(201).json({ message: "Tout les utilisateurs.", user });
         })
         .catch((error) => {
-            if (error.name === "SequelizeValidationError") {
-                const errors = error.errors.map(
-                    (err: { message: any }) => err.message
-                );
-                return res.status(400).json({ errors });
-            }
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
+            res.status(501).json({ message: "Erreur serveur.", erreur: error });
         });
 });
 
@@ -76,19 +70,13 @@ router.get("/:id", auth, (req: Request, res: Response) => {
     User.findByPk(id)
         .then((user) => {
             if (user) {
-                res.status(200).json({ message: "Utilisateur trouvé.", user });
+                res.status(201).json({ message: "Utilisateur trouvé.", user });
             } else {
                 res.status(404).json({ message: "Utilisateur introuvable." });
             }
         })
         .catch((error) => {
-            if (error.name === "SequelizeValidationError") {
-                const errors = error.errors.map(
-                    (err: { message: any }) => err.message
-                );
-                return res.status(400).json({ errors });
-            }
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
+            res.status(501).json({ message: "Erreur serveur.", erreur: error });
         });
 });
 
@@ -105,17 +93,11 @@ router.post("/update/:id", auth, (req: Request, res: Response) => {
                         message: "Utilisateur introuvable.",
                     });
                 }
-                res.status(200).json({ message: "Utilisateur modifié.", user });
+                res.status(201).json({ message: "Utilisateur modifié.", user });
             });
         })
         .catch((error) => {
-            if (error.name === "SequelizeValidationError") {
-                const errors = error.errors.map(
-                    (err: { message: any }) => err.message
-                );
-                return res.status(400).json({ errors });
-            }
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
+            res.status(501).json({ message: "Erreur serveur.", erreur: error });
         });
 });
 
@@ -137,8 +119,6 @@ router.post(
             });
 
             Modules.forEach(async (module) => {
-                console.log(`Module nom: ${module.name}, Id: ${module.image}`);
-
                 const fileDelete = path.join(
                     "./src/uploads/module/",
                     module.image
@@ -146,12 +126,9 @@ router.post(
                 try {
                     await fs.promises.unlink(fileDelete);
                 } catch (err) {
-                    console.error(
-                        "Erreur lors de la suppression du fichier :",
-                        err
-                    );
-                    res.status(500).json({
-                        message: "Erreur lors de la suppression du fichier.",
+                    res.status(503).json({
+                        message:
+                            "Erreur lors de la suppression de l'image du/des modules.",
                         error: err,
                     });
                     return;
@@ -167,12 +144,9 @@ router.post(
                 try {
                     await fs.promises.unlink(fileDelete);
                 } catch (err) {
-                    console.error(
-                        "Erreur lors de la suppression du fichier :",
-                        err
-                    );
-                    res.status(500).json({
-                        message: "Erreur lors de la suppression du fichier.",
+                    res.status(502).json({
+                        message:
+                            "Erreur lors de la suppression de l'image de l'utilisateur.",
                         error: err,
                     });
                     return;
@@ -180,11 +154,11 @@ router.post(
             }
             await Module.destroy({ where: { user_id: data.id } });
             await User.destroy({ where: { id: data.id } });
-            res.status(200).json({ message: "Utilisateur supprimé." });
+            res.status(201).json({ message: "Utilisateur supprimé." });
             return;
         } catch (error) {
             console.error("Erreur serveur :", error);
-            res.status(500).json({
+            res.status(501).json({
                 message: "Erreur serveur.",
                 erreur: error,
             });

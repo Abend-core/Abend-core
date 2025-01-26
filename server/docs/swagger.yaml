@@ -43,7 +43,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
+                                type: object
                                 items:
                                     type: object
                                     properties:
@@ -61,7 +61,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
+                                type: object
                                 items:
                                     type: object
                                     properties:
@@ -73,7 +73,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
+                                type: object
                                 items:
                                     type: object
                                     properties:
@@ -85,7 +85,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
+                                type: object
                                 items:
                                     type: object
                                     properties:
@@ -127,7 +127,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
+                                type: object
                                 items:
                                     type: object
                                     properties:
@@ -139,7 +139,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
+                                type: object
                                 items:
                                     type: object
                                     properties:
@@ -150,7 +150,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
+                                type: object
                                 items:
                                     type: object
                                     properties:
@@ -164,26 +164,94 @@ paths:
             tags:
                 - Utilisateurs
             summary: Récupérer tout les utilisateurs
+            requestBody:
+                content:
+                    application/json:
             responses:
-                200:
-                    description: Liste des utilisateurs récupéré avec succès
+                201:
+                    description: Tout les utilisateurs ont été récupéré.
                     content:
                         application/json:
                             schema:
-                                type: array
+                                type: object
+                                items:
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Tout les utilisateurs.
+                                        user: 
+                                            type: object
+                501:
+                    description: Le serveur ne répond pas.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
                                 items:
                                     type: object
                                     properties:
-                                        id:
-                                            type: integer
-                                        nom:
+                                        message:
                                             type: string
-                                        prix:
-                                            type: number
+                                            exemple: Erreur serveur.
+                                        erreur: 
+                                            type: object
+    /users/:id:
+        get:
+            tags:
+                - Utilisateurs
+            summary: Récupérer tout les utilisateurs
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur à récupérer
+              required: true
+              schema:
+                  type: string
+                  exemple: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                201:
+                    description: Utilisateur récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Utilisateur trouvé.
+                                        user: 
+                                            type: object
+                404:
+                    description: Utilisateur récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Utilisateur introuvable.
+                501:
+                    description: Le serveur ne répond pas.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur serveur.
+                                        erreur: 
+                                            type: object
+    /users/add:
         post:
             tags:
                 - Utilisateurs
-            summary: Récupérer tout les produits
+            summary: Ajouter un utilisateur
             requestBody:
                 required: true
                 content:
@@ -191,27 +259,215 @@ paths:
                         schema:
                             type: object
                             required:
-                                - nom
-                                - prix
+                                - mail
+                                - identifiant
+                                - isAdmin
                             properties:
-                                nom:
+                                mail:
                                     type: string
-                                prix:
-                                    type: number
-                                    format: float
+                                    description: Mail valide de l'utilisateur
+                                    example: abend-core@gmail.com
+                                identifiant:
+                                    type: string
+                                    description: Nom de l'utilisateur
+                                    example: Abend
+                                isAdmin:
+                                    type: boolean
+                                    example: true
             responses:
-                200:
-                    description: Liste des produits
+                201:
+                    description: L'utilisateur a été ajouter.
                     content:
                         application/json:
                             schema:
-                                type: array
+                                type: object
+                                items:
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Utilisateur créé avec succès.
+                                        user: 
+                                            type: object
+                401:
+                    description: Champs mal renseignés.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
                                 items:
                                     type: object
                                     properties:
-                                        id:
-                                            type: integer
-                                        nom:
+                                        message:
                                             type: string
-                                        prix:
-                                            type: number
+                                            exemple: Le mail doit être unique.
+                                        erreur: 
+                                            type: object                            
+                501:
+                    description: Le serveur ne répond pas.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur serveur.
+                                        erreur: 
+                                            type: object
+    /update/:id:
+        post:
+            tags:
+                - Utilisateurs
+            summary: Modifier un utilisateur
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - mail
+                                - identifiant
+                                - isAdmin
+                            properties:
+                                mail:
+                                    type: string
+                                    description: Mail valide de l'utilisateur
+                                    example: abend-core@gmail.com
+                                identifiant:
+                                    type: string
+                                    description: Nom de l'utilisateur
+                                    example: Abend
+                                isAdmin:
+                                    type: boolean
+                                    example: true
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur à modifier
+              required: true
+              schema:
+                  type: string
+                  exemple: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                201:
+                    description: L'utilisateur a été modifié.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Utilisateur modifié avec succès.
+                                        user: 
+                                            type: object
+                404:
+                    description: L'utilisateur n'existe pas.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Utilisateur introuvable.                          
+                501:
+                    description: Le serveur ne répond pas.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur serveur.
+                                        erreur: 
+                                            type: object
+    /delete/:id:
+        post:
+            tags:
+                - Utilisateurs
+            summary: Supprimer un utilisateur
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur à supprimer
+              required: true
+              schema:
+                  type: string
+                  exemple: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                201:
+                    description: L'utilisateur a été supprimé.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Utilisateur supprimé avec succès.
+                                        user: 
+                                            type: object
+                404:
+                    description: L'utilisateur n'existe pas.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Utilisateur introuvable.                          
+                501:
+                    description: Le serveur ne répond pas.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur serveur.
+                                        erreur: 
+                                            type: object
+                502:
+                    description: Erreur lors de la suppression du fichier.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur lors de la suppression de l'image de l'utilisateur.
+                                        erreur: 
+                                            type: object
+                503:
+                    description: Le serveur ne répond pas.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur lors de la suppression de l'image du/des modules.
+                                        erreur: 
+                                            type: object
