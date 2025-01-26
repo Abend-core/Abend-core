@@ -1,20 +1,20 @@
 {
-  "db": {
-    "name": "abend-core",
-    "user": "root",
-    "password": "root",
-    "host": "Abend-sql",
-    "port": 3306,
-    "dialect": "mysql"
-  },
-  "server": {
-    "env": "Default",
-    "port": 5000
-  },
-  "cors": {
-	  "origin": ["http://localhost:5000"],
-	  "method": ["GET", "HEAD", "POST"],
-	  "allowedHeaders": ["Content-Type", "Authorization", "role"],
-	  "maxAge":3000
-	}
+    "db": {
+        "name": "abend-core",
+        "user": "root",
+        "password": "root",
+        "host": "Abend-sql",
+        "port": 3306,
+        "dialect": "mysql"
+    },
+    "server": {
+        "env": "Default",
+        "port": 5000
+    },
+    "cors": {
+        "origin": ["http://localhost:5173"],
+        "method": ["GET", "HEAD", "POST"],
+        "allowedHeaders": ["Content-Type", "Authorization", "role"],
+        "maxAge": 3000
+    }
 }
