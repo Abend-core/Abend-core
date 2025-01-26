@@ -24,12 +24,7 @@
                 type="file"
                 class="absolute w-full h-full opacity-0 cursor-pointer z-30"
                 accept="image/png, image/jpeg"
-                @change="
-                  () => {
-                    handleFileChange();
-                    updateImg();
-                  }
-                "
+                @change="updateImg"
               />
             </div>
             <div class="mt-[20px] xl:mt-[80px]">
@@ -99,8 +94,9 @@ const getInfosProfil = async () => {
 const imageURL = ref(null);
 const selectedImageFile = ref(null);
 
-const handleFileChange = (event) => {
+const updateImg = async (event) => {
   const file = event.target.files[0];
+
   if (file) {
     selectedImageFile.value = file;
     const reader = new FileReader();
@@ -108,17 +104,17 @@ const handleFileChange = (event) => {
       imageURL.value = e.target.result;
     };
     reader.readAsDataURL(file);
-  }
-};
 
-const updateImg = async () => {
-  try {
-    const formData = new FormData();
-    formData.append("id", id);
-    formData.append("image", selectedImageFile.value);
-    const editImgResponse = await updateImgProfil(formData);
-  } catch (error) {
-    console.error(error);
+    try {
+      const formData = new FormData();
+      formData.append("id", id);
+      formData.append("image", file);
+      const editImgResponse = await updateImgProfil(formData);
+      getInfosProfil();
+      emit("refresh-photo-profil");
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour de l'image :", error);
+    }
   }
 };
 

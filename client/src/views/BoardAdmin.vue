@@ -18,7 +18,7 @@
           Gérer les modules
         </p>
       </div>
-      <div class="mb-5">
+      <div class="mb-3">
         <div
           class="bg-white rounded-md p-[12px] dark:bg-gray-800 dark:text-white"
         >

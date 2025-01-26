@@ -32,23 +32,23 @@
         class="ri-moon-fill text-[20px] cursor-pointer"
         @click="darkModeActivation"
       ></i>
-      <RouterLink class="hover:text-[#F82B30] font-bold" to="/"
+      <RouterLink class="hover:text-[#F82B30] font-medium" to="/"
         >Accueil</RouterLink
       >
       <RouterLink
-        class="hover:text-[#F82B30] font-bold"
+        class="hover:text-[#F82B30] font-medium"
         to="/connexion"
         v-if="!isAuthenticated"
         >Connexion</RouterLink
       >
       <RouterLink
-        class="hover:text-[#F82B30] font-bold"
+        class="hover:text-[#F82B30] font-medium"
         to="/favoris"
         v-if="isAuthenticated"
         >Favoris</RouterLink
       >
       <RouterLink
-        class="hover:text-[#F82B30] font-bold"
+        class="hover:text-[#F82B30] font-medium"
         v-if="isAuthenticated && isAdmin"
         to="/dashboard"
         >Dashboard</RouterLink
