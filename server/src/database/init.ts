@@ -29,7 +29,6 @@ if (env == "Dev") {
   sequelize
     .sync({ alter: true })
     .then(async (_) => {
-      pushDb_dev();
     })
     .catch((err) => {
       console.log("Erreur de synchronisation :", err);
