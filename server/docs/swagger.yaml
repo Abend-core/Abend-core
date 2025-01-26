@@ -14,7 +14,7 @@ tags:
       description: Opérations liées aux modules
 
 paths:
-    /auth/signin:
+    auth/signin:
         post:
             tags:
                 - Auth
@@ -94,7 +94,7 @@ paths:
                                             example: Serveur en maintenance. Réessayez dans quelques instants.
                                         erreur:
                                             type: object
-    /auth/register:
+    auth/register:
         post:
             tags:
                 - Auth
@@ -159,7 +159,7 @@ paths:
                                             exemple: Erreur serveur.
                                         erreur: 
                                             type: object
-    /users:
+    users:
         get:
             tags:
                 - Utilisateurs
@@ -195,7 +195,7 @@ paths:
                                             exemple: Erreur serveur.
                                         erreur: 
                                             type: object
-    /users/:id:
+    users/:id:
         get:
             tags:
                 - Utilisateurs
@@ -247,7 +247,7 @@ paths:
                                             exemple: Erreur serveur.
                                         erreur: 
                                             type: object
-    /users/add:
+    users/add:
         post:
             tags:
                 - Utilisateurs
@@ -316,7 +316,7 @@ paths:
                                             exemple: Erreur serveur.
                                         erreur: 
                                             type: object
-    /update/:id:
+    users/update/:id:
         post:
             tags:
                 - Utilisateurs
@@ -390,7 +390,7 @@ paths:
                                             exemple: Erreur serveur.
                                         erreur: 
                                             type: object
-    /delete/:id:
+    users/delete/:id:
         post:
             tags:
                 - Utilisateurs
@@ -471,3 +471,253 @@ paths:
                                             exemple: Erreur lors de la suppression de l'image du/des modules.
                                         erreur: 
                                             type: object
+    users/filtre:
+        post:
+            tags:
+                - Utilisateurs
+            summary: Filtrer les données utilisateur
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - search
+                            properties:
+                                search:
+                                    type: string
+                                    description: Valeur qui va filtrer la colonne username et mail d'un utilisateur
+            responses:
+                201:
+                    description: Filtre réussis.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Utilisateur trouvé.
+                                        user: 
+                                            type: object         
+                501:
+                    description: Le serveur ne répond pas.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur serveur.
+                                        erreur: 
+                                            type: object
+    users/updateImg:
+        post:
+            tags:
+                - Utilisateurs
+            summary: Modifier l'image de l'utilisateur
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - id
+                                - image
+                            properties:
+                                id:
+                                    type: string
+                                    description: 0194a43e-8212-7107-806a-9e224db48a0d
+            responses:
+                201:
+                    description: L'image est bien redimensionné.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Image téléchargée et redimensionné avec succès.
+                                        file: 
+                                            type: object
+                                            example: path & name
+                401:
+                    description: Erreur de téléchargement.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Aucun fichier n'a été téléchargé. 
+                501:
+                    description: Erreur serveur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur serveur.
+                502:
+                    description: Erreur lors de l'upload de l'image.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur lors de l'upload de l'image.
+                                        erreur: 
+                                            type: object
+                503:
+                    description: Probleme de redimensionnement
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur lors du redimensionnement de l'image.
+                                        erreur: 
+                                            type: object
+                504:
+                    description: Erreur lors de la suppression du fichier.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur lors de la suppression de l'image.
+                                        erreur: 
+                                            type: object
+                505:
+                    description: Erreur inattendue lors du redimensionnement de l'image.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur inattendue lors du redimensionnement de l'image.
+                                        erreur: 
+                                            type: object
+    users/password:
+        post:
+            tags:
+                - Utilisateurs
+            summary: Modification du mot de passe utilisateur
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - password
+                                - newPassword
+                                - confirmPassword
+                            properties:
+                                password:
+                                    type: string
+                                    description: password2
+                                newPassword:
+                                    type: string
+                                    description: password1
+                                confirmPassword:
+                                    type: string
+                                    description: password1
+            responses:
+                201:
+                    description: Mot de passe modifié avec succès
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    properties:
+                                        message:
+                                            type: string
+                                            example: Image téléchargée et redimensionné avec succès.
+                                        file: 
+                                            type: object
+                                            example: {
+                                                path: src/uploads/profil/0194a43e-822c-741a-b121-ac87228f3817.png,
+                                                name: 0194a43e-822c-741a-b121-ac87228f3817.png
+                                            }     
+                401:
+                    description: Mot de passe incorrect.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Mot de passe incorrect.
+                402:
+                    description: Mot de passe trop court.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Le mot de passe doit avoir au moins 8 caractères.
+                403:
+                    description: Les mots de passe pas identique
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Les mots de passe ne correspondent pas.
+                501:
+                    description: Erreur serveur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Erreur serveur.
+                

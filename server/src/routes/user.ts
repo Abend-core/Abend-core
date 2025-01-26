@@ -179,10 +179,10 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
         },
     })
         .then((user) => {
-            res.status(200).json({ message: "Utilisateur trouvé.", user });
+            res.status(201).json({ message: "Utilisateur trouvé.", user });
         })
         .catch((error) => {
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
+            res.status(501).json({ message: "Erreur serveur.", erreur: error });
         });
 });
 
@@ -191,23 +191,23 @@ router.post("/updateImg", auth, async (req: Request, res: Response) => {
     uploadProfil.single("image")(req, res, async (err) => {
         // Vérification des erreurs
         if (err) {
-            return res.status(500).json({
+            return res.status(502).json({
                 message: "Erreur lors de l'upload de l'image.",
-                error: err.message,
+                erreur: err.message,
             });
         }
         if (!req.file) {
             return res
-                .status(400)
+                .status(401)
                 .json({ message: "Aucun fichier n'a été téléchargé." });
         }
 
         try {
             await resizeimg(req, res, async (resizeError) => {
                 if (resizeError) {
-                    return res.status(500).json({
-                        message: "Erreur lors de la compression de l'image.",
-                        error: resizeError.message,
+                    return res.status(503).json({
+                        message: "Erreur lors du redimensionnement de l'image.",
+                        erreur: resizeError.message,
                     });
                 }
 
@@ -221,14 +221,10 @@ router.post("/updateImg", auth, async (req: Request, res: Response) => {
                     try {
                         await fs.promises.unlink(fileDelete);
                     } catch (err) {
-                        console.error(
-                            "Erreur lors de la suppression du fichier :",
-                            err
-                        );
-                        res.status(500).json({
+                        res.status(504).json({
                             message:
-                                "Erreur lors de la suppression du fichier.",
-                            error: err,
+                                "Erreur lors de la suppression de l'image.",
+                            erreur: err,
                         });
                         return;
                     }
@@ -243,8 +239,8 @@ router.post("/updateImg", auth, async (req: Request, res: Response) => {
                     }
                 );
 
-                res.status(200).json({
-                    message: "Image téléchargée et compressée avec succès.",
+                res.status(201).json({
+                    message: "Image téléchargée et redimensionné avec succès.",
                     file: {
                         path: filePath,
                         name: fileName,
@@ -253,14 +249,13 @@ router.post("/updateImg", auth, async (req: Request, res: Response) => {
             });
         } catch (resizeError: unknown) {
             if (resizeError instanceof Error) {
-                return res.status(500).json({
-                    message:
-                        "Erreur inattendue lors de la compression de l'image.",
-                    error: resizeError.message,
+                return res.status(505).json({
+                    message:"Erreur inattendue lors du redimensionnement de l'image.",
+                    erreur: resizeError.message,
                 });
             } else {
-                return res.status(500).json({
-                    message: "Erreur inconnue lors de la compression.",
+                return res.status(501).json({
+                    message: "Erreur serveur.",
                 });
             }
         }
@@ -286,13 +281,13 @@ router.post(
             );
 
             if (!isPasswordValid) {
-                res.status(402).json({
+                res.status(401).json({
                     message: "Mot de passe incorrect.",
                 });
                 return;
             }
             if (req.body.newPassword.length < 8) {
-                res.status(405).json({
+                res.status(402).json({
                     message:
                         "Le mot de passe doit avoir au moins 8 caractères.",
                 });
@@ -314,37 +309,17 @@ router.post(
                 }
             )
                 .then((user) => {
-                    res.status(200).json({
+                    res.status(201).json({
                         message: "Mot de passe modifié.",
                         user,
                     });
                 })
-                .catch((error) => {
-                    res.status(500).json({
-                        message: "Erreur serveur.",
-                        erreur: error,
-                    });
-                });
         } catch (error) {
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
+            res.status(501).json({ message: "Erreur serveur.", erreur: error });
             return;
         }
     }
 );
-
-//test
-router.post("/test", async (req: Request, res: Response) => {
-    const id = req.body.id;
-    User.findOne({
-        where: { id: id },
-    })
-        .then((user) => {
-            res.status(200).json({ message: "Utilisateur trouvé.", user });
-        })
-        .catch((error) => {
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        });
-});
 
 //Renvoie de toute les routes
 export default router;

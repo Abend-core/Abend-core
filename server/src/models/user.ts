@@ -36,6 +36,7 @@ User.init(
         username: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
             validate: {
                 notNull: {
                     msg: "L'username ne doit pas être nul.",
