@@ -1,68 +1,99 @@
+import { Request, Response, NextFunction } from "express";
 import multer from "multer";
+import sharp from "sharp";
 import NewUUID from "./uuid";
-import Module from "../models/module";
-import User from "../models/user";
-import path from 'path';  // Importer path pour gérer les chemins absolus
+import path from "path";
+import fs from "fs/promises";
 
-// Fonction asynchrone pour générer un UUID unique
-async function getUUID(type: string): Promise<string> {
-  let reply = "";
-
-  while (reply === "") {
-    const uuid = NewUUID(); // Générez un nouvel UUID
-
-    if (type === 'module') {
-      // Vérifier si l'UUID existe déjà dans les modules
-      const user = await Module.findByPk(uuid);
-      if (!user) {
-        reply = uuid + ".png"; // Si le module n'existe pas, on utilise l'UUID
-      }
-    } else {
-      // Vérifier si l'UUID existe déjà dans les utilisateurs
-      const user = await User.findByPk(uuid);
-      if (!user) {
-        reply = uuid + ".png"; // Si l'utilisateur n'existe pas, on utilise l'UUID
-      }
-    }
-  }
-
-  return reply;
-}
-
-// Configuration du stockage pour les images de module
 const storageModule: multer.StorageEngine = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // Utilisation de path.resolve pour rendre le chemin absolu
-    const destinationPath = path.resolve(__dirname, '../uploads/module');
-    cb(null, destinationPath); // Répertoire de destination pour les fichiers de module
-  },
-  filename: async (req, file, cb) => {
-    try {
-      const filename = await getUUID('module');
-      cb(null, filename); // Renvoie le nom du fichier généré
-    } catch (error) {
-    }
-  },
+    destination: (req, file, cb) => {
+        const destinationPath = path.resolve(__dirname, "../uploads/module");
+        cb(null, destinationPath);
+    },
+    filename: async (req, file, cb) => {
+        try {
+            const filename = NewUUID();
+            cb(null, filename);
+        } catch (error) {}
+    },
 });
 
-// Configuration du stockage pour les images de profil
 const storageProfil: multer.StorageEngine = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // Utilisation de path.resolve pour rendre le chemin absolu
-    const destinationPath = path.resolve(__dirname, '../uploads/profil');
-    cb(null, destinationPath); // Répertoire de destination pour les fichiers de profil
-  },
-  filename: async (req, file, cb) => {
-    try {
-      const filename = await getUUID('profil');
-      cb(null, filename); // Renvoie le nom du fichier généré
-    } catch (error) {
-    }
-  },
+    destination: (req, file, cb) => {
+        const destinationPath = path.resolve(__dirname, "../uploads/profil");
+        cb(null, destinationPath);
+    },
+    filename: async (req, file, cb) => {
+        try {
+            const filename = NewUUID();
+            cb(null, filename);
+        } catch (error) {}
+    },
 });
 
-// Middleware de Multer pour les modules et les profils
+const compressImage = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        if (!req.file) {
+            return next(new Error("Aucun fichier téléchargé."));
+        }
+
+        const filePath = req.file.path; // Chemin du fichier téléchargé
+        const tempFilePath = path.join(
+            req.file.destination,
+            "temp_" + req.file.filename // Nouveau chemin temporaire pour l'image recadrée
+        ); // Chemin temporaire pour l'image après le recadrage
+
+        const resizedPath = path.join(
+            req.file.destination,
+            req.file.filename + ".png"
+        ); // Chemin final pour l'image redimensionnée
+
+        // Charger l'image et obtenir ses dimensions
+        const metadata = await sharp(filePath).metadata();
+        const width = metadata.width;
+        const height = metadata.height;
+
+        // Calculer la taille du carré
+        const size = Math.min(width!, height!);
+
+        // Calculer les coordonnées pour centrer le carré
+        const left = (width! - size) / 2;
+        const top = (height! - size) / 2;
+
+        // Recadrer l'image pour qu'elle soit carrée et sauvegarder temporairement
+        await sharp(filePath)
+            .extract({
+                left: Math.floor(left),
+                top: Math.floor(top),
+                width: size,
+                height: size,
+            })
+            .toFile(tempFilePath); // Sauvegarder l'image recadrée dans un fichier temporaire
+
+        // Redimensionner l'image recadrée à 256x256 et enregistrer
+        await sharp(tempFilePath)
+            .resize(256, 256) // Dimensions de redimensionnement fixes
+            .toFile(resizedPath); // Enregistrer l'image redimensionnée
+
+        // Supprimer les fichiers temporaires après traitement
+        await fs.unlink(filePath); // Supprimer l'image d'origine
+        await fs.unlink(tempFilePath); // Supprimer le fichier temporaire
+
+        // Mettre à jour les informations du fichier pour Multer
+        req.file.path = resizedPath;
+        req.file.filename = req.file.filename + ".png";
+
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
 const uploadModule = multer({ storage: storageModule });
 const uploadProfil = multer({ storage: storageProfil });
 
-export { uploadModule, uploadProfil };
+export { uploadModule, uploadProfil, compressImage };

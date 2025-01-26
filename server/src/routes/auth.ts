@@ -7,9 +7,11 @@ import NewUUID from "../tools/uuid";
 import { compare } from "../tools/hash";
 import jwt from "jsonwebtoken";
 import privateKey from "../middleware/auth/key";
+import config from "config";
 //Modele & bdd
 import User from "../models/user";
 
+const image: number = config.get("storage.nombreImageBanque");
 const router = express.Router();
 
 router.post("/register", async (req, res): Promise<void> => {
@@ -17,7 +19,7 @@ router.post("/register", async (req, res): Promise<void> => {
     data.id = "";
 
     if (data.image == undefined) {
-        data.image = "bank-img-" + Math.trunc(Math.random() * 28) + ".png";
+        data.image = "bank-img-" + Math.trunc(Math.random() * image) + ".png";
     }
 
     while (data.id === "") {

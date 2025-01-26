@@ -5,7 +5,7 @@ const router = express.Router();
 import NewUUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
-import { uploadModule } from "../tools/multer";
+import { uploadModule, compressImage } from "../tools/multer";
 //Model & bdd
 import Module from "../models/module";
 import Liked from "../models/liked";
@@ -55,31 +55,52 @@ router.post("/uploadImg", auth, (req, res) => {
                 error: err.message,
             });
         }
-
-        // Vérifier si le fichier a bien été téléchargé
         if (!req.file) {
             return res
                 .status(400)
                 .json({ message: "Aucun fichier n'a été téléchargé." });
         }
 
-        // Récupérer les informations du fichier téléchargé
-        const filePath = req.file.path;
-        const fileName = req.file.filename;
-        await Module.update(
-            { image: fileName },
-            {
-                where: { id: req.body.id },
+        try {
+            await compressImage(req, res, async (compressionError) => {
+                if (compressionError) {
+                    return res.status(500).json({
+                        message: "Erreur lors de la compression de l'image.",
+                        error: compressionError.message,
+                    });
+                }
+
+                const filePath = req.file!.path;
+                const fileName = req.file!.filename;
+
+                await Module.update(
+                    { image: fileName },
+                    {
+                        where: { id: req.body.id },
+                    }
+                );
+
+                res.status(200).json({
+                    message: "Image téléchargée et compressée avec succès.",
+                    file: {
+                        path: filePath,
+                        name: fileName,
+                    },
+                });
+            });
+        } catch (compressionError: unknown) {
+            if (compressionError instanceof Error) {
+                return res.status(500).json({
+                    message:
+                        "Erreur inattendue lors de la compression de l'image.",
+                    error: compressionError.message,
+                });
+            } else {
+                return res.status(500).json({
+                    message: "Erreur inconnue lors de la compression.",
+                });
             }
-        );
-        // Réponse de succès
-        res.status(200).json({
-            message: "Image téléchargée avec succès.",
-            file: {
-                path: filePath,
-                name: fileName,
-            },
-        });
+        }
     });
 });
 

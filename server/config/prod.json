@@ -16,5 +16,8 @@
         "method": ["GET", "HEAD", "POST"],
         "allowedHeaders": ["Content-Type", "Authorization", "role"],
         "maxAge": 3000
+    },
+    "storage": {
+        "nombreImageBanque": 29
     }
 }

@@ -12,24 +12,21 @@ import NewUUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
 import { uploadProfil } from "../tools/multer";
+import config from "config";
 //Middleware
 import auth from "../middleware/auth/auth";
 import role from "../middleware/role";
 
+const image: number = config.get("storage.nombreImageBanque");
+
 // Création d'un nouvel utilisateur
 router.post("/add", auth, role, async (req: Request, res: Response) => {
     const data = req.body;
-    data.id = "";
+    data.id = NewUUID();
     if (data.image == undefined) {
-        data.image = "bank-img-" + Math.trunc(Math.random() * 29) + ".png";
+        data.image = "bank-img-" + Math.trunc(Math.random() * image) + ".png";
     }
-    while (data.id === "") {
-        const uuid = NewUUID();
-        const user = await User.findByPk(uuid);
-        if (!user) {
-            data.id = uuid;
-        }
-    }
+
     User.create(data)
         .then(async (user) => {
             const userData = user.get();
@@ -126,7 +123,6 @@ router.post("/update/:id", auth, (req: Request, res: Response) => {
 router.post(
     "/delete/:id",
     auth,
-    role,
     async (req: Request, res: Response): Promise<void> => {
         try {
             const data = await User.findByPk(req.params.id);
