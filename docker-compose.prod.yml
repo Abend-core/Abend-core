@@ -1,47 +1,46 @@
 services:
-  bdd:
-    image: mysql
-    container_name: Abend-sql
-    environment:
-      - MYSQL_DATABASE=abend-core
-      - MYSQL_ROOT_PASSWORD=root
-    volumes:
-      - ./db-data-abend:/var/lib/mysql
-    networks:
-      - ab-net
+    bdd:
+        image: mysql
+        container_name: Abend-sql
+        environment:
+            - MYSQL_DATABASE=abend-core
+            - MYSQL_ROOT_PASSWORD=root
+        volumes:
+            - ./db-data-abend:/var/lib/mysql
+        networks:
+            - ab-net
 
-  server:
-    image: node:18
-    container_name: Abend-server
-    ports:
-      - "5000:5000"
-    working_dir: /server
-    command: sh -c "npm install && npm run prod"
-    volumes:
-      - ./server:/server
-    environment:
-      - NODE_ENV=prod
-    networks:
-      - ab-net
-    stop_grace_period: 1s
+    server:
+        image: node:18
+        container_name: Abend-server
+        ports:
+            - "5000:5000"
+        working_dir: /server
+        command: sh -c "npm install && npm run prod"
+        volumes:
+            - ./server:/server
+        environment:
+            - NODE_ENV=prod
+        networks:
+            - ab-net
+        stop_grace_period: 1s
 
-  client:
-    build: ./client
-    container_name: Abend-client
-    ports:
-      - "5173:5173"
-      - "80:5173"
-    working_dir: /client
-    command: sh -c "npm install && npm run prod"
-    volumes:
-      - ./client:/client
-    environment:
-      - VITE_API_URL=http://abend-core.org:5000
-    networks:
-      - ab-net
-    stop_grace_period: 1s
+    client:
+        build: ./client
+        container_name: Abend-client
+        ports:
+            - "80:5173"
+        working_dir: /client
+        command: sh -c "npm install && npm run prod"
+        volumes:
+            - ./client:/client
+        environment:
+            - VITE_API_URL=http://abend-core.org:5000
+        networks:
+            - ab-net
+        stop_grace_period: 1s
 
 networks:
-  ab-net:
+    ab-net:
 volumes:
-  db-data-abend: {}
+    db-data-abend: {}
