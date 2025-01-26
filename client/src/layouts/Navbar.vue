@@ -109,8 +109,8 @@
               class="absolute left-0 right-0 flex items-center gap-1 border-t px-2 group"
               @click="
                 () => {
-                  closeMenu;
-                  logOut;
+                  closeMenu();
+                  logOut();
                 }
               "
             >
@@ -166,7 +166,6 @@ const darkModeActivation = () => {
 const logOut = () => {
   clearSessionData();
   emit("logout");
-  updateAuthStatus({ isAuthenticated: false, isAdmin: false });
   router.push("/");
 };
 

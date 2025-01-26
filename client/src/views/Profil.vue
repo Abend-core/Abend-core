@@ -26,8 +26,8 @@
                 accept="image/png, image/jpeg"
                 @change="
                   () => {
-                    handleFileChange;
-                    updateImg;
+                    handleFileChange();
+                    updateImg();
                   }
                 "
               />
