@@ -364,8 +364,8 @@ paths:
                                             example: Utilisateur modifié avec succès.
                                         user: 
                                             type: object
-                404:
-                    description: L'utilisateur n'existe pas.
+                301:
+                    description: La valeur doit être unique
                     content:
                         application/json:
                             schema:
@@ -375,7 +375,19 @@ paths:
                                     properties:
                                         message:
                                             type: string
-                                            exemple: Utilisateur introuvable.                          
+                                            exemple: Ce mail est déjà utilisé par un autre compte.                          
+                302:
+                    description: La valeur doit être unique
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                items:
+                                    type: object
+                                    properties:
+                                        message:
+                                            type: string
+                                            exemple: Ce nom d'utilisateur est déjà utilisé par un autre compte. 
                 501:
                     description: Le serveur ne répond pas.
                     content:

@@ -81,24 +81,49 @@ router.get("/:id", auth, (req: Request, res: Response) => {
 });
 
 // Modification d'un utilisateur
-router.post("/update/:id", auth, (req: Request, res: Response) => {
+router.post("/update/:id", auth, async (req: Request, res: Response): Promise<void> => {
+    
     const id = req.params.id;
-    User.update(req.body, {
-        where: { id: id },
-    })
-        .then((_) => {
-            return User.findByPk(id).then((user) => {
-                if (user === null) {
-                    res.status(404).json({
-                        message: "Utilisateur introuvable.",
-                    });
-                }
-                res.status(201).json({ message: "Utilisateur modifié.", user });
-            });
-        })
-        .catch((error) => {
-            res.status(501).json({ message: "Erreur serveur.", erreur: error });
+
+    try {
+        
+        const existingMailUser = await User.findOne({
+            where: { mail: req.body.mail, id: { [Op.ne]: id } }, 
         });
+
+        if (existingMailUser) {
+            res.status(301).json({
+                message: "Ce mail est déjà utilisé par un autre compte.",
+            });
+            return 
+        }
+
+        
+        const existingUsernameUser = await User.findOne({
+            where: { username: req.body.username, id: { [Op.ne]: id } }, 
+        });
+
+        if (existingUsernameUser) {
+            res.status(302).json({
+                message: "Ce nom d'utilisateur est déjà utilisé par un autre compte.",
+            });
+            return 
+        }
+
+        // Mise à jour de l'utilisateur
+        await User.update(req.body, {where: { id: id }});
+
+        res.status(201).json({
+            message: "Utilisateur modifié avec succès.",
+        });
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(501).json({
+                message: "Erreur serveur.",
+                erreur: error.message,
+            });
+        }
+    }
 });
 
 //Suppression d'un utilisateur
