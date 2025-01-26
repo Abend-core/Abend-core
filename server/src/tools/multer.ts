@@ -31,7 +31,7 @@ const storageProfil: multer.StorageEngine = multer.diskStorage({
     },
 });
 
-const compressImage = async (
+const resizeimg = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -96,4 +96,4 @@ const compressImage = async (
 const uploadModule = multer({ storage: storageModule });
 const uploadProfil = multer({ storage: storageProfil });
 
-export { uploadModule, uploadProfil, compressImage };
+export { uploadModule, uploadProfil, resizeimg };

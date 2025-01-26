@@ -11,7 +11,7 @@ import { hash, compare } from "../tools/hash";
 import NewUUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
-import { uploadProfil } from "../tools/multer";
+import { uploadProfil, resizeimg } from "../tools/multer";
 import config from "config";
 //Middleware
 import auth from "../middleware/auth/auth";
@@ -212,7 +212,88 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
         });
 });
 
-//Update password
+//Update photo utilisateur
+router.post("/updateImg", auth, async (req: Request, res: Response) => {
+    uploadProfil.single("image")(req, res, async (err) => {
+        // Vérification des erreurs
+        if (err) {
+            return res.status(500).json({
+                message: "Erreur lors de l'upload de l'image.",
+                error: err.message,
+            });
+        }
+        if (!req.file) {
+            return res
+                .status(400)
+                .json({ message: "Aucun fichier n'a été téléchargé." });
+        }
+
+        try {
+            await resizeimg(req, res, async (resizeError) => {
+                if (resizeError) {
+                    return res.status(500).json({
+                        message: "Erreur lors de la compression de l'image.",
+                        error: resizeError.message,
+                    });
+                }
+
+                const user = await User.findOne({ where: { id: req.body.id } });
+                const userData = user!.get();
+                if (!userData.image.includes("bank")) {
+                    const fileDelete = path.join(
+                        "./src/uploads/profil/",
+                        userData.image
+                    );
+                    try {
+                        await fs.promises.unlink(fileDelete);
+                    } catch (err) {
+                        console.error(
+                            "Erreur lors de la suppression du fichier :",
+                            err
+                        );
+                        res.status(500).json({
+                            message:
+                                "Erreur lors de la suppression du fichier.",
+                            error: err,
+                        });
+                        return;
+                    }
+                }
+                const filePath = req.file!.path;
+                const fileName = req.file!.filename;
+
+                await User.update(
+                    { image: fileName },
+                    {
+                        where: { id: req.body.id },
+                    }
+                );
+
+                res.status(200).json({
+                    message: "Image téléchargée et compressée avec succès.",
+                    file: {
+                        path: filePath,
+                        name: fileName,
+                    },
+                });
+            });
+        } catch (resizeError: unknown) {
+            if (resizeError instanceof Error) {
+                return res.status(500).json({
+                    message:
+                        "Erreur inattendue lors de la compression de l'image.",
+                    error: resizeError.message,
+                });
+            } else {
+                return res.status(500).json({
+                    message: "Erreur inconnue lors de la compression.",
+                });
+            }
+        }
+    });
+});
+
+//Update password utilisateur
 router.post(
     "/password",
     auth,

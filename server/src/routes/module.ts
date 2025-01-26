@@ -5,10 +5,11 @@ const router = express.Router();
 import NewUUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
-import { uploadModule, compressImage } from "../tools/multer";
+import { uploadModule, resizeimg } from "../tools/multer";
 //Model & bdd
 import Module from "../models/module";
 import Liked from "../models/liked";
+import User from "../models/user";
 import { Op, Sequelize } from "sequelize";
 //Middleware
 import auth from "../middleware/auth/auth";
@@ -62,11 +63,11 @@ router.post("/uploadImg", auth, (req, res) => {
         }
 
         try {
-            await compressImage(req, res, async (compressionError) => {
-                if (compressionError) {
+            await resizeimg(req, res, async (resizeError) => {
+                if (resizeError) {
                     return res.status(500).json({
                         message: "Erreur lors de la compression de l'image.",
-                        error: compressionError.message,
+                        error: resizeError.message,
                     });
                 }
 
@@ -88,12 +89,12 @@ router.post("/uploadImg", auth, (req, res) => {
                     },
                 });
             });
-        } catch (compressionError: unknown) {
-            if (compressionError instanceof Error) {
+        } catch (resizeError: unknown) {
+            if (resizeError instanceof Error) {
                 return res.status(500).json({
                     message:
                         "Erreur inattendue lors de la compression de l'image.",
-                    error: compressionError.message,
+                    error: resizeError.message,
                 });
             } else {
                 return res.status(500).json({
@@ -110,6 +111,13 @@ router.get("/show", (req, res) => {
         where: {
             isShow: true,
         },
+        include: [
+            {
+                model: User,
+                as: "User",
+                attributes: ["username", "isAdmin"],
+            },
+        ],
     })
         .then((module) => {
             res.status(200).json({ message: "Tout les modules.", module });
@@ -131,6 +139,13 @@ router.get("/hide", (req, res) => {
         where: {
             isShow: false,
         },
+        include: [
+            {
+                model: User,
+                as: "User",
+                attributes: ["username", "isAdmin"],
+            },
+        ],
     })
         .then((module) => {
             res.status(200).json({ message: "Tout les modules.", module });
@@ -148,7 +163,15 @@ router.get("/hide", (req, res) => {
 
 // Selection de tout les modules
 router.get("/", (req, res) => {
-    Module.findAll()
+    Module.findAll({
+        include: [
+            {
+                model: User,
+                as: "User",
+                attributes: ["username", "isAdmin"],
+            },
+        ],
+    })
         .then((module) => {
             res.status(200).json({ message: "Tout les modules.", module });
         })
@@ -186,6 +209,7 @@ router.get("/:id", (req, res) => {
         });
 });
 
+// Modification d'un module
 router.post("/update/:id", auth, (req, res) => {
     const id = req.params.id;
     Module.update(req.body, {
@@ -210,6 +234,7 @@ router.post("/update/:id", auth, (req, res) => {
         });
 });
 
+//Suppression d'un module
 router.post("/delete/:id", auth, (req, res) => {
     Module.findByPk(req.params.id)
         .then((data) => {
@@ -287,7 +312,7 @@ router.get("/user/:id", auth, async (req, res) => {
         });
 });
 
-// Liste des modules par utilisateur
+// Ajoute en favoris le module
 router.post("/liked", async (req, res) => {
     const { UserId, ModuleId } = req.body;
 

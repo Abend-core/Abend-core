@@ -13,8 +13,13 @@ User.belongsTo(Statut, {
     as: "Statut",
 });
 
-User.hasMany(Module, { onDelete: "CASCADE" });
-Module.belongsTo(User);
+User.hasMany(Module, {
+    onDelete: "CASCADE",
+    foreignKey: "user_id", // La clé étrangère de Module fait référence à l'id de User
+});
+Module.belongsTo(User, {
+    foreignKey: "user_id", // La clé étrangère de Module fait référence à l'id de User
+});
 
 User.belongsToMany(Module, {
     through: Like,
