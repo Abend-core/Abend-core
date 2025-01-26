@@ -27,3 +27,7 @@ export const editUserById = (id, data) => {
 export const editPasswordById = (data) => {
   return apiClient.post("/users/password/", data);
 };
+
+export const updateImgProfil = (data) => {
+  return apiClient.post("/users/updateImg/", data);
+};

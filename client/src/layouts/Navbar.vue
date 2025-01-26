@@ -43,6 +43,12 @@
       >
       <RouterLink
         class="hover:text-[#F82B30] font-bold"
+        to="/favoris"
+        v-if="isAuthenticated"
+        >Favoris</RouterLink
+      >
+      <RouterLink
+        class="hover:text-[#F82B30] font-bold"
         v-if="isAuthenticated && isAdmin"
         to="/dashboard"
         >Dashboard</RouterLink
@@ -64,7 +70,7 @@
         </div>
         <div
           v-if="isMenuProfilOpen"
-          class="absolute right-0 w-[125px] h-[125px] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
+          class="absolute right-0 w-[125px] h-[160px] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
         >
           <div class="flex items-center gap-1">
             <RouterLink
@@ -76,7 +82,7 @@
               Profil
             </RouterLink>
           </div>
-          <div class="flex items-center gap-1 mb-3">
+          <div class="flex items-center gap-1">
             <RouterLink
               to="/module"
               class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30] dark:hover:text-[#F82B30]"
@@ -88,13 +94,23 @@
               Module
             </RouterLink>
           </div>
+          <div class="flex items-center gap-1 mb-3">
+            <RouterLink
+              to="/favoris"
+              class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30] dark:hover:text-[#F82B30]"
+              @click="closeMenu"
+            >
+              <i class="ri-heart-add-2-fill text-gray-400 text-[20px]"></i>
+              Favoris
+            </RouterLink>
+          </div>
           <div>
             <button
               class="absolute left-0 right-0 flex items-center gap-1 border-t px-2 group"
               @click="
                 () => {
-                  closeMenu();
-                  logOut();
+                  closeMenu;
+                  logOut;
                 }
               "
             >
@@ -150,6 +166,7 @@ const darkModeActivation = () => {
 const logOut = () => {
   clearSessionData();
   emit("logout");
+  updateAuthStatus({ isAuthenticated: false, isAdmin: false });
   router.push("/");
 };
 

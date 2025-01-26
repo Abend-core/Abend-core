@@ -8,11 +8,28 @@
           <div
             class="flex items-center gap-0 xl:gap-6 mt-[42px] xl:flex-row flex-col"
           >
-            <div>
+            <div class="relative w-[200px] h-[200px] rounded-full group">
               <img
-                class="w-[200px] h-[200px] rounded-full border border-white p-1 bg-white"
+                class="absolute rounded-full border border-white p-1 bg-white"
                 :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
-                alt=""
+                alt="Image de profil"
+              />
+              <div
+                class="absolute inset-0 flex items-center justify-center z-10 bg-[#F82B30] rounded-full bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              >
+                <i class="ri-pencil-fill text-white text-[28px]"></i>
+              </div>
+
+              <input
+                type="file"
+                class="absolute w-full h-full opacity-0 cursor-pointer z-30"
+                accept="image/png, image/jpeg"
+                @change="
+                  () => {
+                    handleFileChange;
+                    updateImg;
+                  }
+                "
               />
             </div>
             <div class="mt-[20px] xl:mt-[80px]">
@@ -56,7 +73,7 @@
 import { ref } from "vue";
 import editInfos from "../components/profil/editInfos.vue";
 import displayInfos from "../components/profil/displayInfos.vue";
-import { getUserById } from "../api/user";
+import { getUserById, updateImgProfil } from "../api/user";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -74,6 +91,32 @@ const getInfosProfil = async () => {
   try {
     const response = await getUserById(id);
     user.value = response.data.user;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const imageURL = ref(null);
+const selectedImageFile = ref(null);
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    selectedImageFile.value = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imageURL.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+const updateImg = async () => {
+  try {
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("image", selectedImageFile.value);
+    const editImgResponse = await updateImgProfil(formData);
   } catch (error) {
     console.error(error);
   }

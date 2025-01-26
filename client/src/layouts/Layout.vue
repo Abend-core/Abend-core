@@ -19,6 +19,7 @@
         @login="login"
         :isAdmin="isAdmin"
         :isAuthenticated="isAuthenticated"
+        @updateAuthStatus="updateAuthStatus"
       />
     </div>
     <!-- <Footer v-if="!$route.meta.hideFooter" /> -->
@@ -31,6 +32,7 @@ import Header from "../layouts/Header.vue";
 import Home from "../views/Home.vue";
 export default {
   name: "Layout",
+  emits: ["login", "updateAuthStatus"],
   components: {
     Header,
     Home,
@@ -50,8 +52,14 @@ export default {
       sessionStorage.removeItem("isAdmin");
     };
 
-    //permet de récupérer la donnée isAdmin
+    const updateAuthStatus = (status) => {
+      isAuthenticated.value = status.isAuthenticated;
+      isAdmin.value = status.isAdmin;
+    };
+
     provide("isAdmin", isAdmin);
+    provide("isAuthenticated", isAuthenticated);
+    provide("updateAuthStatus", updateAuthStatus);
 
     if (sessionStorage.getItem("authToken") !== null) {
       isAuthenticated.value = true;
@@ -65,6 +73,7 @@ export default {
       isAdmin,
       login,
       logout,
+      updateAuthStatus,
     };
   },
 };

@@ -8,6 +8,7 @@ import BoardAdmin from "../views/BoardAdmin.vue";
 import Error from "../views/Error.vue";
 import ForgetPassword from "../views/ForgetPassword.vue";
 import ModuleProfil from "../views/ModuleProfil.vue";
+import LikedModules from "../views/LikedModules.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
@@ -22,6 +23,14 @@ const routes = [
     path: "/profil",
     name: "ProfilPage",
     component: Profil,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/favoris",
+    name: "LikedModules",
+    component: LikedModules,
     meta: {
       requiresAuth: true,
     },
