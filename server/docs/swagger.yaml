@@ -656,7 +656,7 @@ paths:
                                     description: password1
             responses:
                 201:
-                    description: Mot de passe modifié avec succès
+                    description: Mot de passe modifié avec succès.
                     content:
                         application/json:
                             schema:
@@ -665,13 +665,7 @@ paths:
                                     properties:
                                         message:
                                             type: string
-                                            example: Image téléchargée et redimensionné avec succès.
-                                        file: 
-                                            type: object
-                                            example: {
-                                                path: src/uploads/profil/0194a43e-822c-741a-b121-ac87228f3817.png,
-                                                name: 0194a43e-822c-741a-b121-ac87228f3817.png
-                                            }     
+                                            example: Mot de passe modifié avec succès.
                 401:
                     description: Mot de passe incorrect.
                     content:
