@@ -81,50 +81,53 @@ router.get("/:id", auth, (req: Request, res: Response) => {
 });
 
 // Modification d'un utilisateur
-router.post("/update/:id", auth, async (req: Request, res: Response): Promise<void> => {
-    
-    const id = req.params.id;
+router.post(
+    "/update/:id",
+    auth,
+    async (req: Request, res: Response): Promise<void> => {
+        const id = req.params.id;
 
-    try {
-        
-        const existingMailUser = await User.findOne({
-            where: { mail: req.body.mail, id: { [Op.ne]: id } }, 
-        });
-
-        if (existingMailUser) {
-            res.status(301).json({
-                message: "Ce mail est déjà utilisé par un autre compte.",
+        try {
+            const existingMailUser = await User.findOne({
+                where: { mail: req.body.mail, id: { [Op.ne]: id } },
             });
-            return 
-        }
 
-        
-        const existingUsernameUser = await User.findOne({
-            where: { username: req.body.username, id: { [Op.ne]: id } }, 
-        });
+            if (existingMailUser) {
+                res.status(301).json({
+                    message: "Ce mail est déjà utilisé par un autre compte.",
+                });
+                return;
+            }
 
-        if (existingUsernameUser) {
-            res.status(302).json({
-                message: "Ce nom d'utilisateur est déjà utilisé par un autre compte.",
+            const existingUsernameUser = await User.findOne({
+                where: { username: req.body.username, id: { [Op.ne]: id } },
             });
-            return 
-        }
 
-        // Mise à jour de l'utilisateur
-        await User.update(req.body, {where: { id: id }});
+            if (existingUsernameUser) {
+                res.status(302).json({
+                    message:
+                        "Ce nom d'utilisateur est déjà utilisé par un autre compte.",
+                });
+                return;
+            }
 
-        res.status(201).json({
-            message: "Utilisateur modifié avec succès.",
-        });
-    } catch (error) {
-        if (error instanceof Error) {
-            res.status(501).json({
-                message: "Erreur serveur.",
-                erreur: error.message,
+            // Mise à jour de l'utilisateur
+            const response = await User.update(req.body, { where: { id: id } });
+
+            res.status(201).json({
+                message: "Utilisateur modifié avec succès.",
+                data: response,
             });
+        } catch (error) {
+            if (error instanceof Error) {
+                res.status(501).json({
+                    message: "Erreur serveur.",
+                    erreur: error.message,
+                });
+            }
         }
     }
-});
+);
 
 //Suppression d'un utilisateur
 router.post(
@@ -275,7 +278,8 @@ router.post("/updateImg", auth, async (req: Request, res: Response) => {
         } catch (resizeError: unknown) {
             if (resizeError instanceof Error) {
                 return res.status(505).json({
-                    message:"Erreur inattendue lors du redimensionnement de l'image.",
+                    message:
+                        "Erreur inattendue lors du redimensionnement de l'image.",
                     erreur: resizeError.message,
                 });
             } else {
@@ -332,13 +336,12 @@ router.post(
                 {
                     where: { id: user.id },
                 }
-            )
-                .then((user) => {
-                    res.status(201).json({
-                        message: "Mot de passe modifié.",
-                        user,
-                    });
-                })
+            ).then((user) => {
+                res.status(201).json({
+                    message: "Mot de passe modifié.",
+                    user,
+                });
+            });
         } catch (error) {
             res.status(501).json({ message: "Erreur serveur.", erreur: error });
             return;
