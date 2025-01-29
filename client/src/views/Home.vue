@@ -59,17 +59,6 @@ const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const modules = ref([]);
 const etatLike = ref({});
 
-defineProps({
-  isAuthenticated: {
-    type: Boolean,
-    required: true,
-  },
-  isAdmin: {
-    type: Boolean,
-    required: true,
-  },
-});
-
 const allModules = async () => {
   try {
     const response = await findAllModulesVisible();

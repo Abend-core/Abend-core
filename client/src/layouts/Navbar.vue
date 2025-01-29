@@ -60,7 +60,7 @@
         >
           <img
             class="w-[45px] h-[45px] rounded-full"
-            :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
+            :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
             alt="Photo de profil"
           />
           <div class="flex flex-col">
@@ -129,69 +129,50 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
-import { clearSessionData } from "../utils/session";
-import { isDark, toggleDarkMode } from "../store/darkMode.js";
-import { RouterLink, useRouter } from "vue-router";
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "../stores/authStore";
+import { isDark, toggleDarkMode } from "../utils/darkMode.js";
 import { getUserById } from "../api/user";
 import "remixicon/fonts/remixicon.css";
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-const user = ref({});
-const id = ref(sessionStorage.getItem("id"));
+const authStore = useAuthStore();
+const router = useRouter();
 const isMenuProfilOpen = ref(false);
 
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+const isAdmin = computed(() => authStore.isAdmin);
+const user = computed(() => authStore.user);
+
 const getInfosProfil = async () => {
-  if (!props.isAuthenticated || !id.value) return;
+  if (!authStore.isAuthenticated || !authStore.user?.id) return;
   try {
-    const response = await getUserById(id.value);
-    user.value = response.data.user;
+    const response = await getUserById(authStore.user.id);
+    authStore.setUser(response.data.user);
   } catch (error) {
     console.error("Erreur lors de la récupération du profil :", error);
   }
 };
-
-const props = defineProps({
-  isAuthenticated: Boolean,
-  isAdmin: Boolean,
-});
-
-const router = useRouter();
-const emit = defineEmits(["login", "logout"]);
 
 const darkModeActivation = () => {
   toggleDarkMode();
 };
 
 const logOut = () => {
-  clearSessionData();
-  emit("logout");
+  authStore.logout();
   router.push("/");
 };
 
 const displayMenu = () => {
   isMenuProfilOpen.value = !isMenuProfilOpen.value;
 };
-
 const closeMenu = () => {
   isMenuProfilOpen.value = false;
 };
 
-watch(
-  () => props.isAuthenticated,
-  (newVal) => {
-    if (newVal) {
-      id.value = sessionStorage.getItem("id");
-      getInfosProfil();
-    } else {
-      user.value = {};
-    }
-  }
-);
-
 onMounted(() => {
-  if (props.isAuthenticated) {
-    id.value = sessionStorage.getItem("id");
+  authStore.initializeAuth();
+  if (authStore.isAuthenticated) {
     getInfosProfil();
   }
 });

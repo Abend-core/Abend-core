@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="successMessage"
-    class="text-white rounded-[6px] p-4 mb-3 bg-gradient-to-r from-[#4b9945] to-[#4b9945] border border-black"
+    class="text-white rounded-[6px] p-4 mt-3 mb-3 bg-gradient-to-r from-[#4b9945] to-[#4b9945] border border-black"
   >
     <div>
       <div class="text-[14px] text-white">
@@ -9,16 +9,7 @@
       </div>
     </div>
   </div>
-  <div
-    v-if="errorMessage"
-    class="text-white rounded-[6px] p-4 mb-3 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-black"
-  >
-    <div>
-      <div class="text-[14px] text-white">
-        {{ errorMessage }}
-      </div>
-    </div>
-  </div>
+  <ErrorMessage />
   <div
     class="flex flex-col xl:flex-row lg:justify-center lg:flex-col lg:items-center xl:items-start"
   >
@@ -139,20 +130,21 @@
 </template>
 
 <script setup>
-import { ref, inject } from "vue";
+import { ref } from "vue";
 import {
   getUserById,
   editUserById,
   editPasswordById,
   deleteUser,
 } from "../../api/user";
-import { clearSessionData } from "../../utils/session";
 import modalConfirmDelete from "../modal/modalConfirmDelete.vue";
+import ErrorMessage from "../../components/notification/ErrorMessage.vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "../../stores/authStore";
+
+const authStore = useAuthStore();
 
 const router = useRouter();
-
-const emit = defineEmits(["profileUpdated", "login", "logout"]);
 
 const id = sessionStorage.getItem("id");
 
@@ -173,8 +165,6 @@ const passwordButtonDisabled = ref(true);
 const initialEmail = emailProfil.value;
 const initialIdentifiant = identifiantProfil.value;
 
-const updateAuthStatus = inject("updateAuthStatus");
-
 const getInfosProfil = async () => {
   try {
     const response = await getUserById(id);
@@ -194,11 +184,11 @@ const updateUserProfile = async () => {
   };
 
   try {
-    await editUserById(id, updatedData);
+    const responseUpdated = await editUserById(id, updatedData);
+    authStore.setUser(responseUpdated.data.user);
     successMessage.value = "Profil mis à jour avec succès !";
     setTimeout(() => (successMessage.value = ""), 3000);
     buttonDisabled.value = true;
-    emit("profileUpdated");
   } catch (error) {
     console.error(error);
   }
@@ -224,7 +214,7 @@ const updatePassword = async () => {
   };
 
   try {
-    const response = await editPasswordById(passwordData);
+    await editPasswordById(passwordData);
     successMessage.value = "Mot de passe modifié avec succès !";
     setTimeout(() => (successMessage.value = ""), 3000);
     oldPassword.value = "";
@@ -253,8 +243,7 @@ const deleteAccount = async () => {
   try {
     await deleteUser(id);
     closeModalConfirmDeleteUser();
-    clearSessionData();
-    updateAuthStatus({ isAuthenticated: false, isAdmin: false });
+    authStore.logout();
     router.push("/");
   } catch (error) {
     console.log(error);

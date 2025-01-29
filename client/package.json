@@ -12,6 +12,7 @@
   "dependencies": {
     "@vueuse/core": "^12.4.0",
     "axios": "^1.7.9",
+    "pinia": "^2.3.1",
     "remixicon": "^4.6.0",
     "vue": "^3.5.12",
     "vue-router": "^4.5.0"

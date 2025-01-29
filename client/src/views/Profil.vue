@@ -56,7 +56,7 @@
             <display-infos />
           </div>
           <div v-if="activeSection === 'editInfo'">
-            <edit-infos @profileUpdated="getInfosProfil" />
+            <edit-infos />
           </div>
         </div>
       </div>
@@ -65,16 +65,18 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import editInfos from "../components/profil/editInfos.vue";
 import displayInfos from "../components/profil/displayInfos.vue";
 import { getUserById, updateImgProfil } from "../api/user";
+import { useAuthStore } from "../stores/authStore";
+
+const authStore = useAuthStore();
+
+const user = computed(() => authStore.user);
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-defineEmits(["login", "logout"]);
-
-const user = ref({});
 const id = sessionStorage.getItem("id");
 
 const activeSection = ref("profile");
@@ -85,7 +87,7 @@ const setActiveSection = (section) => {
 const getInfosProfil = async () => {
   try {
     const response = await getUserById(id);
-    user.value = response.data.user;
+    authStore.setUser(response.data.user);
   } catch (error) {
     console.error(error);
   }
@@ -110,8 +112,11 @@ const updateImg = async (event) => {
       formData.append("id", id);
       formData.append("image", file);
       const editImgResponse = await updateImgProfil(formData);
+      const updatedUser = editImgResponse.data.user;
+
+      authStore.setUser(updatedUser);
+
       getInfosProfil();
-      emit("refresh-photo-profil");
     } catch (error) {
       console.error("Erreur lors de la mise à jour de l'image :", error);
     }

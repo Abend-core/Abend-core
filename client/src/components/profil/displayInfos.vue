@@ -28,8 +28,6 @@ import { ref } from "vue";
 import { getUserById } from "../../api/user";
 import { formatDateTime } from "../../utils/date";
 
-defineEmits(["login", "logout"]);
-
 const id = sessionStorage.getItem("id");
 const user = ref({});
 
