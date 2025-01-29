@@ -112,11 +112,11 @@ router.post(
             }
 
             // Mise à jour de l'utilisateur
-            const response = await User.update(req.body, { where: { id: id } });
-
+            await User.update(req.body, { where: { id: id } });
+            const response = await User.findByPk(id);
             res.status(201).json({
                 message: "Utilisateur modifié avec succès.",
-                data: response,
+                user: response,
             });
         } catch (error) {
             if (error instanceof Error) {
