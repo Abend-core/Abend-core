@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white rounded-md p-[12px] mt-3 mb-3 dark:bg-gray-800 dark:text-white"
+    class="bg-white rounded-md p-[12px] mt-3 mb-3 dark:bg-gray-800 dark:text-white text-center xl:text-left"
   >
     <h1 class="font-bold">Mes informations personnelles</h1>
     <p class="text-[#F82B30] mt-1">Profil Dashboard</p>

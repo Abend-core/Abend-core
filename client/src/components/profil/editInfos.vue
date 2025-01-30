@@ -1,14 +1,5 @@
 <template>
-  <div
-    v-if="successMessage"
-    class="text-white rounded-[6px] p-4 mt-3 mb-3 bg-gradient-to-r from-[#4b9945] to-[#4b9945] border border-black"
-  >
-    <div>
-      <div class="text-[14px] text-white">
-        {{ successMessage }}
-      </div>
-    </div>
-  </div>
+  <SuccessMessage />
   <ErrorMessage />
   <div
     class="flex flex-col xl:flex-row lg:justify-center lg:flex-col lg:items-center xl:items-start"
@@ -139,10 +130,15 @@ import {
 } from "../../api/user";
 import modalConfirmDelete from "../modal/modalConfirmDelete.vue";
 import ErrorMessage from "../../components/notification/ErrorMessage.vue";
+import SuccessMessage from "../../components/notification/SuccessMessage.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/authStore";
+import { useErrorStore } from "../../stores/errorStore";
+import { useSuccessStore } from "../../stores/successStore";
 
 const authStore = useAuthStore();
+const { setSuccess } = useSuccessStore();
+const { setError } = useErrorStore();
 
 const router = useRouter();
 
@@ -155,9 +151,6 @@ const identifiantProfil = ref("");
 const oldPassword = ref("");
 const newPassword = ref("");
 const confirmNewPassword = ref("");
-
-let successMessage = ref("");
-let errorMessage = ref("");
 
 const buttonDisabled = ref(true);
 const passwordButtonDisabled = ref(true);
@@ -186,8 +179,7 @@ const updateUserProfile = async () => {
   try {
     const responseUpdated = await editUserById(id, updatedData);
     authStore.setUser(responseUpdated.data.user);
-    successMessage.value = "Profil mis à jour avec succès !";
-    setTimeout(() => (successMessage.value = ""), 3000);
+    setSuccess("Profil mis à jour avec succès !");
     buttonDisabled.value = true;
   } catch (error) {
     console.error(error);
@@ -215,14 +207,12 @@ const updatePassword = async () => {
 
   try {
     await editPasswordById(passwordData);
-    successMessage.value = "Mot de passe modifié avec succès !";
-    setTimeout(() => (successMessage.value = ""), 3000);
+    setSuccess("Mot de passe modifié avec succès !");
     oldPassword.value = "";
     newPassword.value = "";
     confirmNewPassword.value = "";
   } catch (error) {
-    errorMessage.value = error.response.data.message;
-    setTimeout(() => (errorMessage.value = ""), 3000);
+    setError(error.response?.data?.message || error.message);
     oldPassword.value = "";
     newPassword.value = "";
     confirmNewPassword.value = "";

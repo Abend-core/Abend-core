@@ -13,7 +13,7 @@ export const addUser = (data) => {
 };
 
 export const deleteUser = (id) => {
-  return apiClient.post(`/users/delete/${id}`);
+  return apiClient.delete(`/users/${id}`);
 };
 
 export const getUserById = (id) => {
@@ -21,13 +21,13 @@ export const getUserById = (id) => {
 };
 
 export const editUserById = (id, data) => {
-  return apiClient.post(`/users/update/${id}`, data);
+  return apiClient.put(`/users/${id}`, data);
 };
 
 export const editPasswordById = (data) => {
-  return apiClient.post("/users/password/", data);
+  return apiClient.put("/users/", data);
 };
 
 export const updateImgProfil = (data) => {
-  return apiClient.post("/users/updateImg/", data);
+  return apiClient.put("/users/image/", data);
 };
