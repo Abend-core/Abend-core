@@ -8,7 +8,7 @@
         </h1>
       </div>
       <div class="pl-[16px] pr-[16px] pt-[8px]">
-        <ErrorMessage />
+        <NotificationMessage />
       </div>
       <div class="p-[16px]">
         <form action="" class="flex flex-col" @submit.prevent="handleLogin">
@@ -61,18 +61,19 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuth } from "../composables/useAuth";
 import LogoLogin from "../components/login/LogoLogin.vue";
-import ErrorMessage from "../components/notification/ErrorMessage.vue";
-import { useErrorStore } from "../stores/errorStore.js";
+import NotificationMessage from "../components/notification/NotificationMessage.vue";
+import { useNotificationStore } from "../stores/notificationStore.js";
 import { useAuthStore } from "../stores/authStore";
+
+const router = useRouter();
+
+const { login, userInfos } = useAuth();
+
+const authStore = useAuthStore();
+const { setNotification } = useNotificationStore();
 
 const mail = ref("");
 const password = ref("");
-
-const { login, userInfos } = useAuth();
-const { setError } = useErrorStore();
-const authStore = useAuthStore();
-
-const router = useRouter();
 
 const handleLogin = async () => {
   try {
@@ -81,7 +82,7 @@ const handleLogin = async () => {
     authStore.setUser(userData);
     router.push("/");
   } catch (error) {
-    setError(error.response?.data?.message || error.message);
+    setNotification(error.response?.data?.message || error.message, "error");
   } finally {
     mail.value = "";
     password.value = "";
