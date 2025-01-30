@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-5 mb-5"
+    class="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-5"
   >
     <div class="relative">
       <input
