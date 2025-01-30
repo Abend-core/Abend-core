@@ -114,7 +114,7 @@
             >
               <i class="ri-logout-box-line text-gray-400 text-[20px] mt-2"></i>
               <span
-                class="text-primaryBlue text-[14px] dark:text-white group-hover:text-red mt-2"
+                class="text-primaryBlue text-[14px] dark:text-white group-hover:text-primaryRed mt-2"
               >
                 Déconnexion
               </span>
