@@ -18,7 +18,7 @@
           Annuler
         </button>
         <button
-          class="bg-[#F82B30] text-white p-2 rounded-md"
+          class="bg-primaryRed text-white p-2 rounded-md"
           @click="$emit('confirm-delete')"
         >
           Confirmer

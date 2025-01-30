@@ -32,36 +32,34 @@
         class="ri-moon-fill text-[20px] cursor-pointer"
         @click="darkModeActivation"
       ></i>
-      <RouterLink class="hover:text-[#F82B30] font-medium" to="/"
+      <RouterLink class="hover:text-primaryRed font-medium" to="/"
         >Accueil</RouterLink
       >
       <RouterLink
-        class="hover:text-[#F82B30] font-medium"
+        class="hover:text-primaryRed font-medium"
         to="/connexion"
         v-if="!isAuthenticated"
         >Connexion</RouterLink
       >
       <!-- <RouterLink
-        class="hover:text-[#F82B30] font-medium"
+        class="hover:text-primaryRed font-medium"
         to="/favoris"
         v-if="isAuthenticated"
         >Favoris</RouterLink
       > -->
       <RouterLink
-        class="hover:text-[#F82B30] font-medium"
+        class="hover:text-primaryRed font-medium"
         v-if="isAuthenticated && isAdmin"
         to="/dashboard"
         >Dashboard</RouterLink
       >
       <div v-if="isAuthenticated" class="relative">
-        <div
-          class="flex gap-2 items-center cursor-pointer"
-          @click="displayMenu"
-        >
+        <div class="flex gap-2 items-center cursor-pointer" @click="toggleMenu">
           <img
+            v-if="user && user.image"
             class="w-[45px] h-[45px] rounded-full"
-            :src="`http://localhost:5000/uploadsFile/profil/${user.image}`"
-            alt="Photo de profil"
+            :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
+            alt="Image de profil"
           />
           <div class="flex flex-col">
             <span class="text-[10px]">PROFIL</span>
@@ -75,8 +73,8 @@
           <div class="flex items-center gap-1">
             <RouterLink
               to="/profil"
-              class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30] dark:hover:text-[#F82B30]"
-              @click="closeMenu"
+              class="text-primaryBlue text-[14px] dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
+              @click="toggleMenu"
             >
               <i class="ri-user-line text-gray-400 text-[20px]"></i>
               Profil
@@ -85,8 +83,8 @@
           <div class="flex items-center gap-1 mb-2">
             <RouterLink
               to="/module"
-              class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30] dark:hover:text-[#F82B30]"
-              @click="closeMenu"
+              class="text-primaryBlue text-[14px] dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
+              @click="toggleMenu"
             >
               <i
                 class="ri-layout-horizontal-line text-gray-400 text-[20px]"
@@ -97,7 +95,7 @@
           <!-- <div class="flex items-center gap-1 mb-3">
             <RouterLink
               to="/favoris"
-              class="text-[#111827] text-[14px] dark:text-white hover:text-[#F82B30] dark:hover:text-[#F82B30]"
+              class="text-primaryBlue text-[14px] dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
               @click="closeMenu"
             >
               <i class="ri-heart-add-2-fill text-gray-400 text-[20px]"></i>
@@ -109,14 +107,14 @@
               class="absolute left-0 right-0 flex items-center gap-1 border-t px-2 group"
               @click="
                 () => {
-                  closeMenu();
+                  toggleMenu();
                   logOut();
                 }
               "
             >
               <i class="ri-logout-box-line text-gray-400 text-[20px] mt-2"></i>
               <span
-                class="text-[#111827] text-[14px] dark:text-white group-hover:text-[#F82B30] mt-2"
+                class="text-primaryBlue text-[14px] dark:text-white group-hover:text-red mt-2"
               >
                 Déconnexion
               </span>
@@ -136,8 +134,11 @@ import { isDark, toggleDarkMode } from "../utils/darkMode.js";
 import { getUserById } from "../api/user";
 import "remixicon/fonts/remixicon.css";
 
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const authStore = useAuthStore();
 const router = useRouter();
+
 const isMenuProfilOpen = ref(false);
 
 const isAuthenticated = computed(() => authStore.isAuthenticated);
@@ -163,11 +164,8 @@ const logOut = () => {
   router.push("/");
 };
 
-const displayMenu = () => {
+const toggleMenu = () => {
   isMenuProfilOpen.value = !isMenuProfilOpen.value;
-};
-const closeMenu = () => {
-  isMenuProfilOpen.value = false;
 };
 
 onMounted(() => {

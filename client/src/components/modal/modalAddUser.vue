@@ -2,7 +2,7 @@
   <div class="flex justify-end mb-3">
     <button
       @click="displayModalUser"
-      class="flex gap-1 bg-[#F82B30] p-[6px] rounded-md text-white border border-black"
+      class="flex gap-1 bg-primaryRed p-[6px] rounded-md text-white border border-black"
     >
       <span>+</span>
       <p>Ajoutez un utilisateur</p>
@@ -58,7 +58,7 @@
 
       <div class="flex justify-center lg:mt-0 sm:mt-4">
         <button
-          class="bg-[#F82B30] px-6 py-2 rounded-md text-white border border-black"
+          class="bg-primaryRed px-6 py-2 rounded-md text-white border border-black"
           type="submit"
           @click="addUserFonction"
         >

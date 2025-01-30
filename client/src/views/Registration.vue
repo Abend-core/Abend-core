@@ -17,30 +17,7 @@
         <h1 class="text-2xl text-center mb-[10px]">S'inscrire à Abend-core</h1>
       </div>
       <div class="pl-[16px] pr-[16px] pt-[8px]">
-        <div
-          v-if="errorMessage"
-          class="text-white rounded-[6px] p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
-        >
-          <div>
-            <svg
-              aria-hidden="true"
-              height="16"
-              viewBox="0 0 16 16"
-              version="1.1"
-              width="16"
-              class="float-right cursor-pointer dark:fill-white"
-              fill="#c2040466"
-              @click="closeError"
-            >
-              <path
-                d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"
-              ></path>
-            </svg>
-            <div class="text-[14px] text-[#1f2328] dark:text-white">
-              {{ errorMessage }}
-            </div>
-          </div>
-        </div>
+        <NotificationMessage />
       </div>
       <div class="p-[16px]">
         <form class="flex flex-col" @submit.prevent="registration">
@@ -70,7 +47,7 @@
             required
           />
           <button
-            class="w-full mt-[6px] bg-[#4b9945] text-white font-bold border border-black"
+            class="w-full mt-[6px] bg-customGreen text-white font-bold border border-black"
             type="submit"
           >
             Rejoindre Abend-core !
@@ -93,13 +70,14 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { registrateUser } from "../api/auth";
+import NotificationMessage from "../components/notification/NotificationMessage.vue";
+import { useNotificationStore } from "../stores/notificationStore.js";
 
-defineEmits(["login"]);
+const { setNotification } = useNotificationStore();
 
 const email = ref("");
-const loginRegister = ref("");
 const password = ref("");
-const errorMessage = ref("");
+const loginRegister = ref("");
 
 const router = useRouter();
 
@@ -116,13 +94,8 @@ const registration = async () => {
     await registrateUser(data);
     router.push("/connexion");
   } catch (error) {
-    errorMessage.value =
-      error.response?.data?.errors[0] || "Erreur lors de l'inscription.";
+    setNotification(error.response?.data?.errors[0], "error");
   }
-};
-
-const closeError = () => {
-  errorMessage.value = "";
 };
 </script>
 

@@ -7,7 +7,7 @@ export const useAuthStore = defineStore("authStore", () => {
   const isAdmin = computed(() => user.value?.isAdmin == true);
 
   function setUser(userData) {
-    user.value = userData;
+    user.value = userData || {};
     sessionStorage.setItem("user", JSON.stringify(userData));
   }
 

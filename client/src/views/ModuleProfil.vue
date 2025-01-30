@@ -4,26 +4,17 @@
       class="bg-white rounded-md p-[12px] mt-3 mb-3 dark:bg-gray-800 dark:text-white"
     >
       <h1 class="font-bold">Gérer mes modules</h1>
-      <p class="text-[#F82B30] mt-1">Module Dashboard</p>
+      <p class="text-primaryRed mt-1">Module Dashboard</p>
     </div>
     <modal-add-module @refresh-modules="getModulesById" />
     <div class="bg-white rounded-md max-h-[800px] overflow-auto mb-5">
-      <div
-        v-if="errorMessage"
-        class="text-white rounded-[6px] p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
-      >
-        <div>
-          <div class="text-[14px] text-[#1f2328]">
-            {{ errorMessage }}
-          </div>
-        </div>
-      </div>
+      <NotificationMessage />
       <table
         v-if="modules.length > 0"
         class="w-full dark:text-white dark:bg-gray-800"
       >
         <thead>
-          <tr class="text-left border-b border-[#F4F6FA]">
+          <tr class="text-left border-b border-customWhite">
             <th class="p-3">Nom</th>
             <th class="p-3">Lien</th>
             <th class="p-3">Description</th>
@@ -37,7 +28,7 @@
           <tr
             v-for="module in modules"
             :key="module.id"
-            class="hover:bg-[#F4F6FA] dark:hover:text-black dark:hover:bg-gray-500"
+            class="hover:bg-customWhite dark:hover:text-black dark:hover:bg-gray-500"
           >
             <td class="p-3">
               <template v-if="module.id === editingModuleId">
@@ -95,7 +86,7 @@
                 <div v-if="module.id === editingModuleId">
                   <button
                     @click="saveModule(module.id)"
-                    class="bg-[#F82B30] px-6 py-2 rounded-md text-white border border-black"
+                    class="bg-primaryRed px-6 py-2 rounded-md text-white border border-black"
                   >
                     Valider
                   </button>
@@ -113,38 +104,31 @@
 import { ref } from "vue";
 import { getModuleById, updateModuleById } from "../api/module";
 import { formatDateTime } from "../utils/date";
-import { addModules } from "../api/module";
-import { uploadImageModule } from "../api/upload";
 import { deleteModule } from "../api/module";
 import ModalAddModule from "../components/modal/modalAddModule.vue";
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+import { useNotificationStore } from "../stores/notificationStore.js";
+import NotificationMessage from "../components/notification/NotificationMessage.vue";
 
-defineProps({
-  isAuthenticated: Boolean,
-  isAdmin: Boolean,
-});
-defineEmits(["login"]);
+const { setNotification } = useNotificationStore();
+
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const id = sessionStorage.getItem("id");
 
 const modules = ref([]);
-const editingModuleId = ref(null);
 
-let errorMessage = ref("");
+const editingModuleId = ref(null);
 
 const getModulesById = async () => {
   try {
     const response = await getModuleById(id);
     if (response.data.modules.length === 0) {
-      errorMessage.value = "Vous n'avez pas encore créé de module !";
       modules.value = [];
     } else {
       modules.value = response.data.modules;
     }
   } catch (error) {
-    errorMessage.value =
-      "Une erreur s'est produite lors de la récupération des modules.";
-    console.error(error);
+    setNotification(error.response?.data?.message, "error");
   }
 };
 
@@ -171,15 +155,14 @@ const saveModule = async (idModule) => {
     console.error("Erreur lors de la sauvegarde du module", error);
   }
 };
+
 const toggleVisibility = async (idModule, data) => {
   try {
-    const response = await updateModuleById(idModule, {
+    await updateModuleById(idModule, {
       isShow: data,
     });
   } catch (error) {
-    errorMessage.value =
-      "Une erreur s'est produite lors de la récupération des modules.";
-    console.error(error);
+    setNotification(error.response?.data?.message, "error");
   }
 };
 

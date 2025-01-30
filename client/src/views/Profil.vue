@@ -15,7 +15,7 @@
                 alt="Image de profil"
               />
               <div
-                class="absolute inset-0 flex items-center justify-center z-10 bg-[#F82B30] rounded-full bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                class="absolute inset-0 flex items-center justify-center z-10 bg-primaryRed rounded-full bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               >
                 <i class="ri-pencil-fill text-white text-[28px]"></i>
               </div>
@@ -30,15 +30,15 @@
             <div class="mt-[20px] xl:mt-[80px]">
               <div class="gap-3 flex">
                 <p
-                  :class="{ 'text-[#F82B30]': activeSection === 'profile' }"
-                  class="mb-3 cursor-pointer hover:text-[#F82B30]"
+                  :class="{ 'text-primaryRed': activeSection === 'profile' }"
+                  class="mb-3 cursor-pointer hover:text-primaryRed"
                   @click="setActiveSection('profile')"
                 >
                   Mon profil
                 </p>
                 <p
-                  :class="{ 'text-[#F82B30]': activeSection === 'editInfo' }"
-                  class="mb-3 cursor-pointer hover:text-[#F82B30]"
+                  :class="{ 'text-primaryRed': activeSection === 'editInfo' }"
+                  class="mb-3 cursor-pointer hover:text-primaryRed"
                   @click="setActiveSection('editInfo')"
                 >
                   Modifier mes informations

@@ -1,7 +1,7 @@
 <template>
   <main class="p-[20px]">
     <div
-      class="w-full bg-[#F4F6FA] rounded-md p-[20px] dark:bg-gray-800 dark:text-white"
+      class="w-full bg-customWhite rounded-md p-[20px] dark:bg-gray-800 dark:text-white"
     >
       <div class="flex gap-5 mb-3 text-white">
         <p
@@ -23,7 +23,7 @@
           class="bg-white rounded-md p-[12px] dark:bg-gray-800 dark:text-white"
         >
           <h1 class="font-bold">Gestion des utilisateurs et des modules</h1>
-          <p class="text-[#F82B30] mt-1">Administrateur Dashboard</p>
+          <p class="text-primaryRed mt-1">Administrateur Dashboard</p>
         </div>
       </div>
       <div v-if="activeSection === 'manageUsers'">

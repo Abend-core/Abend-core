@@ -36,7 +36,7 @@
               >Mot de passe oublié ?
             </router-link>
             <button
-              class="w-full bg-[#4b9945] text-white font-bold border border-black"
+              class="w-full bg-customGreen text-white font-bold border border-black"
               type="submit"
             >
               Se connecter
@@ -82,7 +82,7 @@ const handleLogin = async () => {
     authStore.setUser(userData);
     router.push("/");
   } catch (error) {
-    setNotification(error.response?.data?.message || error.message, "error");
+    setNotification(error.response?.data?.message, "error");
   } finally {
     mail.value = "";
     password.value = "";
