@@ -81,8 +81,8 @@ router.get("/:id", auth, (req: Request, res: Response) => {
 });
 
 // Modification d'un utilisateur
-router.post(
-    "/update/:id",
+router.put(
+    "/:id",
     auth,
     async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
@@ -130,10 +130,7 @@ router.post(
 );
 
 //Suppression d'un utilisateur
-router.post(
-    "/delete/:id",
-    auth,
-    async (req: Request, res: Response): Promise<void> => {
+router.delete("/:id", auth, async (req: Request, res: Response): Promise<void> => {
         try {
             const data = await User.findByPk(req.params.id);
 
