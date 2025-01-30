@@ -1,6 +1,5 @@
 <template>
-  <SuccessMessage />
-  <ErrorMessage />
+  <NotificationMessage />
   <div
     class="flex flex-col xl:flex-row lg:justify-center lg:flex-col lg:items-center xl:items-start"
   >
@@ -129,16 +128,13 @@ import {
   deleteUser,
 } from "../../api/user";
 import modalConfirmDelete from "../modal/modalConfirmDelete.vue";
-import ErrorMessage from "../../components/notification/ErrorMessage.vue";
-import SuccessMessage from "../../components/notification/SuccessMessage.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/authStore";
-import { useErrorStore } from "../../stores/errorStore";
-import { useSuccessStore } from "../../stores/successStore";
+import NotificationMessage from "../../components/notification/NotificationMessage.vue";
+import { useNotificationStore } from "../../stores/notificationStore.js";
 
 const authStore = useAuthStore();
-const { setSuccess } = useSuccessStore();
-const { setError } = useErrorStore();
+const { setNotification } = useNotificationStore();
 
 const router = useRouter();
 
@@ -179,7 +175,7 @@ const updateUserProfile = async () => {
   try {
     const responseUpdated = await editUserById(id, updatedData);
     authStore.setUser(responseUpdated.data.user);
-    setSuccess("Profil mis à jour avec succès !");
+    setNotification("Profil mis à jour avec succès !", "success");
     buttonDisabled.value = true;
   } catch (error) {
     console.error(error);
@@ -207,12 +203,12 @@ const updatePassword = async () => {
 
   try {
     await editPasswordById(passwordData);
-    setSuccess("Mot de passe modifié avec succès !");
+    setNotification("Mot de passe modifié avec succès !", "success");
     oldPassword.value = "";
     newPassword.value = "";
     confirmNewPassword.value = "";
   } catch (error) {
-    setError(error.response?.data?.message || error.message);
+    setNotification(error.response?.data?.message || error.message, "error");
     oldPassword.value = "";
     newPassword.value = "";
     confirmNewPassword.value = "";
