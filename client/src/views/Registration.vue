@@ -72,6 +72,7 @@ import { useRouter } from "vue-router";
 import { registrateUser } from "../api/auth";
 import NotificationMessage from "../components/notification/NotificationMessage.vue";
 import { useNotificationStore } from "../stores/notificationStore.js";
+import { isDark } from "../utils/darkMode.js";
 
 const { setNotification } = useNotificationStore();
 
