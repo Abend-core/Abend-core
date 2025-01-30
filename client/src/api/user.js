@@ -25,9 +25,9 @@ export const editUserById = (id, data) => {
 };
 
 export const editPasswordById = (data) => {
-  return apiClient.put("/users/", data);
+  return apiClient.put("/users/password", data);
 };
 
 export const updateImgProfil = (data) => {
-  return apiClient.put("/users/image/", data);
+  return apiClient.post("/users/image", data);
 };

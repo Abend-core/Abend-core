@@ -212,9 +212,10 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 });
 
 //Update photo utilisateur
-router.put("/image", auth, async (req: Request, res: Response) => {
+router.post("/image", auth, async (req: Request, res: Response) => {
+    
     uploadProfil.single("image")(req, res, async (err) => {
-        
+        console.log("req.body : ", req.body);
         if (err) {
             return res.status(500).json({
                 message: "Erreur lors de l'upload de l'image.",
@@ -289,7 +290,7 @@ router.put("/image", auth, async (req: Request, res: Response) => {
 });
 
 //Update password utilisateur
-router.post(
+router.put(
     "/password",
     auth,
     async (req: Request, res: Response): Promise<void> => {

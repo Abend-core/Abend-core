@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
@@ -50,6 +50,15 @@ if (env == "Dev") {
 
 app.use("/uploadsFile/module", express.static("src/uploads/module"));
 app.use("/uploadsFile/profil", express.static("src/uploads/profil"));
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error("Erreur serveur :", err);
+
+    res.status(500).json({
+        message: "Erreur serveur",
+        erreur: err.message || "Une erreur inconnue s'est produite",
+    });
+});
 
 app.listen(port, () => {
     console.log("Serveur en ligne ! Environnement : ", env);
