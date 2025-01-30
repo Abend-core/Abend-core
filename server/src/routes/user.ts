@@ -20,7 +20,7 @@ import role from "../middleware/role";
 const image: number = config.get("storage.nombreImageBanque");
 
 // Création d'un nouvel utilisateur
-router.post("/add", auth, role, async (req: Request, res: Response) => {
+router.post("/", auth, role, async (req: Request, res: Response) => {
     const data = req.body;
     data.id = NewUUID();
     if (data.image == undefined) {
@@ -212,7 +212,7 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 });
 
 //Update photo utilisateur
-router.post("/updateImg", auth, async (req: Request, res: Response) => {
+router.put("/image", auth, async (req: Request, res: Response) => {
     uploadProfil.single("image")(req, res, async (err) => {
         // Vérification des erreurs
         if (err) {
@@ -307,13 +307,13 @@ router.post(
             );
 
             if (!isPasswordValid) {
-                res.status(401).json({
+                res.status(400).json({
                     message: "Mot de passe incorrect.",
                 });
                 return;
             }
             if (req.body.newPassword.length < 8) {
-                res.status(402).json({
+                res.status(400).json({
                     message:
                         "Le mot de passe doit avoir au moins 8 caractères.",
                 });
@@ -321,7 +321,7 @@ router.post(
             }
 
             if (req.body.newPassword != req.body.confirmPassword) {
-                res.status(403).json({
+                res.status(400).json({
                     message: "Les mots de passe ne correspondent pas.",
                 });
                 return;
@@ -346,5 +346,4 @@ router.post(
     }
 );
 
-//Renvoie de toute les routes
 export default router;

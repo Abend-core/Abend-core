@@ -16,7 +16,7 @@ import auth from "../middleware/auth/auth";
 import role from "../middleware/role";
 
 // Création d'un nouveau module
-router.post("/add", auth, (req, res) => {
+router.post("/", auth, (req, res) => {
     const data = req.body;
     const link: string = req.body.link;
     const response: string = checkLink(link);
@@ -47,7 +47,7 @@ router.post("/add", auth, (req, res) => {
 });
 
 // Création d'un nouveau module
-router.post("/uploadImg", auth, (req, res) => {
+router.put("/image", auth, (req, res) => {
     uploadModule.single("image")(req, res, async (err) => {
         // Vérification des erreurs
         if (err) {
@@ -210,7 +210,7 @@ router.get("/:id", (req, res) => {
 });
 
 // Modification d'un module
-router.post("/update/:id", auth, (req, res) => {
+router.put("/:id", auth, (req, res) => {
     const id = req.params.id;
     Module.update(req.body, {
         where: { id: id },
@@ -235,7 +235,7 @@ router.post("/update/:id", auth, (req, res) => {
 });
 
 //Suppression d'un module
-router.post("/delete/:id", auth, (req, res) => {
+router.delete("/:id", auth, (req, res) => {
     Module.findByPk(req.params.id)
         .then((data) => {
             if (data === null) {
@@ -331,7 +331,7 @@ router.post("/liked", async (req, res) => {
 });
 
 // Sélection de tous les modules avec la colonne `is_liked`
-router.post("/modules/liked", async (req, res) => {
+router.get("/liked", async (req, res) => {
     try {
         const { userId } = req.body; // Récupérer l'ID utilisateur depuis le corps de la requête
 
@@ -456,5 +456,4 @@ function blackList(text: string): string {
     return "ok";
 }
 
-//Renvoi de toute les routes
 export default router;
