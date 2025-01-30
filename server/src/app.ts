@@ -16,6 +16,7 @@ const env: string = config.get("server.env");
 require("./database/join");
 //Initialisation de la bdd
 require("./database/init");
+
 let corsOptions = {
     origin: origin,
     methods: method,
