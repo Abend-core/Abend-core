@@ -22,7 +22,7 @@ router.post("/add", auth, (req, res) => {
     const response: string = checkLink(link);
     data.id = NewUUID();
     if (response != "ok") {
-        res.status(402).json({
+        res.status(400).json({
             message: "Le lien ne correspond pas au format attendu.",
         });
         return;

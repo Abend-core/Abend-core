@@ -35,7 +35,7 @@ router.post("/add", auth, role, async (req: Request, res: Response) => {
                 where: { id: userData.id },
                 validate: false,
             });
-            res.status(201).json({
+            res.status(200).json({
                 message: "Utilisateur créé avec succès.",
                 user,
             });
@@ -47,7 +47,7 @@ router.post("/add", auth, role, async (req: Request, res: Response) => {
                 );
                 return res.status(401).json({ errors });
             }
-            res.status(501).json({ message: "Erreur serveur.", erreur: error });
+            res.status(500).json({ message: "Erreur serveur.", erreur: error });
         });
 });
 
@@ -57,10 +57,10 @@ router.get("/", auth, role, (req: Request, res: Response) => {
         order: [["createdAt", "desc"]],
     })
         .then((user) => {
-            res.status(201).json({ message: "Tout les utilisateurs.", user });
+            res.status(200).json({ message: "Tout les utilisateurs.", user });
         })
         .catch((error) => {
-            res.status(501).json({ message: "Erreur serveur.", erreur: error });
+            res.status(500).json({ message: "Erreur serveur.", erreur: error });
         });
 });
 
@@ -70,13 +70,13 @@ router.get("/:id", auth, (req: Request, res: Response) => {
     User.findByPk(id)
         .then((user) => {
             if (user) {
-                res.status(201).json({ message: "Utilisateur trouvé.", user });
+                res.status(200).json({ message: "Utilisateur trouvé.", user });
             } else {
                 res.status(404).json({ message: "Utilisateur introuvable." });
             }
         })
         .catch((error) => {
-            res.status(501).json({ message: "Erreur serveur.", erreur: error });
+            res.status(500).json({ message: "Erreur serveur.", erreur: error });
         });
 });
 
@@ -93,7 +93,7 @@ router.put(
             });
 
             if (existingMailUser) {
-                res.status(301).json({
+                res.status(400).json({
                     message: "Ce mail est déjà utilisé par un autre compte.",
                 });
                 return;
@@ -104,7 +104,7 @@ router.put(
             });
 
             if (existingUsernameUser) {
-                res.status(302).json({
+                res.status(400).json({
                     message:
                         "Ce nom d'utilisateur est déjà utilisé par un autre compte.",
                 });
@@ -114,13 +114,13 @@ router.put(
             // Mise à jour de l'utilisateur
             await User.update(req.body, { where: { id: id } });
             const response = await User.findByPk(id);
-            res.status(201).json({
+            res.status(200).json({
                 message: "Utilisateur modifié avec succès.",
                 user: response,
             });
         } catch (error) {
             if (error instanceof Error) {
-                res.status(501).json({
+                res.status(500).json({
                     message: "Erreur serveur.",
                     erreur: error.message,
                 });
@@ -151,7 +151,7 @@ router.delete("/:id", auth, async (req: Request, res: Response): Promise<void> =
                 try {
                     await fs.promises.unlink(fileDelete);
                 } catch (err) {
-                    res.status(503).json({
+                    res.status(500).json({
                         message:
                             "Erreur lors de la suppression de l'image du/des modules.",
                         error: err,
@@ -169,7 +169,7 @@ router.delete("/:id", auth, async (req: Request, res: Response): Promise<void> =
                 try {
                     await fs.promises.unlink(fileDelete);
                 } catch (err) {
-                    res.status(502).json({
+                    res.status(500).json({
                         message:
                             "Erreur lors de la suppression de l'image de l'utilisateur.",
                         error: err,
@@ -179,11 +179,11 @@ router.delete("/:id", auth, async (req: Request, res: Response): Promise<void> =
             }
             await Module.destroy({ where: { user_id: data.id } });
             await User.destroy({ where: { id: data.id } });
-            res.status(201).json({ message: "Utilisateur supprimé." });
+            res.status(200).json({ message: "Utilisateur supprimé." });
             return;
         } catch (error) {
             console.error("Erreur serveur :", error);
-            res.status(501).json({
+            res.status(500).json({
                 message: "Erreur serveur.",
                 erreur: error,
             });
@@ -204,10 +204,10 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
         },
     })
         .then((user) => {
-            res.status(201).json({ message: "Utilisateur trouvé.", user });
+            res.status(200).json({ message: "Utilisateur trouvé.", user });
         })
         .catch((error) => {
-            res.status(501).json({ message: "Erreur serveur.", erreur: error });
+            res.status(500).json({ message: "Erreur serveur.", erreur: error });
         });
 });
 
@@ -216,21 +216,21 @@ router.post("/updateImg", auth, async (req: Request, res: Response) => {
     uploadProfil.single("image")(req, res, async (err) => {
         // Vérification des erreurs
         if (err) {
-            return res.status(502).json({
+            return res.status(500).json({
                 message: "Erreur lors de l'upload de l'image.",
                 erreur: err.message,
             });
         }
         if (!req.file) {
             return res
-                .status(401)
+                .status(400)
                 .json({ message: "Aucun fichier n'a été téléchargé." });
         }
 
         try {
             await resizeimg(req, res, async (resizeError) => {
                 if (resizeError) {
-                    return res.status(503).json({
+                    return res.status(500).json({
                         message: "Erreur lors du redimensionnement de l'image.",
                         erreur: resizeError.message,
                     });
@@ -264,7 +264,7 @@ router.post("/updateImg", auth, async (req: Request, res: Response) => {
                     }
                 );
 
-                res.status(201).json({
+                res.status(200).json({
                     message: "Image téléchargée et redimensionné avec succès.",
                     file: {
                         path: filePath,
@@ -274,13 +274,13 @@ router.post("/updateImg", auth, async (req: Request, res: Response) => {
             });
         } catch (resizeError: unknown) {
             if (resizeError instanceof Error) {
-                return res.status(505).json({
+                return res.status(500).json({
                     message:
                         "Erreur inattendue lors du redimensionnement de l'image.",
                     erreur: resizeError.message,
                 });
             } else {
-                return res.status(501).json({
+                return res.status(500).json({
                     message: "Erreur serveur.",
                 });
             }
@@ -334,13 +334,13 @@ router.post(
                     where: { id: user.id },
                 }
             ).then((user) => {
-                res.status(201).json({
+                res.status(200).json({
                     message: "Mot de passe modifié.",
                     user,
                 });
             });
         } catch (error) {
-            res.status(501).json({ message: "Erreur serveur.", erreur: error });
+            res.status(500).json({ message: "Erreur serveur.", erreur: error });
             return;
         }
     }
