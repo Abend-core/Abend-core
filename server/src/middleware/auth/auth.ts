@@ -8,7 +8,6 @@ const auth = async (
   next: NextFunction
 ): Promise<void> => {
   const authorizationHeader = req.headers.authorization;
-  console.log("Auth OK")
   if (!authorizationHeader) {
     res
       .status(401)

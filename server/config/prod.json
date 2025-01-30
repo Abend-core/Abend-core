@@ -13,7 +13,7 @@
     },
     "cors": {
         "origin": ["http://abend-core.org"],
-        "method": ["GET", "HEAD", "POST", "PUT", "DELETE"],
+        "method": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
         "allowedHeaders": ["Content-Type", "Authorization", "role"],
         "maxAge": 3000
     },

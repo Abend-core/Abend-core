@@ -212,7 +212,7 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 });
 
 //Update photo utilisateur
-router.post("/image", auth, async (req: Request, res: Response) => {
+router.patch("/image", auth, async (req: Request, res: Response) => {
     
     uploadProfil.single("image")(req, res, async (err) => {
         console.log("req.body : ", req.body);
@@ -290,7 +290,7 @@ router.post("/image", auth, async (req: Request, res: Response) => {
 });
 
 //Update password utilisateur
-router.put(
+router.patch(
     "/password",
     auth,
     async (req: Request, res: Response): Promise<void> => {
