@@ -122,7 +122,7 @@ paths:
                                     type: string
                                     example: Abend
             responses:
-                201:
+                200:
                     description: Inscription réussis !
                     content:
                         application/json:
@@ -134,7 +134,7 @@ paths:
                                         message:
                                             type: string
                                             example: Utilisateur inscrit avec succès.
-                401:
+                400:
                     description: L'utilisateur c'est trompé dans la saisie.
                     content:
                         application/json:
@@ -145,8 +145,8 @@ paths:
                                     properties:
                                         errors:
                                             type: object
-                501:
-                    description: Le serveur ne répond pas.
+                500:
+                    description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
@@ -168,7 +168,7 @@ paths:
                 content:
                     application/json:
             responses:
-                201:
+                200:
                     description: Tout les utilisateurs ont été récupéré.
                     content:
                         application/json:
@@ -181,8 +181,8 @@ paths:
                                             example: Tout les utilisateurs.
                                         user: 
                                             type: object
-                501:
-                    description: Le serveur ne répond pas.
+                500:
+                    description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
@@ -209,7 +209,7 @@ paths:
                   type: string
                   exemple: 01949df0-b386-7021-a66e-aea1a8c3ceab
             responses:
-                201:
+                200:
                     description: Utilisateur récupéré.
                     content:
                         application/json:
@@ -233,8 +233,8 @@ paths:
                                         message:
                                             type: string
                                             example: Utilisateur introuvable.
-                501:
-                    description: Le serveur ne répond pas.
+                500:
+                    description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
@@ -247,7 +247,7 @@ paths:
                                             exemple: Erreur serveur.
                                         erreur: 
                                             type: object
-    users/add:
+    users:
         post:
             tags:
                 - Utilisateurs
@@ -275,7 +275,7 @@ paths:
                                     type: boolean
                                     example: true
             responses:
-                201:
+                200:
                     description: L'utilisateur a été ajouter.
                     content:
                         application/json:
@@ -288,7 +288,7 @@ paths:
                                             example: Utilisateur créé avec succès.
                                         user: 
                                             type: object
-                401:
+                400:
                     description: Champs mal renseignés.
                     content:
                         application/json:
@@ -302,8 +302,8 @@ paths:
                                             exemple: Le mail doit être unique.
                                         erreur: 
                                             type: object                            
-                501:
-                    description: Le serveur ne répond pas.
+                500:
+                    description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
@@ -316,8 +316,8 @@ paths:
                                             exemple: Erreur serveur.
                                         erreur: 
                                             type: object
-    users/update/:id:
-        post:
+    users/:id:
+        put:
             tags:
                 - Utilisateurs
             summary: Modifier un utilisateur
@@ -351,7 +351,7 @@ paths:
                   type: string
                   exemple: 01949df0-b386-7021-a66e-aea1a8c3ceab
             responses:
-                201:
+                200:
                     description: L'utilisateur a été modifié.
                     content:
                         application/json:
@@ -364,8 +364,8 @@ paths:
                                             example: Utilisateur modifié avec succès.
                                         user: 
                                             type: object
-                301:
-                    description: La valeur doit être unique
+                400:
+                    description: Mauvaise requete
                     content:
                         application/json:
                             schema:
@@ -375,21 +375,9 @@ paths:
                                     properties:
                                         message:
                                             type: string
-                                            exemple: Ce mail est déjà utilisé par un autre compte.                          
-                302:
-                    description: La valeur doit être unique
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Ce nom d'utilisateur est déjà utilisé par un autre compte. 
-                501:
-                    description: Le serveur ne répond pas.
+                                            exemple: Ce mail est déjà utilisé par un autre compte.
+                500:
+                    description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
@@ -402,8 +390,8 @@ paths:
                                             exemple: Erreur serveur.
                                         erreur: 
                                             type: object
-    users/delete/:id:
-        post:
+    users/:id:
+        delete:
             tags:
                 - Utilisateurs
             summary: Supprimer un utilisateur
@@ -416,7 +404,7 @@ paths:
                   type: string
                   exemple: 01949df0-b386-7021-a66e-aea1a8c3ceab
             responses:
-                201:
+                200:
                     description: L'utilisateur a été supprimé.
                     content:
                         application/json:
@@ -441,8 +429,8 @@ paths:
                                         message:
                                             type: string
                                             exemple: Utilisateur introuvable.                          
-                501:
-                    description: Le serveur ne répond pas.
+                500:
+                    description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
@@ -453,34 +441,6 @@ paths:
                                         message:
                                             type: string
                                             exemple: Erreur serveur.
-                                        erreur: 
-                                            type: object
-                502:
-                    description: Erreur lors de la suppression du fichier.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur lors de la suppression de l'image de l'utilisateur.
-                                        erreur: 
-                                            type: object
-                503:
-                    description: Le serveur ne répond pas.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur lors de la suppression de l'image du/des modules.
                                         erreur: 
                                             type: object
     users/filtre:
@@ -501,7 +461,7 @@ paths:
                                     type: string
                                     description: Valeur qui va filtrer la colonne username et mail d'un utilisateur
             responses:
-                201:
+                200:
                     description: Filtre réussis.
                     content:
                         application/json:
@@ -514,8 +474,8 @@ paths:
                                             example: Utilisateur trouvé.
                                         user: 
                                             type: object         
-                501:
-                    description: Le serveur ne répond pas.
+                500:
+                    description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
@@ -528,8 +488,8 @@ paths:
                                             exemple: Erreur serveur.
                                         erreur: 
                                             type: object
-    users/updateImg:
-        post:
+    users/image:
+        put:
             tags:
                 - Utilisateurs
             summary: Modifier l'image de l'utilisateur
@@ -547,8 +507,8 @@ paths:
                                     type: string
                                     description: 0194a43e-8212-7107-806a-9e224db48a0d
             responses:
-                201:
-                    description: L'image est bien redimensionné.
+                200:
+                    description: L'image à bien été modifiée.
                     content:
                         application/json:
                             schema:
@@ -561,8 +521,8 @@ paths:
                                         file: 
                                             type: object
                                             example: path & name
-                401:
-                    description: Erreur de téléchargement.
+                400:
+                    description: Mauvaise requete.
                     content:
                         application/json:
                             schema:
@@ -573,8 +533,8 @@ paths:
                                         message:
                                             type: string
                                             exemple: Aucun fichier n'a été téléchargé. 
-                501:
-                    description: Erreur serveur.
+                500:
+                    description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
@@ -585,62 +545,6 @@ paths:
                                         message:
                                             type: string
                                             exemple: Erreur serveur.
-                502:
-                    description: Erreur lors de l'upload de l'image.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur lors de l'upload de l'image.
-                                        erreur: 
-                                            type: object
-                503:
-                    description: Probleme de redimensionnement
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur lors du redimensionnement de l'image.
-                                        erreur: 
-                                            type: object
-                504:
-                    description: Erreur lors de la suppression du fichier.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur lors de la suppression de l'image.
-                                        erreur: 
-                                            type: object
-                505:
-                    description: Erreur inattendue lors du redimensionnement de l'image.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur inattendue lors du redimensionnement de l'image.
-                                        erreur: 
-                                            type: object
     users/password:
         post:
             tags:
@@ -667,7 +571,7 @@ paths:
                                     type: string
                                     description: password1
             responses:
-                201:
+                200:
                     description: Mot de passe modifié avec succès.
                     content:
                         application/json:
@@ -678,8 +582,8 @@ paths:
                                         message:
                                             type: string
                                             example: Mot de passe modifié avec succès.
-                401:
-                    description: Mot de passe incorrect.
+                400:
+                    description: Mauvaise requete.
                     content:
                         application/json:
                             schema:
@@ -690,32 +594,8 @@ paths:
                                         message:
                                             type: string
                                             exemple: Mot de passe incorrect.
-                402:
-                    description: Mot de passe trop court.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Le mot de passe doit avoir au moins 8 caractères.
-                403:
-                    description: Les mots de passe pas identique
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Les mots de passe ne correspondent pas.
-                501:
-                    description: Erreur serveur.
+                500:
+                    description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:

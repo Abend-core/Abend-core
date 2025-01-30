@@ -214,7 +214,7 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 //Update photo utilisateur
 router.put("/image", auth, async (req: Request, res: Response) => {
     uploadProfil.single("image")(req, res, async (err) => {
-        // Vérification des erreurs
+        
         if (err) {
             return res.status(500).json({
                 message: "Erreur lors de l'upload de l'image.",
