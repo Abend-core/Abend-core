@@ -5,9 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode dev",
-    "prod": "vite --mode prod",
-    "build": "vite build",
-    "preview": "vite preview"
+    "prod": "vite build --mode prod && vite preview --mode prod"
   },
   "dependencies": {
     "@vueuse/core": "^12.4.0",
