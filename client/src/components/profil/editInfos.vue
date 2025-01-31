@@ -221,7 +221,7 @@ const toggleModalConfirmDeleteUser = () => {
 const deleteAccount = async () => {
   try {
     await deleteUser(id);
-    closeModalConfirmDeleteUser();
+    toggleModalConfirmDeleteUser();
     authStore.setUser(null);
     authStore.logout();
     router.push("/");
