@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import multer from "multer";
 import sharp from "sharp";
-import NewUUID from "./uuid";
+import UUID from "./uuid";
 import path from "path";
 import fs from "fs/promises";
 
@@ -12,7 +12,7 @@ const storageModule: multer.StorageEngine = multer.diskStorage({
     },
     filename: async (req, file, cb) => {
         try {
-            const filename = NewUUID();
+            const filename: string = UUID.v7();
             cb(null, filename);
         } catch (error) {}
     },
@@ -25,7 +25,7 @@ const storageProfil: multer.StorageEngine = multer.diskStorage({
     },
     filename: async (req, file, cb) => {
         try {
-            const filename = NewUUID();
+            const filename: string = UUID.v7();
             cb(null, filename);
         } catch (error) {}
     },

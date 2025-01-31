@@ -7,8 +7,8 @@ import Module from "../models/module";
 import Statut from "../models/statut";
 import { Op } from "sequelize";
 //Tools
-import { hash, compare } from "../tools/hash";
-import NewUUID from "../tools/uuid";
+import Crypt from "../tools/hash";
+import UUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
 import { uploadProfil, resizeimg } from "../tools/multer";
@@ -22,7 +22,7 @@ const image: number = config.get("storage.nombreImageBanque");
 // Création d'un nouvel utilisateur
 router.post("/", auth, role, async (req: Request, res: Response) => {
     const data = req.body;
-    data.id = NewUUID();
+    data.id = UUID.v7();
     if (data.image == undefined) {
         data.image = "bank-img-" + Math.trunc(Math.random() * image) + ".png";
     }
@@ -30,7 +30,7 @@ router.post("/", auth, role, async (req: Request, res: Response) => {
     User.create(data)
         .then(async (user) => {
             const userData = user.get();
-            userData.password = await hash(userData.password);
+            userData.password = await Crypt.hash(userData.password);
             await User.update(userData, {
                 where: { id: userData.id },
                 validate: false,
@@ -302,7 +302,7 @@ router.patch(
                 return;
             }
 
-            const isPasswordValid = await compare(
+            const isPasswordValid = await Crypt.compare(
                 req.body.password,
                 user.password
             );
@@ -328,7 +328,7 @@ router.patch(
                 return;
             }
 
-            let password: string = await hash(req.body.newPassword);
+            let password: string = await Crypt.hash(req.body.newPassword);
             User.update(
                 { password: password },
                 {

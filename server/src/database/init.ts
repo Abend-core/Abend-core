@@ -1,6 +1,6 @@
 //tools
-import { hash } from "../tools/hash";
-import NewUUID from "../tools/uuid";
+import Crypt from "../tools/hash";
+import UUID from "../tools/uuid";
 //Db & Model
 import sequelize from "./db";
 import User from "../models/user";
@@ -64,16 +64,10 @@ async function initUsers() {
                 "bank-img-" + Math.trunc(Math.random() * image) + ".png";
         }
 
-        while (data.id === "") {
-            const uuid = NewUUID();
-            const user = await User.findByPk(uuid);
-            if (!user) {
-                data.id = uuid;
-                lastUUID = uuid;
-            }
-        }
+        data.id = UUID.v7();
+        lastUUID = data.id;
         await User.create(data);
-        data.password = await hash(data.password);
+        data.password = await Crypt.hash(data.password);
         await User.update(data, {
             where: { id: lastUUID },
             validate: false,
@@ -85,13 +79,8 @@ async function initModules() {
     for (const data of dataModule.modules) {
         data.id = "";
 
-        while (data.id === "") {
-            const uuid = NewUUID();
-            const test = await Module.findByPk(uuid);
-            if (!test) {
-                data.id = uuid;
-            }
-        }
+        data.id = UUID.v7();
+        
         data.user_id = lastUUID;
         await Module.create(data);
     }

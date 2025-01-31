@@ -2,9 +2,8 @@
 import express, { Request, Response } from "express";
 
 //Tools
-import { hash } from "../tools/hash";
-import NewUUID from "../tools/uuid";
-import { compare } from "../tools/hash";
+import Crypt from "../tools/hash";
+import UUID from "../tools/uuid";
 import jwt from "jsonwebtoken";
 import privateKey from "../middleware/auth/key";
 import config from "config";
@@ -23,7 +22,7 @@ router.post("/register", async (req, res): Promise<void> => {
     }
 
     while (data.id === "") {
-        const uuid = NewUUID();
+        const uuid = UUID.v7();
         const user = await User.findByPk(uuid);
         if (!user) {
             data.id = uuid;
@@ -33,7 +32,7 @@ router.post("/register", async (req, res): Promise<void> => {
     User.create(data)
         .then(async (user) => {
             const userData = user.get();
-            userData.password = await hash(userData.password);
+            userData.password = await Crypt.hash(userData.password);
             await User.update(userData, {
                 where: { id: userData.id },
                 validate: false,
@@ -69,7 +68,7 @@ router.post("/signin", async (req, res): Promise<void> => {
             return;
         }
 
-        const isPasswordValid = await compare(req.body.password, user.password);
+        const isPasswordValid = await Crypt.compare(req.body.password, user.password);
 
         if (!isPasswordValid) {
             res.status(402).json({

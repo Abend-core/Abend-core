@@ -1,7 +1,9 @@
 import { v7 as uuidv7 } from "uuid";
 
-const NewUUID = () => {
-  return uuidv7();
-};
+class UUID{
+  v7(): string{
+    return uuidv7();
+  };
+}
 
-export default NewUUID;
+export default new UUID();

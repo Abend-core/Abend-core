@@ -2,7 +2,7 @@
 import express, { Request, Response } from "express";
 const router = express.Router();
 //Tools
-import NewUUID from "../tools/uuid";
+import UUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
 import { uploadModule, resizeimg } from "../tools/multer";
@@ -17,10 +17,12 @@ import role from "../middleware/role";
 
 // Création d'un nouveau module
 router.post("/", auth, (req, res) => {
+
+
     const data = req.body;
     const link: string = req.body.link;
     const response: string = checkLink(link);
-    data.id = NewUUID();
+    data.id = UUID.v7();
     if (response != "ok") {
         res.status(400).json({
             message: "Le lien ne correspond pas au format attendu.",
@@ -46,7 +48,7 @@ router.post("/", auth, (req, res) => {
         });
 });
 
-// Création d'un nouveau module
+// Ajout d'une image a un module.
 router.put("/image", auth, (req, res) => {
     uploadModule.single("image")(req, res, async (err) => {
         // Vérification des erreurs
