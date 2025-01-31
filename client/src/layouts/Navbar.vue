@@ -64,20 +64,20 @@
           v-if="isMenuProfilOpen"
           class="absolute right-0 w-[125px] h-[120px] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
         >
-          <div class="flex items-center gap-1">
+          <div class="flex items-center">
             <RouterLink
               to="/profil"
-              class="text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
+              class="flex items-center gap-1 text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
               @click="toggleMenu"
             >
               <i class="ri-user-line text-gray-400 text-xl"></i>
               Profil
             </RouterLink>
           </div>
-          <div class="flex items-center gap-1 mb-2">
+          <div class="flex items-center mb-2">
             <RouterLink
               to="/module"
-              class="text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
+              class="flex items-center gap-1 text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
               @click="toggleMenu"
             >
               <i class="ri-layout-horizontal-line text-gray-400 text-xl"></i>
@@ -112,8 +112,8 @@
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/authStore";
+import { useUser } from "../composables/useUser";
 import { isDark, toggleDarkMode } from "../utils/darkMode.js";
-import { getUserById } from "../api/user";
 import "remixicon/fonts/remixicon.css";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -121,6 +121,7 @@ const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const router = useRouter();
 
 const authStore = useAuthStore();
+const { getInfosProfil } = useUser();
 
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const isAdmin = computed(() => authStore.isAdmin);
@@ -128,11 +129,10 @@ const user = computed(() => authStore.user);
 
 const isMenuProfilOpen = ref(false);
 
-const getInfosProfil = async () => {
+const loadUserProfile = async () => {
   if (!authStore.isAuthenticated || !authStore.user?.id) return;
   try {
-    const response = await getUserById(authStore.user.id);
-    authStore.setUser(response.data.user);
+    await getInfosProfil(authStore.user.id);
   } catch (error) {
     console.error("Erreur lors de la récupération du profil :", error);
   }
@@ -154,7 +154,7 @@ const toggleMenu = () => {
 onMounted(() => {
   authStore.initializeAuth();
   if (authStore.isAuthenticated) {
-    getInfosProfil();
+    loadUserProfile();
   }
 });
 </script>

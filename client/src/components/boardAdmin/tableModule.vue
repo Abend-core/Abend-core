@@ -11,16 +11,16 @@
         @change="filterSearchModule"
       />
       <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
-        <i class="ri-search-line text-[20px] text-[#D9DCE1]"></i>
+        <i class="ri-search-line text-xl text-customlightGray"></i>
       </span>
     </div>
     <div class="flex gap-3">
-      <p class="text-[#746a6ade] dark:text-gray-400">
+      <p class="text-customGray dark:text-gray-400">
         {{ countModule }} selected
       </p>
     </div>
     <i
-      class="ri-delete-bin-4-fill text-[28px] text-[#D9DCE1] cursor-pointer"
+      class="ri-delete-bin-4-fill text-3xl text-customlightGray cursor-pointer"
       @click="deleteModuleTable"
     ></i>
   </div>
@@ -30,11 +30,11 @@
   >
     <table class="w-full">
       <thead>
-        <tr class="text-left border-b border-[#F4F6FA]">
+        <tr class="text-left border-b border-customWhite">
           <th class="p-3">
             <input
-              id="checkbox-dashboad-table-allUsers"
-              name="checkbox_dashboad_table_allUsers"
+              id="checkbox-dashboard-table-allUsers"
+              name="checkbox_dashboard_table_allUsers"
               type="checkbox"
               class="select-users cursor-pointer"
             />
@@ -51,7 +51,7 @@
         <tr
           v-for="module in modules"
           :key="module.id"
-          class="hover:bg-[#F4F6FA] dark:hover:text-black dark:hover:bg-gray-500"
+          class="hover:bg-customWhite dark:hover:text-black dark:hover:bg-gray-500"
         >
           <td class="p-3">
             <input

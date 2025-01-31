@@ -17,7 +17,7 @@
       class="absolute top-0 right-3 cursor-pointer"
       @click="displayModalUser"
     >
-      <p class="text-[22px]">&times;</p>
+      <p class="text-2xl">&times;</p>
     </div>
     <div
       class="grid gap-4 sm:flex sm:flex-col lg:flex-row lg:flex-wrap lg:items-end"

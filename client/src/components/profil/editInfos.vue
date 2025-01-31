@@ -104,13 +104,13 @@
         <div class="flex justify-end">
           <button
             class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit"
-            @click="openModalConfirmDeleteUser"
+            @click="toggleModalConfirmDeleteUser"
           >
             Supprimer mon compte
           </button>
           <modal-confirm-delete
             v-if="isModalConfirmDeleteVisible"
-            @close-modal="closeModalConfirmDeleteUser"
+            @close-modal="toggleModalConfirmDeleteUser"
             @confirm-delete="deleteAccount"
           />
         </div>
@@ -120,7 +120,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import {
   getUserById,
   editUserById,
@@ -132,9 +132,11 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/authStore";
 import NotificationMessage from "../../components/notification/NotificationMessage.vue";
 import { useNotificationStore } from "../../stores/notificationStore.js";
+import { useUser } from "../../composables/useUser.js";
 
 const authStore = useAuthStore();
 const { setNotification } = useNotificationStore();
+const { getInfosProfil } = useUser();
 
 const router = useRouter();
 
@@ -154,16 +156,12 @@ const passwordButtonDisabled = ref(true);
 const initialEmail = emailProfil.value;
 const initialIdentifiant = identifiantProfil.value;
 
-const getInfosProfil = async () => {
-  try {
-    const response = await getUserById(id);
-    user.value = response.data.user;
+const loadUserProfile = async () => {
+  await getInfosProfil(id);
 
-    emailProfil.value = user.value.mail;
-    identifiantProfil.value = user.value.username;
-  } catch (error) {
-    console.error(error);
-  }
+  user.value = authStore.user;
+  emailProfil.value = user.value.mail;
+  identifiantProfil.value = user.value.username;
 };
 
 const updateUserProfile = async () => {
@@ -216,12 +214,8 @@ const updatePassword = async () => {
   }
 };
 
-const openModalConfirmDeleteUser = () => {
-  isModalConfirmDeleteVisible.value = true;
-};
-
-const closeModalConfirmDeleteUser = () => {
-  isModalConfirmDeleteVisible.value = false;
+const toggleModalConfirmDeleteUser = () => {
+  isModalConfirmDeleteVisible.value = !isModalConfirmDeleteVisible.value;
 };
 
 const deleteAccount = async () => {
@@ -236,7 +230,9 @@ const deleteAccount = async () => {
   }
 };
 
-getInfosProfil();
+onMounted(() => {
+  loadUserProfile();
+});
 </script>
 
 <style scoped>

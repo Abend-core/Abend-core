@@ -1,7 +1,7 @@
 <template>
-  <main class="p-[20px]">
+  <main class="p-5">
     <div
-      class="w-full bg-customWhite rounded-md p-[20px] dark:bg-gray-800 dark:text-white"
+      class="w-full bg-customWhite rounded-md p-5 dark:bg-gray-800 dark:text-white"
     >
       <div class="flex gap-5 mb-5 text-white">
         <p

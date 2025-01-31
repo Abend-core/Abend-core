@@ -73,13 +73,13 @@
               <div class="flex gap-3">
                 <div v-if="module.id !== editingModuleId">
                   <i
-                    class="ri-pencil-fill text-[24px] cursor-pointer"
+                    class="ri-pencil-fill text-2xl cursor-pointer"
                     @click="editModule(module.id)"
                   ></i>
                 </div>
                 <div v-if="module.id !== editingModuleId">
                   <i
-                    class="ri-delete-bin-4-fill text-[24px] cursor-pointer"
+                    class="ri-delete-bin-4-fill text-2xl cursor-pointer"
                     @click="deleteModuleTable(module.id)"
                   ></i>
                 </div>

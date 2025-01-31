@@ -10,14 +10,14 @@
   </div>
   <div
     v-if="isModalVisibleModule"
-    class="bg-white mb-6 p-7 rounded-md relative max-w-[100%] mx-auto dark:bg-gray-700 dark:text-white dark:border dark:border-black"
+    class="bg-white mb-6 p-7 rounded-md relative max-w-full mx-auto dark:bg-gray-700 dark:text-white dark:border dark:border-black"
   >
     <p class="font-bold mb-3 text-left">Ajoutez un module</p>
     <div
       class="absolute top-0 right-3 cursor-pointer"
       @click="displayModalModule"
     >
-      <p class="text-[22px]">&times;</p>
+      <p class="text-2xl">&times;</p>
     </div>
     <form @submit.prevent="addModulesDashboard">
       <div

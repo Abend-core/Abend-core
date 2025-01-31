@@ -1,44 +1,33 @@
 <template>
   <main>
-    <div class="m-auto w-[360px] mt-[80px]">
-      <img
-        v-if="!isDark"
-        class="w-[56px] h-[56px] mx-auto mb-3"
-        src="../assets/images/abend-core-logo.png"
-        alt="Logo principal connexion"
-      />
-      <img
-        v-else
-        class="w-[56px] h-[56px] mx-auto mb-3"
-        src="../assets/images/abend-core-logo-dark.png"
-        alt="Logo principal connexion"
-      />
+    <div class="m-auto w-[360px] mt-20">
+      <LogoSwitch />
       <div>
-        <h1 class="text-2xl text-center mb-[10px]">S'inscrire à Abend-core</h1>
+        <h1 class="text-2xl text-center mb-2">S'inscrire à Abend-core</h1>
       </div>
-      <div class="pl-[16px] pr-[16px] pt-[8px]">
+      <div class="pl-4 pr-4 pt-2">
         <NotificationMessage />
       </div>
-      <div class="p-[16px]">
+      <div class="p-4">
         <form class="flex flex-col" @submit.prevent="registration">
-          <label for="email"> Email </label>
+          <label class="mb-1" for="email-registration">Email </label>
           <input
-            class="dark:text-white dark:bg-gray-900"
+            class="dark:text-white dark:bg-gray-900 mb-3"
             type="email"
-            id="email"
+            id="email-registration"
             v-model="email"
             required
           />
-          <label for="password"> Mot de passe </label>
+          <label class="mb-1" for="password"> Mot de passe </label>
           <input
             type="password"
             id="password"
-            class="input-password mb-[6px] dark:text-white dark:bg-gray-900"
+            class="input-password mb-3 dark:text-white dark:bg-gray-900"
             v-model="password"
             minlength="8"
             required
           />
-          <label for="login"> Identifiant </label>
+          <label class="mb-1" for="login"> Identifiant </label>
           <input
             class="dark:text-white dark:bg-gray-900"
             type="text"
@@ -47,13 +36,13 @@
             required
           />
           <button
-            class="w-full mt-[6px] bg-customGreen text-white font-bold border border-black"
+            class="w-full mt-4 bg-customGreen text-white font-bold border border-black"
             type="submit"
           >
             Rejoindre Abend-core !
           </button>
         </form>
-        <div class="text-sm mt-[16px]">
+        <div class="text-sm mt-2">
           <p>
             Déjà inscrit?
             <router-link class="underline" to="/connexion"
@@ -71,6 +60,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { registrateUser } from "../api/auth";
 import NotificationMessage from "../components/notification/NotificationMessage.vue";
+import LogoSwitch from "../components/LogoSwitch.vue";
 import { useNotificationStore } from "../stores/notificationStore.js";
 import { isDark } from "../utils/darkMode.js";
 
@@ -109,14 +99,6 @@ input {
 
 input {
   border: 1px solid #d1d9e0;
-}
-
-label {
-  margin-bottom: 4px;
-}
-
-input:not(.input-password) {
-  margin-bottom: 6px;
 }
 
 input,

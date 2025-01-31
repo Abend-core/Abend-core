@@ -1,49 +1,47 @@
 <template>
   <main>
-    <div class="m-auto w-[320px] mt-[80px]">
-      <LogoLogin />
+    <div class="m-auto w-[320px] mt-20">
+      <LogoSwitch />
       <div>
-        <h1 class="text-2xl text-center mb-[10px]">
-          Se connecter à Abend-core
-        </h1>
+        <h1 class="text-2xl text-center mb-2">Se connecter à Abend-core</h1>
       </div>
-      <div class="pl-[16px] pr-[16px] pt-[8px]">
+      <div class="pl-4 pr-4 pt-2">
         <NotificationMessage />
       </div>
-      <div class="p-[16px]">
+      <div class="p-4">
         <form action="" class="flex flex-col" @submit.prevent="handleLogin">
-          <label class="mb-[4px]" for="mail">Email</label>
+          <label class="mb-1" for="email-login">Email</label>
           <input
             type="text"
-            id="mail"
+            id="email-login"
             v-model="mail"
-            class="mb-[8px] bg-white text-black dark:text-white dark:bg-gray-900"
+            class="mb-4 bg-white text-black dark:text-white dark:bg-gray-900"
             required
           />
           <div class="position-relative relative">
-            <label class="mb-[4px]" for="password"> Mot de passe </label>
+            <label class="mb-1" for="password"> Mot de passe </label>
             <input
               type="password"
               id="password"
               v-model="password"
-              class="mb-[16px] bg-white text-black dark:text-white dark:bg-gray-900"
+              class="bg-white text-black dark:text-white dark:bg-gray-900"
               required
             />
             <router-link
-              class="absolute text-[12px] underline top-0 right-0"
+              class="absolute text-xs underline top-0 right-0"
               id="forgot-password"
               to="/forgetPassword"
               >Mot de passe oublié ?
             </router-link>
             <button
-              class="w-full bg-customGreen text-white font-bold border border-black"
+              class="w-full mt-4 bg-customGreen text-white font-bold border border-black"
               type="submit"
             >
               Se connecter
             </button>
           </div>
         </form>
-        <div class="text-sm mt-[16px]">
+        <div class="text-sm mt-2">
           <p>
             Nouveau sur Abend-core?
             <router-link class="underline" to="/inscription"
@@ -60,7 +58,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuth } from "../composables/useAuth";
-import LogoLogin from "../components/login/LogoLogin.vue";
+import LogoSwitch from "../components/LogoSwitch.vue";
 import NotificationMessage from "../components/notification/NotificationMessage.vue";
 import { useNotificationStore } from "../stores/notificationStore.js";
 import { useAuthStore } from "../stores/authStore";

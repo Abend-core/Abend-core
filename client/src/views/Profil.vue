@@ -28,7 +28,7 @@
                 @change="updateImg"
               />
             </div>
-            <div class="mt-[20px] xl:mt-[80px]">
+            <div class="mt-5 xl:mt-[80px]">
               <div class="gap-3 flex">
                 <p
                   :class="{ 'text-primaryRed': activeSection === 'profile' }"
@@ -47,7 +47,7 @@
               </div>
               <div class="flex gap-2">
                 <div v-if="user && user.username">
-                  <p class="text-[24px]">{{ user.username }}</p>
+                  <p class="text-2xl">{{ user.username }}</p>
                 </div>
               </div>
               <p class="text-[#8592A4]">
@@ -71,12 +71,14 @@
 import { ref, computed } from "vue";
 import editInfos from "../components/profil/editInfos.vue";
 import displayInfos from "../components/profil/displayInfos.vue";
-import { getUserById, updateImgProfil } from "../api/user";
+import { updateImgProfil } from "../api/user";
 import { useAuthStore } from "../stores/authStore";
+import { useUser } from "../composables/useUser";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const authStore = useAuthStore();
+const { getInfosProfil } = useUser();
 
 const user = computed(() => authStore.user);
 
@@ -88,15 +90,6 @@ const selectedImageFile = ref(null);
 
 const setActiveSection = (section) => {
   activeSection.value = section;
-};
-
-const getInfosProfil = async () => {
-  try {
-    const response = await getUserById(id);
-    authStore.setUser(response.data.user);
-  } catch (error) {
-    console.error(error);
-  }
 };
 
 const updateImg = async (event) => {
@@ -119,12 +112,10 @@ const updateImg = async (event) => {
 
       authStore.setUser(updatedUser);
 
-      getInfosProfil();
+      await getInfosProfil(id);
     } catch (error) {
       console.error("Erreur lors de la mise à jour de l'image :", error);
     }
   }
 };
-
-getInfosProfil();
 </script>

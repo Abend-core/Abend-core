@@ -11,14 +11,14 @@
         @change="filterSearchUser"
       />
       <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
-        <i class="ri-search-line text-[20px] text-customlightGray"></i>
+        <i class="ri-search-line text-xl text-customlightGray"></i>
       </span>
     </div>
     <div class="flex gap-3">
       <p class="text-customGray dark:text-gray-400">{{ countUser }} selected</p>
     </div>
     <i
-      class="ri-delete-bin-4-fill text-[28px] text-customlightGray cursor-pointer"
+      class="ri-delete-bin-4-fill text-3xl text-customlightGray cursor-pointer"
       @click="deleteUserTable"
     ></i>
   </div>
@@ -31,8 +31,8 @@
         <tr class="text-left border-b border-customWhite">
           <th class="p-3">
             <input
-              id="checkbox-dashboad-table-allUsers"
-              name="checkbox_dashboad_table_allUsers"
+              id="checkbox-dashboard-table-allUsers"
+              name="checkbox_dashboard_table_allUsers"
               type="checkbox"
               class="select-users cursor-pointer"
               @change="selectAllUsers"
