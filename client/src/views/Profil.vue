@@ -10,6 +10,7 @@
           >
             <div class="relative w-[200px] h-[200px] rounded-full group">
               <img
+                v-if="user && user.image"
                 class="absolute rounded-full border border-white p-1 bg-white"
                 :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
                 alt="Image de profil"
@@ -45,7 +46,9 @@
                 </p>
               </div>
               <div class="flex gap-2">
-                <p class="text-[24px]">{{ user.username }}</p>
+                <div v-if="user && user.username">
+                  <p class="text-[24px]">{{ user.username }}</p>
+                </div>
               </div>
               <p class="text-[#8592A4]">
                 Mets à jour tes informations personnelles
@@ -71,15 +74,18 @@ import displayInfos from "../components/profil/displayInfos.vue";
 import { getUserById, updateImgProfil } from "../api/user";
 import { useAuthStore } from "../stores/authStore";
 
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const authStore = useAuthStore();
 
 const user = computed(() => authStore.user);
 
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 const id = sessionStorage.getItem("id");
 
 const activeSection = ref("profile");
+const imageURL = ref(null);
+const selectedImageFile = ref(null);
+
 const setActiveSection = (section) => {
   activeSection.value = section;
 };
@@ -92,9 +98,6 @@ const getInfosProfil = async () => {
     console.error(error);
   }
 };
-
-const imageURL = ref(null);
-const selectedImageFile = ref(null);
 
 const updateImg = async (event) => {
   const file = event.target.files[0];
@@ -125,5 +128,3 @@ const updateImg = async (event) => {
 
 getInfosProfil();
 </script>
-
-<style scoped></style>

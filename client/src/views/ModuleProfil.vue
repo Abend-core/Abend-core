@@ -109,14 +109,13 @@ import ModalAddModule from "../components/modal/modalAddModule.vue";
 import { useNotificationStore } from "../stores/notificationStore.js";
 import NotificationMessage from "../components/notification/NotificationMessage.vue";
 
-const { setNotification } = useNotificationStore();
-
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const { setNotification } = useNotificationStore();
 
 const id = sessionStorage.getItem("id");
 
 const modules = ref([]);
-
 const editingModuleId = ref(null);
 
 const getModulesById = async () => {

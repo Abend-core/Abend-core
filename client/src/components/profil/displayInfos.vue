@@ -29,8 +29,8 @@ import { getUserById } from "../../api/user";
 import { formatDateTime } from "../../utils/date";
 
 const id = sessionStorage.getItem("id");
-const user = ref({});
 
+const user = ref({});
 const emailProfil = ref("");
 const identifiantProfil = ref("");
 

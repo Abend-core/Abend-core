@@ -41,12 +41,6 @@
         v-if="!isAuthenticated"
         >Connexion</RouterLink
       >
-      <!-- <RouterLink
-        class="hover:text-primaryRed font-medium"
-        to="/favoris"
-        v-if="isAuthenticated"
-        >Favoris</RouterLink
-      > -->
       <RouterLink
         class="hover:text-primaryRed font-medium"
         v-if="isAuthenticated && isAdmin"
@@ -92,16 +86,6 @@
               Module
             </RouterLink>
           </div>
-          <!-- <div class="flex items-center gap-1 mb-3">
-            <RouterLink
-              to="/favoris"
-              class="text-primaryBlue text-[14px] dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
-              @click="closeMenu"
-            >
-              <i class="ri-heart-add-2-fill text-gray-400 text-[20px]"></i>
-              Favoris
-            </RouterLink>
-          </div> -->
           <div>
             <button
               class="absolute left-0 right-0 flex items-center gap-1 border-t px-2 group"
@@ -136,14 +120,15 @@ import "remixicon/fonts/remixicon.css";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-const authStore = useAuthStore();
 const router = useRouter();
 
-const isMenuProfilOpen = ref(false);
+const authStore = useAuthStore();
 
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const isAdmin = computed(() => authStore.isAdmin);
 const user = computed(() => authStore.user);
+
+const isMenuProfilOpen = ref(false);
 
 const getInfosProfil = async () => {
   if (!authStore.isAuthenticated || !authStore.user?.id) return;

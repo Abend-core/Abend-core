@@ -18,6 +18,7 @@ export const useAuthStore = defineStore("authStore", () => {
 
   function logout() {
     sessionStorage.clear();
+    user.value = null;
   }
 
   function initializeAuth() {

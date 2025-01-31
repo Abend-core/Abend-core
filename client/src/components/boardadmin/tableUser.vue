@@ -87,9 +87,14 @@
 import { ref, watch } from "vue";
 import { findAll, deleteUser, filter, addUser } from "../../api/user";
 import { formatDateTime } from "../../utils/date";
+
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
+let users = ref([]);
+let idUsers = [];
+let countUser = ref(0);
 const inputValueSearchBar = ref("");
+
 const filterSearchUser = async () => {
   users.value = [];
   try {
@@ -108,7 +113,6 @@ watch(inputValueSearchBar, () => {
   filterSearchUser();
 });
 
-let users = ref([]);
 const allUsers = async () => {
   try {
     const response = await findAll();
@@ -118,12 +122,10 @@ const allUsers = async () => {
   }
 };
 
-let countUser = ref(0);
 const updateUserCountUser = (event) => {
   countUser.value += event.target.checked ? 1 : -1;
 };
 
-let idUsers = [];
 const selectAllUsers = (event) => {
   const idUser = event.target.value;
   const checked = event.target.checked;

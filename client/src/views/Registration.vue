@@ -74,13 +74,13 @@ import NotificationMessage from "../components/notification/NotificationMessage.
 import { useNotificationStore } from "../stores/notificationStore.js";
 import { isDark } from "../utils/darkMode.js";
 
+const router = useRouter();
+
 const { setNotification } = useNotificationStore();
 
 const email = ref("");
 const password = ref("");
 const loginRegister = ref("");
-
-const router = useRouter();
 
 const registration = async () => {
   const data = {

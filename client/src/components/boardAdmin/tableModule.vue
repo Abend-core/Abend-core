@@ -96,7 +96,6 @@ import { ref, watch } from "vue";
 import { formatDateTime } from "../../utils/date";
 import {
   findAllModules,
-  addModules,
   deleteModule,
   filterModule,
   updateModuleById,
@@ -107,6 +106,10 @@ import modalAddModule from "../../components/modal/modalAddModule.vue";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const modules = ref([]);
+let countModule = ref(0);
+let idModules = [];
+const inputValueSearchBarModule = ref("");
+
 const allModules = async () => {
   try {
     const response = await findAllModules();
@@ -116,12 +119,9 @@ const allModules = async () => {
   }
 };
 
-let countModule = ref(0);
 const updateUserCountModule = (event) => {
   countModule.value += event.target.checked ? 1 : -1;
 };
-
-let idModules = [];
 
 const selectAllModules = (event) => {
   const idModule = event.target.value;
@@ -136,6 +136,7 @@ const selectAllModules = (event) => {
     }
   }
 };
+
 const deleteModuleTable = async () => {
   for (let i = 0; i < idModules.length; i++) {
     try {
@@ -149,62 +150,6 @@ const deleteModuleTable = async () => {
   allModules();
 };
 
-const imageURL = ref(null);
-const selectedImageFile = ref(null);
-
-const handleFileChange = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    selectedImageFile.value = file;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      imageURL.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-};
-
-let dataModule = {
-  name: ref(""),
-  link: ref(""),
-  content: ref(""),
-  image: ref(""),
-  isShow: ref(true),
-};
-const id = sessionStorage.getItem("id");
-
-const addModulesDashboard = async () => {
-  try {
-    let imagePath = null;
-
-    const result = await addModules({
-      name: dataModule.name.value,
-      link: dataModule.link.value,
-      content: dataModule.content.value,
-      isShow: dataModule.isShow.value,
-      user_id: id,
-    });
-
-    if (result.status === 200 && selectedImageFile.value) {
-      const formData = new FormData();
-      formData.append("id", result.data.module.id);
-      formData.append("image", selectedImageFile.value);
-      const uploadResponse = await uploadImageModule(formData);
-    }
-
-    dataModule.name.value = "";
-    dataModule.link.value = "";
-    dataModule.content.value = "";
-    dataModule.image.value = "";
-    imageURL.value = null;
-    selectedImageFile.value = null;
-    allModules();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const inputValueSearchBarModule = ref("");
 const filterSearchModule = async () => {
   modules.value = [];
   try {

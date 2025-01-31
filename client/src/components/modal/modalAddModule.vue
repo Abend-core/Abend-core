@@ -33,7 +33,7 @@
         />
       </div>
 
-      <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+      <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full relative mb-[8px]">
         <label for="add-module-input-prenom" class="mb-1">Lien</label>
         <input
           id="add-module-input-lien"
@@ -42,7 +42,7 @@
           class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
           v-model="dataModule.link.value"
         />
-        <p class="absolute text-[#8592A4] bottom-0">https://abend-core.org</p>
+        <p class="absolute text-[#8592A4] top-full">https://abend-core.org</p>
       </div>
 
       <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
@@ -91,10 +91,11 @@ import { uploadImageModule } from "../../api/upload.js";
 
 const emit = defineEmits(["refresh-modules", "refresh-modulesById"]);
 
+const id = sessionStorage.getItem("id");
+
 const isModalVisibleModule = ref(false);
-const displayModalModule = () => {
-  isModalVisibleModule.value = !isModalVisibleModule.value;
-};
+const imageURL = ref(null);
+const selectedImageFile = ref(null);
 
 let dataModule = {
   name: ref(""),
@@ -104,8 +105,9 @@ let dataModule = {
   isShow: ref(true),
 };
 
-const imageURL = ref(null);
-const selectedImageFile = ref(null);
+const displayModalModule = () => {
+  isModalVisibleModule.value = !isModalVisibleModule.value;
+};
 
 const handleFileChange = (event) => {
   const file = event.target.files[0];
@@ -119,12 +121,8 @@ const handleFileChange = (event) => {
   }
 };
 
-const id = sessionStorage.getItem("id");
-
 const addModulesDashboard = async () => {
   try {
-    let imagePath = null;
-
     const result = await addModules({
       name: dataModule.name.value,
       link: dataModule.link.value,
@@ -140,6 +138,7 @@ const addModulesDashboard = async () => {
       const uploadResponse = await uploadImageModule(formData);
     }
 
+    displayModalModule();
     dataModule.name.value = "";
     dataModule.link.value = "";
     dataModule.content.value = "";

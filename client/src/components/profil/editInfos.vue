@@ -143,10 +143,10 @@ const id = sessionStorage.getItem("id");
 const user = ref({});
 const emailProfil = ref("");
 const identifiantProfil = ref("");
-
 const oldPassword = ref("");
 const newPassword = ref("");
 const confirmNewPassword = ref("");
+const isModalConfirmDeleteVisible = ref(false);
 
 const buttonDisabled = ref(true);
 const passwordButtonDisabled = ref(true);
@@ -216,7 +216,6 @@ const updatePassword = async () => {
   }
 };
 
-const isModalConfirmDeleteVisible = ref(false);
 const openModalConfirmDeleteUser = () => {
   isModalConfirmDeleteVisible.value = true;
 };
@@ -229,6 +228,7 @@ const deleteAccount = async () => {
   try {
     await deleteUser(id);
     closeModalConfirmDeleteUser();
+    authStore.setUser(null);
     authStore.logout();
     router.push("/");
   } catch (error) {

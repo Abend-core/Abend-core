@@ -71,19 +71,21 @@
 
 <script setup>
 import { ref } from "vue";
+import { addUser } from "../../api/user";
 
 const emit = defineEmits(["refresh-users"]);
 
 const isModalVisibleUser = ref(false);
-const displayModalUser = () => {
-  isModalVisibleUser.value = !isModalVisibleUser.value;
-};
 
 let dataAddUser = {
   mail: ref(""),
   username: ref(""),
   password: "password",
   isAdmin: ref(""),
+};
+
+const displayModalUser = () => {
+  isModalVisibleUser.value = !isModalVisibleUser.value;
 };
 
 const addUserFonction = async () => {
@@ -96,7 +98,8 @@ const addUserFonction = async () => {
     });
     dataAddUser.mail.value = "";
     dataAddUser.username.value = "";
-    allUsers();
+    emit("refresh-users");
+    displayModalUser();
   } catch (error) {
     console.error(error);
   }
