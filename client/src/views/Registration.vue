@@ -3,13 +3,13 @@
     <div class="m-auto w-[360px] mt-[80px]">
       <img
         v-if="!isDark"
-        class="w-[56px] h-[56px] mx-auto mb-[12px]"
+        class="w-[56px] h-[56px] mx-auto mb-3"
         src="../assets/images/abend-core-logo.png"
         alt="Logo principal connexion"
       />
       <img
         v-else
-        class="w-[56px] h-[56px] mx-auto mb-[12px]"
+        class="w-[56px] h-[56px] mx-auto mb-3"
         src="../assets/images/abend-core-logo-dark.png"
         alt="Logo principal connexion"
       />
@@ -53,7 +53,7 @@
             Rejoindre Abend-core !
           </button>
         </form>
-        <div class="text-[14px] mt-[16px]">
+        <div class="text-sm mt-[16px]">
           <p>
             Déjà inscrit?
             <router-link class="underline" to="/connexion"

@@ -11,7 +11,7 @@
         @change="filterSearchModule"
       />
       <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
-        <i class="ri-search-line text-[20px] text-customlightGray"></i>
+        <i class="ri-search-line text-xl text-customlightGray"></i>
       </span>
     </div>
     <div class="flex gap-3">
@@ -20,7 +20,7 @@
       </p>
     </div>
     <i
-      class="ri-delete-bin-4-fill text-[28px] text-customlightGray cursor-pointer"
+      class="ri-delete-bin-4-fill text-3xl text-customlightGray cursor-pointer"
       @click="deleteModuleTable"
     ></i>
   </div>

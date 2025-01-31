@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <main class="bg-[#FDFDFD] w-[100%] xl:w-[100%] mr-0 relative">
+    <main class="bg-[#FDFDFD] w-full xl:w-full mr-0 relative">
       <div
         class="pt-[1px] pl-[50px] pr-[50px] relative z-[2] dark:bg-gray-800 dark:text-white"
       >
@@ -18,7 +18,7 @@
               <div
                 class="absolute inset-0 flex items-center justify-center z-10 bg-primaryRed rounded-full bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               >
-                <i class="ri-pencil-fill text-white text-[28px]"></i>
+                <i class="ri-pencil-fill text-white text-3xl"></i>
               </div>
 
               <input

@@ -22,7 +22,7 @@
             <div class="flex items-center gap-2">
               <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
               <i
-                class="ri-verified-badge-fill text-[20px] lg:text-[26px] text-white cursor-pointer"
+                class="ri-verified-badge-fill text-xl lg:text-[26px] text-white cursor-pointer"
               ></i>
             </div>
             <div>
@@ -35,12 +35,12 @@
             </p>
             <i
               v-if="getEtatLike(module.id)"
-              class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-[20px] lg:text-[26px] cursor-pointer text-red-500 z-10"
+              class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-[26px] cursor-pointer text-red-500 z-10"
               @click="toggleLike(module.id, $event)"
             ></i>
             <i
               v-else
-              class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-[20px] lg:text-[26px] cursor-pointer z-10"
+              class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-[26px] cursor-pointer z-10"
               @click="toggleLike(module.id, $event)"
             ></i>
           </div>

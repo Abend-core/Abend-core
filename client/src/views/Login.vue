@@ -43,7 +43,7 @@
             </button>
           </div>
         </form>
-        <div class="text-[14px] mt-[16px]">
+        <div class="text-sm mt-[16px]">
           <p>
             Nouveau sur Abend-core?
             <router-link class="underline" to="/inscription"

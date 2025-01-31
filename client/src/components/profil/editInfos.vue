@@ -5,14 +5,14 @@
   >
     <div class="w-full lg:w-[50%]">
       <div
-        class="bg-white rounded-md p-[12px] mt-3 mb-3 dark:bg-gray-800 dark:text-white"
+        class="bg-white rounded-md p-paddingMd mt-3 mb-3 dark:bg-gray-800 dark:text-white"
       >
         <h1 class="font-bold">Gérer mes informations</h1>
         <p class="text-primaryRed mt-1">Profil Dashboard</p>
       </div>
 
       <div
-        class="flex flex-col gap-[22px] p-[12px] bg-white rounded-md dark:bg-gray-800 dark:text-white"
+        class="flex flex-col gap-[22px] p-paddingMd bg-white rounded-md dark:bg-gray-800 dark:text-white"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
           <p class="lg:w-[150px] lg:mr-[200px] w-full">Email</p>
@@ -36,7 +36,7 @@
           />
         </div>
         <button
-          class="bg-primaryRed p-[6px] rounded-md text-white border border-black w-fit"
+          class="bg-primaryRed p-paddingSm rounded-md text-white border border-black w-fit"
           @click="updateUserProfile"
           :disabled="buttonDisabled"
         >
@@ -46,13 +46,13 @@
     </div>
     <div class="w-full lg:w-[50%]">
       <div
-        class="bg-white rounded-md mt-3 p-[12px] dark:bg-gray-800 dark:text-white"
+        class="bg-white rounded-md mt-3 p-paddingMd dark:bg-gray-800 dark:text-white"
       >
         <p class="font-bold">Gérer mon mot de passe</p>
         <p class="text-primaryRed mt-1">Modification Dashboard</p>
       </div>
       <div
-        class="flex flex-col gap-[22px] bg-white rounded-md mt-3 p-[12px] dark:bg-gray-800 dark:text-white"
+        class="flex flex-col gap-[22px] bg-white rounded-md mt-3 p-paddingMd dark:bg-gray-800 dark:text-white"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
           <p class="lg:w-[150px] lg:mr-[200px] w-full whitespace-nowrap">
@@ -95,7 +95,7 @@
           />
         </div>
         <button
-          class="bg-primaryRed p-[6px] rounded-md text-white border border-black w-fit"
+          class="bg-primaryRed p-paddingSm rounded-md text-white border border-black w-fit"
           @click="updatePassword"
           :disabled="passwordButtonDisabled"
         >
@@ -103,7 +103,7 @@
         </button>
         <div class="flex justify-end">
           <button
-            class="p-[6px] rounded-md text-primaryRed border border-primaryRed w-fit"
+            class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit"
             @click="openModalConfirmDeleteUser"
           >
             Supprimer mon compte

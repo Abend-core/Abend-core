@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="flex items-center relative p-[12px] dark:bg-gray-800 dark:text-white border-b border-gray-200"
+    class="flex items-center relative p-paddingMd dark:bg-gray-800 dark:text-white border-b border-gray-200"
   >
     <div class="left-content flex items-center gap-[10px]">
       <RouterLink to="/">
@@ -24,12 +24,12 @@
     >
       <i
         v-if="!isDark"
-        class="ri-sun-fill text-[20px] cursor-pointer"
+        class="ri-sun-fill text-xl cursor-pointer"
         @click="darkModeActivation"
       ></i>
       <i
         v-if="isDark"
-        class="ri-moon-fill text-[20px] cursor-pointer"
+        class="ri-moon-fill text-xl cursor-pointer"
         @click="darkModeActivation"
       ></i>
       <RouterLink class="hover:text-primaryRed font-medium" to="/"
@@ -67,22 +67,20 @@
           <div class="flex items-center gap-1">
             <RouterLink
               to="/profil"
-              class="text-primaryBlue text-[14px] dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
+              class="text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
               @click="toggleMenu"
             >
-              <i class="ri-user-line text-gray-400 text-[20px]"></i>
+              <i class="ri-user-line text-gray-400 text-xl"></i>
               Profil
             </RouterLink>
           </div>
           <div class="flex items-center gap-1 mb-2">
             <RouterLink
               to="/module"
-              class="text-primaryBlue text-[14px] dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
+              class="text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
               @click="toggleMenu"
             >
-              <i
-                class="ri-layout-horizontal-line text-gray-400 text-[20px]"
-              ></i>
+              <i class="ri-layout-horizontal-line text-gray-400 text-xl"></i>
               Module
             </RouterLink>
           </div>
@@ -96,9 +94,9 @@
                 }
               "
             >
-              <i class="ri-logout-box-line text-gray-400 text-[20px] mt-2"></i>
+              <i class="ri-logout-box-line text-gray-400 text-xl mt-2"></i>
               <span
-                class="text-primaryBlue text-[14px] dark:text-white group-hover:text-primaryRed mt-2"
+                class="text-primaryBlue text-sm dark:text-white group-hover:text-primaryRed mt-2"
               >
                 Déconnexion
               </span>

@@ -3,6 +3,10 @@ export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      spacing: {
+        paddingSm: "6px",
+        paddingMd: "12px",
+      },
       colors: {
         primaryRed: "#F82B30",
         primaryBlue: "#111827",

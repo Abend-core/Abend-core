@@ -1,7 +1,7 @@
 <template>
   <main class="p-4">
     <div
-      class="bg-white rounded-md p-[12px] mt-3 mb-3 dark:bg-gray-800 dark:text-white"
+      class="bg-white rounded-md p-paddingMd mt-3 mb-3 dark:bg-gray-800 dark:text-white"
     >
       <h1 class="font-bold">Gérer mes modules</h1>
       <p class="text-primaryRed mt-1">Module Dashboard</p>

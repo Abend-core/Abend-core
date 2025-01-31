@@ -1,13 +1,13 @@
 <template>
   <img
     v-if="!isDark"
-    class="w-[56px] h-[56px] mx-auto mb-[12px]"
+    class="w-[56px] h-[56px] mx-auto mb-3"
     :src="lightLogo"
     alt="Logo principal connexion"
   />
   <img
     v-else
-    class="w-[56px] h-[56px] mx-auto mb-[12px]"
+    class="w-[56px] h-[56px] mx-auto mb-3"
     :src="darkLogo"
     alt="Logo principal connexion"
   />
