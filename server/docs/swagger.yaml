@@ -601,6 +601,10 @@ paths:
                                     type: string
                                     description: Url pour la redirection du module
                                     example: https://abend-core.org
+                                image:
+                                    type: string
+                                    format: binary
+                                    description: Fichier image à télécharger
                                 content:
                                     type: string
                                     description: Courte description
@@ -1075,7 +1079,6 @@ paths:
                                     example: 01949df0-b386-7021-a66e-aea1a8c3ceab
                                 ModuleId:
                                     type: string
-                                    format: binary
                                     description: Identifiant du module
                                     example: 01949df0-b386-7021-a66e-aea1a8c3ceab
             responses:
