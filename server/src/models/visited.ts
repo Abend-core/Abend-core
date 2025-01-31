@@ -1,31 +1,49 @@
-// Table d'association automatique avec des colonnes UserId et ProjectId
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import sequelize from "../database/db";
 
 import User from "../models/user";
 import Module from "../models/module";
 
-const Visited = sequelize.define("Visited", {
-  UserId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: "Users",
-      key: "id",
-    },
-  },
-  ModuleId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: "Modules",
-      key: "id",
-    },
-  },
-});
+// Interface des attributs de Visited
+interface VisitedAttributes {
+  UserId: string;
+  ModuleId: string;
+}
 
-// Configurer les associations
-User.belongsToMany(Module, { through: Visited });
-Module.belongsToMany(User, { through: Visited });
+// Définition du modèle avec TypeScript
+class Visited extends Model<VisitedAttributes> implements VisitedAttributes {
+  public UserId!: string;
+  public ModuleId!: string;
+}
+
+Visited.init(
+  {
+    UserId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+    },
+    ModuleId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: "Modules",
+        key: "id",
+      },
+    },
+  },
+  {
+    sequelize,
+    modelName: "Visited",
+    tableName: "Visited",
+    timestamps: true,
+  }
+);
+
+User.belongsToMany(Module, { through: Visited, foreignKey: "UserId", as: "visitedModules" });
+Module.belongsToMany(User, { through: Visited, foreignKey: "ModuleId", as: "visitedByUsers" });
 
 export default Visited;
