@@ -9,6 +9,7 @@ import { uploadModule, resizeimg } from "../tools/multer";
 //Model & bdd
 import Module from "../models/module";
 import Liked from "../models/liked";
+import Visited from "../models/visited";
 import User from "../models/user";
 import { Op, Sequelize } from "sequelize";
 //Middleware
@@ -17,8 +18,6 @@ import role from "../middleware/role";
 
 // Création d'un nouveau module
 router.post("/", auth, (req, res) => {
-
-
     const data = req.body;
     const link: string = req.body.link;
     const response: string = checkLink(link);
@@ -109,7 +108,6 @@ router.put("/image", auth, (req, res) => {
 
 // Selection de tout les modules visible
 router.get("/show", (req, res) => {
-    
     Module.findAll({
         where: {
             isShow: true,
@@ -320,13 +318,52 @@ router.post("/liked", async (req, res) => {
     const { UserId, ModuleId } = req.body;
 
     try {
-        const like = await Liked.create(req.body);
+        const result = await Liked.findOne({
+            where: { UserId: UserId, ModuleId: ModuleId },
+        });
 
-        await Module.increment("likes", { where: { id: ModuleId } });
+        if (result) {
+            await Liked.destroy({
+                where: { UserId: UserId, ModuleId: ModuleId },
+            });
+            await Module.decrement("likes", { where: { id: ModuleId } });
+
+            res.status(200).json({
+                message: "Module enlever des favoris et compteur mis à jour.",
+            });
+        } else {
+            const like = await Liked.create(req.body);
+            await Module.increment("likes", { where: { id: ModuleId } });
+
+            res.status(200).json({
+                message: "Module mis en favoris et compteur mis à jour.",
+                like,
+            });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
+});
+
+// Ajoute en visite le module
+router.post("/visited", async (req, res) => {
+    const { UserId, ModuleId } = req.body;
+
+    try {
+        const result = await Visited.findOne({
+            where: { UserId: UserId, ModuleId: ModuleId },
+        });
+
+        if (!result) {
+            await Module.increment("views", { where: { id: ModuleId } });
+
+            res.status(200).json({
+                message: "Module a reçu une visite et compteur mis à jour.",
+            });
+        }
 
         res.status(200).json({
-            message: "Module liké et compteur mis à jour.",
-            like,
+            message: "Vous avez déjà visité ce module.",
         });
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });

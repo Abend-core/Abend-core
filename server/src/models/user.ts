@@ -36,13 +36,16 @@ User.init(
         username: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: {
+                name: "unique_username",
+                msg: "Cet identifiant est déjà utilisé.",
+            },
             validate: {
                 notNull: {
-                    msg: "L'username ne doit pas être nul.",
+                    msg: "L'identifiant ne doit pas être nul.",
                 },
                 notEmpty: {
-                    msg: "L'username ne doit pas être vide.",
+                    msg: "L'identifiant ne doit pas être vide.",
                 },
                 len: {
                     args: [1, 255],
@@ -53,7 +56,10 @@ User.init(
         mail: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: {
+                name: "unique_username",
+                msg: "Cette adresse mail est déjà utilisée.",
+            },
             validate: {
                 notNull: {
                     msg: "L'email ne doit pas être nul.",

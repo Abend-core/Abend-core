@@ -545,7 +545,6 @@ paths:
                                     message:
                                         type: string
                                         example: Erreur serveur.
-
     /modules:
         get:
             tags:
@@ -1062,7 +1061,7 @@ paths:
         post: 
             tags:
                 - Modules
-            summary: Ajouter le module en favoris.
+            summary: Ajoute/supprime le module en favoris.
             requestBody:
                 required: true
                 content:
@@ -1092,6 +1091,54 @@ paths:
                                     message:
                                         type: string
                                         example: Module ajouté en favoris
+                                    user: 
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/visited:
+        post: 
+            tags:
+                - Modules
+            summary: Ajoute une visite au module.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - UserId
+                                - ModuleId
+                            properties:
+                                UserId:
+                                    type: string
+                                    description: Identifiant de l'utilisateur
+                                    example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+                                ModuleId:
+                                    type: string
+                                    description: Identifiant du module
+                                    example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Le module a été visité.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module a reçu une visite et compteur mis à jour.
                                     user: 
                                         type: object
                 500:
