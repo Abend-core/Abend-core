@@ -40,7 +40,7 @@ router.post("/", auth, (req, res) => {
                 const errors = error.errors.map(
                     (err: { message: any }) => err.message
                 );
-                return res.status(401).json({ errors });
+                return res.status(400).json({ errors });
             }
             res.status(500).json({ message: "Erreur serveur.", erreur: error });
         });
@@ -331,9 +331,9 @@ router.post("/liked", async (req, res) => {
 });
 
 // Sélection de tous les modules avec la colonne `is_liked`
-router.get("/liked", async (req, res) => {
+router.get("/liked/:id", async (req, res) => {
     try {
-        const { userId } = req.body; // Récupérer l'ID utilisateur depuis le corps de la requête
+        const userId = req.params.id;
 
         const modules = await Module.findAll({
             attributes: {
