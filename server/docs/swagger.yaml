@@ -1,0 +1,1108 @@
+openapi: 3.0.0
+info:
+    title: API Abend-core
+    version: 1.0.0
+    contact:
+        name: Abend-core
+        url: http://localhost:5173
+tags:
+    - name: Auth
+      description: Opérations liées à la connexion
+    - name: Utilisateurs
+      description: Opérations liées aux utilisateurs
+    - name: Modules
+      description: Opérations liées aux modules
+
+paths:
+    /auth/signin:
+        post:
+            tags:
+                - Auth
+            summary: Inscription à l'application
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - mail
+                                - password
+                            properties:
+                                mail:
+                                    type: string
+                                    description: Mail de l'utilisateur
+                                    example: abend-core@gmail.com
+                                password:
+                                    type: string
+                                    description: Mot de passe utilisateur
+                                    example: password1
+            responses:
+                200:
+                    description: Connexion réussi.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: L'utilisateur a été connecté avec succès.
+                                    UUID:
+                                        type: string
+                                        example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+                                    token: 
+                                        type: string
+                                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhcnVkeSIsImlhdCI6MTczMTc4ODY3MywiZXhwIjoxNzMxODc1MDczfQ.AmyzfjxAtcOOAFzWk2RXGjMu2VNWRLetrcjhtamJOU0
+                400:
+                    description: Mauvaise requete.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Identifiant ou mot de passe incorrect.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Serveur en maintenance. Réessayez dans quelques instants.
+                                    erreur:
+                                        type: object
+    /auth/register:
+        post:
+            tags:
+                - Auth
+            summary: S'inscrire sur l'application
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - mail
+                                - password
+                                - identifiant
+                            properties:
+                                mail:
+                                    type: string
+                                    description: Mail valide de l'utilisateur
+                                    example: abend-core@gmail.com
+                                password:
+                                    type: string
+                                    description: Mot de passe d'au moins 8 caractères
+                                    example: password1
+                                identifiant:
+                                    type: string
+                                    example: Abend
+            responses:
+                200:
+                    description: Inscription réussis !
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur inscrit avec succès.
+                400:
+                    description: Mauvaise requete.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    errors:
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /users:
+        get:
+            tags:
+                - Utilisateurs
+            summary: Récupérer tout les utilisateurs
+            responses:
+                200:
+                    description: Tout les utilisateurs ont été récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Tout les utilisateurs.
+                                    user: 
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+        post:
+            tags:
+                - Utilisateurs
+            summary: Ajouter un utilisateur
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - mail
+                                - identifiant
+                                - isAdmin
+                            properties:
+                                mail:
+                                    type: string
+                                    description: Mail valide de l'utilisateur
+                                    example: abend-core@gmail.com
+                                identifiant:
+                                    type: string
+                                    description: Nom de l'utilisateur
+                                    example: Abend
+                                isAdmin:
+                                    type: boolean
+                                    example: true
+            responses:
+                200:
+                    description: L'utilisateur a été ajouter.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur créé avec succès.
+                                    user: 
+                                        type: object
+                400:
+                    description: Mauvaise requete.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Le mail doit être unique.
+                                    erreur: 
+                                        type: object                            
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /users/{id}:
+        get:
+            tags:
+                - Utilisateurs
+            summary: Récupérer tout les utilisateurs
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur à récupérer
+              required: true
+              schema:
+                  type: string
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Utilisateur récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur trouvé.
+                                    user: 
+                                        type: object
+                404:
+                    description: Element inexistant.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur introuvable.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+        put:
+            tags:
+                - Utilisateurs
+            summary: Modifier un utilisateur
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - mail
+                                - identifiant
+                                - isAdmin
+                            properties:
+                                mail:
+                                    type: string
+                                    description: Mail valide de l'utilisateur
+                                    example: abend-core@gmail.com
+                                identifiant:
+                                    type: string
+                                    description: Nom de l'utilisateur
+                                    example: Abend
+                                isAdmin:
+                                    type: boolean
+                                    example: true
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur à modifier
+              required: true
+              schema:
+                  type: string
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: L'utilisateur a été modifié.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur modifié avec succès.
+                                    user: 
+                                         type: object
+                400:
+                    description: Mauvaise requete
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Ce mail est déjà utilisé par un autre compte.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+        delete:
+            tags:
+                - Utilisateurs
+            summary: Supprimer un utilisateur
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur à supprimer
+              required: true
+              schema:
+                  type: string
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: L'utilisateur a été supprimé.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur supprimé avec succès.
+                                    user: 
+                                        type: object
+                404:
+                    description: Element inexistant.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur introuvable.                          
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /users/filtre:
+        post:
+            tags:
+                - Utilisateurs
+            summary: Filtrer les données utilisateur
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - search
+                            properties:
+                                search:
+                                    type: string
+                                    description: Valeur qui va filtrer la colonne username et mail d'un utilisateur
+            responses:
+                200:
+                    description: Filtre réussis.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur trouvé.
+                                    user: 
+                                        type: object         
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /users/image:
+        patch:
+            tags:
+                - Utilisateurs
+            summary: Modifier l'image de l'utilisateur
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - id
+                                - image
+                            properties:
+                                id:
+                                    type: string
+                                    description: 0194a43e-8212-7107-806a-9e224db48a0d
+                                image:
+                                    type: string
+                                    format: binary
+                                    description: Fichier image à télécharger
+            responses:
+                200:
+                    description: L'image à bien été modifiée.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Image téléchargée et redimensionné avec succès.
+                                    file: 
+                                        type: object
+                                        example: path & name
+                400:
+                    description: Mauvaise requete.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Aucun fichier n'a été téléchargé. 
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+    /users/password:
+        patch:
+            tags:
+                - Utilisateurs
+            summary: Modification du mot de passe utilisateur
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - password
+                                - newPassword
+                                - confirmPassword
+                            properties:
+                                password:
+                                    type: string
+                                    description: password2
+                                newPassword:
+                                    type: string
+                                    description: password1
+                                confirmPassword:
+                                    type: string
+                                    description: password1
+            responses:
+                200:
+                    description: Mot de passe modifié avec succès.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Mot de passe modifié avec succès.
+                400:
+                    description: Mauvaise requete.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Mot de passe incorrect.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                    properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+
+    /modules:
+        get:
+            tags:
+                - Modules
+            summary: Récupérer tout les modules
+            responses:
+                200:
+                    description: Tout les modules ont été récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Tout les modules.
+                                    user: 
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+        post:
+            tags:
+                - Modules
+            summary: Ajouter un modules
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - name
+                                - link
+                                - content
+                                - isShow
+                                - user_id
+                            properties:
+                                name:
+                                    type: string
+                                    description: Nom du module
+                                    example: Abend-core
+                                link:
+                                    type: string
+                                    description: Url pour la redirection du module
+                                    example: https://abend-core.org
+                                image:
+                                    type: string
+                                    format: binary
+                                    description: Fichier image à télécharger
+                                content:
+                                    type: string
+                                    description: Courte description
+                                    example: Voici mon module...
+                                isShow:
+                                    type: boolean
+                                    description: Pour si il est affiché ou nnon
+                                    example: true
+                                user_id:
+                                    type: string
+                                    description: ID de l'utilisateur a qui appartient le module.
+                                    example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Le module a été ajouté.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module créé avec succès.
+                                    module: 
+                                        type: object
+                400:
+                    description: Mauvaise requete.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Le lien n'est pas valide.
+                                    erreur: 
+                                        type: object                            
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/{id}:
+        get:
+            tags:
+                - Modules
+            summary: Récupérer tout les modules
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant du module à récupérer
+              required: true
+              schema:
+                  type: string
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Module récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module trouvé.
+                                    user: 
+                                        type: object
+                404:
+                    description: Element inexistant.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module introuvable.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+        put:
+            tags:
+                - Modules
+            summary: Modifier un module
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - name
+                                - content
+                            properties:
+                                name:
+                                    type: string
+                                    description: Nom du module
+                                    example: Abend-core
+                                content:
+                                    type: string
+                                    description: Courte description
+                                    example: Voici mon module...
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant du module à modifier
+              required: true
+              schema:
+                  type: string
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Le module a été modifié.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module modifié avec succès.
+                                    user: 
+                                         type: object
+                400:
+                    description: Mauvaise requete
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Le nom du module est déjà utilisé.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+        delete:
+            tags:
+                - Modules
+            summary: Supprimer un module
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant du module à supprimer
+              required: true
+              schema:
+                  type: string
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Le module a été supprimé.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module supprimé avec succès.
+                                    user: 
+                                        type: object
+                404:
+                    description: Element inexistant.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module introuvable.                          
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/filtre:
+        post:
+            tags:
+                - Modules
+            summary: Filtrer les données modules
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - search
+                            properties:
+                                search:
+                                    type: string
+                                    description: Valeur qui va filtrer la colonne name, link et image d'un module
+            responses:
+                200:
+                    description: Filtre réussis.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module trouvé.
+                                    user: 
+                                        type: object         
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/image:
+        patch:
+            tags:
+                - Modules
+            summary: Modifier l'image du module
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - id
+                                - image
+                            properties:
+                                id:
+                                    type: string
+                                    description: 0194a43e-8212-7107-806a-9e224db48a0d
+                                image:
+                                    type: string
+                                    format: binary
+                                    description: Fichier image à télécharger
+            responses:
+                200:
+                    description: L'image à bien été modifiée.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Image téléchargée et redimensionné avec succès.
+                                    file: 
+                                        type: object
+                                        example: path & name
+                400:
+                    description: Mauvaise requete.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Aucun fichier n'a été téléchargé. 
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+    /modules/show:
+        get:
+            tags:
+                - Modules
+            summary: Récupérer tout les modules qui sont dans l'état de visibilité, visible.
+            responses:
+                200:
+                    description: Tout les modules ont été récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Tout les modules.
+                                    user: 
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/hide:
+        get:
+            tags:
+                - Modules
+            summary: Récupérer tout les modules qui sont dans l'état de visibilité, caché.
+            responses:
+                200:
+                    description: Tout les modules ont été récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Tout les modules.
+                                    user: 
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/user/{id}:
+        get:
+            tags:
+                - Modules
+            summary: Récupérer tout les modules d'un utilisateur
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur a qui on veut lister ses modules
+              required: true
+              schema:
+                  type: string
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Module récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module trouvé.
+                                    user: 
+                                        type: object
+                404:
+                    description: Element inexistant.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module introuvable.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/liked/{id}:
+        get:
+            tags:
+                - Modules
+            summary: Récupérer tout les modules mis en favoris de l'utilisateur
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur a qui on veut lister ses modules mis en favoris.
+              required: true
+              schema:
+                  type: string
+                  description: Identifiant de l'utilisateur
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Tout les modules en favoris ont été récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Tout les modules.
+                                    user: 
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/liked:
+        post: 
+            tags:
+                - Modules
+            summary: Ajouter le module en favoris.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - UserId
+                                - ModuleId
+                            properties:
+                                UserId:
+                                    type: string
+                                    description: Identifiant de l'utilisateur
+                                    example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+                                ModuleId:
+                                    type: string
+                                    description: Identifiant du module
+                                    example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Le module a été ajouté en favoris
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Module ajouté en favoris
+                                    user: 
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
