@@ -109,6 +109,7 @@ router.put("/image", auth, (req, res) => {
 
 // Selection de tout les modules visible
 router.get("/show", (req, res) => {
+    
     Module.findAll({
         where: {
             isShow: true,
