@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: API Abend-core
+    title: API Abend-core
     version: 1.0.0
     contact:
         name: Abend-core
@@ -14,7 +14,7 @@ tags:
       description: Opérations liées aux modules
 
 paths:
-    auth/signin:
+    /auth/signin:
         post:
             tags:
                 - Auth
@@ -38,63 +38,45 @@ paths:
                                     description: Mot de passe utilisateur
                                     example: password1
             responses:
-                201:
-                    description: Connexion réussi
+                200:
+                    description: Connexion réussi.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: L'utilisateur a été connecté avec succès.
-                                        UUID:
-                                            type: string
-                                            example: 01949df0-b386-7021-a66e-aea1a8c3ceab
-                                        token: 
-                                            type: string
-                                            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhcnVkeSIsImlhdCI6MTczMTc4ODY3MywiZXhwIjoxNzMxODc1MDczfQ.AmyzfjxAtcOOAFzWk2RXGjMu2VNWRLetrcjhtamJOU0
-                401:
-                    description: L'utilisateur a mal renseigner son identifiant.
+                                properties:
+                                    message:
+                                        type: string
+                                        example: L'utilisateur a été connecté avec succès.
+                                    UUID:
+                                        type: string
+                                        example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+                                    token: 
+                                        type: string
+                                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhcnVkeSIsImlhdCI6MTczMTc4ODY3MywiZXhwIjoxNzMxODc1MDczfQ.AmyzfjxAtcOOAFzWk2RXGjMu2VNWRLetrcjhtamJOU0
+                400:
+                    description: Mauvaise requete.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Identifiant ou mot de passe incorrect.
-                402:
-                    description: L'utilisateur a mal renseigner son mot de passe.
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Identifiant ou mot de passe incorrect.
+                500:
+                    description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Identifiant ou mot de passe incorrect.
-                501:
-                    description: Erreur du serveur
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Serveur en maintenance. Réessayez dans quelques instants.
-                                        erreur:
-                                            type: object
-    auth/register:
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Serveur en maintenance. Réessayez dans quelques instants.
+                                    erreur:
+                                        type: object
+    /auth/register:
         post:
             tags:
                 - Auth
@@ -128,45 +110,36 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Utilisateur inscrit avec succès.
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur inscrit avec succès.
                 400:
-                    description: L'utilisateur c'est trompé dans la saisie.
+                    description: Mauvaise requete.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        errors:
-                                            type: object
+                                properties:
+                                    errors:
+                                        type: object
                 500:
                     description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur serveur.
-                                        erreur: 
-                                            type: object
-    users:
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /users:
         get:
             tags:
                 - Utilisateurs
             summary: Récupérer tout les utilisateurs
-            requestBody:
-                content:
-                    application/json:
             responses:
                 200:
                     description: Tout les utilisateurs ont été récupéré.
@@ -174,80 +147,24 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Tout les utilisateurs.
-                                        user: 
-                                            type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Tout les utilisateurs.
+                                    user: 
+                                        type: object
                 500:
                     description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur serveur.
-                                        erreur: 
-                                            type: object
-    users/:id:
-        get:
-            tags:
-                - Utilisateurs
-            summary: Récupérer tout les utilisateurs
-            parameters:
-            - name: id
-              in: path
-              description: L'identifiant de l'utilisateur à récupérer
-              required: true
-              schema:
-                  type: string
-                  exemple: 01949df0-b386-7021-a66e-aea1a8c3ceab
-            responses:
-                200:
-                    description: Utilisateur récupéré.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Utilisateur trouvé.
-                                        user: 
-                                            type: object
-                404:
-                    description: Utilisateur récupéré.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Utilisateur introuvable.
-                500:
-                    description: Le serveur a rencontré une erreur.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur serveur.
-                                        erreur: 
-                                            type: object
-    users:
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
         post:
             tags:
                 - Utilisateurs
@@ -281,42 +198,84 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Utilisateur créé avec succès.
-                                        user: 
-                                            type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur créé avec succès.
+                                    user: 
+                                        type: object
                 400:
-                    description: Champs mal renseignés.
+                    description: Mauvaise requete.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Le mail doit être unique.
-                                        erreur: 
-                                            type: object                            
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Le mail doit être unique.
+                                    erreur: 
+                                        type: object                            
                 500:
                     description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur serveur.
-                                        erreur: 
-                                            type: object
-    users/:id:
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /users/{id}:
+        get:
+            tags:
+                - Utilisateurs
+            summary: Récupérer tout les utilisateurs
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur à récupérer
+              required: true
+              schema:
+                  type: string
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Utilisateur récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur trouvé.
+                                    user: 
+                                        type: object
+                404:
+                    description: Utilisateur récupéré.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur introuvable.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
         put:
             tags:
                 - Utilisateurs
@@ -349,7 +308,7 @@ paths:
               required: true
               schema:
                   type: string
-                  exemple: 01949df0-b386-7021-a66e-aea1a8c3ceab
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
             responses:
                 200:
                     description: L'utilisateur a été modifié.
@@ -357,40 +316,34 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Utilisateur modifié avec succès.
-                                        user: 
-                                            type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur modifié avec succès.
+                                    user: 
+                                         type: object
                 400:
                     description: Mauvaise requete
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Ce mail est déjà utilisé par un autre compte.
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Ce mail est déjà utilisé par un autre compte.
                 500:
                     description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur serveur.
-                                        erreur: 
-                                            type: object
-    users/:id:
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
         delete:
             tags:
                 - Utilisateurs
@@ -402,7 +355,7 @@ paths:
               required: true
               schema:
                   type: string
-                  exemple: 01949df0-b386-7021-a66e-aea1a8c3ceab
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
             responses:
                 200:
                     description: L'utilisateur a été supprimé.
@@ -410,40 +363,35 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Utilisateur supprimé avec succès.
-                                        user: 
-                                            type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur supprimé avec succès.
+                                    user: 
+                                        type: object
                 404:
                     description: L'utilisateur n'existe pas.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Utilisateur introuvable.                          
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur introuvable.                          
                 500:
                     description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur serveur.
-                                        erreur: 
-                                            type: object
-    users/filtre:
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /users/filtre:
         post:
             tags:
                 - Utilisateurs
@@ -467,29 +415,26 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Utilisateur trouvé.
-                                        user: 
-                                            type: object         
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Utilisateur trouvé.
+                                    user: 
+                                        type: object         
                 500:
                     description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur serveur.
-                                        erreur: 
-                                            type: object
-    users/image:
-        put:
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /users/image:
+        patch:
             tags:
                 - Utilisateurs
             summary: Modifier l'image de l'utilisateur
@@ -513,40 +458,35 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Image téléchargée et redimensionné avec succès.
-                                        file: 
-                                            type: object
-                                            example: path & name
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Image téléchargée et redimensionné avec succès.
+                                    file: 
+                                        type: object
+                                        example: path & name
                 400:
                     description: Mauvaise requete.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Aucun fichier n'a été téléchargé. 
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Aucun fichier n'a été téléchargé. 
                 500:
                     description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur serveur.
-    users/password:
-        post:
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+    /users/password:
+        patch:
             tags:
                 - Utilisateurs
             summary: Modification du mot de passe utilisateur
@@ -577,33 +517,27 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    properties:
-                                        message:
-                                            type: string
-                                            example: Mot de passe modifié avec succès.
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Mot de passe modifié avec succès.
                 400:
                     description: Mauvaise requete.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            exemple: Mot de passe incorrect.
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Mot de passe incorrect.
                 500:
                     description: Le serveur a rencontré une erreur.
                     content:
                         application/json:
                             schema:
                                 type: object
-                                items:
-                                    type: object
                                     properties:
-                                        message:
-                                            type: string
-                                            exemple: Erreur serveur.
-                
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.               
