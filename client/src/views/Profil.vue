@@ -78,7 +78,7 @@ import { useUser } from "../composables/useUser";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const authStore = useAuthStore();
-const { getInfosProfil } = useUser();
+const { getInfosProfile } = useUser();
 
 const user = computed(() => authStore.user);
 
@@ -112,7 +112,7 @@ const updateImg = async (event) => {
 
       authStore.setUser(updatedUser);
 
-      await getInfosProfil(id);
+      await getInfosProfile(id);
     } catch (error) {
       console.error("Erreur lors de la mise à jour de l'image :", error);
     }

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-5"
+    class="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-5 mb-4"
   >
     <div class="relative">
       <input
@@ -24,7 +24,7 @@
   </div>
   <modal-add-user @refresh-users="allUsers" />
   <div
-    class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
+    class="bg-white rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
   >
     <table class="w-full">
       <thead>
@@ -69,7 +69,7 @@
             <img
               class="w-[50px] h-[50px] rounded-2xl"
               :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
-              alt=""
+              alt="Utilisateur image"
             />
           </td>
           <td class="p-3">

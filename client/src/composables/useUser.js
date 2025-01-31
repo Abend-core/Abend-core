@@ -4,7 +4,7 @@ import { useAuthStore } from "../stores/authStore";
 export const useUser = () => {
   const authStore = useAuthStore();
 
-  const getInfosProfil = async (id) => {
+  const getInfosProfile = async (id) => {
     try {
       const response = await getUserById(id);
       authStore.setUser(response.data.user);
@@ -13,5 +13,5 @@ export const useUser = () => {
     }
   };
 
-  return { getInfosProfil };
+  return { getInfosProfile };
 };

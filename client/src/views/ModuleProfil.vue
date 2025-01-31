@@ -7,12 +7,15 @@
       <p class="text-primaryRed mt-1">Module Dashboard</p>
     </div>
     <modal-add-module @refresh-modules="getModulesById" />
-    <div class="bg-white rounded-md max-h-[800px] overflow-auto mb-5">
+    <div v-if="modules.length === 0" class="text-center p-8 rounded-md mt-5">
+      <h2 class="font-bold text-xl text-primaryRed mb-4">
+        Aucun module créé !
+      </h2>
+      <p class="mb-4">Il semble que vous n'avez pas encore créé de module.</p>
+    </div>
+    <div v-else class="bg-white rounded-md max-h-[800px] mb-5">
       <NotificationMessage />
-      <table
-        v-if="modules.length > 0"
-        class="w-full dark:text-white dark:bg-gray-800"
-      >
+      <table class="w-full dark:text-white dark:bg-gray-800">
         <thead>
           <tr class="text-left border-b border-customWhite">
             <th class="p-3">Nom</th>
@@ -121,11 +124,7 @@ const editingModuleId = ref(null);
 const getModulesById = async () => {
   try {
     const response = await getModuleById(id);
-    if (response.data.modules.length === 0) {
-      modules.value = [];
-    } else {
-      modules.value = response.data.modules;
-    }
+    modules.value = response.data.modules || [];
   } catch (error) {
     setNotification(error.response?.data?.message, "error");
   }
@@ -157,9 +156,7 @@ const saveModule = async (idModule) => {
 
 const toggleVisibility = async (idModule, data) => {
   try {
-    await updateModuleById(idModule, {
-      isShow: data,
-    });
+    await updateModuleById(idModule, { isShow: data });
   } catch (error) {
     setNotification(error.response?.data?.message, "error");
   }

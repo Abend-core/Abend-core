@@ -121,7 +121,7 @@ const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const router = useRouter();
 
 const authStore = useAuthStore();
-const { getInfosProfil } = useUser();
+const { getInfosProfile } = useUser();
 
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const isAdmin = computed(() => authStore.isAdmin);
@@ -132,7 +132,7 @@ const isMenuProfilOpen = ref(false);
 const loadUserProfile = async () => {
   if (!authStore.isAuthenticated || !authStore.user?.id) return;
   try {
-    await getInfosProfil(authStore.user.id);
+    await getInfosProfile(authStore.user.id);
   } catch (error) {
     console.error("Erreur lors de la récupération du profil :", error);
   }

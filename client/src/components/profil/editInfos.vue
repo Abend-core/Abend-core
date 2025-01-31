@@ -5,14 +5,14 @@
   >
     <div class="w-full lg:w-[50%]">
       <div
-        class="bg-white rounded-md p-paddingMd mt-3 mb-3 dark:bg-gray-800 dark:text-white"
+        class="bg-white rounded-md md:p-paddingMd mt-5 mb-5 md:mt-3 md:mb-3 dark:bg-gray-800 dark:text-white"
       >
         <h1 class="font-bold">Gérer mes informations</h1>
         <p class="text-primaryRed mt-1">Profil Dashboard</p>
       </div>
 
       <div
-        class="flex flex-col gap-[22px] p-paddingMd bg-white rounded-md dark:bg-gray-800 dark:text-white"
+        class="flex flex-col gap-[22px] md:p-paddingMd bg-white rounded-md dark:bg-gray-800 dark:text-white"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
           <p class="lg:w-[150px] lg:mr-[200px] w-full">Email</p>
@@ -46,13 +46,13 @@
     </div>
     <div class="w-full lg:w-[50%]">
       <div
-        class="bg-white rounded-md mt-3 p-paddingMd dark:bg-gray-800 dark:text-white"
+        class="bg-white rounded-md mt-5 mb-5 md:mt-3 md:mb-3 md:p-paddingMd dark:bg-gray-800 dark:text-white"
       >
         <p class="font-bold">Gérer mon mot de passe</p>
         <p class="text-primaryRed mt-1">Modification Dashboard</p>
       </div>
       <div
-        class="flex flex-col gap-[22px] bg-white rounded-md mt-3 p-paddingMd dark:bg-gray-800 dark:text-white"
+        class="flex flex-col gap-[22px] bg-white rounded-md mt-3 md:p-paddingMd dark:bg-gray-800 dark:text-white"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
           <p class="lg:w-[150px] lg:mr-[200px] w-full whitespace-nowrap">
@@ -103,7 +103,7 @@
         </button>
         <div class="flex justify-end">
           <button
-            class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit"
+            class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-5"
             @click="toggleModalConfirmDeleteUser"
           >
             Supprimer mon compte
@@ -136,7 +136,7 @@ import { useUser } from "../../composables/useUser.js";
 
 const authStore = useAuthStore();
 const { setNotification } = useNotificationStore();
-const { getInfosProfil } = useUser();
+const { getInfosProfile } = useUser();
 
 const router = useRouter();
 
@@ -156,8 +156,23 @@ const passwordButtonDisabled = ref(true);
 const initialEmail = emailProfil.value;
 const initialIdentifiant = identifiantProfil.value;
 
+const toggleModalConfirmDeleteUser = () => {
+  isModalConfirmDeleteVisible.value = !isModalConfirmDeleteVisible.value;
+};
+
+const etatButton = () => {
+  buttonDisabled.value =
+    emailProfil.value === initialEmail &&
+    identifiantProfil.value === initialIdentifiant;
+};
+
+const etatPasswordButton = () => {
+  passwordButtonDisabled.value =
+    !oldPassword.value || !newPassword.value || !confirmNewPassword.value;
+};
+
 const loadUserProfile = async () => {
-  await getInfosProfil(id);
+  await getInfosProfile(id);
 
   user.value = authStore.user;
   emailProfil.value = user.value.mail;
@@ -178,17 +193,6 @@ const updateUserProfile = async () => {
   } catch (error) {
     console.error(error);
   }
-};
-
-const etatButton = () => {
-  buttonDisabled.value =
-    emailProfil.value === initialEmail &&
-    identifiantProfil.value === initialIdentifiant;
-};
-
-const etatPasswordButton = () => {
-  passwordButtonDisabled.value =
-    !oldPassword.value || !newPassword.value || !confirmNewPassword.value;
 };
 
 const updatePassword = async () => {
@@ -212,10 +216,6 @@ const updatePassword = async () => {
     confirmNewPassword.value = "";
     passwordButtonDisabled.value = true;
   }
-};
-
-const toggleModalConfirmDeleteUser = () => {
-  isModalConfirmDeleteVisible.value = !isModalConfirmDeleteVisible.value;
 };
 
 const deleteAccount = async () => {

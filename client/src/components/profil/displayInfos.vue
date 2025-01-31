@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white rounded-md p-paddingMd mt-3 mb-3 dark:bg-gray-800 dark:text-white text-center xl:text-left"
+    class="bg-white rounded-md md:p-paddingMd mt-5 mb-5 md:mt-3 md:mb-3 dark:bg-gray-800 dark:text-white xl:text-left"
   >
     <h1 class="font-bold">Mes informations personnelles</h1>
     <p class="text-primaryRed mt-1">Profil Dashboard</p>
@@ -29,7 +29,7 @@ import { useUser } from "../../composables/useUser";
 import { formatDateTime } from "../../utils/date";
 import { useAuthStore } from "../../stores/authStore";
 
-const { getInfosProfil } = useUser();
+const { getInfosProfile } = useUser();
 
 const authStore = useAuthStore();
 

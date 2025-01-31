@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-end mb-3">
+  <div class="flex justify-center md:justify-end mb-3">
     <button
       @click="displayModalUser"
-      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black"
+      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black md:relative md:top-[-56px]"
     >
       <span>+</span>
       <p>Ajoutez un utilisateur</p>
@@ -10,7 +10,7 @@
   </div>
   <div
     v-if="isModalVisibleUser"
-    class="bg-white mb-6 p-6 rounded-md relative max-w-[100%] mx-auto dark:bg-gray-700 dark:text-white dark:border dark:border-black"
+    class="bg-white mb-6 p-6 rounded-md relative max-w-full mx-auto dark:bg-gray-700 dark:text-white dark:border dark:border-black"
   >
     <p class="font-bold mb-3 text-left">Ajoutez un utilisateur</p>
     <div

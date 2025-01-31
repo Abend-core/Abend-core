@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-end mb-3">
+  <div class="flex justify-center md:justify-end mb-4">
     <button
       @click="displayModalModule"
-      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black"
+      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black md:relative md:top-[-56px]"
     >
       <span>+</span>
       <p>Ajoutez un module</p>
@@ -47,7 +47,9 @@
           <p class="absolute text-[#8592A4] top-full">https://abend-core.org</p>
         </div>
         <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
-          <label for="add-module-input-content" class="mb-1">Description</label>
+          <label for="add-module-input-content" class="mb-1 mt-4"
+            >Description</label
+          >
           <input
             id="add-module-input-content"
             name="add_module_input_content"
