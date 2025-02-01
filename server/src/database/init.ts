@@ -5,9 +5,7 @@ import UUID from "../tools/uuid";
 import sequelize from "./db";
 import User from "../models/user";
 import Module from "../models/module";
-import Statut from "../models/statut";
 import config from "config";
-import Etat from "../models/etat";
 
 const image: number = config.get("storage.nombreImageBanque");
 const env = config.get("server.env");
@@ -15,8 +13,6 @@ const env = config.get("server.env");
 //Data
 const dataUser = require("./data/user");
 const dataModule = require("./data/module");
-const dataStatut = require("./data/statut");
-const dataEtats = require("./data/etat");
 
 let lastUUID: string;
 if (env == "Dev") {
@@ -42,8 +38,6 @@ async function pushDb_dev() {
         console.log("");
         console.log("Début de synchronisation...");
         console.log("");
-        await initStatus();
-        await initEtats();
         await initUsers();
         await initModules();
         console.log("");
@@ -53,18 +47,6 @@ async function pushDb_dev() {
     }
 }
 
-async function initStatus() {
-    for (const data of dataStatut.statuts) {
-        await Statut.create(data);
-    }
-    console.log("   - ✅ Status");
-}
-async function initEtats() {
-    for (const data of dataEtats.etats) {
-        await Etat.create(data);
-    }
-    console.log("   - ✅ Etats ");
-}
 async function initUsers() {
     for (const data of dataUser.users) {
         data.id = "";
@@ -86,8 +68,7 @@ async function initUsers() {
 }
 async function initModules() {
     for (const data of dataModule.modules) {
-        data.id = "";
-
+        data.isShow = true;
         data.id = UUID.v7();
 
         data.user_id = lastUUID;

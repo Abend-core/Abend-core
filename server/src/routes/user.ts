@@ -4,7 +4,6 @@ const router = express.Router();
 //Model & bdd
 import User from "../models/user";
 import Module from "../models/module";
-import Statut from "../models/statut";
 import { Op } from "sequelize";
 //Tools
 import Crypt from "../tools/hash";
@@ -55,13 +54,6 @@ router.post("/", auth, role, async (req: Request, res: Response) => {
 router.get("/", auth, role, (req: Request, res: Response) => {
     User.findAll({
         order: [["createdAt", "desc"]],
-        include: [
-            {
-                model: Statut,
-                as: "Statut",
-                attributes: ["id", "name"],
-            },
-        ],
     })
         .then((user) => {
             res.status(200).json({ message: "Tout les utilisateurs.", user });

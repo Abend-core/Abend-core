@@ -1,8 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../database/db";
 
-import Statut from "../models/statut";
-
 interface UserAttributes {
     id: number;
     username: string;
@@ -10,7 +8,6 @@ interface UserAttributes {
     image: string;
     password: string;
     isAdmin: boolean;
-    statut_id: number;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
@@ -25,7 +22,6 @@ class User
     public image!: string;
     public password!: string;
     public isAdmin!: boolean;
-    public statut_id!: number;
 }
 
 User.init(
@@ -103,14 +99,6 @@ User.init(
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
-        statut_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: "Statuts",
-                key: "id",
-            },
-        },
     },
     {
         sequelize,
@@ -118,16 +106,5 @@ User.init(
         tableName: "Users",
     }
 );
-
-// Jointure pour statut_id
-Statut.hasMany(User, {
-    foreignKey: "statut_id",
-    as: "Users",
-});
-
-User.belongsTo(Statut, {
-    foreignKey: "statut_id",
-    as: "Statut",
-});
 
 export default User;

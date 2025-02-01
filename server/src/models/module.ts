@@ -1,7 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../database/db";
-
-import Etat from "../models/etat";
 import User from "../models/user";
 
 interface moduleAttributes {
@@ -12,7 +10,7 @@ interface moduleAttributes {
     content: string;
     views: number;
     likes: number;
-    etat_id: number;
+    isShow: boolean;
     user_id: string;
 }
 
@@ -29,7 +27,7 @@ class Module
     public content!: string;
     public views!: number;
     public likes!: number;
-    public etat_id!: number;
+    public isShow!: boolean;
     public user_id!: string;
 }
 
@@ -114,13 +112,9 @@ Module.init(
             type: DataTypes.INTEGER,
             defaultValue: 0,
         },
-        etat_id: {
-            type: DataTypes.INTEGER,
+        isShow: {
+            type: DataTypes.BOOLEAN,
             allowNull: false,
-            references: {
-                model: "Etats",
-                key: "id",
-            },
         },
         user_id: {
             type: DataTypes.UUID,
@@ -137,17 +131,6 @@ Module.init(
         tableName: "Modules",
     }
 );
-
-//Jointure Etat
-Etat.hasMany(Module, {
-    foreignKey: "etat_id",
-    as: "Modules",
-});
-
-Module.belongsTo(Etat, {
-    foreignKey: "etat_id",
-    as: "Etat",
-});
 
 //Jointure User
 User.hasMany(Module, {

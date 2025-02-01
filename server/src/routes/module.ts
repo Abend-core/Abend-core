@@ -8,7 +8,6 @@ import path from "path";
 import { uploadModule, resizeimg } from "../tools/multer";
 //Model & bdd
 import Module from "../models/module";
-import Etat from "../models/etat";
 import Liked from "../models/liked";
 import Visited from "../models/visited";
 import User from "../models/user";
@@ -22,7 +21,7 @@ router.post("/", auth, (req, res) => {
     const link: string = req.body.link;
     const response: string = checkLink(link);
     data.id = UUID.v7();
-    data.etat_id = 1;
+    data.isShow = true;
     if (response != "ok") {
         res.status(400).json({
             message: "Le lien ne correspond pas au format attendu.",
@@ -111,18 +110,13 @@ router.put("/image", auth, (req, res) => {
 router.get("/show", (req, res) => {
     Module.findAll({
         where: {
-            etat_id: 1,
+            isShow: true,
         },
         include: [
             {
                 model: User,
                 as: "User",
                 attributes: ["username", "isAdmin"],
-            },
-            {
-                model: Etat,
-                as: "Etat",
-                attributes: ["id", "name"],
             },
         ],
     })
@@ -144,18 +138,13 @@ router.get("/show", (req, res) => {
 router.get("/hide", (req, res) => {
     Module.findAll({
         where: {
-            etat_id: 2,
+            isShow: false,
         },
         include: [
             {
                 model: User,
                 as: "User",
                 attributes: ["username", "isAdmin"],
-            },
-            {
-                model: Etat,
-                as: "Etat",
-                attributes: ["id", "name"],
             },
         ],
     })
@@ -181,11 +170,6 @@ router.get("/", (req, res) => {
                 model: User,
                 as: "User",
                 attributes: ["username", "isAdmin"],
-            },
-            {
-                model: Etat,
-                as: "Etat",
-                attributes: ["id", "name"],
             },
         ],
     })
