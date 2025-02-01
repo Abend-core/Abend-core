@@ -121,12 +121,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import {
-  getUserById,
-  editUserById,
-  editPasswordById,
-  deleteUser,
-} from "../../api/user";
+import { editUserById, editPasswordById, deleteUser } from "../../api/user";
 import modalConfirmDelete from "../modal/modalConfirmDelete.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/authStore";

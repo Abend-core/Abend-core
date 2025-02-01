@@ -1,5 +1,5 @@
 <template>
-  <div class="flex max-w-[1600px] mx-auto">
+  <div class="flex max-w-[1400px] mx-auto">
     <main class="bg-[#FDFDFD] w-full xl:w-full mr-0 relative">
       <div
         class="pt-[1px] pl-[50px] pr-[50px] relative z-[2] dark:bg-gray-800 dark:text-white"
@@ -20,7 +20,6 @@
               >
                 <i class="ri-pencil-fill text-white text-3xl"></i>
               </div>
-
               <input
                 type="file"
                 class="absolute w-full h-full opacity-0 cursor-pointer z-30"

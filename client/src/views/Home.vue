@@ -1,5 +1,5 @@
 <template>
-  <main class="p-2 max-w-[1600px] mx-auto">
+  <main class="p-2 max-w-[1400px] mx-auto">
     <div class="flex items-center justify-center flex-wrap gap-10 mt-16 mb-16">
       <div class="flex" v-for="module in modules" :key="module.id">
         <a
@@ -29,7 +29,7 @@
               </p>
             </div>
             <p class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs">
-              {{ formatDate(module.createdAt) }}
+              {{ module.User.username }}
             </p>
             <i
               v-if="getEtatLike(module.id)"

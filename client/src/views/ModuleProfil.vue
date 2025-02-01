@@ -1,5 +1,5 @@
 <template>
-  <main class="p-4 max-w-[1600px] mx-auto">
+  <main class="p-4 max-w-[1400px] mx-auto">
     <div
       class="bg-white rounded-md p-paddingMd mt-3 mb-3 dark:bg-gray-800 dark:text-white"
     >
