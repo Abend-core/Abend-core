@@ -11,23 +11,29 @@
         <p class="text-primaryRed mt-1">Profil Dashboard</p>
       </div>
 
-      <div
+      <form
+        @submit.prevent="updateUserProfile"
         class="flex flex-col gap-[22px] md:p-paddingMd bg-white rounded-md dark:bg-gray-800 dark:text-white"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
-          <p class="lg:w-[150px] lg:mr-[200px] w-full">Email</p>
+          <label for="email" class="lg:w-[150px] lg:mr-[200px] w-full"
+            >Email</label
+          >
           <input
+            id="email"
             class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
-            type="text"
+            type="email"
             placeholder="Email"
             v-model="emailProfil"
             @input="etatButton"
           />
         </div>
-
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
-          <p class="lg:w-[150px] lg:mr-[200px] w-full">Identifiant</p>
+          <label for="identifiant" class="lg:w-[150px] lg:mr-[200px] w-full"
+            >Identifiant</label
+          >
           <input
+            id="identifiant"
             class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
             type="text"
             placeholder="Identifiant"
@@ -36,13 +42,13 @@
           />
         </div>
         <button
+          type="submit"
           class="bg-primaryRed p-paddingSm rounded-md text-white border border-black w-fit"
-          @click="updateUserProfile"
           :disabled="buttonDisabled"
         >
           Modifier mes informations
         </button>
-      </div>
+      </form>
     </div>
     <div class="w-full lg:w-[50%]">
       <div
@@ -51,14 +57,19 @@
         <p class="font-bold">Gérer mon mot de passe</p>
         <p class="text-primaryRed mt-1">Modification Dashboard</p>
       </div>
-      <div
+      <form
+        @submit.prevent="updatePassword"
         class="flex flex-col gap-[22px] bg-white rounded-md mt-3 md:p-paddingMd dark:bg-gray-800 dark:text-white"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
-          <p class="lg:w-[150px] lg:mr-[200px] w-full whitespace-nowrap">
+          <label
+            for="oldPassword"
+            class="lg:w-[150px] lg:mr-[200px] w-full whitespace-nowrap"
+          >
             Ancien mot de passe
-          </p>
+          </label>
           <input
+            id="oldPassword"
             class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
             type="password"
             placeholder="Ancien mot de passe"
@@ -66,12 +77,15 @@
             @input="etatPasswordButton"
           />
         </div>
-
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
-          <p class="lg:w-[150px] lg:mr-[200px] w-full whitespace-nowrap">
+          <label
+            for="newPassword"
+            class="lg:w-[150px] lg:mr-[200px] w-full whitespace-nowrap"
+          >
             Nouveau mot de passe
-          </p>
+          </label>
           <input
+            id="newPassword"
             class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
             type="password"
             placeholder="Nouveau mot de passe"
@@ -79,14 +93,17 @@
             @input="etatPasswordButton"
           />
         </div>
-
         <div
           class="relative flex flex-col lg:flex-row lg:items-center w-full gap-2"
         >
-          <p class="lg:w-[150px] lg:mr-[200px] w-full whitespace-nowrap">
+          <label
+            for="confirmNewPassword"
+            class="lg:w-[150px] lg:mr-[200px] w-full whitespace-nowrap"
+          >
             Répéter le mot de passe
-          </p>
+          </label>
           <input
+            id="confirmNewPassword"
             class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 mb-3"
             type="password"
             placeholder="Répéter le mot de passe"
@@ -95,25 +112,25 @@
           />
         </div>
         <button
+          type="submit"
           class="bg-primaryRed p-paddingSm rounded-md text-white border border-black w-fit"
-          @click="updatePassword"
           :disabled="passwordButtonDisabled"
         >
           Modifier mon mot de passe
         </button>
-        <div class="flex justify-end">
-          <button
-            class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-5"
-            @click="toggleModalConfirmDeleteUser"
-          >
-            Supprimer mon compte
-          </button>
-          <modal-confirm-delete
-            v-if="isModalConfirmDeleteVisible"
-            @close-modal="toggleModalConfirmDeleteUser"
-            @confirm-delete="deleteAccount"
-          />
-        </div>
+      </form>
+      <div class="flex justify-end">
+        <button
+          class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-5"
+          @click="toggleModalConfirmDeleteUser"
+        >
+          Supprimer mon compte
+        </button>
+        <modal-confirm-delete
+          v-if="isModalConfirmDeleteVisible"
+          @close-modal="toggleModalConfirmDeleteUser"
+          @confirm-delete="deleteAccount"
+        />
       </div>
     </div>
   </div>
