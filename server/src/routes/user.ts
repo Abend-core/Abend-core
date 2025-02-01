@@ -5,13 +5,15 @@ const router = express.Router();
 import User from "../models/user";
 import Module from "../models/module";
 import { Op } from "sequelize";
+
 //Tools
 import Crypt from "../tools/hash";
 import UUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
-import { uploadProfil, resizeimg } from "../tools/multer";
+import Image from "../tools/multer";
 import config from "config";
+
 //Middleware
 import auth from "../middleware/auth/auth";
 import role from "../middleware/role";
@@ -211,7 +213,7 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 
 //Update photo utilisateur
 router.patch("/image", auth, async (req: Request, res: Response) => {
-    uploadProfil.single("image")(req, res, async (err) => {
+    Image.getUploadProfil().single("image")(req, res, async (err) => {
         console.log("req.body : ", req.body);
         if (err) {
             return res.status(500).json({
@@ -226,7 +228,7 @@ router.patch("/image", auth, async (req: Request, res: Response) => {
         }
 
         try {
-            await resizeimg(req, res, async (resizeError) => {
+            await Image.resizeImage(req, res, async (resizeError) => {
                 if (resizeError) {
                     return res.status(500).json({
                         message: "Erreur lors du redimensionnement de l'image.",
@@ -286,7 +288,7 @@ router.patch("/image", auth, async (req: Request, res: Response) => {
     });
 });
 
-//Update password utilisateur
+// Update password utilisateur
 router.patch(
     "/password",
     auth,

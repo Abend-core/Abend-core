@@ -28,7 +28,7 @@ class Redis {
     async setCache(
         key: string,
         value: any,
-        expiration: number = 3600
+        expiration: number = 86400
     ): Promise<any> {
         await this.client!.set(key, JSON.stringify(value), { EX: expiration });
     }

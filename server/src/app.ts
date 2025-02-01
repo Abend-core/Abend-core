@@ -18,8 +18,8 @@ const env: string = config.get("server.env");
 require("./database/init");
 
 // Test de la connexion en sauvegardant une donnée.
-async function testRedis() {
-    await Redis.setCache("test-key", { message: "Hello Redis" });
+function testRedis() {
+    Redis.setCache("test-key", { message: "Hello Redis" });
 }
 testRedis();
 
@@ -48,9 +48,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 if (env == "Dev") {
-    // Charger la spécification Swagger à partir du fichier YAML
     const swaggerDocument = YAML.load("./docs/swagger.yaml");
-    // Utiliser Swagger UI pour rendre la documentation
     app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
 

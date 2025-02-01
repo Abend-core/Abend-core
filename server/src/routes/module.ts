@@ -5,7 +5,8 @@ const router = express.Router();
 import UUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
-import { uploadModule, resizeimg } from "../tools/multer";
+import Image from "../tools/multer";
+import Redis from "../tools/redis";
 //Model & bdd
 import Module from "../models/module";
 import Liked from "../models/liked";
@@ -49,7 +50,7 @@ router.post("/", auth, (req, res) => {
 
 // Ajout d'une image a un module.
 router.put("/image", auth, (req, res) => {
-    uploadModule.single("image")(req, res, async (err) => {
+    Image.getUploadModule().single("image")(req, res, async (err) => {
         // Vérification des erreurs
         if (err) {
             return res.status(500).json({
@@ -64,7 +65,7 @@ router.put("/image", auth, (req, res) => {
         }
 
         try {
-            await resizeimg(req, res, async (resizeError) => {
+            await Image.resizeImage(req, res, async (resizeError) => {
                 if (resizeError) {
                     return res.status(500).json({
                         message: "Erreur lors de la compression de l'image.",

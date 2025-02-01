@@ -68,7 +68,10 @@ router.post("/signin", async (req, res): Promise<void> => {
             return;
         }
 
-        const isPasswordValid = await Crypt.compare(req.body.password, user.password);
+        const isPasswordValid = await Crypt.compare(
+            req.body.password,
+            user.password
+        );
 
         if (!isPasswordValid) {
             res.status(402).json({
@@ -78,7 +81,7 @@ router.post("/signin", async (req, res): Promise<void> => {
         }
 
         const token = jwt.sign({ userId: user.mail }, privateKey, {
-            expiresIn: "1h",
+            expiresIn: "1m",
         });
 
         res.status(201).json({
