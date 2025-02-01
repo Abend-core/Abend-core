@@ -42,7 +42,7 @@
             class="w-[300px] h-[35px] pl-9 pr-10 rounded-md border border-[#d1d9e0] dark:border-0 dark:text-white bg-white dark:bg-gray-900 placeholder:font-medium pointer-events-none"
           />
           <div
-            class="absolute top-1/2 transform -translate-y-1/2 right-2 border border-gray-700 rounded-md p-1"
+            class="absolute top-1/2 transform -translate-y-1/2 right-2 border border-gray-300 dark:border-gray-700 rounded-md p-1"
           >
             <kbd
               class="block text-customdarkGray tracking-tighter text-xs font-bold"
@@ -56,6 +56,10 @@
         @close="closeModal('searchBar')"
       />
       <div class="flex items-center gap-2 sm:gap-3">
+        <i
+          class="sm:hidden ri-search-2-line text-xl cursor-pointer"
+          @click="toggleModal('searchBar')"
+        ></i>
         <RouterLink
           to="/module"
           v-if="isAuthenticated"
@@ -99,7 +103,7 @@
           >Connexion</RouterLink
         >
         <i
-          class="ri-menu-line text-xl sm:hidden cursor-pointer"
+          class="ri-menu-line text-3xl sm:hidden cursor-pointer"
           @click="toggleMobileMenu"
         ></i>
       </div>

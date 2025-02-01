@@ -2,7 +2,7 @@
   <div class="flex justify-center md:justify-end mb-4">
     <button
       @click="displayModalModule"
-      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black md:relative md:top-[-56px]"
+      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black md:relative md:top-[-56px] md:mr-[10px]"
     >
       <span>+</span>
       <p>Ajoutez un module</p>

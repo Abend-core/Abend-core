@@ -1,104 +1,110 @@
 <template>
-  <main class="p-4 max-w-[1400px] mx-auto">
+  <main class="p-4">
     <div
-      class="bg-white rounded-md p-paddingMd mt-3 mb-3 dark:bg-gray-800 dark:text-white"
+      class="p-5 rounded-md max-w-[1400px] mx-auto bg-customWhite dark:bg-gray-800"
     >
-      <h1 class="font-bold">Gérer mes modules</h1>
-      <p class="text-primaryRed mt-1">Module Dashboard</p>
-    </div>
-    <modal-add-module @refresh-modules="getModulesById" />
-    <div v-if="modules.length === 0" class="text-center p-8 rounded-md mt-5">
-      <h2 class="font-bold text-xl text-primaryRed mb-4">
-        Aucun module créé !
-      </h2>
-      <p class="mb-4">Il semble que vous n'avez pas encore créé de module.</p>
-    </div>
-    <div v-else class="bg-white rounded-md max-h-[800px] mb-5">
-      <NotificationMessage />
-      <table class="w-full dark:text-white dark:bg-gray-800">
-        <thead>
-          <tr class="text-left border-b border-customWhite">
-            <th class="p-3">Nom</th>
-            <th class="p-3">Lien</th>
-            <th class="p-3">Description</th>
-            <th class="p-3">Image</th>
-            <th class="p-3">Date de création</th>
-            <th class="p-3">Visibilité</th>
-            <th class="p-3">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="module in modules"
-            :key="module.id"
-            class="hover:bg-customWhite dark:hover:text-black dark:hover:bg-gray-500"
-          >
-            <td class="p-3">
-              <template v-if="module.id === editingModuleId">
-                <input
-                  v-model="module.name"
-                  type="text"
-                  class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
+      <div
+        class="rounded-md bg-white p-3 mb-3 sm:mb-0 dark:bg-gray-800 dark:text-white"
+      >
+        <h1 class="font-bold">Gérer mes modules</h1>
+        <p class="text-primaryRed mt-1">Module Dashboard</p>
+      </div>
+      <modal-add-module @refresh-modules="getModulesById" />
+      <div v-if="modules.length === 0" class="text-center p-8 rounded-md mt-5">
+        <h2 class="font-bold text-xl text-primaryRed mb-4">
+          Aucun module créé
+        </h2>
+        <p class="mb-4 text-center font-medium text-gray-400">
+          Il semble que vous n'avez pas encore créé de module
+        </p>
+      </div>
+      <div v-else class="bg-white rounded-md max-h-[800px] mb-5">
+        <NotificationMessage />
+        <table class="w-full dark:text-white dark:bg-gray-800">
+          <thead>
+            <tr class="text-left border-b border-customWhite">
+              <th class="p-3">Nom</th>
+              <th class="p-3">Lien</th>
+              <th class="p-3">Description</th>
+              <th class="p-3">Image</th>
+              <th class="p-3">Date de création</th>
+              <th class="p-3">Visibilité</th>
+              <th class="p-3">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="module in modules"
+              :key="module.id"
+              class="hover:bg-customWhite dark:hover:text-black dark:hover:bg-gray-500"
+            >
+              <td class="p-3">
+                <template v-if="module.id === editingModuleId">
+                  <input
+                    v-model="module.name"
+                    type="text"
+                    class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
+                  />
+                </template>
+                <template v-else>{{ module.name }}</template>
+              </td>
+              <td class="p-3">{{ module.link }}</td>
+              <td class="p-3">
+                <template v-if="module.id === editingModuleId">
+                  <input
+                    v-model="module.content"
+                    type="text"
+                    class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
+                  />
+                </template>
+                <template v-else>{{ module.content }}</template>
+              </td>
+              <td class="p-3">
+                <img
+                  :src="`${apiUrl}/uploadsFile/module/${module.image}`"
+                  alt="Module image"
+                  class="w-[50px] h-[50px] rounded-2xl"
                 />
-              </template>
-              <template v-else>{{ module.name }}</template>
-            </td>
-            <td class="p-3">{{ module.link }}</td>
-            <td class="p-3">
-              <template v-if="module.id === editingModuleId">
-                <input
-                  v-model="module.content"
-                  type="text"
-                  class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
-                />
-              </template>
-              <template v-else>{{ module.content }}</template>
-            </td>
-            <td class="p-3">
-              <img
-                :src="`${apiUrl}/uploadsFile/module/${module.image}`"
-                alt="Module image"
-                class="w-[50px] h-[50px] rounded-2xl"
-              />
-            </td>
-            <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
-            <td class="p-3">
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  v-model="module.isShow"
-                  @change="toggleVisibility(module.id, module.isShow)"
-                />
-                <span class="slider round"></span>
-              </label>
-            </td>
-            <td class="p-3">
-              <div class="flex gap-3">
-                <div v-if="module.id !== editingModuleId">
-                  <i
-                    class="ri-pencil-fill text-2xl cursor-pointer"
-                    @click="editModule(module.id)"
-                  ></i>
+              </td>
+              <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
+              <td class="p-3">
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    v-model="module.isShow"
+                    @change="toggleVisibility(module.id, module.isShow)"
+                  />
+                  <span class="slider round"></span>
+                </label>
+              </td>
+              <td class="p-3">
+                <div class="flex gap-3">
+                  <div v-if="module.id !== editingModuleId">
+                    <i
+                      class="ri-pencil-fill text-2xl cursor-pointer"
+                      @click="editModule(module.id)"
+                    ></i>
+                  </div>
+                  <div v-if="module.id !== editingModuleId">
+                    <i
+                      class="ri-delete-bin-4-fill text-2xl cursor-pointer"
+                      @click="deleteModuleTable(module.id)"
+                    ></i>
+                  </div>
+                  <div v-if="module.id === editingModuleId">
+                    <button
+                      @click="saveModule(module.id)"
+                      class="bg-primaryRed px-6 py-2 rounded-md text-white border border-black"
+                    >
+                      Valider
+                    </button>
+                  </div>
                 </div>
-                <div v-if="module.id !== editingModuleId">
-                  <i
-                    class="ri-delete-bin-4-fill text-2xl cursor-pointer"
-                    @click="deleteModuleTable(module.id)"
-                  ></i>
-                </div>
-                <div v-if="module.id === editingModuleId">
-                  <button
-                    @click="saveModule(module.id)"
-                    class="bg-primaryRed px-6 py-2 rounded-md text-white border border-black"
-                  >
-                    Valider
-                  </button>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </main>
 </template>
