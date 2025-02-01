@@ -5,6 +5,8 @@ import YAML from "yamljs";
 import cors from "cors";
 import config from "config";
 
+import Redis from "./tools/redis";
+
 const port: number = config.get("server.port");
 const origin: Array<string> = config.get("cors.origin");
 const method: Array<string> = config.get("cors.method");
@@ -14,6 +16,12 @@ const env: string = config.get("server.env");
 
 //Initialisation de la bdd
 require("./database/init");
+
+// Test de la connexion en sauvegardant une donnée.
+async function testRedis() {
+    await Redis.setCache("test-key", { message: "Hello Redis" });
+}
+testRedis();
 
 let corsOptions = {
     origin: origin,
@@ -59,5 +67,6 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.listen(port, () => {
-    console.log("Serveur en ligne ! Environnement : ", env);
+    console.log("Serveur en ligne.");
+    console.log("   [Environnement] ", env);
 });

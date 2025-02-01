@@ -39,13 +39,12 @@ if (env == "Dev") {
 
 async function pushDb_dev() {
     try {
+        console.log("");
         console.log("Début de synchronisation...");
+        console.log("");
         await initStatus();
-        console.log("");
         await initEtats();
-        console.log("");
         await initUsers();
-        console.log("");
         await initModules();
         console.log("");
         console.log("Synchronisation terminée !");
@@ -58,13 +57,13 @@ async function initStatus() {
     for (const data of dataStatut.statuts) {
         await Statut.create(data);
     }
-    console.log("Status insérés avec succès.");
+    console.log("   - ✅ Status");
 }
 async function initEtats() {
     for (const data of dataEtats.etats) {
         await Etat.create(data);
     }
-    console.log("Etats insérés avec succès.");
+    console.log("   - ✅ Etats ");
 }
 async function initUsers() {
     for (const data of dataUser.users) {
@@ -83,7 +82,7 @@ async function initUsers() {
             validate: false,
         });
     }
-    console.log("Utilisateurs insérés avec succès.");
+    console.log("   - ✅ Utilisateurs");
 }
 async function initModules() {
     for (const data of dataModule.modules) {
@@ -94,5 +93,5 @@ async function initModules() {
         data.user_id = lastUUID;
         await Module.create(data);
     }
-    console.log("Modules insérés avec succès.");
+    console.log("   - ✅ Modules");
 }
