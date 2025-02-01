@@ -15,7 +15,7 @@
           Aucun module créé
         </h2>
         <p class="mb-4 text-center font-medium text-gray-400">
-          Il semble que vous n'avez pas encore créé de module
+          Il semble que vous n'ayez pas encore créé de module
         </p>
       </div>
       <div v-else class="bg-white rounded-md max-h-[800px] mb-5">

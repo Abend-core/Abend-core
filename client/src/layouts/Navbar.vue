@@ -39,7 +39,7 @@
           <input
             type="text"
             placeholder="Rechercher"
-            class="w-[300px] h-[35px] pl-9 pr-10 rounded-md border border-[#d1d9e0] dark:border-0 dark:text-white bg-white dark:bg-gray-900 placeholder:font-medium pointer-events-none"
+            class="w-[300px] h-[35px] pl-9 pr-10 rounded-md border border-gray-200 dark:border-0 dark:text-white bg-white dark:bg-gray-900 placeholder:font-medium pointer-events-none"
           />
           <div
             class="absolute top-1/2 transform -translate-y-1/2 right-2 border border-gray-300 dark:border-gray-700 rounded-md p-1"
@@ -109,7 +109,7 @@
       </div>
       <div
         v-if="modals.menu"
-        class="absolute right-[1%] top-[85%] w-[125px] h-[120px] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
+        class="absolute right-[1%] top-[85%] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
       >
         <div class="relative">
           <div class="flex items-center">
