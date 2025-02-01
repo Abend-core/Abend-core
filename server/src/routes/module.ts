@@ -8,13 +8,13 @@ import path from "path";
 import { uploadModule, resizeimg } from "../tools/multer";
 //Model & bdd
 import Module from "../models/module";
+import Etat from "../models/etat";
 import Liked from "../models/liked";
 import Visited from "../models/visited";
 import User from "../models/user";
 import { Op, Sequelize } from "sequelize";
 //Middleware
 import auth from "../middleware/auth/auth";
-import role from "../middleware/role";
 
 // Création d'un nouveau module
 router.post("/", auth, (req, res) => {
@@ -117,6 +117,11 @@ router.get("/show", (req, res) => {
                 model: User,
                 as: "User",
                 attributes: ["username", "isAdmin"],
+            },
+            {
+                model: Etat,
+                as: "Etat",
+                attributes: ["id", "name"],
             },
         ],
     })

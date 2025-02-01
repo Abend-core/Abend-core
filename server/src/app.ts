@@ -12,8 +12,6 @@ const allowedHeaders: Array<string> = config.get("cors.allowedHeaders");
 const maxAge: number = config.get("cors.maxAge");
 const env: string = config.get("server.env");
 
-//Appel des models et les jointures
-require("./database/join");
 //Initialisation de la bdd
 require("./database/init");
 

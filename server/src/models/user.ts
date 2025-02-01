@@ -1,6 +1,8 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../database/db";
 
+import Statut from "../models/statut";
+
 interface UserAttributes {
     id: number;
     username: string;
@@ -103,7 +105,7 @@ User.init(
         },
         statut_id: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
             references: {
                 model: "Statuts",
                 key: "id",
@@ -116,5 +118,16 @@ User.init(
         tableName: "Users",
     }
 );
+
+// Jointure pour statut_id
+Statut.hasMany(User, {
+    foreignKey: "statut_id",
+    as: "Users",
+});
+
+User.belongsTo(Statut, {
+    foreignKey: "statut_id",
+    as: "Statut",
+});
 
 export default User;

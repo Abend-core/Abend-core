@@ -5,18 +5,6 @@ const statuts = [
     {
         name: "Utilisateur",
     },
-    {
-        name: "Visible",
-    },
-    {
-        name: "Invisible",
-    },
-    {
-        name: "Signaler",
-    },
-    {
-        name: "Archiver",
-    },
 ];
 
 export { statuts };

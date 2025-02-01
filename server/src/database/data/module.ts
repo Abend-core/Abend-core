@@ -5,6 +5,7 @@ const modules = [
         image: "cnam.jpg",
         content: "Ceci est une description temporaire.",
         isShow: true,
+        etat_id: 1,
     },
     {
         name: "Github",
@@ -12,6 +13,7 @@ const modules = [
         image: "github.png",
         content: "Ceci est une description temporaire.",
         isShow: true,
+        etat_id: 1,
     },
     {
         name: "Anime-sama",
@@ -19,6 +21,7 @@ const modules = [
         image: "anime.png",
         content: "Ceci est une description temporaire.",
         isShow: true,
+        etat_id: 1,
     },
     {
         name: "Portfolio Lucas",
@@ -26,6 +29,7 @@ const modules = [
         image: "portfolio.png",
         content: "Ceci est une description temporaire.",
         isShow: true,
+        etat_id: 1,
     },
 ];
 
