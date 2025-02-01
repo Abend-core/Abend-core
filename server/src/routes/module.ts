@@ -22,6 +22,7 @@ router.post("/", auth, (req, res) => {
     const link: string = req.body.link;
     const response: string = checkLink(link);
     data.id = UUID.v7();
+    data.etat_id = 1;
     if (response != "ok") {
         res.status(400).json({
             message: "Le lien ne correspond pas au format attendu.",
@@ -110,7 +111,7 @@ router.put("/image", auth, (req, res) => {
 router.get("/show", (req, res) => {
     Module.findAll({
         where: {
-            isShow: true,
+            etat_id: 1,
         },
         include: [
             {
@@ -143,13 +144,18 @@ router.get("/show", (req, res) => {
 router.get("/hide", (req, res) => {
     Module.findAll({
         where: {
-            isShow: false,
+            etat_id: 2,
         },
         include: [
             {
                 model: User,
                 as: "User",
                 attributes: ["username", "isAdmin"],
+            },
+            {
+                model: Etat,
+                as: "Etat",
+                attributes: ["id", "name"],
             },
         ],
     })
@@ -175,6 +181,11 @@ router.get("/", (req, res) => {
                 model: User,
                 as: "User",
                 attributes: ["username", "isAdmin"],
+            },
+            {
+                model: Etat,
+                as: "Etat",
+                attributes: ["id", "name"],
             },
         ],
     })

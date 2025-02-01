@@ -12,7 +12,6 @@ interface moduleAttributes {
     content: string;
     views: number;
     likes: number;
-    isShow: boolean;
     etat_id: number;
     user_id: string;
 }
@@ -30,7 +29,6 @@ class Module
     public content!: string;
     public views!: number;
     public likes!: number;
-    public isShow!: boolean;
     public etat_id!: number;
     public user_id!: string;
 }
@@ -115,10 +113,6 @@ Module.init(
         likes: {
             type: DataTypes.INTEGER,
             defaultValue: 0,
-        },
-        isShow: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
         },
         etat_id: {
             type: DataTypes.INTEGER,
