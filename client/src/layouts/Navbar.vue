@@ -26,7 +26,10 @@
           >Abend-core</RouterLink
         >
       </div>
-      <div class="flex items-center" @click="toggleModal('searchBar')">
+      <div
+        class="hidden sm:flex md:items-center"
+        @click="toggleModal('searchBar')"
+      >
         <div
           class="relative group cursor-pointer rounded-md dark:border dark:border-black dark:hover:outline dark:hover:outline-1 dark:hover:outline-white hover:outline-1 hover:outline-primaryRed hover:outline"
         >
@@ -52,18 +55,18 @@
         v-if="modals.searchBar"
         @close="closeModal('searchBar')"
       />
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 sm:gap-3">
         <RouterLink
           to="/module"
           v-if="isAuthenticated"
-          class="hover:text-primaryRed font-medium"
+          class="hidden sm:block hover:text-primaryRed font-medium"
         >
-          <i title="Gérer mes modules" class="ri-layout-2-fill text-xl"></i>
+          <i class="ri-layout-2-fill text-xl"></i>
         </RouterLink>
         <RouterLink
           to="/favoris"
           v-if="isAuthenticated"
-          class="hover:text-primaryRed font-medium"
+          class="hidden sm:block hover:text-primaryRed font-medium"
         >
           <i class="ri-heart-fill text-xl text-primaryRed"></i>
         </RouterLink>
@@ -84,17 +87,21 @@
         >
           <img
             v-if="user && user.image"
-            class="w-[45px] h-[45px] rounded-full"
+            class="hidden sm:block w-[45px] h-[45px] rounded-full"
             :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
             alt="Image de profil"
           />
         </div>
         <RouterLink
-          class="hover:text-primaryRed font-medium"
+          class="hover:text-primaryRed hidden sm:block font-medium"
           to="/connexion"
           v-if="!isAuthenticated"
           >Connexion</RouterLink
         >
+        <i
+          class="ri-menu-line text-xl sm:hidden cursor-pointer"
+          @click="toggleMobileMenu"
+        ></i>
       </div>
       <div
         v-if="modals.menu"
@@ -141,6 +148,7 @@
       </div>
     </nav>
   </div>
+  <MobileMenu :isOpen="isMobileMenuOpen" :closeMenu="closeMobileMenu" />
 </template>
 
 <script setup>
@@ -152,6 +160,7 @@ import { isDark, toggleDarkMode } from "../utils/darkMode.js";
 import modalSearchBar from "../components/modal/modalSearchBar.vue";
 import "remixicon/fonts/remixicon.css";
 import { useModal } from "../composables/useModal.js";
+import MobileMenu from "../components/MenuMobile.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -165,6 +174,15 @@ const { modals, toggleModal, closeModal } = useModal();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const isAdmin = computed(() => authStore.isAdmin);
 const user = computed(() => authStore.user);
+const isMobileMenuOpen = ref(false);
+
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false;
+};
 
 const loadUserProfile = async () => {
   if (!authStore.isAuthenticated || !authStore.user?.id) return;
