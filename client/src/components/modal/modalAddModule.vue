@@ -71,7 +71,6 @@
             required
           />
         </div>
-        <input type="hidden" v-model="dataModule.isShow.value" />
         <input type="hidden" v-model="dataModule.image" />
         <div class="flex justify-center lg:mt-0 sm:mt-4">
           <button
@@ -104,7 +103,6 @@ let dataModule = {
   link: ref(""),
   content: ref(""),
   image: ref(""),
-  isShow: ref(true),
 };
 
 const displayModalModule = () => {
@@ -125,17 +123,16 @@ const handleFileChange = (event) => {
 
 const addModulesDashboard = async () => {
   try {
-    const result = await addModules({
+    const response = await addModules({
       name: dataModule.name.value,
       link: dataModule.link.value,
       content: dataModule.content.value,
-      isShow: dataModule.isShow.value,
       user_id: id,
     });
 
-    if (result.status === 200 && selectedImageFile.value) {
+    if (response.status === 200 && selectedImageFile.value) {
       const formData = new FormData();
-      formData.append("id", result.data.module.id);
+      formData.append("id", response.data.module.id);
       formData.append("image", selectedImageFile.value);
       const uploadResponse = await uploadImageModule(formData);
     }
