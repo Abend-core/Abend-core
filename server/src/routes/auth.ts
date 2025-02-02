@@ -81,7 +81,7 @@ router.post("/signin", async (req, res): Promise<void> => {
         }
 
         const token = jwt.sign({ userId: user.mail }, privateKey, {
-            expiresIn: "1m",
+            expiresIn: "1h",
         });
 
         res.status(201).json({
