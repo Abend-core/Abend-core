@@ -17,7 +17,12 @@ import { Op, Sequelize } from "sequelize";
 import auth from "../middleware/auth/auth";
 
 // Création d'un nouveau module
-router.post("/", auth, (req, res) => {
+router.post("/", auth, async (req, res) => {
+    await Promise.all([
+        Redis.deleteCache("modules:show"),
+        Redis.deleteCache("modules:hide"),
+        Redis.deleteCache("modules:all"),
+    ]);
     const data = req.body;
     const link: string = req.body.link;
     const response: string = checkLink(link);
@@ -31,7 +36,23 @@ router.post("/", auth, (req, res) => {
     }
 
     Module.create(data)
-        .then((module) => {
+        .then(async (module) => {
+            const modules = await Module.findAll();
+
+            const [modulesShow, modulesHide] = await Promise.all([
+                Promise.resolve(
+                    modules.filter((module) => module.isShow === true)
+                ),
+                Promise.resolve(
+                    modules.filter((module) => module.isShow === false)
+                ),
+            ]);
+
+            await Promise.all([
+                Redis.setCache("modules:all", modules),
+                Redis.setCache("modules:show", modulesShow),
+                Redis.setCache("modules:hide", modulesHide),
+            ]);
             res.status(200).json({
                 message: "Module créé avec succès.",
                 module,
@@ -108,35 +129,48 @@ router.put("/image", auth, (req, res) => {
 });
 
 // Selection de tout les modules visible
-router.get("/show", (req, res) => {
-    Module.findAll({
-        where: {
-            isShow: true,
-        },
-        include: [
-            {
-                model: User,
-                as: "User",
-                attributes: ["username", "isAdmin"],
+router.get("/show", async (req: Request, res: Response): Promise<void> => {
+    const key = "modules:show";
+    try {
+        const cachedModules = await Redis.getCache(key);
+        if (cachedModules) {
+            res.status(200).json({
+                message: "Tout les modules (depuis le cache).",
+                module: cachedModules,
+            });
+        }
+
+        const modules = await Module.findAll({
+            where: {
+                isShow: true,
             },
-        ],
-    })
-        .then((module) => {
-            res.status(200).json({ message: "Tout les modules.", module });
-        })
-        .catch((error) => {
+            include: [
+                {
+                    model: User,
+                    as: "User",
+                    attributes: ["username", "isAdmin"],
+                },
+            ],
+        });
+
+        await Redis.setCache(key, modules);
+
+        res.status(200).json({ message: "Tout les modules.", module: modules });
+    } catch (error) {
+        if (error instanceof Error) {
             if (error.name === "SequelizeValidationError") {
-                const errors = error.errors.map(
+                const errors = (error as any).errors?.map(
                     (err: { message: any }) => err.message
                 );
-                return res.status(400).json({ errors });
+                res.status(400).json({ errors });
             }
             res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        });
+        }
+    }
 });
 
 // Selection de tout les modules invisible
-router.get("/hide", (req, res) => {
+router.get("/hide", (_req, res) => {
     Module.findAll({
         where: {
             isShow: false,
@@ -164,7 +198,7 @@ router.get("/hide", (req, res) => {
 });
 
 // Selection de tout les modules
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
     Module.findAll({
         include: [
             {
