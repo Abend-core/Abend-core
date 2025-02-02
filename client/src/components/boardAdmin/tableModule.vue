@@ -101,7 +101,6 @@ import {
   filterModule,
   updateModuleById,
 } from "../../api/module";
-import { uploadImageModule } from "../../api/upload";
 import modalAddModule from "../../components/modal/modalAddModule.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";

@@ -51,7 +51,6 @@
 <script setup>
 import { ref } from "vue";
 import { findAllModulesVisible } from "../api/module";
-import { formatDate } from "../utils/date";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
