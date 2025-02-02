@@ -128,6 +128,7 @@ router.get("/show", async (req: Request, res: Response): Promise<void> => {
                 message: "Tout les modules (depuis le cache).",
                 module: cachedModules,
             });
+            return;
         }
 
         const modules = await Module.findAll({

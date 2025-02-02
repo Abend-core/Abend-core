@@ -94,6 +94,7 @@ router.put("/:id", auth, async (req: Request, res: Response): Promise<void> => {
             res.status(400).json({
                 message: "Ce mail est déjà utilisé par un autre compte.",
             });
+            return;
         }
 
         const existingUsernameUser = await User.findOne({
@@ -105,6 +106,7 @@ router.put("/:id", auth, async (req: Request, res: Response): Promise<void> => {
                 message:
                     "Ce nom d'utilisateur est déjà utilisé par un autre compte.",
             });
+            return;
         }
 
         // Mise à jour de l'utilisateur
