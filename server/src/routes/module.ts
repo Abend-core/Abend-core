@@ -34,7 +34,6 @@ router.post("/", auth, async (req, res) => {
     .then(async (module) => {
       const modules = await Module.findAll();
 
-      // Filtrer les modules visibles
       const modulesShow = modules.filter((module) => module.isShow === true);
 
       await Promise.all([
@@ -182,26 +181,42 @@ router.get("/hide", (_req, res) => {
 });
 
 // Selection de tout les modules
-router.get("/", (_req, res) => {
-  Module.findAll({
-    include: [
-      {
-        model: User,
-        as: "User",
-        attributes: ["username", "isAdmin"],
-      },
-    ],
-  })
-    .then((module) => {
-      res.status(200).json({ message: "Tout les modules.", module });
-    })
-    .catch((error) => {
+router.get("/", async (_req, res) => {
+  const key = "modules:all";
+  try {
+    const result = await Redis.getCache(key);
+    if (result) {
+      res.status(200).json({
+        message: "Tout les modules (depuis le cache).",
+        module: result,
+      });
+      return;
+    }
+
+    const modules = await Module.findAll({
+      include: [
+        {
+          model: User,
+          as: "User",
+          attributes: ["username", "isAdmin"],
+        },
+      ],
+    });
+
+    await Redis.setCache(key, modules);
+
+    res.status(200).json({ message: "Tout les modules.", module: modules });
+  } catch (error) {
+    if (error instanceof Error) {
       if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err: { message: any }) => err.message);
-        return res.status(400).json({ errors });
+        const errors = (error as any).errors?.map(
+          (err: { message: any }) => err.message
+        );
+        res.status(400).json({ errors });
       }
       res.status(500).json({ message: "Erreur serveur.", erreur: error });
-    });
+    }
+  }
 });
 
 // Selection d'un module
@@ -234,10 +249,18 @@ router.put("/:id", auth, (req, res) => {
     where: { id: id },
   })
     .then((_) => {
-      return Module.findByPk(id).then((module) => {
+      return Module.findByPk(id).then(async(module) => {
         if (module === null) {
           res.status(404).json({ message: "Module introuvable." });
         }
+        const modules = await Module.findAll();
+
+        const modulesShow = modules.filter((module) => module.isShow === true);
+
+        await Promise.all([
+          Redis.setCache("modules:all", modules),
+          Redis.setCache("modules:show", modulesShow),
+        ]);
         res.status(200).json({ message: "Module modifié.", module });
       });
     })
@@ -272,7 +295,15 @@ router.delete("/:id", auth, (req, res) => {
         }
 
         Module.destroy({ where: { id: data.id } })
-          .then(() => {
+          .then(async() => {
+            const modules = await Module.findAll();
+
+            const modulesShow = modules.filter((module) => module.isShow === true);
+
+            await Promise.all([
+              Redis.setCache("modules:all", modules),
+              Redis.setCache("modules:show", modulesShow),
+            ]);
             res.status(200).json({
               message: "Module supprimé.",
               data,
