@@ -42,7 +42,7 @@
               class="rounded-md bg-primaryRed px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs"
               >Créer mon hub</a
             >
-            <a href="#" class="text-sm/6 font-semibold text-gray-900"
+            <a href="#" class="text-sm/6 font-semibold text-gray-300"
               >En savoir plus <span aria-hidden="true">→</span></a
             >
           </div>
