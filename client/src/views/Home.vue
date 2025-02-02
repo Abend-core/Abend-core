@@ -31,16 +31,18 @@
             <p class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs">
               {{ module.User.username }}
             </p>
-            <i
-              v-if="getEtatLike(module.id)"
-              class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
-              @click="toggleLikeModule(module.id, $event)"
-            ></i>
-            <i
-              v-else
-              class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10"
-              @click="toggleLikeModule(module.id, $event)"
-            ></i>
+            <div v-if="authStore.isAuthenticated">
+              <i
+                v-if="getEtatLike(module.id)"
+                class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
+                @click="toggleLikeModule(module.id, $event)"
+              ></i>
+              <i
+                v-else
+                class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10"
+                @click="toggleLikeModule(module.id, $event)"
+              ></i>
+            </div>
           </div>
         </a>
       </div>
@@ -52,11 +54,15 @@
 import { ref } from "vue";
 import { findAllModulesVisible } from "../api/module";
 import { toggleLike } from "../api/like";
+import { useAuthStore } from "../stores/authStore";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
+const authStore = useAuthStore();
+
 const modules = ref([]);
 const etatLike = ref({});
+
 const id = sessionStorage.getItem("id");
 
 const allModules = async () => {
@@ -76,8 +82,7 @@ const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
   etatLike.value[idModule] = !etatLike.value[idModule];
   try {
-    const response = await toggleLike({ UserId: id, ModuleId: idModule });
-    console.log(response);
+    await toggleLike({ UserId: id, ModuleId: idModule });
   } catch (error) {
     console.error("Erreur lors du like :", error);
     etatLike.value[idModule] = !etatLike.value[idModule];

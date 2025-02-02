@@ -9,9 +9,11 @@ import Error from "../views/Error.vue";
 import ForgetPassword from "../views/ForgetPassword.vue";
 import ModuleProfil from "../views/ModuleProfil.vue";
 import LikedModules from "../views/LikedModules.vue";
+import HomeV2 from "../views/HomeV2.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
+  { path: "/homev2", name: "HomeV2", component: HomeV2 },
   { path: "/connexion", name: "LoginPage", component: Login },
   { path: "/inscription", name: "InscriptionPage", component: Registration },
   {
