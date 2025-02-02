@@ -18,11 +18,6 @@ import auth from "../middleware/auth/auth";
 
 // Création d'un nouveau module
 router.post("/", auth, async (req, res) => {
-    await Promise.all([
-        Redis.deleteCache("modules:show"),
-        Redis.deleteCache("modules:hide"),
-        Redis.deleteCache("modules:all"),
-    ]);
     const data = req.body;
     const link: string = req.body.link;
     const response: string = checkLink(link);
@@ -39,19 +34,14 @@ router.post("/", auth, async (req, res) => {
         .then(async (module) => {
             const modules = await Module.findAll();
 
-            const [modulesShow, modulesHide] = await Promise.all([
-                Promise.resolve(
-                    modules.filter((module) => module.isShow === true)
-                ),
-                Promise.resolve(
-                    modules.filter((module) => module.isShow === false)
-                ),
-            ]);
+            // Filtrer les modules visibles
+            const modulesShow = modules.filter(
+                (module) => module.isShow === true
+            );
 
             await Promise.all([
                 Redis.setCache("modules:all", modules),
                 Redis.setCache("modules:show", modulesShow),
-                Redis.setCache("modules:hide", modulesHide),
             ]);
             res.status(200).json({
                 message: "Module créé avec succès.",
