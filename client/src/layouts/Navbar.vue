@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 backdrop-blur-lg bg-opacity-50"
+    class="w-full dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700"
     @keydown.esc="closeModal('searchBar')"
     tabindex="0"
   >
@@ -109,7 +109,7 @@
       </div>
       <div
         v-if="modals.menu"
-        class="absolute right-[1%] top-[85%] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
+        class="absolute right-[1%] top-[85%] p-2 bg-white z-40 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
       >
         <div class="relative">
           <div class="flex items-center">

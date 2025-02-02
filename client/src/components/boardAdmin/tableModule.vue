@@ -44,6 +44,7 @@
           <th class="p-3">Description</th>
           <th class="p-3">Image</th>
           <th class="p-3">Date de création</th>
+          <th class="p-3">Créateur</th>
           <th class="p-3">Visibilité</th>
         </tr>
       </thead>
@@ -76,6 +77,7 @@
             />
           </td>
           <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
+          <td class="p-3">{{ module.User.username }}</td>
           <td class="p-3">
             <label class="switch">
               <input

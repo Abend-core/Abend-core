@@ -63,7 +63,10 @@
                 class="font-bold text-gray-900 dark:text-white"
                 v-html="highlightText(module.name)"
               ></p>
-              <p class="text-sm text-gray-500 dark:text-gray-400">Jérome</p>
+              <p
+                class="text-sm text-gray-500 dark:text-gray-400"
+                v-html="highlightText(module.User.username)"
+              ></p>
             </div>
             <i
               class="ri-arrow-right-line absolute right-3 text-gray-400 dark:text-gray-300 transition-transform duration-200 ease-in-out group-hover:translate-x-1"
