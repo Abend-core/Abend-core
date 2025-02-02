@@ -22,6 +22,7 @@ router.post("/", auth, async (req, res) => {
     const link: string = req.body.link;
     const response: string = checkLink(link);
     data.id = UUID.v7();
+
     data.isShow = true;
     if (response != "ok") {
         res.status(400).json({
@@ -34,13 +35,39 @@ router.post("/", auth, async (req, res) => {
         .then(async (module) => {
             const modules = await Module.findAll();
 
-            const modulesShow = modules.filter(
-                (module) => module.isShow === true
-            );
+            const modulesShow = await Module.findAll({
+                where: {
+                    isShow: true,
+                },
+                include: [
+                    {
+                        model: User,
+                        as: "User",
+                        attributes: ["username", "isAdmin"],
+                    },
+                ],
+                attributes: {
+                    include: [
+                        [
+                            Sequelize.literal(`
+                                CASE 
+                                    WHEN EXISTS (
+                                        SELECT 1 FROM Likes 
+                                        WHERE Likes.ModuleId = Module.id 
+                                        AND Likes.UserId = '${data.user_id}'
+                                    ) THEN 1
+                                    ELSE 0
+                                END
+                            `),
+                            "is_liked",
+                        ],
+                    ],
+                },
+            });
 
             await Promise.all([
                 Redis.setCache("modules:all", modules),
-                Redis.setCache("modules:show", modulesShow),
+                Redis.setCache("modules:show:" + data.user_id, modulesShow),
             ]);
             res.status(200).json({
                 message: "Module créé avec succès.",
@@ -117,14 +144,15 @@ router.put("/image", auth, (req, res) => {
     });
 });
 
-// Selection de tout les modules visible
-router.get("/show", async (req: Request, res: Response): Promise<void> => {
-    const key = "modules:show";
+router.get("/show", async (req, res) => {
+    const userId = req.body.id;
+    const key = `modules:show:${userId}`;
+    console.log(key);
     try {
         const cachedModules = await Redis.getCache(key);
         if (cachedModules) {
             res.status(200).json({
-                message: "Tout les modules (depuis le cache).",
+                message: "Tous les modules (depuis le cache).",
                 module: cachedModules,
             });
             return;
@@ -141,21 +169,31 @@ router.get("/show", async (req: Request, res: Response): Promise<void> => {
                     attributes: ["username", "isAdmin"],
                 },
             ],
+            // attributes: {
+            //     include: [
+            //         [
+            //             Sequelize.literal(`
+            //                 CASE
+            //                     WHEN EXISTS (
+            //                         SELECT 1 FROM Likes
+            //                         WHERE Likes.ModuleId = Module.id
+            //                         AND Likes.UserId = '${userId}'
+            //                     ) THEN true
+            //                     ELSE false
+            //                 END
+            //             `),
+            //             "is_liked",
+            //         ],
+            //     ],
+            // },
         });
 
-        await Redis.setCache(key, modules);
+        await Redis.setCache(key, modules); // Mise en cache
 
-        res.status(200).json({ message: "Tout les modules.", module: modules });
+        res.status(200).json({ message: "Tous les modules.", modules });
     } catch (error) {
-        if (error instanceof Error) {
-            if (error.name === "SequelizeValidationError") {
-                const errors = (error as any).errors?.map(
-                    (err: { message: any }) => err.message
-                );
-                res.status(400).json({ errors });
-            }
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        }
+        console.error(error);
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
 });
 
