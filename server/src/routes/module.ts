@@ -295,13 +295,20 @@ router.delete("/:id", auth, (req, res) => {
 router.post("/filtre", async (req, res) => {
   const search = req.body.search;
   Module.findAll({
+    include: [
+      {
+        model: User,
+        as: "User",
+        attributes: ["username", "isAdmin"],
+      },
+    ],
     where: {
       [Op.or]: [
         { name: { [Op.like]: "%" + search + "%" } },
-        { link: { [Op.like]: "%" + search + "%" } },
-        { image: { [Op.like]: "%" + search + "%" } },
+        { "$User.username$": { [Op.like]: "%" + search + "%" } },
       ],
     },
+    
   })
     .then((module) => {
       res.status(200).json({ message: "Module trouvé.", module });
