@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../database/db";
+import db from "../database/db";
 import User from "../models/user";
 
 interface FollowAttributes {
@@ -38,7 +38,8 @@ Follow.init(
         },
     },
     {
-        sequelize,
+        
+        sequelize: db.abend,
         modelName: "Follow",
         tableName: "Follows",
         timestamps: true,

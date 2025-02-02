@@ -1,5 +1,5 @@
-import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../database/db";
+import { DataTypes, Model, Optional, Sequelize } from "sequelize";
+import db from "../database/db";
 
 interface CategoryAttributes {
     id: number;
@@ -47,7 +47,7 @@ Category.init(
         },
     },
     {
-        sequelize,
+        sequelize: db.abend,
         modelName: "Category",
         tableName: "Categories",
     }

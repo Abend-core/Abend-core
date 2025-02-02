@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../database/db";
+import db from "../database/db";
 
 interface NotificationAttributes {
     id: number;
@@ -71,7 +71,7 @@ Notification.init(
         },
     },
     {
-        sequelize,
+        sequelize: db.abend,
         modelName: "Notification",
         tableName: "Notifications",
     }

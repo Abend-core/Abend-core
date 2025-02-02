@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../database/db";
+import db from "../database/db";
 import User from "../models/user";
 
 interface moduleAttributes {
@@ -126,7 +126,7 @@ Module.init(
         },
     },
     {
-        sequelize,
+        sequelize: db.abend,
         modelName: "Module",
         tableName: "Modules",
     }

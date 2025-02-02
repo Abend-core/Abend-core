@@ -2,7 +2,7 @@
 import Crypt from "../tools/hash";
 import UUID from "../tools/uuid";
 //Db & Model
-import sequelize from "./db";
+import db from "./db";
 import User from "../models/user";
 import Module from "../models/module";
 import config from "config";
@@ -16,7 +16,7 @@ const dataModule = require("./data/module");
 
 let lastUUID: string;
 if (env == "Dev") {
-    sequelize
+    db.abend
         .sync({ force: true })
         .then(async (_) => {
             pushDb_dev();
@@ -25,7 +25,7 @@ if (env == "Dev") {
             console.log("Erreur de synchronisation :", err);
         });
 } else {
-    sequelize
+    db.abend
         .sync({ alter: true })
         .then(async (_) => {})
         .catch((err) => {

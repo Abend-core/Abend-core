@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../database/db";
+import db from "../database/db";
 
 import User from "../models/user";
 import Module from "../models/module";
@@ -36,7 +36,7 @@ Visited.init(
         },
     },
     {
-        sequelize,
+        sequelize: db.abend,
         modelName: "Visited",
         tableName: "Visited",
         timestamps: true,
