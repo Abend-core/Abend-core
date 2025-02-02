@@ -14,15 +14,15 @@
         alt="Logo principal connexion"
       />
       <div>
-        <h1 class="text-2xl text-center mb-[10px]">Mot de passe oublié</h1>
+        <h1 class="text-2xl text-center mb-3">Mot de passe oublié</h1>
       </div>
-      <div class="flex flex-col p-[16px]">
-        <label class="mb-[4px]" for="email"> Email</label>
+      <div class="flex flex-col p-4">
+        <label class="mb-1" for="email-forget-pass"> Email</label>
         <input
           type="text"
-          id="email"
+          id="email-forget-pass"
           v-model="email"
-          class="mb-[16px] bg-white text-black dark:text-white dark:bg-gray-800"
+          class="mb-4 bg-white text-black dark:text-white dark:bg-gray-800"
           required
         />
         <button
@@ -31,7 +31,7 @@
         >
           Réinitialiser
         </button>
-        <div class="text-sm mt-[16px]">
+        <div class="text-sm mt-4">
           <p>
             Je ne l'ai pas oublié.
             <router-link class="underline" to="/connexion"

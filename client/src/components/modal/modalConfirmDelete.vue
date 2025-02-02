@@ -5,7 +5,7 @@
     <div
       class="bg-white rounded-lg p-6 shadow-md w-[410px] dark:bg-gray-800 dark:text-white"
     >
-      <h2 class="text-[18px] font-bold mb-4">Confirmer la suppression</h2>
+      <h2 class="text-lg font-bold mb-4">Confirmer la suppression</h2>
       <p class="mb-6">
         Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est
         irréversible.

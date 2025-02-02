@@ -11,6 +11,7 @@ export default {
         primaryRed: "#F82B30",
         primaryBlue: "#111827",
         customlightGray: "#D9DCE1",
+        customdarkGray: "#919198",
         customGray: "#746a6ade",
         customWhite: "#F4F6FA",
         customGreen: "#4b9945",

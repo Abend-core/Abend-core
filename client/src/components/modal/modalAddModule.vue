@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-end mb-3">
+  <div class="flex justify-center md:justify-end mb-4">
     <button
       @click="displayModalModule"
-      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black"
+      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black md:relative md:top-[-56px] md:mr-[10px]"
     >
       <span>+</span>
       <p>Ajoutez un module</p>
@@ -10,14 +10,14 @@
   </div>
   <div
     v-if="isModalVisibleModule"
-    class="bg-white mb-6 p-7 rounded-md relative max-w-[100%] mx-auto dark:bg-gray-700 dark:text-white dark:border dark:border-black"
+    class="bg-white mb-6 p-7 rounded-md relative max-w-full mx-auto dark:bg-gray-700 dark:text-white dark:border dark:border-black"
   >
     <p class="font-bold mb-3 text-left">Ajoutez un module</p>
     <div
       class="absolute top-0 right-3 cursor-pointer"
       @click="displayModalModule"
     >
-      <p class="text-[22px]">&times;</p>
+      <p class="text-2xl">&times;</p>
     </div>
     <form @submit.prevent="addModulesDashboard">
       <div
@@ -47,7 +47,9 @@
           <p class="absolute text-[#8592A4] top-full">https://abend-core.org</p>
         </div>
         <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
-          <label for="add-module-input-content" class="mb-1">Description</label>
+          <label for="add-module-input-content" class="mb-1 mt-4"
+            >Description</label
+          >
           <input
             id="add-module-input-content"
             name="add_module_input_content"
@@ -69,7 +71,6 @@
             required
           />
         </div>
-        <input type="hidden" v-model="dataModule.isShow.value" />
         <input type="hidden" v-model="dataModule.image" />
         <div class="flex justify-center lg:mt-0 sm:mt-4">
           <button
@@ -102,7 +103,6 @@ let dataModule = {
   link: ref(""),
   content: ref(""),
   image: ref(""),
-  isShow: ref(true),
 };
 
 const displayModalModule = () => {
@@ -123,17 +123,16 @@ const handleFileChange = (event) => {
 
 const addModulesDashboard = async () => {
   try {
-    const result = await addModules({
+    const response = await addModules({
       name: dataModule.name.value,
       link: dataModule.link.value,
       content: dataModule.content.value,
-      isShow: dataModule.isShow.value,
       user_id: id,
     });
 
-    if (result.status === 200 && selectedImageFile.value) {
+    if (response.status === 200 && selectedImageFile.value) {
       const formData = new FormData();
-      formData.append("id", result.data.module.id);
+      formData.append("id", response.data.module.id);
       formData.append("image", selectedImageFile.value);
       const uploadResponse = await uploadImageModule(formData);
     }

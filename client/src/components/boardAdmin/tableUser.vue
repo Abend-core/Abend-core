@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-5"
+    class="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-5 mb-4"
   >
     <div class="relative">
       <input
@@ -11,28 +11,28 @@
         @change="filterSearchUser"
       />
       <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
-        <i class="ri-search-line text-[20px] text-customlightGray"></i>
+        <i class="ri-search-line text-xl text-customlightGray"></i>
       </span>
     </div>
     <div class="flex gap-3">
       <p class="text-customGray dark:text-gray-400">{{ countUser }} selected</p>
     </div>
     <i
-      class="ri-delete-bin-4-fill text-[28px] text-customlightGray cursor-pointer"
+      class="ri-delete-bin-4-fill text-3xl text-customlightGray cursor-pointer"
       @click="deleteUserTable"
     ></i>
   </div>
   <modal-add-user @refresh-users="allUsers" />
   <div
-    class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
+    class="bg-white rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
   >
     <table class="w-full">
       <thead>
         <tr class="text-left border-b border-customWhite">
           <th class="p-3">
             <input
-              id="checkbox-dashboad-table-allUsers"
-              name="checkbox_dashboad_table_allUsers"
+              id="checkbox-dashboard-table-allUsers"
+              name="checkbox_dashboard_table_allUsers"
               type="checkbox"
               class="select-users cursor-pointer"
               @change="selectAllUsers"
@@ -69,7 +69,7 @@
             <img
               class="w-[50px] h-[50px] rounded-2xl"
               :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
-              alt=""
+              alt="Utilisateur image"
             />
           </td>
           <td class="p-3">

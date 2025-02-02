@@ -1,120 +1,170 @@
 <template>
-  <nav
-    class="flex items-center relative p-paddingMd dark:bg-gray-800 dark:text-white border-b border-gray-200"
+  <div
+    class="w-full dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700"
+    @keydown.esc="closeModal('searchBar')"
+    tabindex="0"
   >
-    <div class="left-content flex items-center gap-[10px]">
-      <RouterLink to="/">
-        <img
-          v-if="!isDark"
-          class="w-[50px] h-[50px]"
-          src="../assets/images/abend-core-logo.png"
-          alt="Logo principal"
-        />
-        <img
-          v-else
-          class="w-[50px] h-[50px]"
-          src="../assets/images/abend-core-logo-dark.png"
-          alt="Logo principal"
-        />
-      </RouterLink>
-      <RouterLink to="/" class="hidden sm:block">Abend-core</RouterLink>
-    </div>
-    <div
-      class="right-content flex items-center flex-1 justify-end gap-[10px] sm:gap-[20px]"
+    <nav
+      class="max-w-[1400px] mx-auto flex items-center justify-between relative p-paddingMd dark:bg-gray-800 dark:text-white"
     >
-      <i
-        v-if="!isDark"
-        class="ri-sun-fill text-xl cursor-pointer"
-        @click="darkModeActivation"
-      ></i>
-      <i
-        v-if="isDark"
-        class="ri-moon-fill text-xl cursor-pointer"
-        @click="darkModeActivation"
-      ></i>
-      <RouterLink class="hover:text-primaryRed font-medium" to="/"
-        >Accueil</RouterLink
+      <div class="left-content flex items-center gap-[10px]">
+        <RouterLink to="/">
+          <img
+            v-if="!isDark"
+            class="w-[50px] h-[50px]"
+            src="../assets/images/abend-core-logo.png"
+            alt="Logo principal"
+          />
+          <img
+            v-else
+            class="w-[50px] h-[50px]"
+            src="../assets/images/abend-core-logo-dark.png"
+            alt="Logo principal"
+          />
+        </RouterLink>
+        <RouterLink to="/" class="hidden font-medium sm:block"
+          >Abend-core</RouterLink
+        >
+      </div>
+      <div
+        class="hidden sm:flex md:items-center"
+        @click="toggleModal('searchBar')"
       >
-      <RouterLink
-        class="hover:text-primaryRed font-medium"
-        to="/connexion"
-        v-if="!isAuthenticated"
-        >Connexion</RouterLink
-      >
-      <RouterLink
-        class="hover:text-primaryRed font-medium"
-        v-if="isAuthenticated && isAdmin"
-        to="/dashboard"
-        >Dashboard</RouterLink
-      >
-      <div v-if="isAuthenticated" class="relative">
-        <div class="flex gap-2 items-center cursor-pointer" @click="toggleMenu">
+        <div
+          class="relative group cursor-pointer rounded-md dark:border dark:border-black dark:hover:outline dark:hover:outline-1 dark:hover:outline-white hover:outline-1 hover:outline-primaryRed hover:outline"
+        >
+          <i
+            class="ri-search-2-line text-xl text-gray-500 absolute left-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+          ></i>
+          <input
+            type="text"
+            placeholder="Rechercher"
+            class="w-[300px] h-[35px] pl-9 pr-10 rounded-md border border-gray-200 dark:border-0 dark:text-white bg-white dark:bg-gray-900 placeholder:font-medium pointer-events-none"
+          />
+          <div
+            class="absolute top-1/2 transform -translate-y-1/2 right-2 border border-gray-300 dark:border-gray-700 rounded-md p-1"
+          >
+            <kbd
+              class="block text-customdarkGray tracking-tighter text-xs font-bold"
+              >Ctrl K</kbd
+            >
+          </div>
+        </div>
+      </div>
+      <modalSearchBar
+        v-if="modals.searchBar"
+        @close="closeModal('searchBar')"
+      />
+      <div class="flex items-center gap-2 sm:gap-3">
+        <i
+          class="sm:hidden ri-search-2-line text-xl cursor-pointer"
+          @click="toggleModal('searchBar')"
+        ></i>
+        <RouterLink
+          to="/module"
+          v-if="isAuthenticated"
+          class="hidden sm:block hover:text-primaryRed font-medium"
+        >
+          <i class="ri-layout-2-fill text-xl"></i>
+        </RouterLink>
+        <RouterLink
+          to="/favoris"
+          v-if="isAuthenticated"
+          class="hidden sm:block hover:text-primaryRed font-medium"
+        >
+          <i class="ri-heart-fill text-xl text-primaryRed"></i>
+        </RouterLink>
+        <i
+          v-if="!isDark"
+          class="ri-sun-fill text-xl cursor-pointer hover:text-primaryRed"
+          @click="darkModeActivation"
+        ></i>
+        <i
+          v-if="isDark"
+          class="ri-moon-fill text-xl cursor-pointer hover:text-primaryRed"
+          @click="darkModeActivation"
+        ></i>
+        <div
+          v-if="isAuthenticated"
+          class="flex gap-2 items-center cursor-pointer"
+          @click="toggleModal('menu')"
+        >
           <img
             v-if="user && user.image"
-            class="w-[45px] h-[45px] rounded-full"
+            class="hidden sm:block w-[45px] h-[45px] rounded-full"
             :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
             alt="Image de profil"
           />
-          <div class="flex flex-col">
-            <span class="text-[10px]">PROFIL</span>
-            <span class="text-m">{{ user.username }}</span>
-          </div>
         </div>
-        <div
-          v-if="isMenuProfilOpen"
-          class="absolute right-0 w-[125px] h-[120px] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
+        <RouterLink
+          class="hover:text-primaryRed hidden sm:block font-medium"
+          to="/connexion"
+          v-if="!isAuthenticated"
+          >Connexion</RouterLink
         >
-          <div class="flex items-center gap-1">
+        <i
+          class="ri-menu-line text-3xl sm:hidden cursor-pointer"
+          @click="toggleMobileMenu"
+        ></i>
+      </div>
+      <div
+        v-if="modals.menu"
+        class="absolute right-[1%] top-[85%] p-2 bg-white z-10 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
+      >
+        <div class="relative">
+          <div class="flex items-center">
             <RouterLink
               to="/profil"
-              class="text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
-              @click="toggleMenu"
+              class="flex items-center gap-1 text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
+              @click="toggleModal"
             >
               <i class="ri-user-line text-gray-400 text-xl"></i>
               Profil
             </RouterLink>
           </div>
-          <div class="flex items-center gap-1 mb-2">
+          <div class="flex items-center">
             <RouterLink
-              to="/module"
-              class="text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
-              @click="toggleMenu"
+              class="flex items-center gap-1 mb-2 text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
+              v-if="isAuthenticated && isAdmin"
+              to="/dashboard"
+              @click="toggleModal"
+              ><i class="ri-dashboard-fill text-gray-400 text-xl"></i
+              >Dashboard</RouterLink
             >
-              <i class="ri-layout-horizontal-line text-gray-400 text-xl"></i>
-              Module
-            </RouterLink>
           </div>
-          <div>
-            <button
-              class="absolute left-0 right-0 flex items-center gap-1 border-t px-2 group"
-              @click="
-                () => {
-                  toggleMenu();
-                  logOut();
-                }
-              "
+          <button
+            class="flex items-center gap-1 border-t group"
+            @click="
+              () => {
+                closeModal('menu');
+                logOut();
+              }
+            "
+          >
+            <i class="ri-logout-box-line text-gray-400 text-xl mt-2"></i>
+            <span
+              class="text-primaryBlue text-sm dark:text-white group-hover:text-primaryRed mt-2"
             >
-              <i class="ri-logout-box-line text-gray-400 text-xl mt-2"></i>
-              <span
-                class="text-primaryBlue text-sm dark:text-white group-hover:text-primaryRed mt-2"
-              >
-                Déconnexion
-              </span>
-            </button>
-          </div>
+              Déconnexion
+            </span>
+          </button>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </div>
+  <MobileMenu :isOpen="isMobileMenuOpen" :closeMenu="closeMobileMenu" />
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/authStore";
+import { useUser } from "../composables/useUser";
 import { isDark, toggleDarkMode } from "../utils/darkMode.js";
-import { getUserById } from "../api/user";
+import modalSearchBar from "../components/modal/modalSearchBar.vue";
 import "remixicon/fonts/remixicon.css";
+import { useModal } from "../composables/useModal.js";
+import MobileMenu from "../components/MenuMobile.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -122,17 +172,26 @@ const router = useRouter();
 
 const authStore = useAuthStore();
 
+const { getInfosProfile } = useUser();
+const { modals, toggleModal, closeModal } = useModal();
+
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const isAdmin = computed(() => authStore.isAdmin);
 const user = computed(() => authStore.user);
+const isMobileMenuOpen = ref(false);
 
-const isMenuProfilOpen = ref(false);
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
 
-const getInfosProfil = async () => {
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false;
+};
+
+const loadUserProfile = async () => {
   if (!authStore.isAuthenticated || !authStore.user?.id) return;
   try {
-    const response = await getUserById(authStore.user.id);
-    authStore.setUser(response.data.user);
+    await getInfosProfile(authStore.user.id);
   } catch (error) {
     console.error("Erreur lors de la récupération du profil :", error);
   }
@@ -147,14 +206,10 @@ const logOut = () => {
   router.push("/");
 };
 
-const toggleMenu = () => {
-  isMenuProfilOpen.value = !isMenuProfilOpen.value;
-};
-
 onMounted(() => {
   authStore.initializeAuth();
   if (authStore.isAuthenticated) {
-    getInfosProfil();
+    loadUserProfile();
   }
 });
 </script>

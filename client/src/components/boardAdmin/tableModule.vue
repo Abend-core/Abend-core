@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-5"
+    class="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center gap-5 mb-4"
   >
     <div class="relative">
       <input
@@ -11,30 +11,30 @@
         @change="filterSearchModule"
       />
       <span class="absolute left-3 top-1/2 transform -translate-y-1/2">
-        <i class="ri-search-line text-[20px] text-[#D9DCE1]"></i>
+        <i class="ri-search-line text-xl text-customlightGray"></i>
       </span>
     </div>
     <div class="flex gap-3">
-      <p class="text-[#746a6ade] dark:text-gray-400">
+      <p class="text-customGray dark:text-gray-400">
         {{ countModule }} selected
       </p>
     </div>
     <i
-      class="ri-delete-bin-4-fill text-[28px] text-[#D9DCE1] cursor-pointer"
+      class="ri-delete-bin-4-fill text-3xl text-customlightGray cursor-pointer"
       @click="deleteModuleTable"
     ></i>
   </div>
   <modal-add-module @refresh-modules="allModules" />
   <div
-    class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
+    class="bg-white rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
   >
     <table class="w-full">
       <thead>
-        <tr class="text-left border-b border-[#F4F6FA]">
+        <tr class="text-left border-b border-customWhite">
           <th class="p-3">
             <input
-              id="checkbox-dashboad-table-allUsers"
-              name="checkbox_dashboad_table_allUsers"
+              id="checkbox-dashboard-table-allUsers"
+              name="checkbox_dashboard_table_allUsers"
               type="checkbox"
               class="select-users cursor-pointer"
             />
@@ -51,7 +51,7 @@
         <tr
           v-for="module in modules"
           :key="module.id"
-          class="hover:bg-[#F4F6FA] dark:hover:text-black dark:hover:bg-gray-500"
+          class="hover:bg-customWhite dark:hover:text-black dark:hover:bg-gray-500"
         >
           <td class="p-3">
             <input
@@ -72,6 +72,7 @@
               :src="`${apiUrl}/uploadsFile/module/${module.image}`"
               alt="Module image"
               class="w-[50px] h-[50px] rounded-2xl"
+              loading="lazy"
             />
           </td>
           <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
@@ -100,7 +101,6 @@ import {
   filterModule,
   updateModuleById,
 } from "../../api/module";
-import { uploadImageModule } from "../../api/upload";
 import modalAddModule from "../../components/modal/modalAddModule.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";

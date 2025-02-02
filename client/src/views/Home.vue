@@ -1,8 +1,6 @@
 <template>
-  <main class="p-2">
-    <div
-      class="flex items-center justify-center flex-wrap gap-10 mt-[60px] mb-[60px]"
-    >
+  <main class="p-2 max-w-[1400px] mx-auto">
+    <div class="flex items-center justify-center flex-wrap gap-10 mt-16 mb-16">
       <div class="flex" v-for="module in modules" :key="module.id">
         <a
           :href="module.link"
@@ -22,7 +20,7 @@
             <div class="flex items-center gap-2">
               <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
               <i
-                class="ri-verified-badge-fill text-xl lg:text-[26px] text-white cursor-pointer"
+                class="ri-verified-badge-fill text-xl lg:text-2xl text-white cursor-pointer"
               ></i>
             </div>
             <div>
@@ -31,16 +29,16 @@
               </p>
             </div>
             <p class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs">
-              {{ formatDate(module.createdAt) }}
+              {{ module.User.username }}
             </p>
             <i
               v-if="getEtatLike(module.id)"
-              class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-[26px] cursor-pointer text-red-500 z-10"
+              class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
               @click="toggleLike(module.id, $event)"
             ></i>
             <i
               v-else
-              class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-[26px] cursor-pointer z-10"
+              class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10"
               @click="toggleLike(module.id, $event)"
             ></i>
           </div>
@@ -53,7 +51,6 @@
 <script setup>
 import { ref } from "vue";
 import { findAllModulesVisible } from "../api/module";
-import { formatDate } from "../utils/date";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 

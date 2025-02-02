@@ -4,15 +4,16 @@ const router = express.Router();
 //Model & bdd
 import User from "../models/user";
 import Module from "../models/module";
-import Statut from "../models/statut";
 import { Op } from "sequelize";
+
 //Tools
 import Crypt from "../tools/hash";
 import UUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
-import { uploadProfil, resizeimg } from "../tools/multer";
+import Image from "../tools/multer";
 import config from "config";
+
 //Middleware
 import auth from "../middleware/auth/auth";
 import role from "../middleware/role";
@@ -81,56 +82,55 @@ router.get("/:id", auth, (req: Request, res: Response) => {
 });
 
 // Modification d'un utilisateur
-router.put(
+router.put("/:id", auth, async (req: Request, res: Response): Promise<void> => {
+    const id = req.params.id;
+
+    try {
+        const existingMailUser = await User.findOne({
+            where: { mail: req.body.mail, id: { [Op.ne]: id } },
+        });
+
+        if (existingMailUser) {
+            res.status(400).json({
+                message: "Ce mail est déjà utilisé par un autre compte.",
+            });
+            return;
+        }
+
+        const existingUsernameUser = await User.findOne({
+            where: { username: req.body.username, id: { [Op.ne]: id } },
+        });
+
+        if (existingUsernameUser) {
+            res.status(400).json({
+                message:
+                    "Ce nom d'utilisateur est déjà utilisé par un autre compte.",
+            });
+            return;
+        }
+
+        // Mise à jour de l'utilisateur
+        await User.update(req.body, { where: { id: id } });
+        const response = await User.findByPk(id);
+        res.status(200).json({
+            message: "Utilisateur modifié avec succès.",
+            user: response,
+        });
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({
+                message: "Erreur serveur.",
+                erreur: error.message,
+            });
+        }
+    }
+});
+
+//Suppression d'un utilisateur
+router.delete(
     "/:id",
     auth,
     async (req: Request, res: Response): Promise<void> => {
-        const id = req.params.id;
-
-        try {
-            const existingMailUser = await User.findOne({
-                where: { mail: req.body.mail, id: { [Op.ne]: id } },
-            });
-
-            if (existingMailUser) {
-                res.status(400).json({
-                    message: "Ce mail est déjà utilisé par un autre compte.",
-                });
-                return;
-            }
-
-            const existingUsernameUser = await User.findOne({
-                where: { username: req.body.username, id: { [Op.ne]: id } },
-            });
-
-            if (existingUsernameUser) {
-                res.status(400).json({
-                    message:
-                        "Ce nom d'utilisateur est déjà utilisé par un autre compte.",
-                });
-                return;
-            }
-
-            // Mise à jour de l'utilisateur
-            await User.update(req.body, { where: { id: id } });
-            const response = await User.findByPk(id);
-            res.status(200).json({
-                message: "Utilisateur modifié avec succès.",
-                user: response,
-            });
-        } catch (error) {
-            if (error instanceof Error) {
-                res.status(500).json({
-                    message: "Erreur serveur.",
-                    erreur: error.message,
-                });
-            }
-        }
-    }
-);
-
-//Suppression d'un utilisateur
-router.delete("/:id", auth, async (req: Request, res: Response): Promise<void> => {
         try {
             const data = await User.findByPk(req.params.id);
 
@@ -213,8 +213,7 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 
 //Update photo utilisateur
 router.patch("/image", auth, async (req: Request, res: Response) => {
-    
-    uploadProfil.single("image")(req, res, async (err) => {
+    Image.getUploadProfil().single("image")(req, res, async (err) => {
         console.log("req.body : ", req.body);
         if (err) {
             return res.status(500).json({
@@ -229,7 +228,7 @@ router.patch("/image", auth, async (req: Request, res: Response) => {
         }
 
         try {
-            await resizeimg(req, res, async (resizeError) => {
+            await Image.resizeImage(req, res, async (resizeError) => {
                 if (resizeError) {
                     return res.status(500).json({
                         message: "Erreur lors du redimensionnement de l'image.",
@@ -289,7 +288,7 @@ router.patch("/image", auth, async (req: Request, res: Response) => {
     });
 });
 
-//Update password utilisateur
+// Update password utilisateur
 router.patch(
     "/password",
     auth,

@@ -7,7 +7,7 @@
       'bg-gradient-to-r from-[#4bb543] to-[#4bb543] border border-[#4bb543]':
         notificationType === 'success',
     }"
-    class="text-white rounded-[6px] p-4 mt-5"
+    class="text-white rounded-md p-4 mt-5"
   >
     <div>
       <svg

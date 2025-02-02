@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../database/db";
+import User from "../models/user";
 
 interface moduleAttributes {
     id: number;
@@ -40,7 +41,10 @@ Module.init(
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: {
+                name: "unique_name",
+                msg: "Ce nom est déjà utilisé.",
+            },
             validate: {
                 notNull: {
                     msg: "Le nom du module ne doit pas être null.",
@@ -57,6 +61,10 @@ Module.init(
         link: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: {
+                name: "unique_name",
+                msg: "Ce lien est déjà utilisé.",
+            },
             validate: {
                 notNull: {
                     msg: "Le lien du module ne doit pas être null.",
@@ -124,26 +132,13 @@ Module.init(
     }
 );
 
+//Jointure User
+User.hasMany(Module, {
+    onDelete: "CASCADE",
+    foreignKey: "user_id",
+});
+Module.belongsTo(User, {
+    foreignKey: "user_id",
+});
+
 export default Module;
-
-// SELECT
-//     m.id AS module_id,
-//     m.name AS module_name,
-//     m.description,
-//     m.likes AS total_likes,
-//     CASE
-//         WHEN l.UserId IS NOT NULL THEN 1
-//         ELSE 0
-//     END AS is_liked
-// FROM Modules m
-// LEFT JOIN Likes l ON m.id = l.ModuleId AND l.UserId = '019494fe-56f4-75f7-8907-e76dc77dba76'
-// WHERE l.UserId = '019494fe-56f4-75f7-8907-e76dc77dba76';
-
-// SELECT
-//     m.*,
-//     CASE
-//         WHEN l.UserId IS NOT NULL THEN 1
-//         ELSE 0
-//     END AS is_liked
-// FROM Modules m
-// LEFT JOIN Likes l ON m.id = l.ModuleId AND l.UserId = '019494fe-56f4-75f7-8907-e76dc77dba76'

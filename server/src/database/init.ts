@@ -5,7 +5,6 @@ import UUID from "../tools/uuid";
 import sequelize from "./db";
 import User from "../models/user";
 import Module from "../models/module";
-import Statut from "../models/statut";
 import config from "config";
 
 const image: number = config.get("storage.nombreImageBanque");
@@ -14,7 +13,6 @@ const env = config.get("server.env");
 //Data
 const dataUser = require("./data/user");
 const dataModule = require("./data/module");
-const dataStatut = require("./data/statut");
 
 let lastUUID: string;
 if (env == "Dev") {
@@ -37,11 +35,10 @@ if (env == "Dev") {
 
 async function pushDb_dev() {
     try {
+        console.log("");
         console.log("Début de synchronisation...");
-        await initStatus();
         console.log("");
         await initUsers();
-        console.log("");
         await initModules();
         console.log("");
         console.log("Synchronisation terminée !");
@@ -50,12 +47,6 @@ async function pushDb_dev() {
     }
 }
 
-async function initStatus() {
-    for (const data of dataStatut.statuts) {
-        await Statut.create(data);
-    }
-    console.log("Status insérés avec succès.");
-}
 async function initUsers() {
     for (const data of dataUser.users) {
         data.id = "";
@@ -73,16 +64,15 @@ async function initUsers() {
             validate: false,
         });
     }
-    console.log("Utilisateurs insérés avec succès.");
+    console.log("   - ✅ Utilisateurs");
 }
 async function initModules() {
     for (const data of dataModule.modules) {
-        data.id = "";
-
+        data.isShow = true;
         data.id = UUID.v7();
-        
+
         data.user_id = lastUUID;
         await Module.create(data);
     }
-    console.log("Modules insérés avec succès.");
+    console.log("   - ✅ Modules");
 }
