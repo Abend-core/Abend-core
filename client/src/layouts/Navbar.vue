@@ -27,6 +27,7 @@
         >
       </div>
       <div
+        v-if="isAuthenticated"
         class="hidden sm:flex md:items-center"
         @click="toggleModal('searchBar')"
       >
