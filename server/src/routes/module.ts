@@ -16,6 +16,10 @@ import { Op, Sequelize } from "sequelize";
 //Middleware
 import auth from "../middleware/auth/auth";
 
+interface AuthRequest extends Request {
+    user?: { id: string }; // Ajout d'un champ user dans req
+}
+
 // Création d'un nouveau module
 router.post("/", auth, async (req, res) => {
     const data = req.body;
@@ -144,10 +148,9 @@ router.put("/image", auth, (req, res) => {
     });
 });
 
-router.get("/show", async (req, res) => {
-    const userId = req.body.id;
+router.get("/show", auth, async (req: AuthRequest, res) => {
+    const userId = req.user?.id;
     const key = `modules:show:${userId}`;
-    console.log(key);
     try {
         const cachedModules = await Redis.getCache(key);
         if (cachedModules) {
@@ -417,8 +420,9 @@ router.get("/user/:id", auth, async (req, res) => {
 });
 
 // Ajoute en favoris le module
-router.post("/liked", async (req, res) => {
-    const { UserId, ModuleId } = req.body;
+router.post("/liked/:id", auth, async (req: AuthRequest, res) => {
+    const UserId = req.user?.id;
+    const ModuleId = req.params.id;
 
     try {
         const result = await Liked.findOne({
@@ -451,7 +455,6 @@ router.post("/liked", async (req, res) => {
 // Ajoute en visite le module
 router.post("/visited", async (req, res) => {
     const { UserId, ModuleId } = req.body;
-
     try {
         const result = await Visited.findOne({
             where: { UserId: UserId, ModuleId: ModuleId },

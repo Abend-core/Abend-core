@@ -13,8 +13,6 @@ services:
     redis:
         image: redis:7.2
         container_name: Abend-redis
-        ports:
-            - "6379:6379"
         environment:
             - REDIS_PASSWORD=abend-core
         command: redis-server --requirepass abend-core
