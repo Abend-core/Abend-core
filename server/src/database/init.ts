@@ -1,7 +1,6 @@
 //tools
 import Crypt from "../tools/hash";
 import UUID from "../tools/uuid";
-import Redis from "../tools/redis";
 //Db & Model
 import db from "./db";
 import User from "../models/user";
@@ -41,8 +40,6 @@ async function pushDb_dev() {
         console.log("");
         await initUsers();
         await initModules();
-        await Redis.deleteCache("modules:all");
-        await Redis.deleteCache("modules:show");
         await console.log("");
         console.log("Synchronisation terminée !");
     } catch (err) {

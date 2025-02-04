@@ -69,10 +69,6 @@ router.post("/", auth, async (req, res) => {
                 },
             });
 
-            await Promise.all([
-                Redis.setCache("modules:all", modules),
-                Redis.setCache("modules:show:" + data.user_id, modulesShow),
-            ]);
             res.status(200).json({
                 message: "Module créé avec succès.",
                 module,
@@ -150,17 +146,7 @@ router.put("/image", auth, (req, res) => {
 
 router.get("/show", auth, async (req: AuthRequest, res) => {
     const userId = req.user?.id;
-    const key = `modules:show:${userId}`;
     try {
-        const cachedModules = await Redis.getCache(key);
-        if (cachedModules) {
-            res.status(200).json({
-                message: "Tous les modules (depuis le cache).",
-                module: cachedModules,
-            });
-            return;
-        }
-
         const modules = await Module.findAll({
             where: {
                 isShow: true,
@@ -190,8 +176,6 @@ router.get("/show", auth, async (req: AuthRequest, res) => {
                 ],
             },
         });
-
-        await Redis.setCache(key, modules); // Mise en cache
 
         res.status(200).json({ message: "Tous les modules.", modules });
     } catch (error) {
@@ -230,17 +214,7 @@ router.get("/hide", (_req, res) => {
 
 // Selection de tout les modules
 router.get("/", async (_req, res) => {
-    const key = "modules:all";
     try {
-        const result = await Redis.getCache(key);
-        if (result) {
-            res.status(200).json({
-                message: "Tout les modules (depuis le cache).",
-                module: result,
-            });
-            return;
-        }
-
         const modules = await Module.findAll({
             include: [
                 {
@@ -250,8 +224,6 @@ router.get("/", async (_req, res) => {
                 },
             ],
         });
-
-        await Redis.setCache(key, modules);
 
         res.status(200).json({ message: "Tout les modules.", module: modules });
     } catch (error) {
@@ -301,16 +273,7 @@ router.put("/:id", auth, (req, res) => {
                 if (module === null) {
                     res.status(404).json({ message: "Module introuvable." });
                 }
-                const modules = await Module.findAll();
 
-                const modulesShow = modules.filter(
-                    (module) => module.isShow === true
-                );
-
-                await Promise.all([
-                    Redis.setCache("modules:all", modules),
-                    Redis.setCache("modules:show", modulesShow),
-                ]);
                 res.status(200).json({ message: "Module modifié.", module });
             });
         })
@@ -353,16 +316,6 @@ router.delete("/:id", auth, (req, res) => {
 
                 Module.destroy({ where: { id: data.id } })
                     .then(async () => {
-                        const modules = await Module.findAll();
-
-                        const modulesShow = modules.filter(
-                            (module) => module.isShow === true
-                        );
-
-                        await Promise.all([
-                            Redis.setCache("modules:all", modules),
-                            Redis.setCache("modules:show", modulesShow),
-                        ]);
                         res.status(200).json({
                             message: "Module supprimé.",
                             data,
