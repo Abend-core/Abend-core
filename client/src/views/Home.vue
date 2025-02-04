@@ -19,7 +19,9 @@
           <div class="p-3 h-full">
             <div class="flex items-center gap-2">
               <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
+
               <i
+                v-if="module.User.isAdmin"
                 class="ri-verified-badge-fill text-xl lg:text-2xl text-white cursor-pointer"
               ></i>
             </div>
@@ -63,27 +65,27 @@ const authStore = useAuthStore();
 const modules = ref([]);
 const etatLike = ref({});
 
-const id = sessionStorage.getItem("id");
-
 const allModules = async () => {
   try {
     const response = await findAllModulesVisible();
-    modules.value = response.data.module;
+    modules.value = response.data.modules;
+    modules.value.forEach((module) => {
+      etatLike.value[module.id] = module.is_liked === 1;
+    });
   } catch (error) {
     console.error(error);
   }
 };
 
 const getEtatLike = (idModule) => {
-  return etatLike.value[idModule];
+  return etatLike.value[idModule] ?? false;
 };
 
 const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
   etatLike.value[idModule] = !etatLike.value[idModule];
   try {
-    const response = await toggleLike(idModule);
-    console.log(response);
+    await toggleLike(idModule);
   } catch (error) {
     console.error("Erreur lors du like :", error);
     etatLike.value[idModule] = !etatLike.value[idModule];
