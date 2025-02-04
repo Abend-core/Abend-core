@@ -19,5 +19,8 @@
     },
     "storage": {
         "nombreImageBanque": 29
+    },
+    "redis": {
+        "expiration": 84600
     }
 }

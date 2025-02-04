@@ -172,23 +172,23 @@ router.get("/show", auth, async (req: AuthRequest, res) => {
                     attributes: ["username", "isAdmin"],
                 },
             ],
-            // attributes: {
-            //     include: [
-            //         [
-            //             Sequelize.literal(`
-            //                 CASE
-            //                     WHEN EXISTS (
-            //                         SELECT 1 FROM Likes
-            //                         WHERE Likes.ModuleId = Module.id
-            //                         AND Likes.UserId = '${userId}'
-            //                     ) THEN true
-            //                     ELSE false
-            //                 END
-            //             `),
-            //             "is_liked",
-            //         ],
-            //     ],
-            // },
+            attributes: {
+                include: [
+                    [
+                        Sequelize.literal(`
+                            CASE
+                                WHEN EXISTS (
+                                    SELECT 1 FROM Likes
+                                    WHERE Likes.ModuleId = Module.id
+                                    AND Likes.UserId = '${userId}'
+                                ) THEN true
+                                ELSE false
+                            END
+                        `),
+                        "is_liked",
+                    ],
+                ],
+            },
         });
 
         await Redis.setCache(key, modules); // Mise en cache
@@ -420,14 +420,19 @@ router.get("/user/:id", auth, async (req, res) => {
 });
 
 // Ajoute en favoris le module
-router.post("/liked/:id", auth, async (req: AuthRequest, res) => {
+router.post("/liked/:id", auth, async (req: AuthRequest, res: Response) => {
     const UserId = req.user?.id;
     const ModuleId = req.params.id;
 
+    if (!UserId || !ModuleId) {
+        res.status(400).json({ message: "Données manquantes." });
+        return;
+    }
     try {
         const result = await Liked.findOne({
             where: { UserId: UserId, ModuleId: ModuleId },
         });
+        console.log(result);
 
         if (result) {
             await Liked.destroy({
@@ -439,7 +444,10 @@ router.post("/liked/:id", auth, async (req: AuthRequest, res) => {
                 message: "Module enlever des favoris et compteur mis à jour.",
             });
         } else {
-            const like = await Liked.create(req.body);
+            const like = await Liked.create({
+                UserId: UserId,
+                ModuleId: ModuleId,
+            });
             await Module.increment("likes", { where: { id: ModuleId } });
 
             res.status(200).json({

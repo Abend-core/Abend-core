@@ -1,8 +1,10 @@
 import { createClient } from "redis";
+import config from "config";
 
 class Redis {
     private static instance: Redis;
     private client;
+    private expiration: number = config.get("redis.expiration");
     constructor() {
         if (!Redis.instance) {
             this.client = createClient({
@@ -25,12 +27,10 @@ class Redis {
         return this.client;
     }
 
-    async setCache(
-        key: string,
-        value: any,
-        expiration: number = 86400
-    ): Promise<any> {
-        await this.client!.set(key, JSON.stringify(value), { EX: expiration });
+    async setCache(key: string, value: any): Promise<any> {
+        await this.client!.set(key, JSON.stringify(value), {
+            EX: this.expiration,
+        });
     }
 
     async getCache(key: string) {
