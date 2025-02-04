@@ -37,38 +37,6 @@ router.post("/", auth, async (req, res) => {
 
     Module.create(data)
         .then(async (module) => {
-            const modules = await Module.findAll();
-
-            const modulesShow = await Module.findAll({
-                where: {
-                    isShow: true,
-                },
-                include: [
-                    {
-                        model: User,
-                        as: "User",
-                        attributes: ["username", "isAdmin"],
-                    },
-                ],
-                attributes: {
-                    include: [
-                        [
-                            Sequelize.literal(`
-                                CASE 
-                                    WHEN EXISTS (
-                                        SELECT 1 FROM Likes 
-                                        WHERE Likes.ModuleId = Module.id 
-                                        AND Likes.UserId = '${data.user_id}'
-                                    ) THEN 1
-                                    ELSE 0
-                                END
-                            `),
-                            "is_liked",
-                        ],
-                    ],
-                },
-            });
-
             res.status(200).json({
                 message: "Module créé avec succès.",
                 module,
