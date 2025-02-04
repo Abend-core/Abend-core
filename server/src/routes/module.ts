@@ -344,7 +344,6 @@ router.get("/user/:id", auth, async (req, res) => {
 router.post("/liked/:id", auth, async (req: AuthRequest, res: Response) => {
     const UserId = req.user?.id;
     const ModuleId = req.params.id;
-
     if (!UserId || !ModuleId) {
         res.status(400).json({ message: "Données manquantes." });
         return;
@@ -353,7 +352,6 @@ router.post("/liked/:id", auth, async (req: AuthRequest, res: Response) => {
         const result = await Liked.findOne({
             where: { UserId: UserId, ModuleId: ModuleId },
         });
-        console.log(result);
 
         if (result) {
             await Liked.destroy({
