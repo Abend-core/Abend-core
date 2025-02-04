@@ -62,7 +62,15 @@
             class="text-lg font-medium text-black dark:text-white"
             @click="closeMenu"
           >
-            Connexion
+            <i class="ri-door-fill"></i> Connexion
+          </RouterLink>
+          <RouterLink
+            to="/inscription"
+            v-if="!isAuthenticated"
+            class="text-lg font-medium text-black dark:text-white"
+            @click="closeMenu"
+          >
+            <i class="ri-draft-fill"></i> Inscription
           </RouterLink>
         </nav>
       </div>
