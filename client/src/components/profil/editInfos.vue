@@ -59,7 +59,7 @@
       </div>
       <form
         @submit.prevent="updatePassword"
-        class="flex flex-col gap-[22px] bg-white rounded-md mt-3 md:p-paddingMd dark:bg-gray-800 dark:text-white"
+        class="flex flex-col gap-[22px] bg-white rounded-md mt-3 mb-5 md:p-paddingMd dark:bg-gray-800 dark:text-white"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
           <label

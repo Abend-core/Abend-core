@@ -82,7 +82,8 @@ const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
   etatLike.value[idModule] = !etatLike.value[idModule];
   try {
-    await toggleLike({ UserId: id, ModuleId: idModule });
+    const response = await toggleLike(idModule);
+    console.log(response);
   } catch (error) {
     console.error("Erreur lors du like :", error);
     etatLike.value[idModule] = !etatLike.value[idModule];

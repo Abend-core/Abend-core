@@ -1,5 +1,6 @@
 import apiClient from "../api/axios";
 
-export const toggleLike = (data) => {
-  return apiClient.post("/modules/liked", data);
+export const toggleLike = (idModule) => {
+  console.log(idModule);
+  return apiClient.post(`/modules/liked/${idModule}`);
 };
