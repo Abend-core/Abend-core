@@ -3,16 +3,11 @@ import express, { Request, Response } from "express";
 const router = express.Router();
 //Tools
 import UUID from "../tools/uuid";
-import fs from "fs";
-import path from "path";
 import Image from "../tools/multer";
 import Redis from "../tools/redis";
 //Model & bdd
 import Module from "../models/module";
-import Liked from "../models/liked";
-import Visited from "../models/visited";
 import User from "../models/user";
-import { Op, Sequelize } from "sequelize";
 //Middleware
 import auth from "../middleware/auth/auth";
 import ModuleController from "../controller/module";
@@ -214,74 +209,24 @@ router.put("/:id", auth, (req, res) => {
 
 //Suppression d'un module
 router.delete("/:id", auth, (req, res) => {
-    Module.findByPk(req.params.id)
-        .then((data) => {
-            if (data === null) {
-                return res
-                    .status(404)
-                    .json({ message: "Module introuvable.", data });
-            }
-
-            const module = data.get();
-            const fileDelete = path.join("./src/uploads/module/", module.image);
-
-            // Suppression du fichier avant de supprimer le module
-            fs.unlink(fileDelete, (err) => {
-                if (err) {
-                    console.error(
-                        "Erreur lors de la suppression du fichier :",
-                        err
-                    );
-                    return res.status(500).json({
-                        message: "Erreur lors de la suppression du fichier.",
-                        error: err,
-                    });
-                }
-
-                Module.destroy({ where: { id: data.id } })
-                    .then(async () => {
-                        res.status(200).json({
-                            message: "Module supprimé.",
-                            data,
-                        });
-                    })
-                    .catch((error) => {
-                        res.status(500).json({
-                            message: "Erreur lors de la suppression du module.",
-                            error,
-                        });
-                    });
-            });
-        })
-        .catch((error) => {
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        });
+    const moduleId = req.params.id;
+    try {
+        ModuleController.delete(moduleId);
+        res.status(200);
+    } catch (error) {
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
 });
 
 //Filtre module
 router.post("/filtre", async (req, res) => {
-    const search = req.body.search;
-    Module.findAll({
-        include: [
-            {
-                model: User,
-                as: "User",
-                attributes: ["username", "isAdmin"],
-            },
-        ],
-        where: {
-            [Op.or]: [
-                { name: { [Op.like]: "%" + search + "%" } },
-                { "$User.username$": { [Op.like]: "%" + search + "%" } },
-            ],
-        },
-    })
-        .then((module) => {
-            res.status(200).json({ message: "Module trouvé.", module });
-        })
-        .catch((error) => {
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        });
+    const search: string = req.body.search;
+    try {
+        const module = await ModuleController.filtre(search);
+        res.status(200).json({ message: "Module trouvé.", module });
+    } catch (error) {
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
 });
 
 //Liste des modules par utilisateur
@@ -309,24 +254,12 @@ router.post("/liked/:id", auth, async (req: AuthRequest, res: Response) => {
 });
 
 // Ajoute en visite le module
-router.post("/visited", async (req, res) => {
-    const { UserId, ModuleId } = req.body;
+router.post("/visited", auth, async (req: AuthRequest, res) => {
+    const UserId = req.user?.id;
+    const ModuleId = req.params.id;
     try {
-        const result = await Visited.findOne({
-            where: { UserId: UserId, ModuleId: ModuleId },
-        });
-
-        if (!result) {
-            await Module.increment("views", { where: { id: ModuleId } });
-
-            res.status(200).json({
-                message: "Module a reçu une visite et compteur mis à jour.",
-            });
-        }
-
-        res.status(200).json({
-            message: "Vous avez déjà visité ce module.",
-        });
+        await ModuleController.toggleView(UserId!, ModuleId);
+        res.status(200);
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
