@@ -15,7 +15,7 @@ import User from "../models/user";
 import { Op, Sequelize } from "sequelize";
 //Middleware
 import auth from "../middleware/auth/auth";
-
+import ModuleController from "../controller/module";
 interface AuthRequest extends Request {
     user?: { id: string }; // Ajout d'un champ user dans req
 }
@@ -115,36 +115,7 @@ router.put("/image", auth, (req, res) => {
 router.get("/show", auth, async (req: AuthRequest, res) => {
     const userId = req.user?.id;
     try {
-        const modules = await Module.findAll({
-            where: {
-                isShow: true,
-            },
-            include: [
-                {
-                    model: User,
-                    as: "User",
-                    attributes: ["username", "isAdmin"],
-                },
-            ],
-            attributes: {
-                include: [
-                    [
-                        Sequelize.literal(`
-                            CASE
-                                WHEN EXISTS (
-                                    SELECT 1 FROM Likes
-                                    WHERE Likes.ModuleId = Module.id
-                                    AND Likes.UserId = '${userId}'
-                                ) THEN true
-                                ELSE false
-                            END
-                        `),
-                        "is_liked",
-                    ],
-                ],
-            },
-        });
-
+        const modules = await ModuleController.show(userId!);
         res.status(200).json({ message: "Tous les modules.", modules });
     } catch (error) {
         console.error(error);
@@ -153,35 +124,19 @@ router.get("/show", auth, async (req: AuthRequest, res) => {
 });
 
 // Selection de tout les modules invisible
-router.get("/hide", (_req, res) => {
-    Module.findAll({
-        where: {
-            isShow: false,
-        },
-        include: [
-            {
-                model: User,
-                as: "User",
-                attributes: ["username", "isAdmin"],
-            },
-        ],
-    })
-        .then((module) => {
-            res.status(200).json({ message: "Tout les modules.", module });
-        })
-        .catch((error) => {
-            if (error.name === "SequelizeValidationError") {
-                const errors = error.errors.map(
-                    (err: { message: any }) => err.message
-                );
-                return res.status(400).json({ errors });
-            }
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        });
+router.get("/hide", auth, async (req: AuthRequest, res) => {
+    const userId = req.user?.id;
+    try {
+        const modules = await ModuleController.hide(userId!);
+        res.status(200).json({ message: "Tous les modules.", modules });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
 });
 
 // Selection de tout les modules
-router.get("/", async (_req, res) => {
+router.get("/", async (req, res) => {
     try {
         const modules = await Module.findAll({
             include: [
@@ -344,36 +299,9 @@ router.get("/user/:id", auth, async (req, res) => {
 router.post("/liked/:id", auth, async (req: AuthRequest, res: Response) => {
     const UserId = req.user?.id;
     const ModuleId = req.params.id;
-    if (!UserId || !ModuleId) {
-        res.status(400).json({ message: "Données manquantes." });
-        return;
-    }
     try {
-        const result = await Liked.findOne({
-            where: { UserId: UserId, ModuleId: ModuleId },
-        });
-
-        if (result) {
-            await Liked.destroy({
-                where: { UserId: UserId, ModuleId: ModuleId },
-            });
-            await Module.decrement("likes", { where: { id: ModuleId } });
-
-            res.status(200).json({
-                message: "Module enlever des favoris et compteur mis à jour.",
-            });
-        } else {
-            const like = await Liked.create({
-                UserId: UserId,
-                ModuleId: ModuleId,
-            });
-            await Module.increment("likes", { where: { id: ModuleId } });
-
-            res.status(200).json({
-                message: "Module mis en favoris et compteur mis à jour.",
-                like,
-            });
-        }
+        await ModuleController.toggleLike(UserId!, ModuleId);
+        res.status(200);
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
@@ -403,32 +331,11 @@ router.post("/visited", async (req, res) => {
     }
 });
 
-// Sélection de tous les modules avec la colonne `is_liked`
+// Sélection de tous les modules mis en favoris par l'utilisateur
 router.get("/liked/:id", async (req, res) => {
+    const userId = req.params.id;
     try {
-        const userId = req.params.id;
-
-        const modules = await Module.findAll({
-            attributes: {
-                include: [
-                    [
-                        Sequelize.literal(`
-              CASE
-                WHEN EXISTS (
-                  SELECT 1
-                  FROM Likes
-                  WHERE Likes.ModuleId = Module.id
-                  AND Likes.UserId = '${userId}'
-                ) THEN 1
-                ELSE 0
-              END
-            `),
-                        "is_liked",
-                    ],
-                ],
-            },
-        });
-
+        const modules = ModuleController.moduleLikeByUser(userId);
         res.status(200).json({ message: "Tous les modules.", modules });
     } catch (error) {
         console.error(error);
