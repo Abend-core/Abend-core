@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 backdrop-blur"
+    class="w-full dark:bg-gray-800 backdrop-blur border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50"
     @keydown.esc="closeModal('searchBar')"
     tabindex="0"
   >

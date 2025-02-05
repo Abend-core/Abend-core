@@ -267,7 +267,7 @@
     </div>
   </div>
 
-  <footer class="bg-white dark:bg-gray-800 m-4">
+  <footer class="bg-white dark:bg-gray-800">
     <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
       <div class="sm:flex sm:items-center sm:justify-between">
         <a
@@ -302,11 +302,16 @@
       <hr
         class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"
       />
-      <span
-        class="block text-sm text-gray-500 sm:text-center dark:text-gray-400"
-        >© 2025 <a href="/" class="hover:text-primaryRed">Abend-core</a>. All
-        Rights Reserved.</span
-      >
+      <div class="flex justify-between">
+        <span
+          class="block text-sm text-gray-500 sm:text-center dark:text-gray-400"
+          >© 2025 <a href="/" class="hover:text-primaryRed">Abend-core</a>. All
+          Rights Reserved.</span
+        >
+        <a href="https://github.com/Abend-core/Abend-core" target="_blank">
+          <i class="ri-github-fill text-3xl text-black dark:text-white"></i>
+        </a>
+      </div>
     </div>
   </footer>
 </template>

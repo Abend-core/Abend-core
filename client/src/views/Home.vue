@@ -70,7 +70,7 @@ const allModules = async () => {
     const response = await findAllModulesVisible();
     modules.value = response.data.modules;
     modules.value.forEach((module) => {
-      etatLike.value[module.id] = module.is_liked === 1;
+      etatLike.value[module.id] = module.favoris === true;
     });
   } catch (error) {
     console.error(error);

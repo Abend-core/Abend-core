@@ -6,3 +6,13 @@
   background-color: #f82b30;
   color: white;
 }
+
+html,
+body {
+  @apply bg-white;
+}
+
+html.dark,
+body.dark {
+  @apply bg-gray-800;
+}

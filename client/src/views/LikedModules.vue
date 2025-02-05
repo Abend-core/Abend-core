@@ -12,6 +12,7 @@ const allModulesLiked = async () => {
   try {
     const response = await displayLikedModules();
     modules.value = response.data.modules;
+    console.log(response);
   } catch (error) {
     console.error(error);
   }
