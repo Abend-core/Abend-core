@@ -87,10 +87,7 @@ class ModuleController {
     }
     async moduleLikeByUser(userId: string) {
         const modules = await this.show(userId);
-        const likedModules = modules.filter(
-            (module) => module.favoris === true
-        );
-
+        const likedModules = modules.filter((module) => module.favoris == true);
         return likedModules;
     }
     #deleteLike(UserId: string, ModuleId: string) {

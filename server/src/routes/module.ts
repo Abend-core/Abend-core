@@ -165,12 +165,13 @@ router.get("/", async (req, res) => {
 // Selection d'un module
 router.get("/:id", (req, res) => {
     const id = req.params.id;
+    console.log("COUCOU");
     Module.findAll({ where: { user_id: id } })
         .then((modules) => {
             if (modules.length > 0) {
                 res.status(200).json({ message: "Modules trouvés.", modules });
             } else {
-                res.status(200).json({
+                res.status(400).json({
                     message: "Aucun module trouvé.",
                     modules: [],
                 });
@@ -332,10 +333,10 @@ router.post("/visited", async (req, res) => {
 });
 
 // Sélection de tous les modules mis en favoris par l'utilisateur
-router.get("/liked/:id", async (req, res) => {
-    const userId = req.params.id;
+router.get("/liked/user", auth, async (req: AuthRequest, res) => {
+    const userId = req.user?.id;
     try {
-        const modules = ModuleController.moduleLikeByUser(userId);
+        const modules = await ModuleController.moduleLikeByUser(userId!);
         res.status(200).json({ message: "Tous les modules.", modules });
     } catch (error) {
         console.error(error);
