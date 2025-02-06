@@ -13,6 +13,7 @@ import { Op, Sequelize } from "sequelize";
 //Middleware
 import auth from "../middleware/auth/auth";
 
+
 class ModuleController {
 
     async getAll(){
@@ -30,8 +31,9 @@ class ModuleController {
 
     async showAdmin(){
         const modules = await this.getAll()
-        return modules
-        // const moduleAdmin = modules.filter((module) => module. == true);
+        
+        const moduleAdmin = modules.filter((module) => module.User.isAdmin === true);
+        return moduleAdmin;
     }
 
     async getModule(userId: string){

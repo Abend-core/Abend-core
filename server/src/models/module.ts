@@ -29,6 +29,7 @@ class Module
     public likes!: number;
     public isShow!: boolean;
     public user_id!: string;
+    User: any;
 }
 
 Module.init(
@@ -137,8 +138,7 @@ User.hasMany(Module, {
     onDelete: "CASCADE",
     foreignKey: "user_id",
 });
-Module.belongsTo(User, {
-    foreignKey: "user_id",
-});
+Module.belongsTo(User, { foreignKey: "user_id", as: "User" });
+
 
 export default Module;
