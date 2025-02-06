@@ -219,16 +219,15 @@ router.post("/filtre", async (req, res) => {
     }
 });
 
-//Liste des modules par utilisateur
+//Recuperation de toute les informations d'un utilisateur (info user/info modules/favoris)
 router.get("/user/:id", auth, async (req, res) => {
-    const id = req.params.id;
-    Module.findByPk(id)
-        .then((module) => {
-            res.status(200).json({ message: "Modules trouvés.", module });
-        })
-        .catch((error) => {
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        });
+    const userId = req.params.id;
+    try{
+        const userData = await ModuleController.getUserData(userId)
+        res.status(200).json({ message: "Modules trouvés.", userData });
+    }catch (error){
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
 });
 
 // Ajoute en favoris le module
@@ -256,7 +255,7 @@ router.post("/visited", auth, async (req: AuthRequest, res) => {
 });
 
 // Sélection de tous les modules mis en favoris par l'utilisateur
-router.get("/liked/user", auth, async (req: AuthRequest, res) => {
+router.get("/liked", auth, async (req: AuthRequest, res) => {
     const userId = req.user?.id;
     try {
         const modules = await ModuleController.moduleLikeByUser(userId!);

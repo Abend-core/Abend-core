@@ -5,5 +5,5 @@ export const toggleLike = (idModule) => {
 };
 
 export const displayLikedModules = () => {
-  return apiClient.get("/modules/liked/user");
+  return apiClient.get("/modules/liked");
 };

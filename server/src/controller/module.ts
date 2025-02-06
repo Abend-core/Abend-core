@@ -111,6 +111,12 @@ class ModuleController {
         return likedModules;
     }
 
+    async getUserData(userId: string){
+        const ModuleUser = await this.getModule(userId)
+        const FavorisUser = await this.moduleLikeByUser(userId)
+        return { ModuleUser, FavorisUser};
+    }
+
     async filtre(search: string) {
         const modules = Module.findAll({
             include: [
