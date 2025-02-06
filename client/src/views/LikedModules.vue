@@ -1,6 +1,6 @@
 <template>
-  <main class="flex items-center justify-center gap-3 h-[40vh]">
-    <div class="flex" v-for="module in modules" :key="module.id">
+  <main class="flex items-center justify-center flex-wrap gap-3 h-[40vh]">
+    <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
       <a
         :href="module.link"
         class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
@@ -49,45 +49,45 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { displayLikedModules } from "../api/like";
 import { toggleLike } from "../api/like";
+import { useLikeStore } from "../stores/likeStore";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-const etatLike = ref({});
-
+const likeStore = useLikeStore();
 const modules = ref([]);
 
 const allModulesLiked = async () => {
   try {
     const response = await displayLikedModules();
     modules.value = response.data.modules;
-    modules.value.forEach((module) => {
-      etatLike.value[module.id] = module.favoris === true;
-    });
+    likeStore.setEtatLike(modules.value);
   } catch (error) {
     console.error(error);
   }
 };
 
+const modulesToDisplay = computed(() => {
+  return modules.value.filter((module) => likeStore.etatLike[module.id]);
+});
+
 const getEtatLike = (idModule) => {
-  return etatLike.value[idModule] ?? false;
+  return likeStore.etatLike[idModule] ?? false;
 };
 
 const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
-  etatLike.value[idModule] = !etatLike.value[idModule];
   try {
-    if (!etatLike.value[idModule]) {
-      modules.value = modules.value.filter((module) => module.id !== idModule);
-    }
+    await likeStore.toggleLike(idModule);
     await toggleLike(idModule);
   } catch (error) {
     console.error("Erreur lors du like :", error);
-    etatLike.value[idModule] = !etatLike.value[idModule];
   }
 };
 
-allModulesLiked();
+onMounted(() => {
+  allModulesLiked();
+});
 </script>

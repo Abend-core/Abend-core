@@ -1,7 +1,8 @@
 <template>
   <main class="p-2 max-w-[1400px] mx-auto">
     <div class="flex items-center justify-center flex-wrap gap-10 mt-16 mb-16">
-      <div class="flex" v-for="module in modules" :key="module.id">
+      <!-- Afficher les modules en fonction de l'état d'authentification -->
+      <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
         <a
           :href="module.link"
           class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
@@ -35,7 +36,7 @@
               :to="`/profil/${module.User.username}`"
               >{{ module.User.username }}</router-link
             >
-            <div v-if="isAuthenticated">
+            <div v-if="authStore.isAuthenticated">
               <i
                 v-if="getEtatLike(module.id)"
                 class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
@@ -50,107 +51,70 @@
           </div>
         </a>
       </div>
-      <div
-        v-if="!isAuthenticated"
-        class="flex"
-        v-for="module in modulesAdmin"
-        :key="module.id"
-      >
-        <a
-          :href="module.link"
-          class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
-          :style="{
-            border: `1px solid black`,
-          }"
-          target="_blank"
-        >
-          <img
-            class="absolute w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
-            :src="`${apiUrl}/uploadsFile/module/${module.image}`"
-            alt="Photo du module"
-            loading="lazy"
-          />
-          <div class="p-3 h-full">
-            <div class="flex items-center gap-2">
-              <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
-
-              <i
-                v-if="module.User.isAdmin"
-                class="ri-verified-badge-fill text-xl lg:text-2xl text-white cursor-pointer"
-              ></i>
-            </div>
-            <div>
-              <p class="mt-4 lg:mt-6 text-sm lg:text-base">
-                {{ module.content }}
-              </p>
-            </div>
-            <router-link
-              class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"
-              :to="`/profil/${module.User.username}`"
-              >{{ module.User.username }}</router-link
-            >
-          </div>
-        </a>
-      </div>
     </div>
   </main>
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
-import { findAllModulesVisible, findAllModulesAdmin } from "../api/module";
+import { ref, computed, watch, onMounted } from "vue";
 import { toggleLike } from "../api/like";
 import { useAuthStore } from "../stores/authStore";
+import { useModuleStore } from "../stores/moduleStore";
+import { useLikeStore } from "../stores/likeStore";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-const { isAuthenticated } = useAuthStore();
+const authStore = useAuthStore();
+const moduleStore = useModuleStore();
+const likeStore = useLikeStore();
 
-const modules = ref([]);
-const etatLike = ref({});
-const modulesAdmin = ref([]);
-
-const allModules = async () => {
-  try {
-    const response = await findAllModulesVisible();
-    modules.value = response.data.modules;
-    modules.value.forEach((module) => {
-      etatLike.value[module.id] = module.favoris === true;
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const allModulesAdmin = async () => {
-  try {
-    const response = await findAllModulesAdmin();
-    modulesAdmin.value = response.data.modules;
-  } catch (error) {
-    console.error(error);
-  }
-};
+const modulesToDisplay = computed(() => {
+  return authStore.isAuthenticated
+    ? moduleStore.modules
+    : moduleStore.modulesAdmin;
+});
 
 const getEtatLike = (idModule) => {
-  return etatLike.value[idModule] ?? false;
+  return likeStore.etatLike[idModule] ?? false;
 };
 
 const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
-  etatLike.value[idModule] = !etatLike.value[idModule];
   try {
+    await likeStore.toggleLike(idModule);
     await toggleLike(idModule);
   } catch (error) {
     console.error("Erreur lors du like :", error);
-    etatLike.value[idModule] = !etatLike.value[idModule];
   }
 };
 
-watchEffect(() => {
-  if (isAuthenticated) {
-    allModules();
+const initializeLikes = (modules) => {
+  modules.forEach((module) => {
+    likeStore.etatLike[module.id] = module.favoris === true;
+  });
+};
+
+watch(
+  () => authStore.isAuthenticated,
+  (isAuthenticated) => {
+    if (isAuthenticated) {
+      moduleStore.allModules().then(() => {
+        initializeLikes(moduleStore.modules);
+      });
+    } else {
+      moduleStore.allModulesAdmin();
+    }
+  },
+  { immediate: true }
+);
+
+onMounted(() => {
+  if (authStore.isAuthenticated) {
+    moduleStore.allModules().then(() => {
+      initializeLikes(moduleStore.modules);
+    });
   } else {
-    allModulesAdmin();
+    moduleStore.allModulesAdmin();
   }
 });
 </script>

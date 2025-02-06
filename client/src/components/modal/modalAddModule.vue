@@ -123,19 +123,13 @@ const handleFileChange = (event) => {
 
 const addModulesDashboard = async () => {
   try {
-    const response = await addModules({
-      name: dataModule.name.value,
-      link: dataModule.link.value,
-      content: dataModule.content.value,
-      user_id: id,
-    });
-
-    if (response.status === 200 && selectedImageFile.value) {
-      const formData = new FormData();
-      formData.append("id", response.data.module.id);
-      formData.append("image", selectedImageFile.value);
-      const uploadResponse = await uploadImageModule(formData);
-    }
+    const formData = new FormData();
+    formData.append("image", selectedImageFile.value);
+    formData.append("name", dataModule.name.value);
+    formData.append("link", dataModule.link.value);
+    formData.append("content", dataModule.content.value);
+    formData.append("user_id", id);
+    await addModules(formData);
 
     displayModalModule();
     dataModule.name.value = "";
