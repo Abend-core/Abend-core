@@ -28,8 +28,12 @@ export const filterModule = (data) => {
 };
 
 // Récupération des modules selon un id
-export const getModuleById = (id) => {
-  return apiClient.get(`/modules/${id}`);
+export const getModuleById = () => {
+  return apiClient.get(`/modules/user`);
+};
+
+export const getInfosUserByUsername = (username) => {
+  return apiClient.get(`/modules/user/${username}`);
 };
 
 // Modification selon un id et des données

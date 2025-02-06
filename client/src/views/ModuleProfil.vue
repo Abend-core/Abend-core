@@ -122,14 +122,12 @@ const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const { setNotification } = useNotificationStore();
 
-const id = sessionStorage.getItem("id");
-
 const modules = ref([]);
 const editingModuleId = ref(null);
 
 const getModulesById = async () => {
   try {
-    const response = await getModuleById(id);
+    const response = await getModuleById();
     modules.value = response.data.modules || [];
   } catch (error) {
     setNotification(error.response?.data?.message, "error");

@@ -10,6 +10,7 @@ import ForgetPassword from "../views/ForgetPassword.vue";
 import ModuleProfil from "../views/ModuleProfil.vue";
 import LikedModules from "../views/LikedModules.vue";
 import HomeV2 from "../views/HomeV2.vue";
+import ProfilModules from "../views/ProfilModules.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
@@ -25,6 +26,14 @@ const routes = [
     path: "/profil",
     name: "ProfilPage",
     component: Profil,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/profil/:username",
+    name: "ProfilModule",
+    component: ProfilModules,
     meta: {
       requiresAuth: true,
     },

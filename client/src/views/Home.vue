@@ -30,9 +30,11 @@
                 {{ module.content }}
               </p>
             </div>
-            <p class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs">
-              {{ module.User.username }}
-            </p>
+            <router-link
+              class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"
+              :to="`/profil/${module.User.username}`"
+              >{{ module.User.username }}</router-link
+            >
             <div v-if="authStore.isAuthenticated">
               <i
                 v-if="getEtatLike(module.id)"
