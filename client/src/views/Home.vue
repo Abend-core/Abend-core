@@ -56,7 +56,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { findAllModulesVisible } from "../api/module";
+import { findAllModulesVisible, findAllModulesAdmin } from "../api/module";
 import { toggleLike } from "../api/like";
 import { useAuthStore } from "../stores/authStore";
 
@@ -78,6 +78,16 @@ const allModules = async () => {
     console.error(error);
   }
 };
+
+const allModulesAdmin = async () => {
+  try {
+    const response = await findAllModulesAdmin();
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+allModulesAdmin();
 
 const getEtatLike = (idModule) => {
   return etatLike.value[idModule] ?? false;

@@ -12,6 +12,10 @@ export const findAllModulesVisible = () => {
   return apiClient.get("/modules/show");
 };
 
+export const findAllModulesAdmin = () => {
+  return apiClient.get("/modules/showAdmin");
+};
+
 // Création
 export const addModules = (data) => {
   return apiClient.post("/modules/", data);
