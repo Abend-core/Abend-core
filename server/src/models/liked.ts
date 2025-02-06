@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import db from "../database/db";
 
 import User from "../models/user";
-import Module from "../models/module";
+import { Module } from "../models/module";
 
 interface LikedAttributes {
     UserId: string;

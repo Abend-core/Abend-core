@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 const router = express.Router();
 //Model & bdd
 import User from "../models/user";
-import Module from "../models/module";
+import { Module } from "../models/module";
 import { Op } from "sequelize";
 
 //Tools

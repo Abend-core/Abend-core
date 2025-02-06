@@ -4,7 +4,7 @@ import UUID from "../tools/uuid";
 //Db & Model
 import db from "./db";
 import User from "../models/user";
-import Module from "../models/module";
+import { Module } from "../models/module";
 import config from "config";
 
 const image: number = config.get("storage.nombreImageBanque");
@@ -38,8 +38,7 @@ async function pushDb_dev() {
         console.log("");
         console.log("Début de synchronisation...");
         console.log("");
-        await initUsers(),
-        await initModules()
+        await initUsers(), await initModules();
         console.log("");
         console.log("Synchronisation terminée !");
     } catch (err) {
