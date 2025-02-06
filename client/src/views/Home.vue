@@ -35,7 +35,7 @@
               :to="`/profil/${module.User.username}`"
               >{{ module.User.username }}</router-link
             >
-            <div v-if="authStore.isAuthenticated">
+            <div v-if="isAuthenticated">
               <i
                 v-if="getEtatLike(module.id)"
                 class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
@@ -50,22 +50,65 @@
           </div>
         </a>
       </div>
+      <div
+        v-if="!isAuthenticated"
+        class="flex"
+        v-for="module in modulesAdmin"
+        :key="module.id"
+      >
+        <a
+          :href="module.link"
+          class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
+          :style="{
+            border: `1px solid black`,
+          }"
+          target="_blank"
+        >
+          <img
+            class="absolute w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
+            :src="`${apiUrl}/uploadsFile/module/${module.image}`"
+            alt="Photo du module"
+            loading="lazy"
+          />
+          <div class="p-3 h-full">
+            <div class="flex items-center gap-2">
+              <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
+
+              <i
+                v-if="module.User.isAdmin"
+                class="ri-verified-badge-fill text-xl lg:text-2xl text-white cursor-pointer"
+              ></i>
+            </div>
+            <div>
+              <p class="mt-4 lg:mt-6 text-sm lg:text-base">
+                {{ module.content }}
+              </p>
+            </div>
+            <router-link
+              class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"
+              :to="`/profil/${module.User.username}`"
+              >{{ module.User.username }}</router-link
+            >
+          </div>
+        </a>
+      </div>
     </div>
   </main>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { findAllModulesVisible, findAllModulesAdmin } from "../api/module";
 import { toggleLike } from "../api/like";
 import { useAuthStore } from "../stores/authStore";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-const authStore = useAuthStore();
+const { isAuthenticated } = useAuthStore();
 
 const modules = ref([]);
 const etatLike = ref({});
+const modulesAdmin = ref([]);
 
 const allModules = async () => {
   try {
@@ -82,12 +125,11 @@ const allModules = async () => {
 const allModulesAdmin = async () => {
   try {
     const response = await findAllModulesAdmin();
-    console.log(response);
+    modulesAdmin.value = response.data.modules;
   } catch (error) {
     console.error(error);
   }
 };
-allModulesAdmin();
 
 const getEtatLike = (idModule) => {
   return etatLike.value[idModule] ?? false;
@@ -104,7 +146,13 @@ const toggleLikeModule = async (idModule, event) => {
   }
 };
 
-allModules();
+watchEffect(() => {
+  if (isAuthenticated) {
+    allModules();
+  } else {
+    allModulesAdmin();
+  }
+});
 </script>
 
 <style scoped>

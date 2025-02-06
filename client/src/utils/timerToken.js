@@ -12,7 +12,9 @@ export const startTokenTimer = (token, router, authStore) => {
     }
   };
 
-  setTimeout(() => {
+  const interval = setInterval(() => {
     checkTokenExpiration();
-  }, expirationTime);
+  }, 30 * 1000);
+
+  return () => clearInterval(interval);
 };
