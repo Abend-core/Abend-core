@@ -14,6 +14,11 @@ import { Op, Sequelize } from "sequelize";
 import auth from "../middleware/auth/auth";
 
 class ModuleController {
+    async getModule(userId: string){
+        const modules = await Module.findAll({ where: { user_id: userId } })
+        return modules;
+    }
+
     async show(userId: string) {
         const modules = await Module.findAll({
             where: { isShow: true },

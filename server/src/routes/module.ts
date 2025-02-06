@@ -157,28 +157,18 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Selection d'un module
-router.get("/:id", (req, res) => {
-    const id = req.params.id;
-    console.log("COUCOU");
-    Module.findAll({ where: { user_id: id } })
-        .then((modules) => {
-            if (modules.length > 0) {
-                res.status(200).json({ message: "Modules trouvés.", modules });
-            } else {
-                res.status(400).json({
-                    message: "Aucun module trouvé.",
-                    modules: [],
-                });
-            }
-        })
-        .catch((error) => {
-            console.error("Erreur serveur :", error);
-            res.status(500).json({
-                message: "Erreur serveur lors de la récupération des modules.",
-                erreur: error.message,
-            });
+// Selection des modules de l'utilisateur connecté
+router.get("/user", auth, async (req: AuthRequest, res) => {
+    const idUser = req.user?.id;
+    try{
+        const modules = await ModuleController.getModule(idUser!);
+        res.status(200).json({ modules });
+    }catch(error){
+        res.status(500).json({
+            message: "Erreur serveur.",
+            erreur: error,
         });
+    }
 });
 
 // Modification d'un module
