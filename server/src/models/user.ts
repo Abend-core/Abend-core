@@ -2,7 +2,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 import db from "../database/db";
 
 interface UserAttributes {
-    id: number;
+    id: string;
     username: string;
     mail: string;
     image: string;
@@ -16,7 +16,7 @@ class User
     extends Model<UserAttributes, UserCreationAttributes>
     implements UserAttributes
 {
-    public id!: number;
+    public id!: string;
     public username!: string;
     public mail!: string;
     public image!: string;

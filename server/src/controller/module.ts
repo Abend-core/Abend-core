@@ -111,9 +111,17 @@ class ModuleController {
         return likedModules;
     }
 
-    async getUserData(userId: string){
-        const ModuleUser = await this.getModule(userId)
-        const FavorisUser = await this.moduleLikeByUser(userId)
+    async getUserData(userName: string){
+        const user = await User.findOne({ where: { username: userName } });
+        
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const userId = user?.id
+        const [ModuleUser, FavorisUser] = await Promise.all([
+            this.getModule(userId),
+            this.moduleLikeByUser(userId)
+        ]);
         return { ModuleUser, FavorisUser};
     }
 

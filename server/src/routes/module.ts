@@ -220,10 +220,10 @@ router.post("/filtre", async (req, res) => {
 });
 
 //Recuperation de toute les informations d'un utilisateur (info user/info modules/favoris)
-router.get("/user/:id", auth, async (req, res) => {
-    const userId = req.params.id;
+router.get("/user/:username", auth, async (req, res) => {
+    const userName = req.params.username;
     try{
-        const userData = await ModuleController.getUserData(userId)
+        const userData = await ModuleController.getUserData(userName)
         res.status(200).json({ message: "Modules trouvés.", userData });
     }catch (error){
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
