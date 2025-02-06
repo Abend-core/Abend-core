@@ -26,7 +26,7 @@ class ModuleController {
                 {
                     model: User,
                     as: "User",
-                    attributes: ["username", "isAdmin"],
+                    attributes: ["id","username", "isAdmin"],
                 },
             ],
         });
