@@ -101,7 +101,6 @@ User.init(
         },
     },
     {
-        
         sequelize: db.abend,
         modelName: "User",
         tableName: "Users",

@@ -6,7 +6,7 @@ import UUID from "../tools/uuid";
 import Image from "../tools/multer";
 import Redis from "../tools/redis";
 //Model & bdd
-import Module from "../models/module";
+import { Module } from "../models/module";
 import User from "../models/user";
 //Middleware
 import auth from "../middleware/auth/auth";
@@ -16,95 +16,60 @@ interface AuthRequest extends Request {
 }
 
 // Création d'un nouveau module
-router.post("/", auth, async (req, res) => {
-    const data = req.body;
-    const link: string = req.body.link;
-    const response: string = checkLink(link);
-    data.id = UUID.v7();
+router.post(
+    "/",
+    auth,
+    Image.getUploadModule().single("image"),
+    Image.resizeImage,
+    async (req, res) => {
+        const file = req.file;
+        const data = req.body;
+        data.id = UUID.v7();
+        data.isShow = true;
 
-    data.isShow = true;
-    if (response != "ok") {
-        res.status(400).json({
-            message: "Le lien ne correspond pas au format attendu.",
-        });
-        return;
-    }
-
-    Module.create(data)
-        .then(async (module) => {
-            res.status(200).json({
-                message: "Module créé avec succès.",
-                module,
-            });
-        })
-        .catch((error) => {
-            if (error.name === "SequelizeValidationError") {
-                const errors = error.errors.map(
-                    (err: { message: any }) => err.message
-                );
-                return res.status(400).json({ errors });
-            }
+        try {
+            await ModuleController.add(data, file!);
+            res.status(200).json();
+        } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        });
-});
+        }
+    }
+);
 
 // Ajout d'une image a un module.
 router.put("/image", auth, (req, res) => {
-    Image.getUploadModule().single("image")(req, res, async (err) => {
-        // Vérification des erreurs
-        if (err) {
-            return res.status(500).json({
-                message: "Erreur lors de l'upload de l'image.",
-                error: err.message,
-            });
-        }
-        if (!req.file) {
-            return res
-                .status(400)
-                .json({ message: "Aucun fichier n'a été téléchargé." });
-        }
-
-        try {
-            await Image.resizeImage(req, res, async (resizeError) => {
-                if (resizeError) {
-                    return res.status(500).json({
-                        message: "Erreur lors de la compression de l'image.",
-                        error: resizeError.message,
-                    });
-                }
-
-                const filePath = req.file!.path;
-                const fileName = req.file!.filename;
-
-                await Module.update(
-                    { image: fileName },
-                    {
-                        where: { id: req.body.id },
+    Image.getUploadModule().single("image"),
+        Image.resizeImage(req, res, async (err) => {
+            try {
+                await Image.resizeImage(req, res, async (resizeError) => {
+                    if (resizeError) {
+                        return res.status(500).json({
+                            message:
+                                "Erreur lors de la compression de l'image.",
+                            error: resizeError.message,
+                        });
                     }
-                );
 
-                res.status(200).json({
-                    message: "Image téléchargée et compressée avec succès.",
-                    file: {
-                        path: filePath,
-                        name: fileName,
-                    },
+                    const filePath = req.file!.path;
+                    const fileName = req.file!.filename;
+
+                    await Module.update(
+                        { image: fileName },
+                        {
+                            where: { id: req.body.id },
+                        }
+                    );
+
+                    // res.status(200).json({
+                    //     message: "Image téléchargée et compressée avec succès.",
+                    //     file: {
+                    //         path: filePath,
+                    //         name: fileName,
+                    //     },
+                    // });
                 });
-            });
-        } catch (resizeError: unknown) {
-            if (resizeError instanceof Error) {
-                return res.status(500).json({
-                    message:
-                        "Erreur inattendue lors de la compression de l'image.",
-                    error: resizeError.message,
-                });
-            } else {
-                return res.status(500).json({
-                    message: "Erreur inconnue lors de la compression.",
-                });
-            }
-        }
-    });
+            } catch (resizeError: unknown) {}
+        });
 });
 
 router.get("/showAdmin", async (req, res) => {
@@ -153,10 +118,10 @@ router.get("/", async (req, res) => {
 // Selection des modules de l'utilisateur connecté
 router.get("/user", auth, async (req: AuthRequest, res) => {
     const idUser = req.user?.id;
-    try{
+    try {
         const modules = await ModuleController.getModule(idUser!);
         res.status(200).json({ modules });
-    }catch(error){
+    } catch (error) {
         res.status(500).json({
             message: "Erreur serveur.",
             erreur: error,
@@ -215,10 +180,10 @@ router.post("/filtre", async (req, res) => {
 //Recuperation de toute les informations d'un utilisateur (info user/info modules/favoris)
 router.get("/user/:username", auth, async (req, res) => {
     const userName = req.params.username;
-    try{
-        const userData = await ModuleController.getUserData(userName)
+    try {
+        const userData = await ModuleController.getUserData(userName);
         res.status(200).json({ message: "Modules trouvés.", userData });
-    }catch (error){
+    } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
 });

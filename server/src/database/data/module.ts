@@ -23,6 +23,12 @@ const modules = [
         image: "portfolio.png",
         content: "Ceci est une description temporaire.",
     },
+    {
+        name: "Portfolio Lucas",
+        link: "https://lucas-rolland.netlify.app/",
+        image: "portfolio.png",
+        content: "Ceci est une description temporaire.",
+    },
 ];
 
 export { modules };

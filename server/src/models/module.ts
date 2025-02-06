@@ -140,5 +140,4 @@ User.hasMany(Module, {
 });
 Module.belongsTo(User, { foreignKey: "user_id", as: "User" });
 
-
-export default Module;
+export { Module, moduleCreationAttributes };

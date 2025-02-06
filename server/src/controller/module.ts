@@ -5,7 +5,7 @@ import path from "path";
 import Image from "../tools/multer";
 import Redis from "../tools/redis";
 //Model & bdd
-import Module from "../models/module";
+import { Module, moduleCreationAttributes } from "../models/module";
 import Like from "../models/liked";
 import Visited from "../models/visited";
 import User from "../models/user";
@@ -13,36 +13,44 @@ import { Op, Sequelize } from "sequelize";
 //Middleware
 import auth from "../middleware/auth/auth";
 
-
 class ModuleController {
+    async add(data: moduleCreationAttributes, file: object) {
+        if (!file) {
+            throw new Error("Document manquant");
+        }
+        await Module.create(data);
+        return;
+    }
 
-    async getAll(){
+    async getAll() {
         const modules = await Module.findAll({
             include: [
                 {
                     model: User,
                     as: "User",
-                    attributes: ["id","username", "isAdmin"],
+                    attributes: ["id", "username", "isAdmin"],
                 },
-            ]
-        })
+            ],
+        });
         return modules;
     }
 
-    async showAdmin(){
-        const modules = await this.getAll()
-        
-        const moduleAdmin = modules.filter((module) => module.User.isAdmin === true);
+    async showAdmin() {
+        const modules = await this.getAll();
+
+        const moduleAdmin = modules.filter(
+            (module) => module.User.isAdmin === true
+        );
         return moduleAdmin;
     }
 
-    async getModule(userId: string){
-        const modules = await Module.findAll({ where: { user_id: userId } })
+    async getModule(userId: string) {
+        const modules = await Module.findAll({ where: { user_id: userId } });
         return modules;
     }
 
     async show(userId: string) {
-        const modules = await this.getAll()
+        const modules = await this.getAll();
         const moduleShow = modules.filter((module) => module.isShow == true);
 
         const modulesId = moduleShow.map((module) => module.id);
@@ -125,18 +133,18 @@ class ModuleController {
         return likedModules;
     }
 
-    async getUserData(userName: string){
+    async getUserData(userName: string) {
         const user = await User.findOne({ where: { username: userName } });
-        
+
         if (!user) {
-            throw new Error('User not found');
+            throw new Error("User not found");
         }
-        const userId = user?.id
+        const userId = user?.id;
         const [ModuleUser, FavorisUser] = await Promise.all([
             this.getModule(userId),
-            this.moduleLikeByUser(userId)
+            this.moduleLikeByUser(userId),
         ]);
-        return { user, ModuleUser, FavorisUser};
+        return { user, ModuleUser, FavorisUser };
     }
 
     async filtre(search: string) {
