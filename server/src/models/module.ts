@@ -1,9 +1,9 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import db from "../database/db";
-import User from "../models/user";
+import { User } from "../models/user";
 
 interface moduleAttributes {
-    id: number;
+    id: string;
     name: string;
     link: string;
     image: string;
@@ -20,7 +20,7 @@ class Module
     extends Model<moduleAttributes, moduleCreationAttributes>
     implements moduleAttributes
 {
-    public id!: number;
+    public id!: string;
     public name!: string;
     public link!: string;
     public image!: string;

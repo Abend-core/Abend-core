@@ -10,10 +10,10 @@ interface UserAttributes {
     isAdmin: boolean;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+interface userCreationAttributes extends Optional<UserAttributes, "id"> {}
 
 class User
-    extends Model<UserAttributes, UserCreationAttributes>
+    extends Model<UserAttributes, userCreationAttributes>
     implements UserAttributes
 {
     public id!: string;
@@ -107,4 +107,4 @@ User.init(
     }
 );
 
-export default User;
+export { User, userCreationAttributes };

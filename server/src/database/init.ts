@@ -3,7 +3,7 @@ import Crypt from "../tools/hash";
 import UUID from "../tools/uuid";
 //Db & Model
 import db from "./db";
-import User from "../models/user";
+import { User } from "../models/user";
 import { Module } from "../models/module";
 import config from "config";
 

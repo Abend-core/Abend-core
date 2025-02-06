@@ -7,10 +7,10 @@ import config from "config";
 const imageCount: number = config.get("storage.nombreImageBanque");
 
 //Modele & bdd
-import User from "../models/user";
+import { User, userCreationAttributes } from "../models/user";
 
 class AuthController {
-    async register(userData: any) {
+    async register(userData: userCreationAttributes) {
         userData.id = UUID.v7();
 
         if (!userData.image) {
@@ -28,7 +28,7 @@ class AuthController {
         );
     }
 
-    async signin(userData: any) {
+    async signin(userData: userCreationAttributes) {
         const user = await User.findOne({
             where: { mail: userData.mail },
         });

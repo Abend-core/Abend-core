@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import db from "../database/db";
 
-import User from "../models/user";
+import { User } from "../models/user";
 import { Module } from "../models/module";
 
 interface LikedAttributes {

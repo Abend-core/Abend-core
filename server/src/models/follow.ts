@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import db from "../database/db";
-import User from "../models/user";
+import { User } from "../models/user";
 
 interface FollowAttributes {
     UserId: string;
@@ -38,7 +38,6 @@ Follow.init(
         },
     },
     {
-        
         sequelize: db.abend,
         modelName: "Follow",
         tableName: "Follows",

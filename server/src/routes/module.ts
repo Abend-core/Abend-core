@@ -2,12 +2,8 @@
 import express, { Request, Response } from "express";
 const router = express.Router();
 //Tools
-import UUID from "../tools/uuid";
 import Image from "../tools/multer";
 import Redis from "../tools/redis";
-//Model & bdd
-import { Module } from "../models/module";
-import User from "../models/user";
 //Middleware
 import auth from "../middleware/auth/auth";
 import ModuleController from "../controller/module";
@@ -24,9 +20,6 @@ router.post(
     async (req, res) => {
         const file = req.file;
         const data = req.body;
-        data.id = UUID.v7();
-        data.isShow = true;
-
         try {
             await ModuleController.add(data, file!);
             res.status(200).json();
@@ -35,42 +28,6 @@ router.post(
         }
     }
 );
-
-// Ajout d'une image a un module.
-// router.put("/image", auth, (req, res) => {
-//     Image.getUploadModule().single("image"),
-//         Image.resizeImage(req, res, async (err) => {
-//             try {
-//                 await Image.resizeImage(req, res, async (resizeError) => {
-//                     if (resizeError) {
-//                         return res.status(500).json({
-//                             message:
-//                                 "Erreur lors de la compression de l'image.",
-//                             error: resizeError.message,
-//                         });
-//                     }
-
-//                     const filePath = req.file!.path;
-//                     const fileName = req.file!.filename;
-
-//                     await Module.update(
-//                         { image: fileName },
-//                         {
-//                             where: { id: req.body.id },
-//                         }
-//                     );
-
-//                     // res.status(200).json({
-//                     //     message: "Image téléchargée et compressée avec succès.",
-//                     //     file: {
-//                     //         path: filePath,
-//                     //         name: fileName,
-//                     //     },
-//                     // });
-//                 });
-//             } catch (resizeError: unknown) {}
-//         });
-// });
 
 router.get("/showAdmin", async (req, res) => {
     try {

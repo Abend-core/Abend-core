@@ -2,24 +2,26 @@
 import UUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
-import Image from "../tools/multer";
 import Redis from "../tools/redis";
 //Model & bdd
 import { Module, moduleCreationAttributes } from "../models/module";
 import Like from "../models/liked";
 import Visited from "../models/visited";
-import User from "../models/user";
-import { Op, Sequelize } from "sequelize";
-//Middleware
-import auth from "../middleware/auth/auth";
+import { User } from "../models/user";
+import { Op } from "sequelize";
 
 class ModuleController {
-    async add(data: moduleCreationAttributes, file: object) {
+    async add(data: moduleCreationAttributes, file: Express.Multer.File) {
+        data.id = UUID.v7();
+        data.isShow = true;
+        data.image = file.filename;
         if (!file) {
             throw new Error("Bad request.");
         }
         const message = await this.#checkLink(data.link);
         if (message != "ok") {
+            const fileDelete = path.join("./src/uploads/module/", data.image);
+            fs.promises.unlink(fileDelete);
             throw new Error("Bad request.");
         }
         await Module.create(data);
