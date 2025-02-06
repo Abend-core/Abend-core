@@ -16,13 +16,26 @@ import auth from "../middleware/auth/auth";
 class ModuleController {
     async add(data: moduleCreationAttributes, file: object) {
         if (!file) {
-            throw new Error("Document manquant");
+            throw new Error("Bad request.");
+        }
+        const message = await this.#checkLink(data.link);
+        if (message != "ok") {
+            throw new Error("Bad request.");
         }
         await Module.create(data);
         return;
     }
 
-    // async update(moduleId) {}
+    async update(moduleId: string, data: moduleCreationAttributes) {
+        const module = await Module.findByPk(moduleId);
+        if (!module) {
+            throw new Error("Bad request.");
+        }
+        await Module.update(data, {
+            where: { id: moduleId },
+        });
+        return;
+    }
 
     async getAll() {
         const modules = await Module.findAll({
@@ -201,6 +214,99 @@ class ModuleController {
     #addLike(UserId: string, ModuleId: string) {
         Like.create({ UserId: UserId, ModuleId: ModuleId });
         Module.increment("likes", { where: { id: ModuleId } });
+    }
+
+    #checkLink(link: string): string {
+        let message: string = "ok";
+        if (link.includes("https://") == false) {
+            message = "Le lien n'est pas au bon format.";
+            return message;
+        }
+        const parts = link.split("//");
+        if (parts[0] != "https:") {
+            message = "Le lien n'est pas au bon format.";
+            return message;
+        }
+
+        const domainExtension = parts[1];
+        const split = domainExtension.split(".");
+        for (let i = 0; i < split.length - 1; i++) {
+            message = this.#blackList(split[i]);
+        }
+        if (message != "ok") {
+            return message;
+        }
+        message = this.#goodList(split[split.length - 1]);
+
+        return message;
+    }
+
+    #goodList(text: string): string {
+        const listeExtension: Array<string> = [
+            "fr",
+            "com",
+            "org",
+            "app",
+            "net",
+            "pt",
+            "es",
+            "pro",
+            "de",
+            "ru",
+            "ir",
+            "in",
+            "uk",
+            "au",
+            "ua",
+            "tv",
+            "de",
+            "online",
+            "info",
+            "eu",
+            "tk",
+            "cn",
+            "xyz",
+            "site",
+            "top",
+            "icu",
+        ];
+
+        const containsExtension = listeExtension.some((extension) =>
+            text.includes(extension)
+        );
+        if (!containsExtension) {
+            return "Le lien n'est pas au bon format.";
+        }
+
+        return "ok";
+    }
+
+    #blackList(text: string): string {
+        const listeDomaine: Array<string> = [
+            "porn",
+            "porno",
+            "sexe",
+            "adult",
+            "xxx",
+            "sex",
+            "onlyfans",
+            "escort",
+            "camgirl",
+            "casino",
+            "gambling",
+            "bet",
+            "poker",
+            "ads",
+        ];
+        // Construire une expression régulière pour détecter des mots interdits
+        const regex = new RegExp(`\\b(${listeDomaine.join("|")})\\b`, "i");
+
+        // Vérifier si le texte correspond à la liste des mots interdits
+        if (regex.test(text)) {
+            return "Le lien n'est pas au bon format.";
+        }
+
+        return "ok";
     }
 }
 

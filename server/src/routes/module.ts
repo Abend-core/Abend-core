@@ -130,31 +130,15 @@ router.get("/user", auth, async (req: AuthRequest, res) => {
 });
 
 // Modification d'un module
-router.put("/:id", auth, (req, res) => {
-    const id = req.params.id;
+router.put("/:id", auth, async (req, res) => {
+    const moduleId = req.params.id;
+    const data = req.body;
     try {
-    } catch (error) {}
-    Module.update(req.body, {
-        where: { id: id },
-    })
-        .then((_) => {
-            return Module.findByPk(id).then(async (module) => {
-                if (module === null) {
-                    res.status(404).json({ message: "Module introuvable." });
-                }
-
-                res.status(200).json({ message: "Module modifié.", module });
-            });
-        })
-        .catch((error) => {
-            if (error.name === "SequelizeValidationError") {
-                const errors = error.errors.map(
-                    (err: { message: any }) => err.message
-                );
-                return res.status(400).json({ errors });
-            }
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        });
+        await ModuleController.update(moduleId, data);
+        res.status(200).json();
+    } catch (error) {
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
 });
 
 //Suppression d'un module
@@ -225,98 +209,5 @@ router.get("/liked", auth, async (req: AuthRequest, res) => {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
 });
-
-function checkLink(link: string): string {
-    let message: string = "ok";
-    if (link.includes("https://") == false) {
-        message = "Le lien n'est pas au bon format.";
-        return message;
-    }
-    const parts = link.split("//");
-    if (parts[0] != "https:") {
-        message = "Le lien n'est pas au bon format.";
-        return message;
-    }
-
-    const domainExtension = parts[1];
-    const split = domainExtension.split(".");
-    for (let i = 0; i < split.length - 1; i++) {
-        message = blackList(split[i]);
-    }
-    if (message != "ok") {
-        return message;
-    }
-    message = goodList(split[split.length - 1]);
-
-    return message;
-}
-
-function goodList(text: string): string {
-    const listeExtension: Array<string> = [
-        "fr",
-        "com",
-        "org",
-        "app",
-        "net",
-        "pt",
-        "es",
-        "pro",
-        "de",
-        "ru",
-        "ir",
-        "in",
-        "uk",
-        "au",
-        "ua",
-        "tv",
-        "de",
-        "online",
-        "info",
-        "eu",
-        "tk",
-        "cn",
-        "xyz",
-        "site",
-        "top",
-        "icu",
-    ];
-
-    const containsExtension = listeExtension.some((extension) =>
-        text.includes(extension)
-    );
-    if (!containsExtension) {
-        return "Le lien n'est pas au bon format.";
-    }
-
-    return "ok";
-}
-
-function blackList(text: string): string {
-    const listeDomaine: Array<string> = [
-        "porn",
-        "porno",
-        "sexe",
-        "adult",
-        "xxx",
-        "sex",
-        "onlyfans",
-        "escort",
-        "camgirl",
-        "casino",
-        "gambling",
-        "bet",
-        "poker",
-        "ads",
-    ];
-    // Construire une expression régulière pour détecter des mots interdits
-    const regex = new RegExp(`\\b(${listeDomaine.join("|")})\\b`, "i");
-
-    // Vérifier si le texte correspond à la liste des mots interdits
-    if (regex.test(text)) {
-        return "Le lien n'est pas au bon format.";
-    }
-
-    return "ok";
-}
 
 export default router;
