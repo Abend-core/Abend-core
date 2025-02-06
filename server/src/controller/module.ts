@@ -14,24 +14,36 @@ import { Op, Sequelize } from "sequelize";
 import auth from "../middleware/auth/auth";
 
 class ModuleController {
-    async getModule(userId: string){
-        const modules = await Module.findAll({ where: { user_id: userId } })
-        return modules;
-    }
 
-    async show(userId: string) {
+    async getAll(){
         const modules = await Module.findAll({
-            where: { isShow: true },
             include: [
                 {
                     model: User,
                     as: "User",
                     attributes: ["id","username", "isAdmin"],
                 },
-            ],
-        });
+            ]
+        })
+        return modules;
+    }
 
-        const modulesId = modules.map((module) => module.id);
+    async showAdmin(){
+        const modules = await this.getAll()
+        return modules
+        // const moduleAdmin = modules.filter((module) => module. == true);
+    }
+
+    async getModule(userId: string){
+        const modules = await Module.findAll({ where: { user_id: userId } })
+        return modules;
+    }
+
+    async show(userId: string) {
+        const modules = await this.getAll()
+        const moduleShow = modules.filter((module) => module.isShow == true);
+
+        const modulesId = moduleShow.map((module) => module.id);
 
         const likedModules = await Like.findAll({
             where: {

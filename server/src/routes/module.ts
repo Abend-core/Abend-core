@@ -107,6 +107,16 @@ router.put("/image", auth, (req, res) => {
     });
 });
 
+router.get("/showAdmin", async (req, res) => {
+    try {
+        const modules = await ModuleController.showAdmin();
+        res.status(200).json({ modules });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
+});
+
 router.get("/show", auth, async (req: AuthRequest, res) => {
     const userId = req.user?.id;
     try {
@@ -133,27 +143,10 @@ router.get("/hide", auth, async (req: AuthRequest, res) => {
 // Selection de tout les modules
 router.get("/", async (req, res) => {
     try {
-        const modules = await Module.findAll({
-            include: [
-                {
-                    model: User,
-                    as: "User",
-                    attributes: ["username", "isAdmin"],
-                },
-            ],
-        });
-
-        res.status(200).json({ message: "Tout les modules.", module: modules });
+        const modules = await ModuleController.getAll();
+        res.status(200).json({ module: modules });
     } catch (error) {
-        if (error instanceof Error) {
-            if (error.name === "SequelizeValidationError") {
-                const errors = (error as any).errors?.map(
-                    (err: { message: any }) => err.message
-                );
-                res.status(400).json({ errors });
-            }
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        }
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
 });
 
