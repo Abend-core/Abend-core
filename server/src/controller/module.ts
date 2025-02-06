@@ -122,7 +122,7 @@ class ModuleController {
             this.getModule(userId),
             this.moduleLikeByUser(userId)
         ]);
-        return { ModuleUser, FavorisUser};
+        return { user, ModuleUser, FavorisUser};
     }
 
     async filtre(search: string) {
