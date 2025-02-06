@@ -38,9 +38,11 @@ async function pushDb_dev() {
         console.log("");
         console.log("Début de synchronisation...");
         console.log("");
-        await initUsers();
-        await initModules();
-        await console.log("");
+        await Promise.all([
+            initUsers(),
+            initModules()
+        ]);
+        console.log("");
         console.log("Synchronisation terminée !");
     } catch (err) {
         console.error("Erreur :", err);
