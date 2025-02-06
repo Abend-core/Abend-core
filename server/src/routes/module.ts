@@ -212,7 +212,7 @@ router.delete("/:id", auth, (req, res) => {
     const moduleId = req.params.id;
     try {
         ModuleController.delete(moduleId);
-        res.status(200).json();
+        res.status(200).json({ message: "Suppression réussis."});
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
