@@ -208,11 +208,11 @@ router.put("/:id", auth, (req, res) => {
 });
 
 //Suppression d'un module
-router.delete("/:id", auth, (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
     const moduleId = req.params.id;
     try {
-        ModuleController.delete(moduleId);
-        res.status(200).json({ message: "Suppression réussis."});
+        await ModuleController.delete(moduleId);
+        res.status(200).json();
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
