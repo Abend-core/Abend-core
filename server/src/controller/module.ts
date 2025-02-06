@@ -22,6 +22,8 @@ class ModuleController {
         return;
     }
 
+    // async update(moduleId) {}
+
     async getAll() {
         const modules = await Module.findAll({
             include: [
