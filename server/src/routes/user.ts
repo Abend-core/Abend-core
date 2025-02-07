@@ -89,7 +89,11 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 });
 
 //Update photo utilisateur
+<<<<<<< HEAD
 router.put(
+=======
+router.patch(
+>>>>>>> acad352 (fix: rename folders)
     "/image",
     auth,
     Image.getUploadProfil().single("image"),
