@@ -27,7 +27,6 @@ class UserController {
             where: { id: userData.id },
             validate: false,
         });
-        return;
     }
 
     async getAll() {
@@ -62,7 +61,6 @@ class UserController {
         }
 
         await User.update(userData, { where: { id: userId } });
-        return;
     }
 
     async filtre(search: string) {
@@ -102,7 +100,6 @@ class UserController {
         user.password = await Crypt.hash(data.newPassword);
         const userData = user.get();
         await this.update(userId, userData);
-        return;
     }
 
     async image(userData: userCreationAttributes, file: Express.Multer.File) {
@@ -121,7 +118,6 @@ class UserController {
         const data = user.get();
 
         await this.update(data.id, data);
-        return;
     }
     
     async delete(userId: string){
@@ -143,8 +139,7 @@ class UserController {
         await Promise.all([
             Module.destroy({ where: { user_id: userId } }),
             User.destroy({ where: { id: userId } })
-        ]);
-        return;      
+        ]);      
     }
 }
 
