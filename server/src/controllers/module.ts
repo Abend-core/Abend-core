@@ -9,7 +9,6 @@ import Like from "../models/liked";
 import Visited from "../models/visited";
 import { User } from "../models/user";
 import { Op } from "sequelize";
-import redis from "../tools/redis";
 
 interface ModuleWithFavoris extends Module {
     favoris: boolean;

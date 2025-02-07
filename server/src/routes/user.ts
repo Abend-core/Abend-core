@@ -89,7 +89,7 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 });
 
 //Update photo utilisateur
-router.patch(
+router.put(
     "/image",
     auth,
     Image.getUploadProfil().single("image"),
