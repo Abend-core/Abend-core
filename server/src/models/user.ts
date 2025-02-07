@@ -46,8 +46,8 @@ User.init(
                     msg: "L'identifiant ne doit pas être vide.",
                 },
                 len: {
-                    args: [1, 255],
-                    msg: "Trop de caractères, 255 maximum.",
+                    args: [1, 15],
+                    msg: "Trop de caractères, 15 maximum.",
                 },
             },
         },
@@ -90,8 +90,8 @@ User.init(
                     msg: "Le mot de passe ne doit pas être vide.",
                 },
                 len: {
-                    args: [8, 255],
-                    msg: "Le mot de passe doit contenir [8 à 255] caractères.",
+                    args: [8, 64],
+                    msg: "Le mot de passe doit contenir [8 à 130] caractères.",
                 },
             },
         },
