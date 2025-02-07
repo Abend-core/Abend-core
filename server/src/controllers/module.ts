@@ -65,9 +65,8 @@ class ModuleController {
 
   async showAdmin() {
     const modules = await this.getAll();
-
     const moduleAdmin = modules.filter(
-      (module: Module) => module.User.isAdmin === true
+      (module: Module) => module.User.isAdmin === 1
     );
     return moduleAdmin;
   }
