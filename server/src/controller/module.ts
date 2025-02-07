@@ -85,9 +85,9 @@ class ModuleController {
         const modules = await this.getAll();
         console.log("Controlleur | Modules : ", modules)
         const moduleShow = modules.filter((module: Module) => module.isShow == true);
-
+        console.log("Controlleur | Module show : ", moduleShow)
         const modulesId = moduleShow.map((module: Module) => module.id);
-
+        console.log("Controlleur | Modules ID : ", modulesId)
         const likedModules = await Like.findAll({
             where: {
                 ModuleId: modulesId,
@@ -95,9 +95,11 @@ class ModuleController {
             },
             attributes: ["ModuleId"],
         });
+        console.log("Controlleur | LikedModules : ", likedModules)
         const likedModuleIds = new Set(
             likedModules.map((like) => like.ModuleId)
         );
+        console.log("Controlleur | set avec LikedModuleIds : ", likedModuleIds)
         const formattedModules = modules.map((module: Module) => ({
             ...module.toJSON(),
             favoris: likedModuleIds.has(module.id.toString()),
