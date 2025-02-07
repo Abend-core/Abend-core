@@ -59,9 +59,7 @@ class ModuleController {
                     attributes: ["id", "username", "isAdmin"],
                 },
             ],
-            raw: true,
         });
-        
         Redis.setCache(KEYS.modules, modules)
         return modules;
     }
