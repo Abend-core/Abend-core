@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <h1>{{ user.username }}</h1>
+  <div class="flex items-center justify-center flex-col pt-5">
     <img
-      class="rounded-full border border-white p-1 bg-white"
+      class="w-[100px] h-[100px] rounded-full border border-white p-1 bg-white"
       :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
       alt="Image"
     />
+    <p class="text-2xl mb-5">{{ user.username }}</p>
   </div>
-  <p>Mes modules</p>
+  <p class="text-center">Mes modules</p>
   <div class="flex flex-wrap justify-center gap-3 p-3">
     <div class="flex" v-for="module in modules" :key="module.id">
       <a
@@ -37,7 +37,7 @@
       </a>
     </div>
   </div>
-  <p>Mes favoris</p>
+  <p class="text-center">Mes favoris</p>
   <div class="flex flex-wrap justify-center gap-3 p-3">
     <div class="flex" v-for="module in moduleFav" :key="module.id">
       <a
@@ -87,7 +87,6 @@ const username = route.params.username;
 const getInfos = async () => {
   try {
     const response = await getInfosUserByUsername(username);
-    console.log(response);
     user.value = response.data.userData.user;
     modules.value = response.data.userData.ModuleUser;
     moduleFav.value = response.data.userData.FavorisUser;
