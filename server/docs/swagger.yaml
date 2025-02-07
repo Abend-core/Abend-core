@@ -14,6 +14,7 @@ tags:
       description: Opérations liées aux modules
 
 paths:
+    # Authentification 2
     /auth/signin:
         post:
             tags:
@@ -135,6 +136,8 @@ paths:
                                         example: Erreur serveur.
                                     erreur: 
                                         type: object
+    # Utilisateur 8
+    # 2
     /users:
         get:
             tags:
@@ -227,7 +230,8 @@ paths:
                                         type: string
                                         example: Erreur serveur.
                                     erreur: 
-                                        type: object
+                                        type: object 
+    # 3
     /users/{id}:
         get:
             tags:
@@ -545,6 +549,8 @@ paths:
                                     message:
                                         type: string
                                         example: Erreur serveur.
+    # Module 13
+    # 2
     /modules:
         get:
             tags:
@@ -653,6 +659,7 @@ paths:
                                         example: Erreur serveur.
                                     erreur: 
                                         type: object
+    # 3
     /modules/{id}:
         get:
             tags:
@@ -837,11 +844,8 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
-                                        type: string
-                                        example: Module trouvé.
-                                    user: 
-                                        type: object         
+                                    module:
+                                        type: object     
                 500:
                     description: Le serveur a rencontré une erreur.
                     content:
@@ -854,42 +858,21 @@ paths:
                                         example: Erreur serveur.
                                     erreur: 
                                         type: object
-    /modules/image:
-        patch:
+    /modules/showAdmin:
+        get:
             tags:
                 - Modules
-            summary: Modifier l'image du module
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            required:
-                                - id
-                                - image
-                            properties:
-                                id:
-                                    type: string
-                                    description: 0194a43e-8212-7107-806a-9e224db48a0d
-                                image:
-                                    type: string
-                                    format: binary
-                                    description: Fichier image à télécharger
+            summary: Afficher les modules administrateur
             responses:
                 200:
-                    description: L'image à bien été modifiée.
+                    description: Affichage des modules
                     content:
                         application/json:
                             schema:
                                 type: object
                                 properties:
-                                    message:
-                                        type: string
-                                        example: Image téléchargée et redimensionné avec succès.
-                                    file: 
+                                    modules:
                                         type: object
-                                        example: path & name
                 400:
                     description: Mauvaise requete.
                     content:
@@ -923,10 +906,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
-                                        type: string
-                                        example: Tout les modules.
-                                    user: 
+                                    modules:
                                         type: object
                 500:
                     description: Le serveur a rencontré une erreur.
@@ -953,10 +933,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
-                                        type: string
-                                        example: Tout les modules.
-                                    user: 
+                                    Modules:
                                         type: object
                 500:
                     description: Le serveur a rencontré une erreur.
@@ -970,31 +947,32 @@ paths:
                                         example: Erreur serveur.
                                     erreur: 
                                         type: object
-    /modules/user/{id}:
+    /modules/user/{username}:
         get:
             tags:
                 - Modules
-            summary: Récupérer tout les modules d'un utilisateur
+            summary: Récupérer toute les informations d'un utilisateur
             parameters:
-            - name: id
+            - name: username
               in: path
-              description: L'identifiant de l'utilisateur a qui on veut lister ses modules
+              description: L'username de l'utilisateur a qui on veut lister ses informations
               required: true
               schema:
                   type: string
-                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+                  example: Jerome
             responses:
                 200:
-                    description: Module récupéré.
+                    description: Informations récupéré.
                     content:
                         application/json:
                             schema:
                                 type: object
                                 properties:
-                                    message:
-                                        type: string
-                                        example: Module trouvé.
-                                    user: 
+                                    user:
+                                        type: object
+                                    ModuleUser:
+                                        type: object
+                                    FavorisUser:
                                         type: object
                 404:
                     description: Element inexistant.
