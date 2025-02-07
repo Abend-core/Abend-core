@@ -1,5 +1,6 @@
 //Model & bdd
 import { User, userCreationAttributes } from "../models/user";
+import {Module, moduleCreationAttributes} from "../models/module"
 import { Op } from "sequelize";
 
 //Tools
@@ -31,6 +32,7 @@ class UserController {
 
     async getAll() {
         const users = User.findAll({
+            attributes: { exclude: ['password'] },
             order: [["createdAt", "desc"]],
         });
         return users;
@@ -65,6 +67,7 @@ class UserController {
 
     async filtre(search: string) {
         const users = await User.findAll({
+            attributes: { exclude: ['password'] },
             where: {
                 [Op.or]: [
                     { username: { [Op.like]: "%" + search + "%" } },
@@ -107,13 +110,11 @@ class UserController {
             throw new Error("Bad request.");
         }
         const user = await User.findOne({ where: { id: userData.id } });
-        console.log("Premier : ", user);
         if (!user) {
             throw new Error("User not found");
         }
         if (!user.image.includes("bank")) {
             const fileDelete = path.join("./src/uploads/profil/", user.image);
-            console.log("File a suprimer :", fileDelete);
             await fs.promises.unlink(fileDelete);
         }
         user.image = file.filename;
@@ -121,6 +122,29 @@ class UserController {
 
         await this.update(data.id, data);
         return;
+    }
+    
+    async delete(userId: string){
+        const user = await User.findByPk(userId);
+        if (!user) {
+            throw new Error("User not found");
+        }
+        const modules = await Module.findAll({
+            where: { user_id: userId},
+        });
+        await Promise.all(modules.map(async (module) => {
+            const fileDeleteModule = path.join("./src/uploads/module/", module.image);
+            await fs.promises.unlink(fileDeleteModule);
+        }));
+        if (!user.image.includes("bank")) {
+            const fileDeleteUser = path.join("./src/uploads/profil/",user.image );
+            await fs.promises.unlink(fileDeleteUser);
+        }   
+        await Promise.all([
+            Module.destroy({ where: { user_id: userId } }),
+            User.destroy({ where: { id: userId } })
+        ]);
+        return;      
     }
 }
 

@@ -151,7 +151,10 @@ class ModuleController {
     }
 
     async getUserData(userName: string) {
-        const user = await User.findOne({ where: { username: userName } });
+        const user = await User.findOne({ 
+            attributes: { exclude: ['password'] },
+            where: { username: userName } 
+        });
 
         if (!user) {
             throw new Error("User not found");
