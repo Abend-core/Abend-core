@@ -34,7 +34,7 @@ export const editUserById = (id, data) => {
 
 // Modification du mot de passe
 export const editPasswordById = (data) => {
-  return apiClient.patch("/users/password", data);
+  return apiClient.put("/users/password", data);
 };
 
 // Modification de la photo de profil

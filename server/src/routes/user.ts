@@ -107,7 +107,7 @@ router.patch(
 );
 
 // Update password utilisateur
-router.patch(
+router.put(
   "/password",
   auth,
   async (req: AuthRequest, res: Response): Promise<void> => {

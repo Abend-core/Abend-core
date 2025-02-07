@@ -103,7 +103,6 @@ class UserController {
         user.password = await Crypt.hash(data.newPassword);
         const userData = user.get();
         await this.update(userId, userData);
-        
     }
 
     async image(userData: userCreationAttributes, file: Express.Multer.File) {
