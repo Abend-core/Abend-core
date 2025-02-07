@@ -2,7 +2,7 @@
 import Crypt from "../tools/hash";
 import UUID from "../tools/uuid";
 import jwt from "jsonwebtoken";
-import privateKey from "../middleware/auth/key";
+import privateKey from "../middlewares/auth/key";
 import config from "config";
 const imageCount: number = config.get("storage.nombreImageBanque");
 

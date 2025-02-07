@@ -5,8 +5,8 @@ const router = express.Router();
 import Image from "../tools/multer";
 import Redis from "../tools/redis";
 //Middleware
-import auth from "../middleware/auth/auth";
-import ModuleController from "../controller/module";
+import auth from "../middlewares/auth/auth";
+import ModuleController from "../controllers/module";
 interface AuthRequest extends Request {
     user?: { id: string }; // Ajout d'un champ user dans req
 }
