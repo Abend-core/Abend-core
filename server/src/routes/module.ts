@@ -40,14 +40,11 @@ router.get("/showAdmin", async (req, res) => {
 });
 
 router.get("/show", auth, async (req: AuthRequest, res) => {
-    console.log("J'entre dans la route show")
     const userId = req.user?.id;
     try {
         const modules = await ModuleController.show(userId!);
-        console.log("Route | modules : ", modules)
         res.status(200).json({ modules });
     } catch (error) {
-        console.log("Je sors j'ai une erreur")
         console.error(error);
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
