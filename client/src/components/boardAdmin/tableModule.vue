@@ -82,8 +82,10 @@
             <label class="switch">
               <input
                 type="checkbox"
-                v-model="module.isShow"
-                @change="toggleVisibility(module.id, module.isShow)"
+                :checked="module.isShow === 1"
+                @change="
+                  toggleVisibility(module.id, module.isShow === 1 ? 0 : 1)
+                "
               />
               <span class="slider round"></span>
             </label>
@@ -172,11 +174,9 @@ watch(inputValueSearchBarModule, () => {
   filterSearchModule();
 });
 
-const toggleVisibility = async (idModule, data) => {
+const toggleVisibility = async (idModule, isShow) => {
   try {
-    const response = await updateModuleById(idModule, {
-      isShow: data,
-    });
+    await updateModuleById(idModule, { isShow });
   } catch (error) {
     console.error(error);
   }

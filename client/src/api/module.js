@@ -44,5 +44,5 @@ export const getInfosUserByUsername = (username) => {
 
 // Modification selon un id et des données
 export const updateModuleById = (id, data) => {
-  return apiClient.put(`/modules/${id}`, data);
+  return apiClient.patch(`/modules/${id}`, data);
 };

@@ -68,9 +68,11 @@ const moduleStore = useModuleStore();
 const likeStore = useLikeStore();
 
 const modulesToDisplay = computed(() => {
-  return authStore.isAuthenticated
+  const modules = authStore.isAuthenticated
     ? moduleStore.modules
     : moduleStore.modulesAdmin;
+
+  return modules.filter((module) => module.isShow === 1);
 });
 
 const getEtatLike = (idModule) => {
