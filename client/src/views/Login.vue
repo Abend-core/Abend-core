@@ -44,7 +44,7 @@
         <div class="text-sm mt-2">
           <p>
             Nouveau sur Abend-core?
-            <router-link class="underline" to="/inscription"
+            <router-link class="underline" to="/registration"
               >Créer un compte</router-link
             >
           </p>

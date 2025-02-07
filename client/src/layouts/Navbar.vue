@@ -69,7 +69,7 @@
           <i class="ri-layout-2-fill text-xl"></i>
         </RouterLink>
         <RouterLink
-          to="/favoris"
+          to="/favorites"
           v-if="isAuthenticated"
           class="hidden sm:block hover:text-primaryRed font-medium"
         >
@@ -99,7 +99,7 @@
         </div>
         <RouterLink
           class="hover:text-primaryRed hidden sm:block font-medium"
-          to="/connexion"
+          to="/login"
           v-if="!isAuthenticated"
           >Connexion</RouterLink
         >
@@ -115,7 +115,7 @@
         <div class="relative">
           <div class="flex items-center">
             <RouterLink
-              to="/profil"
+              to="/profile"
               class="flex items-center gap-1 text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
               @click="toggleModal"
             >

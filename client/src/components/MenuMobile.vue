@@ -14,7 +14,7 @@
             <LogoSwitch />
           </RouterLink>
           <RouterLink
-            to="/profil"
+            to="/profile"
             v-if="isAuthenticated"
             class="text-lg font-medium text-black dark:text-white"
             @click="closeMenu"
@@ -32,7 +32,7 @@
             Gérer mes modules
           </RouterLink>
           <RouterLink
-            to="/favoris"
+            to="/favorites"
             v-if="isAuthenticated"
             class="text-lg font-medium text-black dark:text-white"
             @click="closeMenu"
@@ -57,7 +57,7 @@
             Déconnexion
           </button>
           <RouterLink
-            to="/connexion"
+            to="/login"
             v-if="!isAuthenticated"
             class="text-lg font-medium text-black dark:text-white"
             @click="closeMenu"
@@ -65,7 +65,7 @@
             <i class="ri-door-fill"></i> Connexion
           </RouterLink>
           <RouterLink
-            to="/inscription"
+            to="/registration"
             v-if="!isAuthenticated"
             class="text-lg font-medium text-black dark:text-white"
             @click="closeMenu"

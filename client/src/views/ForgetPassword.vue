@@ -34,7 +34,7 @@
         <div class="text-sm mt-4">
           <p>
             Je ne l'ai pas oublié.
-            <router-link class="underline" to="/connexion"
+            <router-link class="underline" to="/login"
               >Se connecter</router-link
             >
           </p>

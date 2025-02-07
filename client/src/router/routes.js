@@ -10,20 +10,20 @@ import ForgetPassword from "../views/ForgetPassword.vue";
 import ModuleProfil from "../views/ModuleProfil.vue";
 import LikedModules from "../views/LikedModules.vue";
 import HomeV2 from "../views/HomeV2.vue";
-import ProfilModules from "../views/ProfilModules.vue";
+import UserModules from "../views/UserModules.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
   { path: "/homev2", name: "HomeV2", component: HomeV2 },
-  { path: "/connexion", name: "LoginPage", component: Login },
-  { path: "/inscription", name: "InscriptionPage", component: Registration },
+  { path: "/login", name: "LoginPage", component: Login },
+  { path: "/registration", name: "InscriptionPage", component: Registration },
   {
     path: "/forgetPassword",
     name: "ForgetPasswordPage",
     component: ForgetPassword,
   },
   {
-    path: "/profil",
+    path: "/profile",
     name: "ProfilPage",
     component: Profil,
     meta: {
@@ -31,15 +31,15 @@ const routes = [
     },
   },
   {
-    path: "/profil/:username",
-    name: "ProfilModule",
-    component: ProfilModules,
+    path: "/user/:username",
+    name: "UserModules",
+    component: UserModules,
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/favoris",
+    path: "/favorites",
     name: "LikedModules",
     component: LikedModules,
     meta: {

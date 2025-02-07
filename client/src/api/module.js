@@ -12,6 +12,7 @@ export const findAllModulesVisible = () => {
   return apiClient.get("/modules/show");
 };
 
+// Récupération de tous les modules admin
 export const findAllModulesAdmin = () => {
   return apiClient.get("/modules/showAdmin");
 };
@@ -36,6 +37,7 @@ export const getModuleById = () => {
   return apiClient.get(`/modules/user`);
 };
 
+// Récupération des modules selon l'username
 export const getInfosUserByUsername = (username) => {
   return apiClient.get(`/modules/user/${username}`);
 };

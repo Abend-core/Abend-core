@@ -1,7 +1,6 @@
 <template>
   <main class="p-2 max-w-[1400px] mx-auto">
     <div class="flex items-center justify-center flex-wrap gap-10 mt-16 mb-16">
-      <!-- Afficher les modules en fonction de l'état d'authentification -->
       <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
         <a
           :href="module.link"
@@ -33,7 +32,7 @@
             </div>
             <router-link
               class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"
-              :to="`/profil/${module.User.username}`"
+              :to="`/user/${module.User.username}`"
               >{{ module.User.username }}</router-link
             >
             <div v-if="authStore.isAuthenticated">
@@ -56,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from "vue";
+import { computed, watch, onMounted } from "vue";
 import { toggleLike } from "../api/like";
 import { useAuthStore } from "../stores/authStore";
 import { useModuleStore } from "../stores/moduleStore";
@@ -88,30 +87,23 @@ const toggleLikeModule = async (idModule, event) => {
   }
 };
 
-const initializeLikes = (modules) => {
-  modules.forEach((module) => {
-    likeStore.etatLike[module.id] = module.favoris === true;
-  });
-};
-
 watch(
   () => authStore.isAuthenticated,
   (isAuthenticated) => {
     if (isAuthenticated) {
       moduleStore.allModules().then(() => {
-        initializeLikes(moduleStore.modules);
+        likeStore.setEtatLike(moduleStore.modules);
       });
     } else {
       moduleStore.allModulesAdmin();
     }
-  },
-  { immediate: true }
+  }
 );
 
 onMounted(() => {
   if (authStore.isAuthenticated) {
     moduleStore.allModules().then(() => {
-      initializeLikes(moduleStore.modules);
+      likeStore.setEtatLike(moduleStore.modules);
     });
   } else {
     moduleStore.allModulesAdmin();

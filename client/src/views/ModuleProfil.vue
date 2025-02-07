@@ -18,7 +18,7 @@
           Il semble que vous n'ayez pas encore créé de module
         </p>
       </div>
-      <div v-else class="bg-white rounded-md max-h-[800px] mb-5">
+      <div v-else class="bg-white rounded-md max-h-[800px] mb-5 overflow-auto">
         <NotificationMessage />
         <table class="w-full dark:text-white dark:bg-gray-800">
           <thead>

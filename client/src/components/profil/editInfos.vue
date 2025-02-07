@@ -121,7 +121,7 @@
       </form>
       <div class="flex justify-end">
         <button
-          class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-5"
+          class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-4"
           @click="toggleModalConfirmDeleteUser"
         >
           Supprimer mon compte
