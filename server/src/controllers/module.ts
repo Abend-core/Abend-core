@@ -12,6 +12,7 @@ import { Op } from "sequelize";
 
 interface ModuleWithFavoris extends Module {
 <<<<<<< HEAD
+<<<<<<< HEAD
   favoris: boolean;
 }
 
@@ -325,6 +326,8 @@ class ModuleController {
     return "ok";
   }
 =======
+=======
+>>>>>>> 6a39d77cd996af3b3ea60c01b2ebde1307c7b858
     favoris: boolean;
 }
 
@@ -638,7 +641,10 @@ class ModuleController {
 
         return "ok";
     }
+<<<<<<< HEAD
 >>>>>>> acad352 (fix: rename folders)
+=======
+>>>>>>> 6a39d77cd996af3b3ea60c01b2ebde1307c7b858
 }
 
 export default new ModuleController();

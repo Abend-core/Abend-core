@@ -91,6 +91,7 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 //Update photo utilisateur
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 router.put(
 =======
 router.patch(
@@ -98,6 +99,9 @@ router.patch(
 =======
 router.put(
 >>>>>>> ef8b197 (fix: upload image)
+=======
+router.put(
+>>>>>>> 6a39d77cd996af3b3ea60c01b2ebde1307c7b858
     "/image",
     auth,
     Image.getUploadProfil().single("image"),
