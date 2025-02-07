@@ -90,10 +90,14 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 
 //Update photo utilisateur
 <<<<<<< HEAD
+<<<<<<< HEAD
 router.put(
 =======
 router.patch(
 >>>>>>> acad352 (fix: rename folders)
+=======
+router.put(
+>>>>>>> ef8b197 (fix: upload image)
     "/image",
     auth,
     Image.getUploadProfil().single("image"),
