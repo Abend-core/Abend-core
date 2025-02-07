@@ -79,7 +79,11 @@ class ModuleController {
     }
 
     async show(userId: string) {
+        
+        console.log("Je suis dans le controlleur show")
+        console.log("Controlleur | UserId : ", userId)
         const modules = await this.getAll();
+        console.log("Controlleur | Modules : ", modules)
         const moduleShow = modules.filter((module: Module) => module.isShow == true);
 
         const modulesId = moduleShow.map((module: Module) => module.id);
@@ -98,6 +102,7 @@ class ModuleController {
             ...module.toJSON(),
             favoris: likedModuleIds.has(module.id.toString()),
         }));
+        console.log("Controlleur | Modules, formater : ", formattedModules)
         return formattedModules;
     }
 
