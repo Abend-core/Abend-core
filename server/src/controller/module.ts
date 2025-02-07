@@ -10,6 +10,7 @@ import Visited from "../models/visited";
 import { User } from "../models/user";
 import { Op } from "sequelize";
 import redis from "../tools/redis";
+import { AnyMxRecord } from "dns";
 
 interface ModuleWithFavoris extends Module {
   favoris: boolean;
@@ -96,8 +97,8 @@ class ModuleController {
     console.log("Controlleur | LikedModules : ", likedModules);
     const likedModuleIds = new Set(likedModules.map((like) => like.ModuleId));
     console.log("Controlleur | set avec LikedModuleIds : ", likedModuleIds);
-    const formattedModules = modules.map((module: Module) => ({
-      ...module.get({ plain: true }),
+    const formattedModules = modules.map((module: any) => ({
+      ...module.toJSON(),
       favoris: likedModuleIds.has(module.id.toString()),
     }));
     return formattedModules;
