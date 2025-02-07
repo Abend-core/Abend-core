@@ -82,7 +82,7 @@ const registration = async () => {
 
   try {
     await registrateUser(data);
-    router.push("/connexion");
+    router.push("/login");
   } catch (error) {
     setNotification(error.response?.data?.errors[0], "error");
   }
