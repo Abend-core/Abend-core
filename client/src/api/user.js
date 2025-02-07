@@ -29,7 +29,7 @@ export const getUserById = (id) => {
 
 // Modification des informations selon un id et des données
 export const editUserById = (id, data) => {
-  return apiClient.put(`/users/${id}`, data);
+  return apiClient.patch(`/users/${id}`, data);
 };
 
 // Modification du mot de passe

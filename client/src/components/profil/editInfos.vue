@@ -198,8 +198,10 @@ const updateUserProfile = async () => {
   };
 
   try {
-    const responseUpdated = await editUserById(id, updatedData);
-    authStore.setUser(responseUpdated.data.user);
+    await editUserById(id, updatedData);
+    const updatedDataUser = { ...authStore.user, updatedData };
+    authStore.setUser(updatedDataUser);
+    loadUserProfile();
     setNotification("Profil mis à jour avec succès !", "success");
     buttonDisabled.value = true;
   } catch (error) {
