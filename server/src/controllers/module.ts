@@ -10,7 +10,6 @@ import Visited from "../models/visited";
 import { User } from "../models/user";
 import { Op } from "sequelize";
 import redis from "../tools/redis";
-import { AnyMxRecord } from "dns";
 
 interface ModuleWithFavoris extends Module {
   favoris: boolean;
@@ -18,6 +17,7 @@ interface ModuleWithFavoris extends Module {
 
 class ModuleController {
   async add(data: moduleCreationAttributes, file: Express.Multer.File) {
+    Redis.deleteCache(KEYS.modules);
     data.id = UUID.v7();
     data.isShow = true;
     data.image = file.filename;
@@ -35,6 +35,7 @@ class ModuleController {
   }
 
   async update(moduleId: string, data: moduleCreationAttributes) {
+    Redis.deleteCache(KEYS.modules);
     const module = await Module.findByPk(moduleId);
     if (!module) {
       throw new Error("Bad request.");
@@ -42,7 +43,6 @@ class ModuleController {
     await Module.update(data, {
       where: { id: moduleId },
     });
-    Redis.deleteCache(KEYS.modules);
     return;
   }
 
@@ -60,6 +60,8 @@ class ModuleController {
           attributes: ["id", "username", "isAdmin"],
         },
       ],
+      raw: true,
+      nest: true,
     });
     Redis.setCache(KEYS.modules, modules);
     return modules;
@@ -75,8 +77,11 @@ class ModuleController {
   }
 
   async getModule(userId: string) {
-    const modules = await Module.findAll({ where: { user_id: userId } });
-    return modules;
+    const modules = await this.getAll();
+    const moduleUser = modules.filter(
+      (module: Module) => module.user_id == userId
+    );
+    return moduleUser;
   }
 
   async show(userId: string) {
@@ -84,9 +89,9 @@ class ModuleController {
     const moduleShow = modules.filter(
       (module: Module) => module.isShow == true
     );
-    console.log("Controlleur | Module show : ", moduleShow);
+
     const modulesId = moduleShow.map((module: Module) => module.id);
-    console.log("Controlleur | Modules ID : ", modulesId);
+
     const likedModules = await Like.findAll({
       where: {
         ModuleId: modulesId,
@@ -94,10 +99,8 @@ class ModuleController {
       },
       attributes: ["ModuleId"],
     });
-    console.log("Controlleur | LikedModules : ", likedModules);
     const likedModuleIds = new Set(likedModules.map((like) => like.ModuleId));
-    console.log("Controlleur | set avec LikedModuleIds : ", likedModuleIds);
-    const formattedModules = modules.map((module: any) => ({
+    const formattedModules = modules.map((module: Module) => ({
       ...module,
       favoris: likedModuleIds.has(module.id.toString()),
     }));
@@ -121,7 +124,7 @@ class ModuleController {
     });
     const likedModuleIds = new Set(likedModules.map((like) => like.ModuleId));
     const formattedModules = modules.map((module: Module) => ({
-      ...module.toJSON(),
+      ...module,
       favoris: likedModuleIds.has(module.id.toString()),
     }));
     return formattedModules;
@@ -194,6 +197,7 @@ class ModuleController {
   }
 
   async delete(moduleId: string) {
+    Redis.deleteCache(KEYS.modules);
     const module = await Module.findByPk(moduleId);
     if (!module) {
       return;
@@ -202,7 +206,6 @@ class ModuleController {
     const fileDelete = path.join("./src/uploads/module/", dataModule.image);
     fs.promises.unlink(fileDelete);
     await Module.destroy({ where: { id: moduleId } });
-    Redis.deleteCache(KEYS.modules);
   }
 
   #deleteView(UserId: string, ModuleId: string) {

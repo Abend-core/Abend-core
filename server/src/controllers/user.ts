@@ -1,6 +1,6 @@
 //Model & bdd
 import { User, userCreationAttributes } from "../models/user";
-import {Module, moduleCreationAttributes} from "../models/module"
+import { Module, moduleCreationAttributes } from "../models/module";
 import { Op } from "sequelize";
 
 //Tools
@@ -9,7 +9,7 @@ import UUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
 import config from "config";
-import Redis, {KEYS} from "../tools/redis";
+import Redis, { KEYS } from "../tools/redis";
 
 const image: number = config.get("storage.nombreImageBanque");
 interface passObj {
@@ -28,12 +28,11 @@ class UserController {
             where: { id: userData.id },
             validate: false,
         });
-        
     }
 
     async getAll() {
         const users = User.findAll({
-            attributes: { exclude: ['password'] },
+            attributes: { exclude: ["password"] },
             order: [["createdAt", "desc"]],
         });
         return users;
@@ -63,12 +62,11 @@ class UserController {
         }
 
         await User.update(userData, { where: { id: userId } });
-        
     }
 
     async filtre(search: string) {
         const users = await User.findAll({
-            attributes: { exclude: ['password'] },
+            attributes: { exclude: ["password"] },
             where: {
                 [Op.or]: [
                     { username: { [Op.like]: "%" + search + "%" } },
@@ -119,32 +117,39 @@ class UserController {
         }
         user.image = file.filename;
         const data = user.get();
-
+        console.log(data);
         await this.update(data.id, data);
-        
     }
-    
-    async delete(userId: string){
+
+    async delete(userId: string) {
         const user = await User.findByPk(userId);
         if (!user) {
             throw new Error("User not found");
         }
         const modules = await Module.findAll({
-            where: { user_id: userId},
+            where: { user_id: userId },
         });
-        await Promise.all(modules.map(async (module) => {
-            const fileDeleteModule = path.join("./src/uploads/module/", module.image);
-            await fs.promises.unlink(fileDeleteModule);
-        }));
+        await Promise.all(
+            modules.map(async (module) => {
+                const fileDeleteModule = path.join(
+                    "./src/uploads/module/",
+                    module.image
+                );
+                await fs.promises.unlink(fileDeleteModule);
+            })
+        );
         if (!user.image.includes("bank")) {
-            const fileDeleteUser = path.join("./src/uploads/profil/",user.image );
+            const fileDeleteUser = path.join(
+                "./src/uploads/profil/",
+                user.image
+            );
             await fs.promises.unlink(fileDeleteUser);
-        }   
+        }
         await Promise.all([
             Module.destroy({ where: { user_id: userId } }),
-            User.destroy({ where: { id: userId } })
+            User.destroy({ where: { id: userId } }),
         ]);
-        Redis.deleteCache(KEYS.modules)
+        Redis.deleteCache(KEYS.modules);
     }
 }
 

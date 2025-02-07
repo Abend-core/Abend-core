@@ -6,6 +6,7 @@ import db from "./db";
 import { User } from "../models/user";
 import { Module } from "../models/module";
 import config from "config";
+import Redis, { KEYS } from "../tools/redis";
 
 const image: number = config.get("storage.nombreImageBanque");
 const env = config.get("server.env");
@@ -35,10 +36,12 @@ if (env == "Dev") {
 
 async function pushDb_dev() {
     try {
+        Redis.deleteCache(KEYS.modules);
         console.log("");
         console.log("Début de synchronisation...");
         console.log("");
-        await initUsers(), await initModules();
+        await initUsers();
+        await initModules();
         console.log("");
         console.log("Synchronisation terminée !");
     } catch (err) {
