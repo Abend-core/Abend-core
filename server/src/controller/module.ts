@@ -101,7 +101,7 @@ class ModuleController {
         );
         console.log("Controlleur | set avec LikedModuleIds : ", likedModuleIds)
         const formattedModules = modules.map((module: Module) => ({
-            ...module.toJSON(),
+            ...module,
             favoris: likedModuleIds.has(module.id.toString()),
         }));
         console.log("Controlleur | Modules, formater : ", formattedModules)
