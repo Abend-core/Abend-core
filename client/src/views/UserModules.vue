@@ -7,7 +7,7 @@
     />
     <p class="text-2xl mb-5">{{ user.username }}</p>
   </div>
-  <p class="text-center">Mes modules</p>
+  <p class="text-center">Modules</p>
   <div class="flex flex-wrap justify-center gap-3 p-3">
     <div class="flex" v-for="module in modules" :key="module.id">
       <a
@@ -37,7 +37,7 @@
       </a>
     </div>
   </div>
-  <p class="text-center">Mes favoris</p>
+  <p class="text-center">Favoris</p>
   <div class="flex flex-wrap justify-center gap-3 p-3">
     <div class="flex" v-for="module in moduleFav" :key="module.id">
       <a
