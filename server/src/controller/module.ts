@@ -2,13 +2,18 @@
 import UUID from "../tools/uuid";
 import fs from "fs";
 import path from "path";
-import Redis from "../tools/redis";
+import Redis, {KEYS} from "../tools/redis";
 //Model & bdd
 import { Module, moduleCreationAttributes } from "../models/module";
 import Like from "../models/liked";
 import Visited from "../models/visited";
 import { User } from "../models/user";
 import { Op } from "sequelize";
+import redis from "../tools/redis";
+
+interface ModuleWithFavoris extends Module {
+    favoris: boolean;
+}
 
 class ModuleController {
     async add(data: moduleCreationAttributes, file: Express.Multer.File) {
@@ -36,10 +41,16 @@ class ModuleController {
         await Module.update(data, {
             where: { id: moduleId },
         });
+        Redis.deleteCache(KEYS.modules)
         return;
     }
 
     async getAll() {
+        const cache = await Redis.getCache(KEYS.modules);
+        if (cache) {
+            console.log("Données récupérées depuis le cache");
+            return cache;
+        }
         const modules = await Module.findAll({
             include: [
                 {
@@ -49,6 +60,7 @@ class ModuleController {
                 },
             ],
         });
+        Redis.setCache(KEYS.modules, modules)
         return modules;
     }
 
@@ -56,7 +68,7 @@ class ModuleController {
         const modules = await this.getAll();
 
         const moduleAdmin = modules.filter(
-            (module) => module.User.isAdmin === true
+            (module: Module) => module.User.isAdmin === true
         );
         return moduleAdmin;
     }
@@ -68,9 +80,9 @@ class ModuleController {
 
     async show(userId: string) {
         const modules = await this.getAll();
-        const moduleShow = modules.filter((module) => module.isShow == true);
+        const moduleShow = modules.filter((module: Module) => module.isShow == true);
 
-        const modulesId = moduleShow.map((module) => module.id);
+        const modulesId = moduleShow.map((module: Module) => module.id);
 
         const likedModules = await Like.findAll({
             where: {
@@ -82,7 +94,7 @@ class ModuleController {
         const likedModuleIds = new Set(
             likedModules.map((like) => like.ModuleId)
         );
-        const formattedModules = modules.map((module) => ({
+        const formattedModules = modules.map((module: Module) => ({
             ...module.toJSON(),
             favoris: likedModuleIds.has(module.id.toString()),
         }));
@@ -90,18 +102,10 @@ class ModuleController {
     }
 
     async hide(userId: string) {
-        const modules = await Module.findAll({
-            where: { isShow: false },
-            include: [
-                {
-                    model: User,
-                    as: "User",
-                    attributes: ["username", "isAdmin"],
-                },
-            ],
-        });
+        const modules = await this.getAll();
+        const moduleHide = modules.filter((module: Module) => module.isShow == false);
 
-        const modulesId = modules.map((module) => module.id);
+        const modulesId = moduleHide.map((module: Module) => module.id);
 
         const likedModules = await Like.findAll({
             where: {
@@ -113,7 +117,7 @@ class ModuleController {
         const likedModuleIds = new Set(
             likedModules.map((like) => like.ModuleId)
         );
-        const formattedModules = modules.map((module) => ({
+        const formattedModules = modules.map((module: Module) => ({
             ...module.toJSON(),
             favoris: likedModuleIds.has(module.id.toString()),
         }));
@@ -129,7 +133,6 @@ class ModuleController {
             return;
         }
         this.#addLike(userId, ModuleId);
-        return;
     }
 
     async toggleView(userId: string, ModuleId: string) {
@@ -141,12 +144,11 @@ class ModuleController {
             return;
         }
         this.#addView(userId, ModuleId);
-        return;
     }
 
     async moduleLikeByUser(userId: string) {
         const modules = await this.show(userId);
-        const likedModules = modules.filter((module) => module.favoris == true);
+        const likedModules = modules.filter((module: ModuleWithFavoris) => module.favoris == true);
         return likedModules;
     }
 
@@ -195,6 +197,7 @@ class ModuleController {
         const fileDelete = path.join("./src/uploads/module/", dataModule.image);
         fs.promises.unlink(fileDelete);
         await Module.destroy({ where: { id: moduleId } });
+        Redis.deleteCache(KEYS.modules)
     }
 
     #deleteView(UserId: string, ModuleId: string) {

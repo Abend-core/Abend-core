@@ -43,7 +43,7 @@ router.get("/show", auth, async (req: AuthRequest, res) => {
     const userId = req.user?.id;
     try {
         const modules = await ModuleController.show(userId!);
-        res.status(200).json({ message: "Tous les modules.", modules });
+        res.status(200).json({ modules });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -55,7 +55,7 @@ router.get("/hide", auth, async (req: AuthRequest, res) => {
     const userId = req.user?.id;
     try {
         const modules = await ModuleController.hide(userId!);
-        res.status(200).json({ message: "Tous les modules.", modules });
+        res.status(200).json({ modules });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -114,7 +114,7 @@ router.post("/filtre", async (req, res) => {
     const search: string = req.body.search;
     try {
         const module = await ModuleController.filtre(search);
-        res.status(200).json({ message: "Module trouvé.", module });
+        res.status(200).json({ module });
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
@@ -125,7 +125,7 @@ router.get("/user/:username", auth, async (req, res) => {
     const userName = req.params.username;
     try {
         const userData = await ModuleController.getUserData(userName);
-        res.status(200).json({ message: "Modules trouvés.", userData });
+        res.status(200).json({ userData });
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
@@ -160,7 +160,7 @@ router.get("/liked", auth, async (req: AuthRequest, res) => {
     const userId = req.user?.id;
     try {
         const modules = await ModuleController.moduleLikeByUser(userId!);
-        res.status(200).json({ message: "Tous les modules.", modules });
+        res.status(200).json({ modules });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Erreur serveur.", erreur: error });

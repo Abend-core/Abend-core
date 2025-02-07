@@ -5,6 +5,7 @@ class Redis {
     private static instance: Redis;
     private client;
     private expiration: number = config.get("redis.expiration");
+
     constructor() {
         if (!Redis.instance) {
             this.client = createClient({
@@ -47,5 +48,9 @@ class Redis {
         return exists === 1;
     }
 }
+
+export const KEYS = {
+    modules: 'modules:all'
+};
 
 export default new Redis();
