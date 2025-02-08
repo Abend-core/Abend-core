@@ -61,12 +61,15 @@ router.patch(
     "/:id",
     auth,
     async (req: Request, res: Response): Promise<void> => {
-        const found = await UserValidator.found(req.params.id);
+        const [found, error] = await Promise.all([
+            UserValidator.found(req.params.id),
+            UserValidator.data(req.body),
+        ]);
+
         if (!found) {
             res.status(404).json();
             return;
         }
-        const error = await UserValidator.data(req.body);
         if (error) {
             res.status(400).json({ Erreur: error });
             return;
@@ -118,12 +121,14 @@ router.put(
     Image.getUploadProfil().single("image"),
     Image.resizeImage,
     async (req: AuthRequest, res: Response) => {
-        const found = await UserValidator.found(req.user?.id!);
+        const [found, error] = await Promise.all([
+            UserValidator.found(req.user?.id!),
+            UserValidator.hasFile(req.file!),
+        ]);
         if (!found) {
             res.status(404).json();
             return;
         }
-        const error = await UserValidator.hasFile(req.file!);
         if (!error) {
             res.status(400).json({ Erreur: error });
             return;
@@ -142,12 +147,16 @@ router.put(
     "/password",
     auth,
     async (req: AuthRequest, res: Response): Promise<void> => {
-        const found = await UserValidator.found(req.user?.id!);
+        const [found, error] = await Promise.all([
+            UserValidator.found(req.user?.id!),
+            UserValidator.password(req.body, req.user?.id!),
+        ]);
+
         if (!found) {
             res.status(404).json();
             return;
         }
-        const error = await UserValidator.password(req.body, req.user?.id!);
+
         if (error) {
             res.status(400).json({ Erreur: error });
             return;
