@@ -12,7 +12,8 @@ import { User, userCreationAttributes } from "../models/user";
 class AuthController {
     async register(userData: userCreationAttributes) {
         userData.id = UUID.v7();
-
+        userData.isAdmin = false;
+        userData.isBanned = false;
         if (!userData.image) {
             userData.image = `bank-img-${Math.trunc(
                 Math.random() * imageCount
@@ -33,24 +34,11 @@ class AuthController {
             where: { mail: userData.mail },
         });
 
-        if (!user) {
-            throw new Error("Identifiant ou mot de passe incorrect.");
-        }
-
-        const isPasswordValid = await Crypt.compare(
-            userData.password,
-            user.password
-        );
-
-        if (!isPasswordValid) {
-            throw new Error("Identifiant ou mot de passe incorrect.");
-        }
-
-        const token = jwt.sign({ userId: user.id }, privateKey, {
+        const token = jwt.sign({ userId: user!.id }, privateKey, {
             expiresIn: "1h",
         });
         return {
-            UUID: user.id,
+            UUID: user!.id,
             token,
         };
     }
