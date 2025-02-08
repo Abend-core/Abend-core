@@ -28,7 +28,7 @@ router.post(
             ModuleValidator.data(req.body),
         ]);
 
-        if (!found) {
+        if (found) {
             res.status(404).json({ erreur: found });
             return;
         }
