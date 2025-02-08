@@ -23,7 +23,7 @@ class UserController {
         userData.image =
             "bank-img-" + Math.trunc(Math.random() * image) + ".png";
         userData.password = "password1";
-        userData.isBanned = false;
+        userData.isActive = true;
         await User.create(userData);
         userData.password = await Crypt.hash(userData.password);
         await User.update(userData, {
@@ -34,7 +34,7 @@ class UserController {
 
     async getAll() {
         const users = User.findAll({
-            attributes: { exclude: ["password"] },
+            attributes: { exclude: ["password", "token"] },
             order: [["createdAt", "desc"]],
         });
         return users;
@@ -42,7 +42,7 @@ class UserController {
 
     async getOne(userId: string) {
         const user = await User.findByPk(userId, {
-            attributes: { exclude: ["password"] },
+            attributes: { exclude: ["password", "token"] },
         });
         return user;
     }
@@ -70,7 +70,7 @@ class UserController {
 
     async filtre(search: string) {
         const users = await User.findAll({
-            attributes: { exclude: ["password"] },
+            attributes: { exclude: ["password", "token"] },
             where: {
                 [Op.or]: [
                     { username: { [Op.like]: "%" + search + "%" } },

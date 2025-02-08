@@ -14,7 +14,8 @@ class AuthController {
     async register(userData: userCreationAttributes) {
         userData.id = UUID.v7();
         userData.isAdmin = false;
-        userData.isBanned = false;
+        userData.isActive = false;
+        userData.token = Crypt.genToken(12);
         if (!userData.image) {
             userData.image = `bank-img-${Math.trunc(
                 Math.random() * imageCount
@@ -29,7 +30,7 @@ class AuthController {
             { where: { id: user.id }, validate: false }
         );
 
-        await sendVerificationEmail(userData.mail);
+        await sendVerificationEmail(userData.mail, userData.token);
     }
 
     async signin(userData: userCreationAttributes) {
@@ -44,6 +45,15 @@ class AuthController {
             UUID: user!.id,
             token,
         };
+    }
+
+    async validation(token: string) {
+        const user = await User.findOne({ where: { token: token } });
+        const userData = user!.get();
+        User.update(
+            { isActive: true, token: "" },
+            { where: { id: userData.id! } }
+        );
     }
 }
 

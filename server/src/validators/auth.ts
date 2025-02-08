@@ -38,11 +38,31 @@ class AuthValidator {
         if (!isPasswordValid) {
             return "Identifiant ou mot de passe incorrect.";
         }
+
+        const message = await this.#mailActive(userData.mail);
+        return message;
+    }
+
+    async validation(token: string) {
+        const user = await User.findOne({
+            where: { token: token },
+        });
+
+        if (!user) {
+            return "Mauvais token.";
+        }
     }
 
     async #findMail(mail: string) {
         const res = await User.findOne({ where: { mail: mail } });
         return res;
+    }
+    async #mailActive(mail: string) {
+        const user = await User.findOne({ where: { mail: mail } });
+        if (user?.isActive === true || user?.isActive === null) {
+            return "";
+        }
+        return "L'adresse mail n'a pas été vérifié.";
     }
     async #findUsername(username: string) {
         const res = await User.findOne({ where: { username: username } });
