@@ -32,10 +32,18 @@
             </div>
             <router-link
               class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"
+              :class="{
+                underline: authStore.user.id === module.User.id,
+              }"
               :to="`/user/${module.User.username}`"
               >{{ module.User.username }}</router-link
             >
-            <div v-if="authStore.isAuthenticated">
+            <div
+              v-if="
+                authStore.isAuthenticated &&
+                authStore.user.id !== module.User.id
+              "
+            >
               <i
                 v-if="getEtatLike(module.id)"
                 class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
