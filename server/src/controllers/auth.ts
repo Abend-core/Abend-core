@@ -8,6 +8,7 @@ const imageCount: number = config.get("storage.nombreImageBanque");
 
 //Modele & bdd
 import { User, userCreationAttributes } from "../models/user";
+import { sendVerificationEmail } from "../tools/email";
 
 class AuthController {
     async register(userData: userCreationAttributes) {
@@ -27,6 +28,8 @@ class AuthController {
             { password: user.password },
             { where: { id: user.id }, validate: false }
         );
+
+        await sendVerificationEmail(userData.mail);
     }
 
     async signin(userData: userCreationAttributes) {

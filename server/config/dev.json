@@ -22,5 +22,9 @@
     },
     "redis": {
         "expiration": 1
+    },
+    "mail": {
+        "user": "abendcore@gmail.com",
+        "pass": "eyku pknd ujpy mcsf"
     }
 }

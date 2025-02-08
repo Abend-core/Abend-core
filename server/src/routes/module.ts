@@ -59,6 +59,7 @@ router.get("/show", auth, async (req: AuthRequest, res) => {
     const found = await ModuleValidator.foundUser(req.user?.id!);
     if (!found) {
         res.status(404).json();
+        return;
     }
     try {
         const modules = await ModuleController.show(req.user?.id!);
