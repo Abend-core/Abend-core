@@ -8,7 +8,8 @@ interface UserAttributes {
     image: string;
     password: string;
     isAdmin: boolean;
-    isBanned: boolean;
+    isActive: boolean;
+    token: string;
 }
 
 interface userCreationAttributes extends Optional<UserAttributes, "id"> {}
@@ -23,7 +24,8 @@ class User
     public image!: string;
     public password!: string;
     public isAdmin!: boolean;
-    public isBanned!: boolean;
+    public isActive!: boolean;
+    public token!: string;
 }
 
 User.init(
@@ -98,8 +100,12 @@ User.init(
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
-        isBanned: {
+        isActive: {
             type: DataTypes.BOOLEAN,
+            allowNull: true,
+        },
+        token: {
+            type: DataTypes.STRING,
             allowNull: true,
         },
     },
