@@ -4,6 +4,7 @@ import db from "../database/db";
 interface TagAttributes {
     id: number;
     name: string;
+    uses: number;
 }
 
 interface TagCreationAttributes extends Optional<TagAttributes, "id"> {}
@@ -14,6 +15,7 @@ class Tag
 {
     public id!: number;
     public name!: string;
+    public uses!: number;
 }
 
 Tag.init(
@@ -43,6 +45,10 @@ Tag.init(
                     msg: "Trop de caractères, 255 maximum.",
                 },
             },
+        },
+        uses: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
         },
     },
     {

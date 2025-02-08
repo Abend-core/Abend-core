@@ -100,7 +100,7 @@ User.init(
         },
         isBanned: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            allowNull: true,
         },
     },
     {

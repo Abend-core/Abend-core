@@ -125,7 +125,7 @@ Module.init(
         },
         isAlert: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            allowNull: true,
         },
         user_id: {
             type: DataTypes.UUID,
