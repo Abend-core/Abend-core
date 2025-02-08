@@ -156,7 +156,7 @@ class ModuleController {
 
     async getUserData(userName: string) {
         const user = await User.findOne({
-            attributes: { exclude: ["password"] },
+            attributes: { exclude: ["password", "token"] },
             where: { username: userName },
         });
 

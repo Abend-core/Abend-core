@@ -122,7 +122,48 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    errors:
+                                    erreur:
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /auth/validation:
+        post:
+            tags:
+                - Auth
+            summary: Valider son adresse mail
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - token
+                            properties:
+                                token:
+                                    type: string
+                                    description: Token lié a l'utilisateur
+            responses:
+                200:
+                    description: Validation réussi !
+                400:
+                    description: Mauvaise requete.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    erreur:
                                         type: object
                 500:
                     description: Le serveur a rencontré une erreur.
