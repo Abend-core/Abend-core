@@ -83,44 +83,20 @@ class UserController {
 
     async password(userId: string, data: passObj) {
         const user = await User.findByPk(userId);
-        if (!user) {
-            throw new Error("User not found");
-        }
-        const validPassword = await Crypt.compare(data.password, user.password);
-
-        if (!validPassword) {
-            throw new Error("Bad request.");
-        }
-
-        if (data.newPassword.length < 8) {
-            throw new Error(
-                "Le mot de passe doit avoir au moins 8 caractères."
-            );
-        }
-
-        if (data.newPassword != data.confirmPassword) {
-            throw new Error("Les mots de passe ne correspondent pas.");
-        }
-
-        user.password = await Crypt.hash(data.newPassword);
-        const userData = user.get();
+        user!.password = await Crypt.hash(data.newPassword);
+        const userData = user!.get();
         await this.update(userId, userData);
     }
 
     async image(userData: userCreationAttributes, file: Express.Multer.File) {
-        if (!file) {
-            throw new Error("Bad request.");
-        }
         const user = await User.findOne({ where: { id: userData.id } });
-        if (!user) {
-            throw new Error("User not found");
-        }
-        if (!user.image.includes("bank")) {
-            const fileDelete = path.join("./src/uploads/profil/", user.image);
+
+        if (!user!.image.includes("bank")) {
+            const fileDelete = path.join("./src/uploads/profil/", user!.image);
             await fs.promises.unlink(fileDelete);
         }
-        user.image = file.filename;
-        const data = user.get();
+        user!.image = file.filename;
+        const data = user!.get();
         console.log(data);
         await this.update(data.id, data);
     }

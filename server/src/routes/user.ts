@@ -9,6 +9,8 @@ import Image from "../tools/multer";
 //Middleware
 import auth from "../middlewares/auth/auth";
 import role from "../middlewares/role";
+//Controller
+import UserValidator from "../validators/user";
 
 interface AuthRequest extends Request {
     user?: { id: string }; // Ajout d'un champ user dans req
@@ -16,9 +18,13 @@ interface AuthRequest extends Request {
 
 // Création d'un nouvel utilisateur
 router.post("/", auth, role, async (req: Request, res: Response) => {
-    const data = req.body;
+    const error = await UserValidator.data(req.body);
+    if (error) {
+        res.status(400).json({ Erreur: error });
+        return;
+    }
     try {
-        await UserController.add(data);
+        await UserController.add(req.body);
         res.status(200).json();
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -37,9 +43,13 @@ router.get("/", auth, role, async (req: Request, res: Response) => {
 
 // Selection d'un utilisateur
 router.get("/:id", async (req: Request, res: Response) => {
-    const userId = req.params.id;
+    const found = await UserValidator.found(req.params.id);
+    if (!found) {
+        res.status(404).json();
+        return;
+    }
     try {
-        const user = await UserController.getOne(userId);
+        const user = await UserController.getOne(req.params.id);
         res.status(200).json({ user });
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -51,11 +61,18 @@ router.patch(
     "/:id",
     auth,
     async (req: Request, res: Response): Promise<void> => {
-        const userId = req.params.id;
-        const userData = req.body;
-        console.log("1 : ", userData);
+        const found = await UserValidator.found(req.params.id);
+        if (!found) {
+            res.status(404).json();
+            return;
+        }
+        const error = await UserValidator.data(req.body);
+        if (error) {
+            res.status(400).json({ Erreur: error });
+            return;
+        }
         try {
-            await UserController.update(userId, userData);
+            await UserController.update(req.params.id, req.body);
             res.status(200).json();
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -68,9 +85,13 @@ router.delete(
     "/:id",
     auth,
     async (req: Request, res: Response): Promise<void> => {
-        const userId = req.params.id;
+        const found = await UserValidator.found(req.params.id);
+        if (!found) {
+            res.status(404).json();
+            return;
+        }
         try {
-            await UserController.delete(userId);
+            await UserController.delete(req.params.id);
             res.status(200).json();
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", error: error });
@@ -96,13 +117,19 @@ router.put(
     auth,
     Image.getUploadProfil().single("image"),
     Image.resizeImage,
-    async (req: Request, res: Response) => {
-        const userData = req.body;
-        const file = req.file;
-        console.log(userData);
-        console.log(file);
+    async (req: AuthRequest, res: Response) => {
+        const found = await UserValidator.found(req.user?.id!);
+        if (!found) {
+            res.status(404).json();
+            return;
+        }
+        const error = await UserValidator.hasFile(req.file!);
+        if (!error) {
+            res.status(400).json({ Erreur: error });
+            return;
+        }
         try {
-            await UserController.image(userData, file!);
+            await UserController.image(req.body, req.file!);
             res.status(200).json();
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur." });
@@ -115,10 +142,18 @@ router.put(
     "/password",
     auth,
     async (req: AuthRequest, res: Response): Promise<void> => {
-        const userId = req.user?.id;
-        const data = req.body;
+        const found = await UserValidator.found(req.user?.id!);
+        if (!found) {
+            res.status(404).json();
+            return;
+        }
+        const error = await UserValidator.password(req.body, req.user?.id!);
+        if (error) {
+            res.status(400).json({ Erreur: error });
+            return;
+        }
         try {
-            await UserController.password(userId!, data);
+            await UserController.password(req.user?.id!, req.body);
             res.status(200).json();
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", erreur: error });
