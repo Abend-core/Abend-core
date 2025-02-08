@@ -62,7 +62,7 @@ class ModuleValidator {
         for (let i = 0; i < split.length - 1; i++) {
             message = this.#blackList(split[i]);
         }
-        if (message != "ok") {
+        if (message != "") {
             return message;
         }
         message = this.#whiteList(split[split.length - 1]);
@@ -106,7 +106,7 @@ class ModuleValidator {
             return "Le lien n'est pas au bon format.";
         }
 
-        return "ok";
+        return "";
     }
 
     #blackList(text: string): string {
@@ -134,7 +134,7 @@ class ModuleValidator {
             return "Le lien n'est pas au bon format.";
         }
 
-        return "ok";
+        return "";
     }
 }
 
