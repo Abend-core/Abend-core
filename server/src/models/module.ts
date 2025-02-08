@@ -11,7 +11,6 @@ interface moduleAttributes {
     views: number;
     likes: number;
     isShow: boolean;
-    isAlert: boolean;
     user_id: string;
 }
 
@@ -29,7 +28,6 @@ class Module
     public views!: number;
     public likes!: number;
     public isShow!: boolean;
-    public isAlert!: boolean;
     public user_id!: string;
     User: any;
 }
@@ -122,10 +120,6 @@ Module.init(
                 // Retourne true si la valeur en base est 1, sinon false
                 return !!this.getDataValue("isShow");
             },
-        },
-        isAlert: {
-            type: DataTypes.BOOLEAN,
-            allowNull: true,
         },
         user_id: {
             type: DataTypes.UUID,
