@@ -14,7 +14,7 @@ tags:
       description: Opérations liées aux modules
 
 paths:
-    # Authentification 2
+    # Authentification 3
     /auth/signin:
         post:
             tags:
@@ -590,7 +590,7 @@ paths:
                                     message:
                                         type: string
                                         example: Erreur serveur.
-    # Module 13
+    # Module 15
     # 2
     /modules:
         get:
@@ -1159,6 +1159,71 @@ paths:
                                         type: string
                                         example: Module a reçu une visite et compteur mis à jour.
                                     user: 
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/reported/{id}:
+        post: 
+            tags:
+                - Modules
+            summary: Met un report sur le module
+            parameters:
+            - name: idModule
+              in: path
+              description: L'identifiant de lu module qui sera report.
+              required: true
+              schema:
+                  type: string
+                  description: Identifiant du module
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Le module a recu un report
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/reported:
+        get: 
+            tags:
+                - Modules
+            summary: Affiche les modules reporté
+            parameters:
+            - name: idModule
+              in: path
+              description: L'identifiant de lu module qui sera report.
+              required: true
+              schema:
+                  type: string
+                  description: Identifiant du module
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Le module a recu un report
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    mdoules:
                                         type: object
                 500:
                     description: Le serveur a rencontré une erreur.
