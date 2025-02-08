@@ -30,9 +30,11 @@ router.post(
 
         if (!found) {
             res.status(404).json({ erreur: found });
+            return;
         }
         if (error) {
             res.status(400).json({ erreur: error });
+            return;
         }
         try {
             await ModuleController.add(req.body, req.file!);
@@ -72,6 +74,7 @@ router.get("/hide", auth, async (req: AuthRequest, res) => {
     const found = await ModuleValidator.foundUser(req.user?.id!);
     if (!found) {
         res.status(404).json();
+        return;
     }
     try {
         const modules = await ModuleController.hide(req.user?.id!);
@@ -97,6 +100,7 @@ router.get("/user", auth, async (req: AuthRequest, res) => {
     const found = await ModuleValidator.foundUser(req.user?.id!);
     if (!found) {
         res.status(404).json();
+        return;
     }
     try {
         const modules = await ModuleController.getModule(req.user?.id!);
@@ -117,10 +121,12 @@ router.patch("/:id", auth, async (req, res) => {
     ]);
     if (!found) {
         res.status(404).json();
+        return;
     }
 
     if (error) {
         res.status(400).json({ erreur: error });
+        return;
     }
     try {
         await ModuleController.update(req.params.id, req.body);
@@ -135,6 +141,7 @@ router.delete("/:id", auth, async (req, res) => {
     const found = await ModuleValidator.foundModule(req.params.id);
     if (!found) {
         res.status(404).json();
+        return;
     }
     try {
         await ModuleController.delete(req.params.id);
@@ -162,6 +169,7 @@ router.get("/user/:username", auth, async (req, res) => {
     );
     if (!found) {
         res.status(404).json();
+        return;
     }
     try {
         const userData = await ModuleController.getUserData(
@@ -182,6 +190,7 @@ router.post("/liked/:id", auth, async (req: AuthRequest, res: Response) => {
 
     if (!foundModule || !foundUser) {
         res.status(404).json();
+        return;
     }
     try {
         await ModuleController.toggleLike(req.user?.id!, req.params.id);
@@ -199,6 +208,7 @@ router.post("/visited/:id", auth, async (req: AuthRequest, res) => {
     ]);
     if (!foundModule || !foundUser) {
         res.status(404).json();
+        return;
     }
     try {
         await ModuleController.toggleView(req.user?.id!, req.params.id);
@@ -213,6 +223,7 @@ router.get("/liked", auth, async (req: AuthRequest, res) => {
     const found = ModuleValidator.foundUser(req.user?.id!);
     if (!found) {
         res.status(404).json();
+        return;
     }
     try {
         const modules = await ModuleController.moduleLikeByUser(req.user?.id!);
