@@ -1,12 +1,17 @@
-//Express
+// Express
 import express, { Request, Response } from "express";
 const router = express.Router();
-//Tools
+// Tools
 import Image from "../tools/multer";
-import Redis from "../tools/redis";
-//Middleware
+
+// Middleware
 import auth from "../middlewares/auth/auth";
+
+// Controller
 import ModuleController from "../controllers/module";
+
+//Validator
+import ModuleValidator from "../validators/module";
 interface AuthRequest extends Request {
     user?: { id: string }; // Ajout d'un champ user dans req
 }
@@ -18,10 +23,19 @@ router.post(
     Image.getUploadModule().single("image"),
     Image.resizeImage,
     async (req, res) => {
-        const file = req.file;
-        const data = req.body;
+        const [found, error] = await Promise.all([
+            ModuleValidator.hasFile(req.file!),
+            ModuleValidator.data(req.body),
+        ]);
+
+        if (!found) {
+            res.status(404).json({ erreur: found });
+        }
+        if (error) {
+            res.status(400).json({ erreur: error });
+        }
         try {
-            await ModuleController.add(data, file!);
+            await ModuleController.add(req.body, req.file!);
             res.status(200).json();
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -40,9 +54,12 @@ router.get("/showAdmin", async (req, res) => {
 });
 
 router.get("/show", auth, async (req: AuthRequest, res) => {
-    const userId = req.user?.id;
+    const found = await ModuleValidator.foundUser(req.user?.id!);
+    if (!found) {
+        res.status(404).json();
+    }
     try {
-        const modules = await ModuleController.show(userId!);
+        const modules = await ModuleController.show(req.user?.id!);
         res.status(200).json({ modules });
     } catch (error) {
         console.error(error);
@@ -52,9 +69,12 @@ router.get("/show", auth, async (req: AuthRequest, res) => {
 
 // Selection de tout les modules invisible
 router.get("/hide", auth, async (req: AuthRequest, res) => {
-    const userId = req.user?.id;
+    const found = await ModuleValidator.foundUser(req.user?.id!);
+    if (!found) {
+        res.status(404).json();
+    }
     try {
-        const modules = await ModuleController.hide(userId!);
+        const modules = await ModuleController.hide(req.user?.id!);
         res.status(200).json({ modules });
     } catch (error) {
         console.error(error);
@@ -74,9 +94,12 @@ router.get("/", async (req, res) => {
 
 // Selection des modules de l'utilisateur connecté
 router.get("/user", auth, async (req: AuthRequest, res) => {
-    const idUser = req.user?.id;
+    const found = await ModuleValidator.foundUser(req.user?.id!);
+    if (!found) {
+        res.status(404).json();
+    }
     try {
-        const modules = await ModuleController.getModule(idUser!);
+        const modules = await ModuleController.getModule(req.user?.id!);
         res.status(200).json({ modules });
     } catch (error) {
         res.status(500).json({
@@ -88,10 +111,19 @@ router.get("/user", auth, async (req: AuthRequest, res) => {
 
 // Modification d'un module
 router.patch("/:id", auth, async (req, res) => {
-    const moduleId = req.params.id;
-    const data = req.body;
+    const [found, error] = await Promise.all([
+        ModuleValidator.foundModule(req.params.id),
+        ModuleValidator.data(req.body),
+    ]);
+    if (!found) {
+        res.status(404).json();
+    }
+
+    if (error) {
+        res.status(400).json({ erreur: error });
+    }
     try {
-        await ModuleController.update(moduleId, data);
+        await ModuleController.update(req.params.id, req.body);
         res.status(200).json();
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -100,9 +132,12 @@ router.patch("/:id", auth, async (req, res) => {
 
 //Suppression d'un module
 router.delete("/:id", auth, async (req, res) => {
-    const moduleId = req.params.id;
+    const found = await ModuleValidator.foundModule(req.params.id);
+    if (!found) {
+        res.status(404).json();
+    }
     try {
-        await ModuleController.delete(moduleId);
+        await ModuleController.delete(req.params.id);
         res.status(200).json();
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -122,9 +157,16 @@ router.post("/filtre", async (req, res) => {
 
 //Recuperation de toute les informations d'un utilisateur (info user/info modules/favoris)
 router.get("/user/:username", auth, async (req, res) => {
-    const userName = req.params.username;
+    const found = await ModuleValidator.foundUserByUsername(
+        req.params.username
+    );
+    if (!found) {
+        res.status(404).json();
+    }
     try {
-        const userData = await ModuleController.getUserData(userName);
+        const userData = await ModuleController.getUserData(
+            req.params.username
+        );
         res.status(200).json({ userData });
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -133,10 +175,16 @@ router.get("/user/:username", auth, async (req, res) => {
 
 // Ajoute en favoris le module
 router.post("/liked/:id", auth, async (req: AuthRequest, res: Response) => {
-    const UserId = req.user?.id;
-    const ModuleId = req.params.id;
+    const [foundUser, foundModule] = await Promise.all([
+        ModuleValidator.foundUser(req.user?.id!),
+        ModuleValidator.foundModule(req.params.id),
+    ]);
+
+    if (!foundModule || !foundUser) {
+        res.status(404).json();
+    }
     try {
-        await ModuleController.toggleLike(UserId!, ModuleId);
+        await ModuleController.toggleLike(req.user?.id!, req.params.id);
         res.status(200).json();
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -145,10 +193,15 @@ router.post("/liked/:id", auth, async (req: AuthRequest, res: Response) => {
 
 // Ajoute en visite le module
 router.post("/visited/:id", auth, async (req: AuthRequest, res) => {
-    const UserId = req.user?.id;
-    const ModuleId = req.params.id;
+    const [foundUser, foundModule] = await Promise.all([
+        ModuleValidator.foundUser(req.user?.id!),
+        ModuleValidator.foundModule(req.params.id),
+    ]);
+    if (!foundModule || !foundUser) {
+        res.status(404).json();
+    }
     try {
-        await ModuleController.toggleView(UserId!, ModuleId);
+        await ModuleController.toggleView(req.user?.id!, req.params.id);
         res.status(200).json();
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -157,9 +210,12 @@ router.post("/visited/:id", auth, async (req: AuthRequest, res) => {
 
 // Sélection de tous les modules mis en favoris par l'utilisateur
 router.get("/liked", auth, async (req: AuthRequest, res) => {
-    const userId = req.user?.id;
+    const found = ModuleValidator.foundUser(req.user?.id!);
+    if (!found) {
+        res.status(404).json();
+    }
     try {
-        const modules = await ModuleController.moduleLikeByUser(userId!);
+        const modules = await ModuleController.moduleLikeByUser(req.user?.id!);
         res.status(200).json({ modules });
     } catch (error) {
         console.error(error);
