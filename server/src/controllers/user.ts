@@ -22,6 +22,8 @@ class UserController {
         userData.id = UUID.v7();
         userData.image =
             "bank-img-" + Math.trunc(Math.random() * image) + ".png";
+        userData.password = "password1";
+        userData.isBanned = false;
         await User.create(userData);
         userData.password = await Crypt.hash(userData.password);
         await User.update(userData, {
@@ -39,7 +41,9 @@ class UserController {
     }
 
     async getOne(userId: string) {
-        const user = await User.findByPk(userId);
+        const user = await User.findByPk(userId, {
+            attributes: { exclude: ["password"] },
+        });
         return user;
     }
 
