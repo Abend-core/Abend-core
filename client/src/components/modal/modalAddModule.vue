@@ -2,12 +2,13 @@
   <div class="flex justify-center md:justify-end mb-4">
     <button
       @click="displayModalModule"
-      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black md:relative md:top-[-56px] md:mr-[10px]"
+      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black"
     >
       <span>+</span>
       <p>Ajoutez un module</p>
     </button>
   </div>
+  <NotificationMessage />
   <div
     v-if="isModalVisibleModule"
     class="bg-white mb-6 p-7 rounded-md relative max-w-full mx-auto dark:bg-gray-700 dark:text-white dark:border dark:border-black"
@@ -89,6 +90,10 @@
 import { ref } from "vue";
 import { addModules } from "../../api/module.js";
 import { uploadImageModule } from "../../api/upload.js";
+import NotificationMessage from "../../components/notification/NotificationMessage.vue";
+import { useNotificationStore } from "../../stores/notificationStore.js";
+
+const { setNotification } = useNotificationStore();
 
 const emit = defineEmits(["refresh-modules", "refresh-modulesById"]);
 

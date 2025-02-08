@@ -24,7 +24,6 @@
             id="password"
             class="input-password mb-3 dark:text-white dark:bg-gray-900"
             v-model="password"
-            minlength="8"
             required
           />
           <label class="mb-1" for="login"> Identifiant </label>
@@ -62,7 +61,6 @@ import { registrateUser } from "../api/auth";
 import NotificationMessage from "../components/notification/NotificationMessage.vue";
 import LogoSwitch from "../components/LogoSwitch.vue";
 import { useNotificationStore } from "../stores/notificationStore.js";
-import { isDark } from "../utils/darkMode.js";
 
 const router = useRouter();
 
@@ -84,7 +82,7 @@ const registration = async () => {
     await registrateUser(data);
     router.push("/login");
   } catch (error) {
-    setNotification(error.response?.data?.errors[0], "error");
+    setNotification(error.response.data.Erreur, "error");
   }
 };
 </script>

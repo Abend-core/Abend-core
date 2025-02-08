@@ -80,7 +80,7 @@ const handleLogin = async () => {
     authStore.setUser(userData);
     router.push("/");
   } catch (error) {
-    setNotification(error.response?.data?.message, "error");
+    setNotification(error.response.data.Erreur, "error");
   } finally {
     mail.value = "";
     password.value = "";

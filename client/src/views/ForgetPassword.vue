@@ -44,6 +44,10 @@
   </main>
 </template>
 
+<script setup>
+import { isDark } from "../utils/darkMode.js";
+</script>
+
 <style scoped>
 label,
 input {

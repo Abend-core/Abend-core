@@ -47,7 +47,7 @@
           >
             <kbd
               class="block text-customdarkGray tracking-tighter text-xs font-bold"
-              >Ctrl K</kbd
+              >{{ osShortcut }}</kbd
             >
           </div>
         </div>
@@ -179,7 +179,9 @@ const { modals, toggleModal, closeModal } = useModal();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const isAdmin = computed(() => authStore.isAdmin);
 const user = computed(() => authStore.user);
+
 const isMobileMenuOpen = ref(false);
+const osShortcut = ref("Ctrl K");
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -208,6 +210,14 @@ const logOut = () => {
 };
 
 onMounted(() => {
+  const userAgent = navigator.userAgent;
+
+  if (userAgent.includes("Macintosh")) {
+    osShortcut.value = "Cmd K";
+  } else if (userAgent.includes("Windows NT")) {
+    osShortcut.value = "Ctrl K";
+  }
+
   authStore.initializeAuth();
   if (authStore.isAuthenticated) {
     loadUserProfile();

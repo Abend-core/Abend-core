@@ -18,7 +18,10 @@
           Il semble que vous n'ayez pas encore créé de module
         </p>
       </div>
-      <div v-else class="bg-white rounded-md max-h-[800px] mb-5 overflow-auto">
+      <div
+        v-else
+        class="bg-white dark:bg-gray-800 mt-6 rounded-md max-h-[800px] mb-5 overflow-auto"
+      >
         <NotificationMessage />
         <table class="w-full dark:text-white dark:bg-gray-800">
           <thead>
@@ -71,9 +74,12 @@
                 <label class="switch">
                   <input
                     type="checkbox"
-                    :checked="module.isShow === 1"
+                    :checked="module.isShow === true"
                     @change="
-                      toggleVisibility(module.id, module.isShow === 1 ? 0 : 1)
+                      toggleVisibility(
+                        module.id,
+                        module.isShow === true ? false : true
+                      )
                     "
                   />
                   <span class="slider round"></span>

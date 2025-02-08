@@ -24,7 +24,7 @@
   </div>
   <modal-add-user @refresh-users="allUsers" />
   <div
-    class="bg-white rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
+    class="bg-white rounded-md mt-6 max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
   >
     <table class="w-full">
       <thead>

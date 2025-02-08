@@ -8,10 +8,6 @@ export const useNotificationStore = defineStore("notificationStore", () => {
   const setNotification = (msg, msgType) => {
     message.value = msg;
     type.value = msgType;
-    setTimeout(() => {
-      message.value = "";
-      type.value = "";
-    }, 3000);
   };
 
   const clearNotification = () => {

@@ -224,7 +224,7 @@ const updatePassword = async () => {
     newPassword.value = "";
     confirmNewPassword.value = "";
   } catch (error) {
-    setNotification(error.response?.data?.message, "error");
+    setNotification(error.response.data.Erreur, "error");
     oldPassword.value = "";
     newPassword.value = "";
     confirmNewPassword.value = "";

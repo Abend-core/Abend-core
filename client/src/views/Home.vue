@@ -80,7 +80,7 @@ const modulesToDisplay = computed(() => {
     ? moduleStore.modules
     : moduleStore.modulesAdmin;
 
-  return modules.filter((module) => module.isShow === 1);
+  return modules.filter((module) => module.isShow === true);
 });
 
 const getEtatLike = (idModule) => {
