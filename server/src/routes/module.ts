@@ -235,4 +235,37 @@ router.get("/liked", auth, async (req: AuthRequest, res) => {
     }
 });
 
+// Changement de l'état d'un module en alerte
+router.post("/reported/id", auth, async (req: AuthRequest, res) => {
+    const [foundUser, foundModule] = await Promise.all([
+        ModuleValidator.foundUser(req.user?.id!),
+        ModuleValidator.foundModule(req.params.id),
+    ]);
+    if (!foundModule || !foundUser) {
+        res.status(404).json();
+        return;
+    }
+    try {
+        const modules = await ModuleController.toggleReport(
+            req.user?.id!,
+            req.params.id
+        );
+        res.status(200).json({ modules });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
+});
+
+// Affiche les modules qui ont été report
+router.get("/reported", auth, async (req: AuthRequest, res) => {
+    try {
+        const modules = await ModuleController.getReported();
+        res.status(200).json({ modules });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
+});
+
 export default router;

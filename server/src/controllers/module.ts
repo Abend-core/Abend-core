@@ -7,6 +7,7 @@ import Redis, { KEYS } from "../tools/redis";
 import { Module, moduleCreationAttributes } from "../models/module";
 import Like from "../models/liked";
 import Visited from "../models/visited";
+import Reported from "../models/reported";
 import { User } from "../models/user";
 import { Op } from "sequelize";
 
@@ -19,7 +20,6 @@ class ModuleController {
         Redis.deleteCache(KEYS.modules);
         data.id = UUID.v7();
         data.isShow = true;
-        data.isAlert = false;
         data.image = file.filename;
         if (!file) {
             throw new Error("Bad request.");
@@ -136,6 +136,17 @@ class ModuleController {
         this.#addLike(userId, ModuleId);
     }
 
+    async toggleReport(userId: string, ModuleId: string) {
+        const result = await Reported.findOne({
+            where: { UserId: userId, ModuleId: ModuleId },
+        });
+        if (!result) {
+            await this.#addReported(userId, ModuleId);
+            await this.#hideModule(ModuleId);
+        }
+        return;
+    }
+
     async toggleView(userId: string, ModuleId: string) {
         const result = await Visited.findOne({
             where: { UserId: userId, ModuleId: ModuleId },
@@ -190,16 +201,34 @@ class ModuleController {
         return modules;
     }
 
-    async delete(moduleId: string) {
+    async delete(ModuleId: string) {
         Redis.deleteCache(KEYS.modules);
-        const module = await Module.findByPk(moduleId);
+        const module = await Module.findByPk(ModuleId);
         if (!module) {
             return;
         }
         const dataModule = module.get();
         const fileDelete = path.join("./src/uploads/module/", dataModule.image);
         fs.promises.unlink(fileDelete);
-        await Module.destroy({ where: { id: moduleId } });
+        await Module.destroy({ where: { id: ModuleId } });
+    }
+
+    async getReported() {
+        const modulesReport = await Reported.findAll({
+            attributes: ["ModuleId"],
+            group: ["ModuleId"],
+        });
+
+        const reportedModuleIds = modulesReport.map(
+            (report) => report.ModuleId
+        );
+
+        const modules = await Module.findAll({
+            where: {
+                id: reportedModuleIds,
+            },
+        });
+        return modules;
     }
 
     #addView(UserId: string, ModuleId: string) {
@@ -217,6 +246,15 @@ class ModuleController {
     #addLike(UserId: string, ModuleId: string) {
         Like.create({ UserId: UserId, ModuleId: ModuleId });
         Module.increment("likes", { where: { id: ModuleId } });
+    }
+    #addReported(UserId: string, ModuleId: string) {
+        Reported.create({ UserId: UserId, ModuleId: ModuleId });
+    }
+    async #hideModule(ModuleId: string) {
+        const number = await Reported.count({ where: { ModuleId: ModuleId } });
+        if (number > 5) {
+            Module.update({ isShow: false }, { where: { id: ModuleId } });
+        }
     }
 }
 
