@@ -68,7 +68,7 @@ class ModuleController {
     }
 
     async getModule(userId: string) {
-        const modules = await this.getAll();
+        const modules = await this.show(userId);
         const moduleUser = modules.filter(
             (module: Module) => module.user_id == userId
         );
@@ -183,13 +183,10 @@ class ModuleController {
             where: { username: userName },
         });
 
-        if (!user) {
-            throw new Error("User not found");
-        }
         const userId = user?.id;
         const [ModuleUser, FavorisUser] = await Promise.all([
-            this.getModule(userId),
-            this.moduleLikeByUser(userId),
+            this.getModule(userId!),
+            this.moduleLikeByUser(userId!),
         ]);
         return { user, ModuleUser, FavorisUser };
     }
