@@ -8,7 +8,7 @@ const imageCount: number = config.get("storage.nombreImageBanque");
 
 //Modele & bdd
 import { User, userCreationAttributes } from "../models/user";
-import { sendVerificationEmail } from "../tools/email";
+import Mail from "../tools/email";
 
 class AuthController {
     async register(userData: userCreationAttributes) {
@@ -30,7 +30,7 @@ class AuthController {
             { where: { id: user.id }, validate: false }
         );
         setTimeout(() => {
-            sendVerificationEmail(userData.mail, userData.token);
+            Mail.verification(userData.mail, userData.token);
         }, 6000); // Attendre 3 secondes
     }
 

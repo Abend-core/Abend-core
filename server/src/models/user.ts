@@ -102,7 +102,7 @@ User.init(
         },
         isActive: {
             type: DataTypes.BOOLEAN,
-            allowNull: true,
+            allowNull: false,
         },
         token: {
             type: DataTypes.STRING,

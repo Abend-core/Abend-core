@@ -7,11 +7,11 @@ const pass: string = config.get("mail.pass");
 const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        user: user, // ton adresse Gmail
-        pass: pass, // ton mot de passe ou mot de passe d'application
+        user: user,
+        pass: pass,
     },
     tls: {
-        rejectUnauthorized: false, // Si tu veux ignorer les erreurs de certificat auto-signé
+        rejectUnauthorized: false,
     },
 });
 
