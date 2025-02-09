@@ -1,7 +1,7 @@
 const users = [
     {
         username: "Rudy",
-        mail: "rudyalvs@gmail.com",
+        mail: "rudyals@gmail.com",
         image: "rudy.jpg",
         password: "password1",
         isAdmin: true,

@@ -54,6 +54,7 @@ if (env == "Dev") {
 
 app.use("/uploadsFile/module", express.static("src/uploads/module"));
 app.use("/uploadsFile/profil", express.static("src/uploads/profil"));
+app.use("/uploadsFile/email", express.static("src/uploads/email"));
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     console.error("Erreur serveur :", err);

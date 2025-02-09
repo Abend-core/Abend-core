@@ -29,8 +29,9 @@ class AuthController {
             { password: user.password },
             { where: { id: user.id }, validate: false }
         );
-
-        await sendVerificationEmail(userData.mail, userData.token);
+        setTimeout(() => {
+            sendVerificationEmail(userData.mail, userData.token);
+        }, 6000); // Attendre 3 secondes
     }
 
     async signin(userData: userCreationAttributes) {
