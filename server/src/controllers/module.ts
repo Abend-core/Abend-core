@@ -91,11 +91,23 @@ class ModuleController {
             attributes: ["ModuleId"],
         });
         const likedModuleIds = new Set(
-            likedModules.map((like) => like.ModuleId)
+            likedModules.map((report) => report.ModuleId)
+        );
+
+        const reportedModules = await Like.findAll({
+            where: {
+                ModuleId: modulesId,
+                UserId: userId,
+            },
+            attributes: ["ModuleId"],
+        });
+        const reportedModulesIds = new Set(
+            reportedModules.map((report) => report.ModuleId)
         );
         const formattedModules = moduleShow.map((module: Module) => ({
             ...module,
             favoris: likedModuleIds.has(module.id.toString()),
+            report: reportedModulesIds.has(module.id.toString()),
         }));
         return formattedModules;
     }
