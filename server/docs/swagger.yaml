@@ -1206,15 +1206,6 @@ paths:
             tags:
                 - Modules
             summary: Affiche les modules reporté
-            parameters:
-            - name: idModule
-              in: path
-              description: L'identifiant de lu module qui sera report.
-              required: true
-              schema:
-                  type: string
-                  description: Identifiant du module
-                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
             responses:
                 200:
                     description: Le module a recu un report
