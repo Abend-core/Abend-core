@@ -48,23 +48,6 @@ class UserController {
     }
 
     async update(userId: string, userData: userCreationAttributes) {
-        const [mailUser, usernameUser] = await Promise.all([
-            User.findOne({
-                where: { mail: userData.mail, id: { [Op.ne]: userId } },
-            }),
-            User.findOne({
-                where: { username: userData.username, id: { [Op.ne]: userId } },
-            }),
-        ]);
-        if (mailUser) {
-            throw new Error("Ce mail est déjà utilisé par un autre compte.");
-        }
-        if (usernameUser) {
-            throw new Error(
-                "Ce nom d'utilisateur est déjà utilisé par un autre compte."
-            );
-        }
-
         await User.update(userData, { where: { id: userId } });
     }
 
@@ -97,15 +80,12 @@ class UserController {
         }
         user!.image = file.filename;
         const data = user!.get();
-        console.log(data);
         await this.update(data.id, data);
     }
 
     async delete(userId: string) {
+        Redis.deleteCache(KEYS.modules);
         const user = await User.findByPk(userId);
-        if (!user) {
-            throw new Error("User not found");
-        }
         const modules = await Module.findAll({
             where: { user_id: userId },
         });
@@ -118,10 +98,10 @@ class UserController {
                 await fs.promises.unlink(fileDeleteModule);
             })
         );
-        if (!user.image.includes("bank")) {
+        if (!user!.image.includes("bank")) {
             const fileDeleteUser = path.join(
                 "./src/uploads/profil/",
-                user.image
+                user!.image
             );
             await fs.promises.unlink(fileDeleteUser);
         }
@@ -129,7 +109,15 @@ class UserController {
             Module.destroy({ where: { user_id: userId } }),
             User.destroy({ where: { id: userId } }),
         ]);
-        Redis.deleteCache(KEYS.modules);
+    }
+    async toggleActive(userId: string) {
+        const user = await User.findByPk(userId);
+        const userData = user?.get();
+        if (user?.isActive === true) {
+            userData!.isActive = false;
+        }
+        userData!.isActive = false;
+        await this.update(userId, userData!);
     }
 }
 

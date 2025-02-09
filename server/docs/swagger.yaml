@@ -177,7 +177,7 @@ paths:
                                         example: Erreur serveur.
                                     erreur: 
                                         type: object
-    # Utilisateur 8
+    # Utilisateur 9
     # 2
     /users:
         get:
@@ -587,6 +587,34 @@ paths:
                             schema:
                                 type: object
                                     properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+    /users/active/{id}:
+        patch:
+            tags:
+                - Utilisateurs
+            summary: Change l'etat actif de l'utilisateur
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur à récupérer
+              required: true
+              schema:
+                  type: string
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Utilisateur a changer d'état actif
+                404:
+                    description: Utilisateurs introuvable.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
                                     message:
                                         type: string
                                         example: Erreur serveur.

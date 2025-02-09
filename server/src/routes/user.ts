@@ -61,15 +61,13 @@ router.patch(
     "/:id",
     auth,
     async (req: Request, res: Response): Promise<void> => {
-        const [found, error] = await Promise.all([
-            UserValidator.found(req.params.id),
-            UserValidator.data(req.body),
-        ]);
+        const found = await UserValidator.found(req.params.id);
 
         if (!found) {
             res.status(404).json();
             return;
         }
+        const error = await UserValidator.data(req.body);
         if (error) {
             res.status(400).json({ Erreur: error });
             return;
@@ -114,7 +112,6 @@ router.post("/filtre", auth, async (req: Request, res: Response) => {
 });
 
 //Update photo utilisateur
-
 router.put(
     "/image",
     auth,
@@ -163,6 +160,26 @@ router.put(
         }
         try {
             await UserController.password(req.user?.id!, req.body);
+            res.status(200).json();
+        } catch (error) {
+            res.status(500).json({ message: "Erreur serveur.", erreur: error });
+        }
+    }
+);
+
+// Update password utilisateur
+router.put(
+    "/active/:id",
+    auth,
+    async (req: AuthRequest, res: Response): Promise<void> => {
+        const found = await UserValidator.found(req.params.id);
+        if (!found) {
+            res.status(404).json();
+            return;
+        }
+
+        try {
+            await UserController.toggleActive(req.params.id);
             res.status(200).json();
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", erreur: error });
