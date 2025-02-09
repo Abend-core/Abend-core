@@ -16,3 +16,7 @@ export const loginUser = (data) => {
 export const getUserInfos = (id) => {
   return apiClient.get(`/users/${id}`);
 };
+
+export const validationUser = (token) => {
+  return apiClient.post("/auth/", token);
+};

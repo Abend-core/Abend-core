@@ -11,7 +11,7 @@ import ModuleProfil from "../views/ModuleProfil.vue";
 import LikedModules from "../views/LikedModules.vue";
 import HomeV2 from "../views/HomeV2.vue";
 import UserModules from "../views/UserModules.vue";
-import Verification from "../views/Verification.vue";
+import VerificationEmail from "../views/VerificationEmail.vue";
 import VerificationPassword from "../views/VerificationPassword.vue";
 
 const routes = [
@@ -49,9 +49,9 @@ const routes = [
     },
   },
   {
-    path: "/verification",
+    path: "/verification/:token",
     name: "VerificationPage",
-    component: Verification,
+    component: VerificationEmail,
   },
   {
     path: "/verificationPassword",
