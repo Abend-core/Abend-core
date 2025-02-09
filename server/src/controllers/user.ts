@@ -1,6 +1,7 @@
 //Model & bdd
 import { User, userCreationAttributes } from "../models/user";
 import { Module, moduleCreationAttributes } from "../models/module";
+import Follow from "../models/follow";
 import { Op } from "sequelize";
 
 //Tools
@@ -118,6 +119,28 @@ class UserController {
         }
         userData!.isActive = false;
         await this.update(userId, userData!);
+    }
+    async follower(userId: string, userIdFollow: string) {
+        const result = await Follow.findOne({
+            where: { UserId: userId, UserIdFollow: userIdFollow },
+        });
+        if (result) {
+            this.#deleteFollow(userId, userIdFollow);
+            return;
+        }
+        this.#addFollow(userId, userIdFollow);
+    }
+
+    #deleteFollow(userId: string, userIdFollow: string) {
+        Follow.destroy({
+            where: { UserId: userId, UserIdFollow: userIdFollow },
+        });
+        User.decrement("abonnes", { where: { id: userIdFollow } });
+    }
+
+    #addFollow(userId: string, userIdFollow: string) {
+        Follow.create({ UserId: userId, UserIdFollow: userIdFollow });
+        User.increment("abonnes", { where: { id: userIdFollow } });
     }
 }
 

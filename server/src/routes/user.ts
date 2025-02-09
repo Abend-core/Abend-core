@@ -167,7 +167,7 @@ router.put(
     }
 );
 
-// Update password utilisateur
+// Update etat actif utilisateur
 router.put(
     "/active/:id",
     auth,
@@ -180,6 +180,28 @@ router.put(
 
         try {
             await UserController.toggleActive(req.params.id);
+            res.status(200).json();
+        } catch (error) {
+            res.status(500).json({ message: "Erreur serveur.", erreur: error });
+        }
+    }
+);
+
+// Suivre un autre utilisateur
+router.post(
+    "/follow/:id",
+    auth,
+    async (req: AuthRequest, res: Response): Promise<void> => {
+        const [foundUser, foundMe] = await Promise.all([
+            UserValidator.found(req.params.id),
+            UserValidator.found(req.user?.id!),
+        ]);
+        if (!foundUser || !foundMe) {
+            res.status(404).json();
+            return;
+        }
+        try {
+            await UserController.follower(req.user?.id!, req.params.id);
             res.status(200).json();
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", erreur: error });

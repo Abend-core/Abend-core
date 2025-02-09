@@ -7,6 +7,7 @@ interface UserAttributes {
     mail: string;
     image: string;
     password: string;
+    abonnes: number;
     isAdmin: boolean;
     isActive: boolean;
     token: string;
@@ -23,6 +24,7 @@ class User
     public mail!: string;
     public image!: string;
     public password!: string;
+    public abonnes!: number;
     public isAdmin!: boolean;
     public isActive!: boolean;
     public token!: string;
@@ -95,6 +97,10 @@ User.init(
                     msg: "Le mot de passe doit contenir [8 à 130] caractères.",
                 },
             },
+        },
+        abonnes: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,

@@ -618,6 +618,35 @@ paths:
                                     message:
                                         type: string
                                         example: Erreur serveur.
+    /users/follow/{id}:
+        post: 
+            tags:
+                - Utilisateurs
+            summary: S'abonner a un utilisateur
+            parameters:
+            - name: idUser
+              in: path
+              description: L'identifiant de l'utilisateur qui sera suivis.
+              required: true
+              schema:
+                  type: string
+                  description: Identifiant du module
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: L'utilisateur a été suivis.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
     # Module 15
     # 2
     /modules:
@@ -1152,29 +1181,20 @@ paths:
                                         example: Erreur serveur.
                                     erreur: 
                                         type: object
-    /modules/visited:
+    /modules/visited/{id}:
         post: 
             tags:
                 - Modules
             summary: Ajoute une visite au module.
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            required:
-                                - UserId
-                                - ModuleId
-                            properties:
-                                UserId:
-                                    type: string
-                                    description: Identifiant de l'utilisateur
-                                    example: 01949df0-b386-7021-a66e-aea1a8c3ceab
-                                ModuleId:
-                                    type: string
-                                    description: Identifiant du module
-                                    example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            parameters:
+            - name: idModule
+              in: path
+              description: L'identifiant de lu module qui sera visité.
+              required: true
+              schema:
+                  type: string
+                  description: Identifiant du module
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
             responses:
                 200:
                     description: Le module a été visité.
