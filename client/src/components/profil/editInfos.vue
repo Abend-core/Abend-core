@@ -192,20 +192,25 @@ const loadUserProfile = async () => {
 };
 
 const updateUserProfile = async () => {
-  const updatedData = {
-    mail: emailProfil.value,
-    username: identifiantProfil.value,
-  };
-
   try {
-    await editUserById(id, updatedData);
-    const updatedDataUser = { ...authStore.user, updatedData };
-    authStore.setUser(updatedDataUser);
-    loadUserProfile();
+    let updatedData = {};
+
+    if (emailProfil.value !== user.value.mail) {
+      updatedData.mail = emailProfil.value;
+      await editUserById(id, { mail: updatedData.mail });
+      authStore.setUser({ ...authStore.user, mail: updatedData.mail });
+    }
+    if (identifiantProfil.value !== user.value.username) {
+      updatedData.username = identifiantProfil.value;
+      await editUserById(id, { username: updatedData.username });
+      authStore.setUser({ ...authStore.user, username: updatedData.username });
+    }
+
     setNotification("Profil mis à jour avec succès !", "success");
+
     buttonDisabled.value = true;
   } catch (error) {
-    console.error(error);
+    setNotification(error.response.data.Erreur, "error");
   }
 };
 
@@ -240,7 +245,7 @@ const deleteAccount = async () => {
     authStore.logout();
     router.push("/");
   } catch (error) {
-    console.log(error);
+    setNotification(error.response.data.Erreur, "error");
   }
 };
 
