@@ -10,18 +10,20 @@ class UserValidator {
     async data(userData: userCreationAttributes) {
         let message: string = "";
 
-        const [mail, username] = await Promise.all([
-            this.#findMail(userData.mail),
-            this.#findUsername(userData.username),
-        ]);
-        if (username) {
-            message = "Cet identifiant est déjà utilisé.";
+        if (userData.username) {
+            const username = await this.#findUsername(userData.username);
+            if (username) {
+                message = "Cet identifiant est déjà utilisé.";
+            }
         }
         if (userData.username.length < 3 || userData.username.length > 15) {
             message = "L'identifiant doit faire entre 3 et 15 caractères.";
         }
-        if (mail) {
-            message = "Ce mail est déjà utilisé par un autre compte.";
+        if (userData.mail) {
+            const mail = await this.#findMail(userData.mail);
+            if (mail) {
+                message = "Ce mail est déjà utilisé par un autre compte.";
+            }
         }
 
         return message;
