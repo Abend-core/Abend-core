@@ -80,7 +80,13 @@ const registration = async () => {
 
   try {
     await registrateUser(data);
-    router.push("/login");
+    setNotification(
+      "Veuillez vérifier votre compte. Pensez à surveiller vos courriers indésirables.",
+      "warning"
+    );
+    email.value = "";
+    password.value = "";
+    loginRegister.value = "";
   } catch (error) {
     setNotification(error.response.data.Erreur, "error");
   }

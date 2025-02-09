@@ -6,11 +6,11 @@ const urlServer: string = config.get("mail.urlServer");
 const urlClient: string = config.get("mail.urlClient");
 
 async function sendVerificationEmail(to: string, token: string) {
-    const mailOptions = {
-        from: user,
-        to,
-        subject: "Vérification de votre compte",
-        html: `
+  const mailOptions = {
+    from: user,
+    to,
+    subject: "Vérification de votre compte",
+    html: `
       <div
           style="
               text-align: center;
@@ -22,11 +22,11 @@ async function sendVerificationEmail(to: string, token: string) {
           "
       >
           <div style="display: flex; flex-direction: column; align-items: center; justify-content:center; gap:5px;">
-              <p>Abend-core</p>
+              <h1>Abend-core</h1>
               <img src="cid:logo_cid" alt="Abend-core Logo" style="width: 150px; height: 150px; margin-bottom: 20px;">
           </div>
-          <p style="font-weight: bold">Vérifier votre compte</p>
-          <p>Les informations de votre compte</p>
+          <p style="font-weight: bold; font-size: 20px;">Vérifier votre compte</p>
+          <p class="font-size: 18px;">Les informations de votre compte</p>
           <div
               style="
               padding: 20px;
@@ -78,17 +78,17 @@ async function sendVerificationEmail(to: string, token: string) {
           </div>
       </div>
         `,
-        attachments: [
-            {
-                filename: "rudy.jpg",
-                path: urlServer + "/uploadsFile/email/logo.png",
-                cid: "logo_cid",
-            },
-        ],
-    };
+    attachments: [
+      {
+        filename: "rudy.jpg",
+        path: urlServer + "/uploadsFile/email/logo.png",
+        cid: "logo_cid",
+      },
+    ],
+  };
 
-    await transporter.sendMail(mailOptions);
-    console.log("✅ Email envoyé à:", to);
+  await transporter.sendMail(mailOptions);
+  console.log("✅ Email envoyé à:", to);
 }
 
 export { sendVerificationEmail };

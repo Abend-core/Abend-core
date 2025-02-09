@@ -12,6 +12,7 @@ import LikedModules from "../views/LikedModules.vue";
 import HomeV2 from "../views/HomeV2.vue";
 import UserModules from "../views/UserModules.vue";
 import Verification from "../views/Verification.vue";
+import VerificationPassword from "../views/VerificationPassword.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
@@ -48,9 +49,14 @@ const routes = [
     },
   },
   {
-    path: "/verification:token",
+    path: "/verification",
     name: "VerificationPage",
     component: Verification,
+  },
+  {
+    path: "/verificationPassword",
+    name: "VerificationPasswordPage",
+    component: VerificationPassword,
   },
   {
     path: "/module",
