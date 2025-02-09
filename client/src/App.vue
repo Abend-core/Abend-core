@@ -1,6 +1,6 @@
 <template>
   <div
-    @keydown="handleKeydown"
+    @keydown.capture="shortcutKey"
     @keydown.esc="closeModal('searchBar')"
     tabindex="0"
   >
@@ -22,6 +22,7 @@ const { clearNotification } = useNotificationStore();
 const { modals, closeModal, searchBarOpenKey } = useModal();
 
 const os = ref("Windows");
+
 onMounted(() => {
   const userAgent = navigator.userAgent;
   if (userAgent.includes("Macintosh")) {
@@ -29,23 +30,21 @@ onMounted(() => {
   } else if (userAgent.includes("Windows NT")) {
     os.value = "Windows";
   }
-});
 
-const handleKeydown = (event) => {
-  if (
-    os.value === "Windows" &&
-    event.ctrlKey &&
-    event.key.toLowerCase() === "k"
-  ) {
-    searchBarOpenKey(event);
-  } else if (
-    os.value === "Mac" &&
-    event.metaKey &&
-    event.key.toLowerCase() === "k"
-  ) {
-    searchBarOpenKey(event);
-  }
-};
+  const shortcutKey = (event) => {
+    if (
+      (os.value === "Windows" &&
+        event.ctrlKey &&
+        event.key.toLowerCase() === "k") ||
+      (os.value === "Mac" && event.metaKey && event.key.toLowerCase() === "k")
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+      searchBarOpenKey(event);
+    }
+  };
+  document.addEventListener("keydown", shortcutKey);
+});
 
 watch(
   () => route.path,
