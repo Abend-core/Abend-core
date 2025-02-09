@@ -9,7 +9,7 @@
     },
     "server": {
         "env": "Prod",
-        "port": 5000
+        "port": 6633
     },
     "cors": {
         "origin": ["http://abend-core.org"],
@@ -25,6 +25,8 @@
     },
     "mail": {
         "user": "abendcore@gmail.com",
-        "pass": "eyku pknd ujpy mcsf"
+        "pass": "eyku pknd ujpy mcsf",
+        "urlClient": "http://abend-core.org",
+        "urlServer": "http://abend-core.org:6633"
     }
 }
