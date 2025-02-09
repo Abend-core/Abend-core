@@ -9,6 +9,7 @@
             border: `1px solid black`,
           }"
           target="_blank"
+          @click="countVisit(module.id)"
         >
           <img
             class="absolute w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
@@ -65,6 +66,7 @@
 <script setup>
 import { computed, watch, onMounted } from "vue";
 import { toggleLike } from "../api/like";
+import { countVisitor } from "../api/module";
 import { useAuthStore } from "../stores/authStore";
 import { useModuleStore } from "../stores/moduleStore";
 import { useLikeStore } from "../stores/likeStore";
@@ -94,6 +96,14 @@ const toggleLikeModule = async (idModule, event) => {
     await toggleLike(idModule);
   } catch (error) {
     console.error("Erreur lors du like :", error);
+  }
+};
+
+const countVisit = async (idModule) => {
+  try {
+    await countVisitor(idModule);
+  } catch (error) {
+    console.error(error);
   }
 };
 

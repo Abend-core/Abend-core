@@ -46,3 +46,7 @@ export const getInfosUserByUsername = (username) => {
 export const updateModuleById = (id, data) => {
   return apiClient.patch(`/modules/${id}`, data);
 };
+
+export const countVisitor = (idModule) => {
+  return apiClient.post(`/modules/visited/${idModule}`);
+};
