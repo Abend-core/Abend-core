@@ -89,6 +89,7 @@
           v-if="isAuthenticated"
           class="flex gap-2 items-center cursor-pointer"
           @click="toggleModal('menu')"
+          @click.stop
         >
           <img
             v-if="user && user.image"
@@ -110,6 +111,7 @@
       </div>
       <div
         v-if="modals.menu"
+        ref="menuRef"
         class="absolute right-[1%] top-[85%] p-2 bg-white z-40 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
       >
         <div class="relative">
@@ -182,6 +184,13 @@ const user = computed(() => authStore.user);
 
 const isMobileMenuOpen = ref(false);
 const osShortcut = ref("Ctrl K");
+const menuRef = ref(null);
+
+const closeClickOutside = (event) => {
+  if (menuRef.value && !menuRef.value.contains(event.target)) {
+    closeModal("menu");
+  }
+};
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -211,6 +220,7 @@ const logOut = () => {
 
 onMounted(() => {
   const userAgent = navigator.userAgent;
+  document.addEventListener("click", closeClickOutside);
 
   if (userAgent.includes("Macintosh")) {
     osShortcut.value = "Cmd K";
