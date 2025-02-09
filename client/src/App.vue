@@ -23,6 +23,7 @@ const { modals, closeModal, searchBarOpenKey } = useModal();
 
 const os = ref("Windows");
 
+// onMounted permet d'effectuer des choses quand le composant est monté (c'est à dire que le dom est bien crée)
 onMounted(() => {
   const userAgent = navigator.userAgent;
   if (userAgent.includes("Macintosh")) {

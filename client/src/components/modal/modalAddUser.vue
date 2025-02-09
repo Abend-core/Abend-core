@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center md:justify-end mb-3">
+  <div class="flex justify-center md:justify-end mb-4 mt-4">
     <button
       @click="displayModalUser"
       class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-black"

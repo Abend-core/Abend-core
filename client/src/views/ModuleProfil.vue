@@ -107,6 +107,14 @@
                       Valider
                     </button>
                   </div>
+                  <div
+                    class="flex items-center"
+                    v-if="module.id === editingModuleId"
+                  >
+                    <button @click="cancelEdit(module.id)" class="text-sm">
+                      Annuler
+                    </button>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -153,6 +161,10 @@ const deleteModuleTable = async (idModule) => {
 
 const editModule = (idModule) => {
   editingModuleId.value = idModule;
+};
+
+const cancelEdit = (idModule) => {
+  editingModuleId.value = null;
 };
 
 const saveModule = async (idModule) => {
