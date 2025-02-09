@@ -15,10 +15,11 @@ class UserValidator {
             if (username) {
                 message = "Cet identifiant est déjà utilisé.";
             }
+            if (userData.username.length < 3 || userData.username.length > 15) {
+                message = "L'identifiant doit faire entre 3 et 15 caractères.";
+            }
         }
-        if (userData.username.length < 3 || userData.username.length > 15) {
-            message = "L'identifiant doit faire entre 3 et 15 caractères.";
-        }
+
         if (userData.mail) {
             const mail = await this.#findMail(userData.mail);
             if (mail) {
