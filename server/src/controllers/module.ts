@@ -91,10 +91,10 @@ class ModuleController {
             attributes: ["ModuleId"],
         });
         const likedModuleIds = new Set(
-            likedModules.map((report) => report.ModuleId)
+            likedModules.map((like) => like.ModuleId)
         );
 
-        const reportedModules = await Like.findAll({
+        const reportedModules = await Reported.findAll({
             where: {
                 ModuleId: modulesId,
                 UserId: userId,
