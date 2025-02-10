@@ -115,7 +115,10 @@
         class="absolute right-[1%] top-[85%] p-2 bg-white z-40 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
       >
         <div class="relative">
-          <div class="flex items-center">
+          <div
+            class="flex items-center"
+            :class="{ 'mb-2': isAuthenticated && !isAdmin }"
+          >
             <RouterLink
               to="/profile"
               class="flex items-center gap-1 text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
@@ -125,6 +128,7 @@
               Profil
             </RouterLink>
           </div>
+
           <div class="flex items-center">
             <RouterLink
               class="flex items-center gap-1 mb-2 text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
