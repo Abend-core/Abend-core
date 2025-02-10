@@ -46,6 +46,8 @@
           <th class="p-3">Date de création</th>
           <th class="p-3">Créateur</th>
           <th class="p-3">Visibilité</th>
+          <th class="p-3">Vues</th>
+          <th class="p-3">Likes</th>
         </tr>
       </thead>
       <tbody>
@@ -92,6 +94,12 @@
               />
               <span class="slider round"></span>
             </label>
+          </td>
+          <td class="p-3">
+            {{ module.views }}
+          </td>
+          <td class="p-3">
+            {{ module.likes }}
           </td>
         </tr>
       </tbody>

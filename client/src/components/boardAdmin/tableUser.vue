@@ -83,7 +83,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { findAll, deleteUser, filter, addUser } from "../../api/user";
+import { findAll, deleteUser, filter } from "../../api/user";
 import { formatDateTime } from "../../utils/date";
 import modalAddUser from "../../components/modal/modalAddUser.vue";
 

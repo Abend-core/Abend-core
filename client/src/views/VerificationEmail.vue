@@ -7,12 +7,13 @@
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
 import { validationUser } from "../api/auth.js";
 import NotificationMessage from "../components/notification/NotificationMessage.vue";
 import { useNotificationStore } from "../stores/notificationStore.js";
+import { useRoute, useRouter } from "vue-router";
 
-const { route, router } = useRoute();
+const route = useRoute();
+const router = useRouter();
 
 const { setNotification } = useNotificationStore();
 
@@ -22,7 +23,7 @@ const validation = async () => {
   try {
     await validationUser(token);
     setNotification("Compte validé !", "success");
-    setInterval(() => {
+    setTimeout(() => {
       router.push("/login");
     }, 3000);
   } catch (error) {
