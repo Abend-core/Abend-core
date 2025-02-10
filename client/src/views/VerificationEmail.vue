@@ -1,9 +1,10 @@
 <template>
+  <div class="p-6 max-w-[500px] mx-auto">
+    <NotificationMessage />
+  </div>
   <main
     class="flex flex-col items-center py-52 min-h-screen p-paddingMd max-w-[1400px] mx-auto text-center"
   >
-    <NotificationMessage />
-
     <div
       class="mb-6 flex items-center justify-center w-16 h-16 bg-primaryRed text-white rounded-full shadow-lg"
     >
@@ -48,7 +49,7 @@ const validation = async () => {
 
     setTimeout(() => {
       router.push("/login");
-    }, 3000);
+    }, 30000);
   } catch (error) {
     console.error(error);
   }
