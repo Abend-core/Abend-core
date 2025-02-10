@@ -49,7 +49,7 @@ const validation = async () => {
 
     setTimeout(() => {
       router.push("/login");
-    }, 30000);
+    }, 5000);
   } catch (error) {
     console.error(error);
   }
