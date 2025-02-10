@@ -18,5 +18,5 @@ export const getUserInfos = (id) => {
 };
 
 export const validationUser = (token) => {
-  return apiClient.post(`/auth/${token}`);
+  return apiClient.post("/auth/validation/", { token });
 };
