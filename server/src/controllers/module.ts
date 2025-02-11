@@ -97,11 +97,11 @@ class ModuleController {
     }
 
     async getModule(userId: string) {
-        const modules = await this.show(userId);
-        const moduleUser = modules.filter(
+        const modules = await this.getAll();
+        const modulesUser = modules.filter(
             (module: Module) => module.user_id == userId
         );
-        return moduleUser;
+        return modulesUser;
     }
 
     async show(userId: string) {
@@ -165,11 +165,11 @@ class ModuleController {
     }
 
     async moduleLikeByUser(userId: string) {
-        const modules = await this.show(userId);
-        const likedModules = modules.filter(
-            (module: ModuleWithFavoris) => module.favoris == true
+        const modules = await this.getAll();
+        const moduleLikeUser = modules.filter(
+            (module: Module) => module.favoris[userId] == true
         );
-        return likedModules;
+        return moduleLikeUser;
     }
 
     async getUserData(userName: string) {
@@ -218,21 +218,11 @@ class ModuleController {
     }
 
     async getReported() {
-        const modulesReport = await Reported.findAll({
-            attributes: ["ModuleId"],
-            group: ["ModuleId"],
+        const modules = await this.getAll();
+        const modulesReported = modules.filter((module: Module) => {
+            module.reportedCount != 0;
         });
-
-        const reportedModuleIds = modulesReport.map(
-            (report) => report.ModuleId
-        );
-
-        const modules = await Module.findAll({
-            where: {
-                id: reportedModuleIds,
-            },
-        });
-        return modules;
+        return modulesReported;
     }
 
     #addView(UserId: string, ModuleId: string) {

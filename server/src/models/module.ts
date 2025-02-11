@@ -32,6 +32,8 @@ class Module
     public User: any;
     public favoris!: any;
     public reported!: any;
+    public reportedCount!: number;
+    public isLiked!: boolean;
 }
 
 Module.init(
