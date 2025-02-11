@@ -33,7 +33,13 @@
                 {{ module.content }}
               </p>
             </div>
-            <p class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs">
+            <p
+              class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs"
+              :class="{
+                underline:
+                  authStore.user && authStore.user.id === module.User.id,
+              }"
+            >
               {{ module.User.username }}
             </p>
             <i
@@ -58,10 +64,13 @@ import { ref, computed, onMounted } from "vue";
 import { displayLikedModules } from "../api/like";
 import { toggleLike } from "../api/like";
 import { useLikeStore } from "../stores/likeStore";
+import { useAuthStore } from "../stores/authStore";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const likeStore = useLikeStore();
+const authStore = useAuthStore();
+
 const modules = ref([]);
 
 const allModulesLiked = async () => {
@@ -96,3 +105,13 @@ onMounted(() => {
   allModulesLiked();
 });
 </script>
+
+<style scoped>
+.module-card {
+  transition: transform 0.3s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+</style>

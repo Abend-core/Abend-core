@@ -6,6 +6,7 @@
     <p class="text-primaryRed mt-1">Profil Dashboard</p>
   </div>
   <div
+    v-if="user && user.username"
     class="bg-white p-paddingMd flex flex-col items-center dark:bg-gray-800 dark:text-white"
   >
     <i class="ri-account-pin-circle-fill text-6xl mb-3"></i>

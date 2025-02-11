@@ -20,7 +20,6 @@
           <div class="p-3 h-full">
             <div class="flex items-center gap-2">
               <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
-
               <i
                 v-if="module.User.isAdmin"
                 class="ri-verified-badge-fill text-xl lg:text-2xl text-white cursor-pointer"
@@ -34,11 +33,13 @@
             <router-link
               class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"
               :class="{
-                underline: authStore.user.id === module.User.id,
+                underline:
+                  authStore.user && authStore.user.id === module.User.id,
               }"
               :to="`/user/${module.User.username}`"
-              >{{ module.User.username }}</router-link
             >
+              {{ module.User.username }}
+            </router-link>
             <div
               v-if="
                 authStore.isAuthenticated &&
