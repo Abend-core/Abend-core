@@ -29,7 +29,9 @@ class Module
     public likes!: number;
     public isShow!: boolean;
     public user_id!: string;
-    User: any;
+    public User: any;
+    public favoris!: any;
+    public reported!: any;
 }
 
 Module.init(

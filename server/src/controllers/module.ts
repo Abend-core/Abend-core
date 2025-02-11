@@ -75,6 +75,8 @@ class ModuleController {
                     reported: Object.fromEntries(
                         reported.map((report) => [report.UserId, true])
                     ),
+                    favorisCount: likes.length,
+                    reportedCount: reported.length,
                 };
             })
         );
@@ -84,10 +86,14 @@ class ModuleController {
 
     async showAdmin() {
         const modules = await this.getAll();
-        const moduleAdmin = modules.filter(
-            (module: Module) => module.User.isAdmin === true
-        );
-        return moduleAdmin;
+
+        const adminModules = modules
+            .filter((module: Module) => module.User.isAdmin === true)
+            .map((module: Module) => ({
+                ...module,
+            }));
+
+        return adminModules;
     }
 
     async getModule(userId: string) {
@@ -100,17 +106,29 @@ class ModuleController {
 
     async show(userId: string) {
         const modules = await this.getAll();
-        const showModules = modules.filter(
-            (module: Module) => module.isShow === true
-        );
+
+        const showModules = modules
+            .filter((module: Module) => module.isShow === true)
+            .map((module: Module) => ({
+                ...module,
+                isLike: !!module.favoris[userId],
+                isReport: !!module.reported[userId],
+            }));
+
         return showModules;
     }
 
     async hide(userId: string) {
         const modules = await this.getAll();
-        const hideModules = modules.filter(
-            (module: Module) => module.isShow === false
-        );
+
+        const hideModules = modules
+            .filter((module: Module) => module.isShow === false)
+            .map((module: Module) => ({
+                ...module,
+                isLike: !!module.favoris[userId],
+                isReport: !!module.reported[userId],
+            }));
+
         return hideModules;
     }
 
