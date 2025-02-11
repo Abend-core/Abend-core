@@ -51,18 +51,14 @@ async function pushDb_dev() {
 
 async function initUsers() {
     for (const data of dataUser.users) {
-        data.id = "";
         if (data.image == undefined) {
             data.image =
                 "bank-img-" + Math.trunc(Math.random() * image) + ".png";
         }
-
-        data.id = UUID.v7();
-        lastUUID = data.id;
         await User.create(data);
         data.password = await Crypt.hash(data.password);
         await User.update(data, {
-            where: { id: lastUUID },
+            where: { id: data.id },
             validate: false,
         });
     }
@@ -71,9 +67,6 @@ async function initUsers() {
 async function initModules() {
     for (const data of dataModule.modules) {
         data.isShow = true;
-        data.id = UUID.v7();
-
-        data.user_id = lastUUID;
         await Module.create(data);
     }
     console.log("   - ✅ Modules");
