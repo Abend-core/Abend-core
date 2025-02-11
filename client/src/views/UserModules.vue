@@ -71,26 +71,28 @@
               <p class="mt-4 lg:mt-6 text-sm lg:text-base">
                 {{ module.content }}
               </p>
-              <i
-                v-if="getEtatLike(module.id)"
-                class="ri-heart-fill absolute bottom-3 right-3 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
-                @click="toggleLikeModule(module.id, $event)"
-              ></i>
-              <i
-                v-else
-                class="ri-heart-line absolute bottom-3 right-3 text-xl lg:text-2xl cursor-pointer z-10"
-                @click="toggleLikeModule(module.id, $event)"
-              ></i>
-              <i
-                v-if="getEtatReport(module.id)"
-                class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
-                @click="toggleReportModule(module.id, $event)"
-              ></i>
-              <i
-                v-else
-                class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer z-10"
-                @click="toggleReportModule(module.id, $event)"
-              ></i>
+              <div v-if="authStore.user.id !== module.User.id">
+                <i
+                  v-if="getEtatLike(module.id)"
+                  class="ri-heart-fill absolute bottom-3 right-3 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
+                  @click="toggleLikeModule(module.id, $event)"
+                ></i>
+                <i
+                  v-else
+                  class="ri-heart-line absolute bottom-3 right-3 text-xl lg:text-2xl cursor-pointer z-10"
+                  @click="toggleLikeModule(module.id, $event)"
+                ></i>
+                <i
+                  v-if="getEtatReport(module.id)"
+                  class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
+                  @click="toggleReportModule(module.id, $event)"
+                ></i>
+                <i
+                  v-else
+                  class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer z-10"
+                  @click="toggleReportModule(module.id, $event)"
+                ></i>
+              </div>
             </div>
           </a>
         </div>
@@ -131,6 +133,16 @@
                     v-else
                     class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10"
                     @click="toggleLikeModule(module.id, $event)"
+                  ></i>
+                  <i
+                    v-if="getEtatReport(module.id)"
+                    class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
+                    @click="toggleReportModule(module.id, $event)"
+                  ></i>
+                  <i
+                    v-else
+                    class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer z-10"
+                    @click="toggleReportModule(module.id, $event)"
                   ></i>
                 </div>
               </div>
