@@ -53,8 +53,31 @@ class ModuleController {
             ],
             nest: true,
         });
-        // Utiliser toJSON() pour éviter les erreurs de référence circulaire
-        const modulesJson = modules.map((module) => module.toJSON());
+        const modulesJson = await Promise.all(
+            modules.map(async (module) => {
+                const likes = await Like.findAll({
+                    where: { ModuleId: module.id },
+                    attributes: ["UserId"],
+                    raw: true,
+                });
+
+                const reported = await Reported.findAll({
+                    where: { ModuleId: module.id },
+                    attributes: ["UserId"],
+                    raw: true,
+                });
+
+                return {
+                    ...module.toJSON(),
+                    favoris: Object.fromEntries(
+                        likes.map((like) => [like.UserId, true])
+                    ),
+                    reported: Object.fromEntries(
+                        reported.map((report) => [report.UserId, true])
+                    ),
+                };
+            })
+        );
         Redis.setCache(KEYS.modules, modulesJson);
         return modulesJson;
     }
@@ -77,64 +100,18 @@ class ModuleController {
 
     async show(userId: string) {
         const modules = await this.getAll();
-        const moduleShow = modules.filter(
+        const showModules = modules.filter(
             (module: Module) => module.isShow === true
         );
-
-        const modulesId = moduleShow.map((module: Module) => module.id);
-
-        const likedModules = await Like.findAll({
-            where: {
-                ModuleId: modulesId,
-                UserId: userId,
-            },
-            attributes: ["ModuleId"],
-        });
-        const likedModuleIds = new Set(
-            likedModules.map((like) => like.ModuleId)
-        );
-
-        const reportedModules = await Reported.findAll({
-            where: {
-                ModuleId: modulesId,
-                UserId: userId,
-            },
-            attributes: ["ModuleId"],
-        });
-        const reportedModulesIds = new Set(
-            reportedModules.map((report) => report.ModuleId)
-        );
-        const formattedModules = moduleShow.map((module: Module) => ({
-            ...module,
-            favoris: likedModuleIds.has(module.id.toString()),
-            report: reportedModulesIds.has(module.id.toString()),
-        }));
-        return formattedModules;
+        return showModules;
     }
 
     async hide(userId: string) {
         const modules = await this.getAll();
-        const moduleHide = modules.filter(
+        const hideModules = modules.filter(
             (module: Module) => module.isShow === false
         );
-
-        const modulesId = moduleHide.map((module: Module) => module.id);
-
-        const likedModules = await Like.findAll({
-            where: {
-                ModuleId: modulesId,
-                UserId: userId,
-            },
-            attributes: ["ModuleId"],
-        });
-        const likedModuleIds = new Set(
-            likedModules.map((like) => like.ModuleId)
-        );
-        const formattedModules = moduleHide.map((module: Module) => ({
-            ...module,
-            favoris: likedModuleIds.has(module.id.toString()),
-        }));
-        return formattedModules;
+        return hideModules;
     }
 
     async toggleLike(userId: string, ModuleId: string) {
