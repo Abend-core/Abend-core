@@ -1,5 +1,5 @@
 <template>
-  <main class="pt-8 pl-8 pr-8 sm:pl-36 max-w-[1400px] mx-auto">
+  <main class="pt-8 pl-8 pr-8 max-w-[1400px] mx-auto">
     <div
       class="mb-5 sm:mb-20 flex justify-center items-center flex-col sm:flex-row gap-5"
     >
