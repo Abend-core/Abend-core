@@ -21,9 +21,6 @@ class ModuleController {
         data.id = UUID.v7();
         data.isShow = true;
         data.image = file.filename;
-        if (!file) {
-            throw new Error("Bad request.");
-        }
         await Module.create(data);
     }
 
@@ -98,9 +95,13 @@ class ModuleController {
 
     async getModule(userId: string) {
         const modules = await this.getAll();
-        const modulesUser = modules.filter(
-            (module: Module) => module.user_id == userId
-        );
+        const modulesUser = modules
+            .filter((module: Module) => module.user_id == userId)
+            .map((module: Module) => ({
+                ...module,
+                isLike: !!module.favoris[userId],
+                isReport: !!module.reported[userId],
+            }));
         return modulesUser;
     }
 
@@ -166,9 +167,13 @@ class ModuleController {
 
     async moduleLikeByUser(userId: string) {
         const modules = await this.getAll();
-        const moduleLikeUser = modules.filter(
-            (module: Module) => module.favoris[userId] == true
-        );
+        const moduleLikeUser = modules
+            .filter((module: Module) => module.favoris[userId] == true)
+            .map((module: Module) => ({
+                ...module,
+                isLike: !!module.favoris[userId],
+                isReport: !!module.reported[userId],
+            }));
         return moduleLikeUser;
     }
 

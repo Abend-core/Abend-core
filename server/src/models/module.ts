@@ -8,6 +8,7 @@ interface moduleAttributes {
     link: string;
     image: string;
     content: string;
+    tags: string;
     views: number;
     likes: number;
     isShow: boolean;
@@ -25,6 +26,7 @@ class Module
     public link!: string;
     public image!: string;
     public content!: string;
+    public tags!: string;
     public views!: number;
     public likes!: number;
     public isShow!: boolean;
@@ -109,6 +111,11 @@ Module.init(
                 },
             },
         },
+        tags: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: {},
+        },
         views: {
             type: DataTypes.INTEGER,
             defaultValue: 0,
@@ -120,10 +127,6 @@ Module.init(
         isShow: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            get() {
-                // Retourne true si la valeur en base est 1, sinon false
-                return !!this.getDataValue("isShow");
-            },
         },
         user_id: {
             type: DataTypes.UUID,

@@ -4,7 +4,10 @@ import { Module, moduleCreationAttributes } from "../models/module";
 class ModuleValidator {
     async data(moduleData: moduleCreationAttributes) {
         let message: string = "";
-
+        let tags: string;
+        if (moduleData.tags) {
+            tags = await this.#checkTags(moduleData.tags);
+        }
         const [mail, link] = await Promise.all([
             this.#findName(moduleData.name),
             this.#checkLink(moduleData.link),
@@ -13,6 +16,9 @@ class ModuleValidator {
             message = "Le lien n'est pas au bon format.";
         }
         if (mail) {
+            message = "Ce mail est déjà utilisé par un autre compte.";
+        }
+        if (tags!) {
             message = "Ce mail est déjà utilisé par un autre compte.";
         }
         return message;
@@ -45,6 +51,24 @@ class ModuleValidator {
         const res = await Module.findOne({ where: { name: name } });
         return res;
     }
+
+    #checkTags(tags: string): string {
+        let message: string = "";
+        if (tags.includes("#") == false) {
+            message = "Le tag n'est pas au bon format.";
+            return message;
+        }
+        const parts = tags.split("#");
+        for (let i = 1; i < parts.length; i++) {
+            const res = this.#blackList(parts[i]);
+            if (res) {
+                return "Ce tag n'est pas autorisé.";
+            }
+        }
+
+        return message;
+    }
+
     #checkLink(link: string): string {
         let message: string = "";
         if (link.includes("https://") == false) {
@@ -60,10 +84,10 @@ class ModuleValidator {
         const domainExtension = parts[1];
         const split = domainExtension.split(".");
         for (let i = 0; i < split.length - 1; i++) {
-            message = this.#blackList(split[i]);
-        }
-        if (message != "") {
-            return message;
+            const res = this.#blackList(parts[i]);
+            if (res) {
+                return "Ce nom de domaine n'est pas autorisé.";
+            }
         }
         message = this.#whiteList(split[split.length - 1]);
 
@@ -103,7 +127,7 @@ class ModuleValidator {
             text.includes(extension)
         );
         if (!containsExtension) {
-            return "Le lien n'est pas au bon format.";
+            return "Cette extension n'est pas accepter.";
         }
 
         return "";

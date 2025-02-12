@@ -9,11 +9,12 @@ import auth from "../middlewares/auth/auth";
 
 // Controller
 import ModuleController from "../controllers/module";
+import TagsController from "../controllers/tags";
 
 //Validator
 import ModuleValidator from "../validators/module";
 interface AuthRequest extends Request {
-    user?: { id: string }; // Ajout d'un champ user dans req
+    user?: { id: string };
 }
 
 // Création d'un nouveau module
@@ -38,6 +39,10 @@ router.post(
         }
         try {
             await ModuleController.add(req.body, req.file!);
+            if (req.body.tags) {
+                await TagsController.add(req.body.tags);
+            }
+
             res.status(200).json();
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -230,7 +235,6 @@ router.get("/liked", auth, async (req: AuthRequest, res) => {
         const modules = await ModuleController.moduleLikeByUser(req.user?.id!);
         res.status(200).json({ modules });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
 });
@@ -252,7 +256,6 @@ router.post("/reported/:id", auth, async (req: AuthRequest, res) => {
         );
         res.status(200).json({ modules });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
 });
@@ -263,7 +266,16 @@ router.get("/reported", auth, async (req: AuthRequest, res) => {
         const modules = await ModuleController.getReported();
         res.status(200).json({ modules });
     } catch (error) {
-        console.error(error);
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
+});
+
+// Affiche les tags
+router.get("/tags", auth, async (req: AuthRequest, res) => {
+    try {
+        const tags = await TagsController.getTags();
+        res.status(200).json({ tags });
+    } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });
     }
 });
