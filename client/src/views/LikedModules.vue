@@ -43,7 +43,7 @@
               {{ module.User.username }}
             </p>
             <i
-              v-if="getEtatLike(module.id)"
+              v-if="module.isLike"
               class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
               @click="toggleLikeModule(module.id, $event)"
             ></i>
@@ -77,22 +77,21 @@ const allModulesLiked = async () => {
   try {
     const response = await displayLikedModules();
     modules.value = response.data.modules;
-    likeStore.setEtatLike(modules.value);
   } catch (error) {
     console.error(error);
   }
 };
 
 const modulesToDisplay = computed(() => {
-  return modules.value.filter((module) => likeStore.etatLike[module.id]);
+  return modules.value.filter((module) => module.isLike);
 });
-
-const getEtatLike = (idModule) => {
-  return likeStore.etatLike[idModule] ?? false;
-};
 
 const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
+  const moduleToUpdate = modules.value.find((module) => module.id === idModule);
+  if (moduleToUpdate) {
+    moduleToUpdate.isLike = !moduleToUpdate.isLike;
+  }
   try {
     await likeStore.toggleLike(idModule);
     await toggleLike(idModule);
@@ -100,7 +99,6 @@ const toggleLikeModule = async (idModule, event) => {
     console.error("Erreur lors du like :", error);
   }
 };
-
 onMounted(() => {
   allModulesLiked();
 });

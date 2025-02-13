@@ -47,7 +47,7 @@
               "
             >
               <i
-                v-if="getEtatLike(module.id)"
+                v-if="module.isLike"
                 class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
                 @click="toggleLikeModule(module.id, $event)"
               ></i>
@@ -55,6 +55,16 @@
                 v-else
                 class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10"
                 @click="toggleLikeModule(module.id, $event)"
+              ></i>
+              <i
+                v-if="module.isReport"
+                class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
+                @click="toggleReportModule(module.id, $event)"
+              ></i>
+              <i
+                v-else
+                class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer z-10"
+                @click="toggleReportModule(module.id, $event)"
               ></i>
             </div>
           </div>
@@ -67,6 +77,7 @@
 <script setup>
 import { computed, watch, onMounted } from "vue";
 import { toggleLike } from "../api/like";
+import { toggleReport } from "../api/report";
 import { countVisitor } from "../api/module";
 import { useAuthStore } from "../stores/authStore";
 import { useModuleStore } from "../stores/moduleStore";
@@ -86,15 +97,25 @@ const modulesToDisplay = computed(() => {
   return modules.filter((module) => module.isShow === true);
 });
 
-const getEtatLike = (idModule) => {
-  return likeStore.etatLike[idModule] ?? false;
-};
-
 const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
   try {
-    await likeStore.toggleLike(idModule);
     await toggleLike(idModule);
+
+    const module = moduleStore.modules.find((m) => m.id === idModule);
+    module.isLike = !module.isLike;
+  } catch (error) {
+    console.error("Erreur lors du like :", error);
+  }
+};
+
+const toggleReportModule = async (idModule, event) => {
+  event.preventDefault();
+  try {
+    await toggleReport(idModule);
+
+    const module = moduleStore.modules.find((m) => m.id === idModule);
+    module.isReport = !module.isReport;
   } catch (error) {
     console.error("Erreur lors du like :", error);
   }

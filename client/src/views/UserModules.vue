@@ -71,28 +71,6 @@
               <p class="mt-4 lg:mt-6 text-sm lg:text-base">
                 {{ module.content }}
               </p>
-              <div v-if="authStore.user.id !== module.User.id">
-                <i
-                  v-if="getEtatLike(module.id)"
-                  class="ri-heart-fill absolute bottom-3 right-3 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
-                  @click="toggleLikeModule(module.id, $event)"
-                ></i>
-                <i
-                  v-else
-                  class="ri-heart-line absolute bottom-3 right-3 text-xl lg:text-2xl cursor-pointer z-10"
-                  @click="toggleLikeModule(module.id, $event)"
-                ></i>
-                <i
-                  v-if="getEtatReport(module.id)"
-                  class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
-                  @click="toggleReportModule(module.id, $event)"
-                ></i>
-                <i
-                  v-else
-                  class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer z-10"
-                  @click="toggleReportModule(module.id, $event)"
-                ></i>
-              </div>
             </div>
           </a>
         </div>
@@ -123,28 +101,6 @@
                 <p class="mt-4 lg:mt-6 text-sm lg:text-base">
                   {{ module.content }}
                 </p>
-                <div v-if="authStore.user.id !== module.User.id">
-                  <i
-                    v-if="getEtatLike(module.id)"
-                    class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
-                    @click="toggleLikeModule(module.id, $event)"
-                  ></i>
-                  <i
-                    v-else
-                    class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10"
-                    @click="toggleLikeModule(module.id, $event)"
-                  ></i>
-                  <i
-                    v-if="getEtatReport(module.id)"
-                    class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
-                    @click="toggleReportModule(module.id, $event)"
-                  ></i>
-                  <i
-                    v-else
-                    class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer z-10"
-                    @click="toggleReportModule(module.id, $event)"
-                  ></i>
-                </div>
               </div>
             </div>
           </a>
@@ -158,17 +114,8 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getInfosUserByUsername } from "../api/module";
-import { toggleReport } from "../api/report";
-import { useReportStore } from "../stores/reportStore";
-import { useLikeStore } from "../stores/likeStore";
-import { toggleLike } from "../api/like";
-import { useAuthStore } from "../stores/authStore";
 
 const route = useRoute();
-
-const authStore = useAuthStore();
-const likeStore = useLikeStore();
-const reportStore = useReportStore();
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -184,20 +131,6 @@ const setActiveSection = (section) => {
   activeSection.value = section;
 };
 
-const getEtatLike = (idModule) => {
-  return likeStore.etatLike[idModule] ?? false;
-};
-
-const toggleLikeModule = async (idModule, event) => {
-  event.preventDefault();
-  try {
-    await likeStore.toggleLike(idModule);
-    await toggleLike(idModule);
-  } catch (error) {
-    console.error("Erreur lors du like :", error);
-  }
-};
-
 const getInfos = async () => {
   try {
     const response = await getInfosUserByUsername(username);
@@ -206,20 +139,6 @@ const getInfos = async () => {
     moduleFav.value = response.data.userData.FavorisUser;
   } catch (error) {
     console.error("Erreur :", error);
-  }
-};
-
-const getEtatReport = (idModule) => {
-  return reportStore.etatReport[idModule] ?? false;
-};
-
-const toggleReportModule = async (idModule, event) => {
-  event.preventDefault();
-  try {
-    await toggleReport(idModule);
-    await reportStore.toggleReport(idModule);
-  } catch (error) {
-    console.error("Erreur lors du signalement :", error);
   }
 };
 

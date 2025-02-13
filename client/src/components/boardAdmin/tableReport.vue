@@ -18,7 +18,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="module in modules"
+          v-for="module in modulesReported"
           :key="module.id"
           class="hover:bg-customWhite dark:hover:text-black dark:hover:bg-gray-500"
         >
@@ -68,18 +68,18 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { displayReportedModules } from "../../api/report";
 import { updateModuleById, deleteModule } from "../../api/module";
 import { formatDateTime } from "../../utils/date";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-let modules = ref([]);
+let modulesReported = ref([]);
 const allReports = async () => {
   try {
     const response = await displayReportedModules();
-    modules.value = response.data.modules;
+    modulesReported.value = response.data.modules;
   } catch (error) {
     console.error(error);
   }
@@ -102,7 +102,9 @@ const deleteModuleTableReported = async (idModule) => {
   }
 };
 
-allReports();
+onMounted(() => {
+  allReports();
+});
 </script>
 
 <style scoped>
