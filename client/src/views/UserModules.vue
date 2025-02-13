@@ -1,7 +1,7 @@
 <template>
   <main class="pt-8 pl-8 pr-8 max-w-[1400px] mx-auto">
     <div
-      class="mb-5 sm:mb-20 flex justify-center items-center flex-col sm:flex-row gap-5"
+      class="mb-5 sm:mb-28 flex justify-center items-center flex-col sm:flex-row gap-5 relative"
     >
       <img
         class="w-[150px] h-[150px] rounded-full border border-white p-1 bg-white"
@@ -18,8 +18,14 @@
           veniam amet!
         </p>
       </div>
+      <button
+        class="absolute top-36 p-2 text-white bg-primaryRed rounded-md left-[70%]"
+        @click="followUser"
+      >
+        {{ isFollowing ? "Suivi" : "Suivre" }}
+      </button>
     </div>
-    <div class="flex justify-evenly gap-5 mb-5">
+    <div class="flex justify-evenly gap-5-5">
       <p
         class="text-center p-2 rounded-md cursor-pointer transition-colors"
         @click="setActiveSection('modules')"
@@ -114,6 +120,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getInfosUserByUsername } from "../api/module";
+import { follow } from "../api/user";
 
 const route = useRoute();
 
@@ -122,6 +129,7 @@ const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const user = ref({});
 const modules = ref([]);
 const moduleFav = ref([]);
+const isFollowing = ref(false);
 
 const username = route.params.username;
 
@@ -138,7 +146,23 @@ const getInfos = async () => {
     modules.value = response.data.userData.ModuleUser;
     moduleFav.value = response.data.userData.FavorisUser;
   } catch (error) {
-    console.error("Erreur :", error);
+    console.error(error);
+  }
+};
+
+const followUser = async () => {
+  try {
+    const userId = user.value.id;
+
+    if (isFollowing.value) {
+      await follow(userId);
+      isFollowing.value = false;
+    } else {
+      await follow(userId);
+      isFollowing.value = true;
+    }
+  } catch (error) {
+    console.error(error);
   }
 };
 

@@ -46,20 +46,16 @@
               </div>
               <div class="flex gap-2">
                 <div v-if="user && user.username">
-                  <p class="text-2xl">{{ user.username }}</p>
+                  <p class="text-2xl mb-3">{{ user.username }}</p>
+                  <div class="flex gap-3 mb-3">
+                    <p class="cursor-pointer">{{ user.abonnes }} abonnés</p>
+                    <p class="cursor-pointer">20 suivi(e)s</p>
+                  </div>
                 </div>
               </div>
               <p class="text-[#8592A4] mb-3">
-                Mets à jour tes informations personnelles
+                Description super bien, youpi ! C'est top Abend-core ! 😊
               </p>
-              <div class="flex gap-2">
-                <i class="ri-file-text-fill text-2xl"></i>
-                <input
-                  class="w-[400px] rounded-md bg-gray-700 pl-1"
-                  type="text"
-                  placeholder="Entrez votre description..."
-                />
-              </div>
             </div>
           </div>
           <div v-if="activeSection === 'profile'">

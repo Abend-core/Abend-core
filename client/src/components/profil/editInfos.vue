@@ -41,6 +41,19 @@
             @input="etatButton"
           />
         </div>
+        <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
+          <label for="description" class="lg:w-[150px] lg:mr-[200px] w-full"
+            >Description</label
+          >
+          <textarea
+            id="description"
+            class="w-full lg:w-[450px] h-[80px] pl-1 rounded-md dark:text-white dark:bg-gray-900"
+            type="text"
+            placeholder="Description"
+            v-model="descriptionProfil"
+            @input="etatButton"
+          />
+        </div>
         <button
           type="submit"
           class="bg-primaryRed p-paddingSm rounded-md text-white border border-black w-fit"
@@ -255,7 +268,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
-input {
+input,
+textarea {
   border: 1px solid #d1d9e0;
 }
 
