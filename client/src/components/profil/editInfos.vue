@@ -47,7 +47,7 @@
           >
           <textarea
             id="description"
-            class="w-full lg:w-[450px] h-[80px] pl-1 rounded-md dark:text-white dark:bg-gray-900"
+            class="w-full lg:w-[450px] h-[80px] pl-1 rounded-md dark:text-white dark:bg-gray-900 placeholder:text-gray-500"
             type="text"
             placeholder="Description"
             v-model="descriptionProfil"

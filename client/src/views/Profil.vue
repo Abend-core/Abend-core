@@ -48,8 +48,15 @@
                 <div v-if="user && user.username">
                   <p class="text-2xl mb-3">{{ user.username }}</p>
                   <div class="flex gap-3 mb-3">
-                    <p class="cursor-pointer">{{ user.abonnes }} abonnés</p>
-                    <p class="cursor-pointer">20 suivi(e)s</p>
+                    <p
+                      class="cursor-pointer"
+                      @click="isModalFollowerOpen = true"
+                    >
+                      {{ user.abonnes }} abonnés
+                    </p>
+                    <p class="cursor-pointer" @click="isModalSuiviOpen = true">
+                      20 suivi(e)s
+                    </p>
                   </div>
                 </div>
               </div>
@@ -67,6 +74,11 @@
         </div>
       </div>
     </main>
+    <modal-follower
+      v-if="isModalFollowerOpen"
+      @close="isModalFollowerOpen = false"
+    />
+    <modal-suivi v-if="isModalSuiviOpen" @close="isModalSuiviOpen = false" />
   </div>
 </template>
 
@@ -77,11 +89,16 @@ import displayInfos from "../components/profil/displayInfos.vue";
 import { updateImgProfil } from "../api/user";
 import { useAuthStore } from "../stores/authStore";
 import { useUser } from "../composables/useUser";
+import ModalFollower from "../components/modal/modalFollower.vue";
+import ModalSuivi from "../components/modal/modalSuivi.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const authStore = useAuthStore();
 const { getInfosProfile } = useUser();
+
+const isModalFollowerOpen = ref(false);
+const isModalSuiviOpen = ref(false);
 
 const user = computed(() => authStore.user);
 
