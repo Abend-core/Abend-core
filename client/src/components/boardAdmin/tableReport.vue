@@ -14,6 +14,7 @@
           <th class="p-3">Suppression</th>
           <th class="p-3">Vues</th>
           <th class="p-3">Likes</th>
+          <th class="p-3">Signalements</th>
         </tr>
       </thead>
       <tbody>
@@ -60,6 +61,9 @@
           </td>
           <td class="p-3">
             {{ module.likes }}
+          </td>
+          <td class="p-3">
+            {{ module.reportedCount }}
           </td>
         </tr>
       </tbody>

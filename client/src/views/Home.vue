@@ -99,6 +99,7 @@ const modulesToDisplay = computed(() => {
 
 const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
+  event.stopPropagation();
   try {
     await toggleLike(idModule);
 
@@ -111,6 +112,7 @@ const toggleLikeModule = async (idModule, event) => {
 
 const toggleReportModule = async (idModule, event) => {
   event.preventDefault();
+  event.stopPropagation();
   try {
     await toggleReport(idModule);
 
