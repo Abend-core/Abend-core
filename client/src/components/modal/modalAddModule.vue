@@ -61,6 +61,19 @@
           />
         </div>
         <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
+          <label for="add-module-input-tag" class="mb-1 mt-4">Tag</label>
+          <div>
+            <input
+              id="add-module-input-tag"
+              name="add_module_input_tag"
+              type="text"
+              class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
+              v-model="dataModule.tags.value"
+              required
+            />
+          </div>
+        </div>
+        <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
           <label for="add-module-input-image" class="mb-1">Image</label>
           <input
             id="add-module-input-image"
@@ -89,7 +102,6 @@
 <script setup>
 import { ref } from "vue";
 import { addModules } from "../../api/module.js";
-import { uploadImageModule } from "../../api/upload.js";
 import NotificationMessage from "../../components/notification/NotificationMessage.vue";
 import { useNotificationStore } from "../../stores/notificationStore.js";
 
@@ -107,6 +119,7 @@ let dataModule = {
   name: ref(""),
   link: ref(""),
   content: ref(""),
+  tags: ref(""),
   image: ref(""),
 };
 
@@ -147,7 +160,7 @@ const addModulesDashboard = async () => {
     emit("refresh-modules");
     emit("refresh-modulesById");
   } catch (error) {
-    console.log(error);
+    setNotification(error.response.data.Erreur, "error");
   }
 };
 </script>

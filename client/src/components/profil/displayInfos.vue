@@ -7,7 +7,7 @@
   </div>
   <div
     v-if="user && user.username"
-    class="bg-white p-paddingMd flex flex-col items-center dark:bg-gray-800 dark:text-white"
+    class="bg-white pt-3 pb-12 flex flex-col items-center dark:bg-gray-800 dark:text-white"
   >
     <i class="ri-account-pin-circle-fill text-6xl mb-3"></i>
     <p class="mb-4 mt-[-12px] text-2xl">{{ user.username }}</p>
@@ -25,12 +25,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useUser } from "../../composables/useUser";
+import { computed } from "vue";
 import { formatDateTime } from "../../utils/date";
 import { useAuthStore } from "../../stores/authStore";
-
-const { getInfosProfile } = useUser();
 
 const authStore = useAuthStore();
 

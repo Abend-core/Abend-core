@@ -49,9 +49,17 @@
                   <p class="text-2xl">{{ user.username }}</p>
                 </div>
               </div>
-              <p class="text-[#8592A4]">
+              <p class="text-[#8592A4] mb-3">
                 Mets à jour tes informations personnelles
               </p>
+              <div class="flex gap-2">
+                <i class="ri-file-text-fill text-2xl"></i>
+                <input
+                  class="w-[400px] rounded-md bg-gray-700 pl-1"
+                  type="text"
+                  placeholder="Entrez votre description..."
+                />
+              </div>
             </div>
           </div>
           <div v-if="activeSection === 'profile'">
