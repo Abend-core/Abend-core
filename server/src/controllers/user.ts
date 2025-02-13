@@ -131,6 +131,14 @@ class UserController {
         this.#addFollow(userId, userIdFollow);
     }
 
+    async getFollow(userId: string){
+        const [followings, followers] = await Promise.all([
+            Follow.findAll({ where: { UserId : userId } }),
+            Follow.findAll({ where: { UserIdFollow: userId } }),
+        ]);
+        return { followings, followers }
+    }
+
     #deleteFollow(userId: string, userIdFollow: string) {
         Follow.destroy({
             where: { UserId: userId, UserIdFollow: userIdFollow },
