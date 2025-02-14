@@ -7,6 +7,7 @@ interface UserAttributes {
     mail: string;
     image: string;
     password: string;
+    content: string;
     abonnes: number;
     suivies: number;
     isAdmin: boolean;
@@ -25,6 +26,7 @@ class User
     public mail!: string;
     public image!: string;
     public password!: string;
+    public content!: string;
     public abonnes!: number;
     public suivies!: number;
     public isAdmin!: boolean;
@@ -98,6 +100,16 @@ User.init(
                 len: {
                     args: [8, 64],
                     msg: "Le mot de passe doit contenir [8 à 130] caractères.",
+                },
+            },
+        },
+        content: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            validate: {
+                len: {
+                    args: [0, 200],
+                    msg: "La description ne dois pas dépasser plus de 200 caractères",
                 },
             },
         },

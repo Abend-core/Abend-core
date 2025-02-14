@@ -27,6 +27,12 @@ class UserValidator {
             }
         }
 
+        if (userData.content) {
+            if (userData.content.length > 200) {
+                message = "Descritpion trop longue, 200 caractères maximum.";
+            }
+        }
+
         return message;
     }
 

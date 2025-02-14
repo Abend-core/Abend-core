@@ -194,14 +194,12 @@ class ModuleController {
             raw: true,
         });
 
-        const isFollow = { value: !!follow };
-
         let [ModuleUser, FavorisUser] = await Promise.all([
             this.getModule(userId!),
             this.moduleLikeByUser(userId!),
         ]);
-
-        return { user, ModuleUser, FavorisUser, isFollow };
+        user.isFollow = !!follow;
+        return { user, ModuleUser, FavorisUser };
     }
 
     async filtre(search: string) {
