@@ -169,7 +169,7 @@ router.post("/filtre", async (req, res) => {
 });
 
 //Recuperation de toute les informations d'un utilisateur (info user/info modules/favoris)
-router.get("/user/:username", auth, async (req, res) => {
+router.get("/user/:username", auth, async (req: AuthRequest, res) => {
     const found = await ModuleValidator.foundUserByUsername(
         req.params.username
     );
@@ -179,6 +179,7 @@ router.get("/user/:username", auth, async (req, res) => {
     }
     try {
         const userData = await ModuleController.getUserData(
+            req.user?.id!,
             req.params.username
         );
         res.status(200).json({ userData });

@@ -29,6 +29,7 @@ class User
     public suivies!: number;
     public isAdmin!: boolean;
     public isActive!: boolean;
+    public isFollow!: boolean;
     public token!: string;
 }
 
