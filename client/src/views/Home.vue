@@ -11,22 +11,24 @@
           target="_blank"
           @click="countVisit(module.id)"
         >
-          <img
-            class="absolute w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
-            :src="`${apiUrl}/uploadsFile/module/${module.image}`"
-            alt="Photo du module"
-            loading="lazy"
-          />
           <div class="p-3 h-full">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 relative">
+              <img
+                class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border"
+                :src="`${apiUrl}/uploadsFile/module/${module.image}`"
+                alt="Photo du module"
+                loading="lazy"
+              />
               <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
+              <i class="ri-more-fill absolute right-2 top-0"></i>
+              <!-- top-1/2 transform -translate-y-1/2 -->
               <i
                 v-if="module.User.isAdmin"
                 class="ri-verified-badge-fill text-xl lg:text-2xl text-white cursor-pointer"
               ></i>
             </div>
             <div>
-              <p class="mt-4 lg:mt-6 text-sm lg:text-base">
+              <p class="mt-2 lg:mt-4 text-sm lg:text-base">
                 {{ module.content }}
               </p>
             </div>
@@ -56,7 +58,7 @@
                 class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10"
                 @click="toggleLikeModule(module.id, $event)"
               ></i>
-              <i
+              <!-- <i
                 v-if="module.isReport"
                 class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
                 @click="toggleReportModule(module.id, $event)"
@@ -65,7 +67,7 @@
                 v-else
                 class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer z-10"
                 @click="toggleReportModule(module.id, $event)"
-              ></i>
+              ></i> -->
             </div>
           </div>
         </a>
