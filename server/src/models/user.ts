@@ -8,6 +8,7 @@ interface UserAttributes {
     image: string;
     password: string;
     abonnes: number;
+    suivies: number;
     isAdmin: boolean;
     isActive: boolean;
     token: string;
@@ -25,6 +26,7 @@ class User
     public image!: string;
     public password!: string;
     public abonnes!: number;
+    public suivies!: number;
     public isAdmin!: boolean;
     public isActive!: boolean;
     public token!: string;
@@ -99,6 +101,10 @@ User.init(
             },
         },
         abonnes: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
+        },
+        suivies: {
             type: DataTypes.INTEGER,
             defaultValue: 0,
         },

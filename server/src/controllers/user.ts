@@ -131,12 +131,12 @@ class UserController {
         this.#addFollow(userId, userIdFollow);
     }
 
-    async getFollow(userId: string){
+    async getFollow(userId: string) {
         const [followings, followers] = await Promise.all([
-            Follow.findAll({ where: { UserId : userId } }),
+            Follow.findAll({ where: { UserId: userId } }),
             Follow.findAll({ where: { UserIdFollow: userId } }),
         ]);
-        return { followings, followers }
+        return { followings, followers };
     }
 
     #deleteFollow(userId: string, userIdFollow: string) {
@@ -144,11 +144,13 @@ class UserController {
             where: { UserId: userId, UserIdFollow: userIdFollow },
         });
         User.decrement("abonnes", { where: { id: userIdFollow } });
+        User.decrement("suivies", { where: { id: userId } });
     }
 
     #addFollow(userId: string, userIdFollow: string) {
         Follow.create({ UserId: userId, UserIdFollow: userIdFollow });
         User.increment("abonnes", { where: { id: userIdFollow } });
+        User.increment("suivies", { where: { id: userId } });
     }
 }
 
