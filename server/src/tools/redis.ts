@@ -9,7 +9,11 @@ class Redis {
     constructor() {
         if (!Redis.instance) {
             this.client = createClient({
-                url: "redis://default:abend-core@redis:6379",
+                socket: {
+                    host: "Abend-redis",
+                    port: 6379
+                },
+                password: "abend-core"
             });
 
             this.client.on("error", (err) => console.error("Redis : ", err));
@@ -28,7 +32,7 @@ class Redis {
         return this.client;
     }
 
-    async setCache(key: string, value: any): Promise<any> {
+    async setCache(key: string, value: any) {
         await this.client!.set(key, JSON.stringify(value), {
             EX: this.expiration,
         });

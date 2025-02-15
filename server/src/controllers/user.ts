@@ -131,68 +131,13 @@ class UserController {
         this.#addFollow(userId, userIdFollow);
     }
 
-    async getFollow(userId: string) {
+    async getNetwork(userId: string) {
         const [followings, followers] = await Promise.all([
             Follow.findAll({ where: { UserId: userId } }),
             Follow.findAll({ where: { UserIdFollow: userId } }),
         ]);
         return { followings, followers };
     }
-
-    async searchSuivi(userId: string, search: string) {
-        const suivis = await Follow.findAll({
-            where: { UserIdFollow: userId },
-            raw: true,
-            nest: true,
-        });
-
-        const userIdsSuivis = suivis.map((suivis) => suivis.UserIdFollow);
-
-        const usersSuivis = await User.findAll({
-            where: { id: userIdsSuivis },
-            attributes: ["id", "username", "mail", "image"],
-            raw: true,
-            nest: true,
-        });
-
-        const filteredUsers = usersSuivis.filter((user) =>
-            user.username.toLowerCase().includes(search.toLowerCase())
-        );
-
-        return filteredUsers;
-    }
-
-    async searchFollow(userId: string, search: string) {
-        const followers = await Follow.findAll({
-            where: { UserId: userId },
-            raw: true,
-            nest: true,
-        });
-
-        const userIdsFollowed = followers.map(
-            (follower) => follower.UserIdFollow
-        );
-
-        const usersFollowed = await User.findAll({
-            where: { id: userIdsFollowed },
-            attributes: ["id", "username", "mail", "image"],
-            raw: true,
-            nest: true,
-        });
-
-        const filteredUsers = usersFollowed.filter((user) =>
-            user.username.toLowerCase().includes(search.toLowerCase())
-        );
-
-        return filteredUsers;
-    }
-
-    // const value = followers.filter((data));
-
-    // const modulesReported = modules.filter((module: Module) => {
-    //     return module.reportedCount != 0;
-    // });
-    // return;
 
     #deleteFollow(userId: string, userIdFollow: string) {
         Follow.destroy({

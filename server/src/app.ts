@@ -38,6 +38,7 @@ import auth from "./routes/auth";
 app.use("/auth", auth);
 
 import users from "./routes/user";
+console.log("Users : ", users)
 app.use("/users", users);
 
 import modules from "./routes/module";

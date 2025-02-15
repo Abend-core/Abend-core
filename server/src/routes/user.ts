@@ -100,16 +100,6 @@ router.delete(
     }
 );
 
-//Filtre utilisateur
-router.get("/filtre/:search", auth, async (req: Request, res: Response) => {
-    try {
-        const user = await UserController.filtre(req.params.search);
-        res.status(200).json({ user });
-    } catch (error) {
-        res.status(500).json({ message: "Erreur serveur.", erreur: error });
-    }
-});
-
 //Update photo utilisateur
 router.put(
     "/image",
@@ -210,17 +200,18 @@ router.post(
 
 // Avoir les personnes qui suivent et qui l'utilisateur connecter suis
 router.get(
-    "/follow",
+    "/network",
     auth,
     async (req: AuthRequest, res: Response): Promise<void> => {
-        const foundUser = UserValidator.found(req.user?.id!);
+        console.log('dans la fonction : ', req.user?.id!)
+        const foundUser = await UserValidator.found(req.user?.id!);
 
         if (!foundUser) {
-            res.status(404).json();
+            res.status(404).json({res: "erreur"});
             return;
         }
         try {
-            const network = await UserController.getFollow(req.user?.id!);
+            const network = await UserController.getNetwork(req.user?.id!);
             res.status(200).json({ network: network });
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", erreur: error });
@@ -228,46 +219,5 @@ router.get(
     }
 );
 
-router.get(
-    "/search/suivi/:search",
-    auth,
-    async (req: AuthRequest, res: Response): Promise<void> => {
-        const foundUser = UserValidator.found(req.user?.id!);
-        if (!foundUser) {
-            res.status(404).json();
-            return;
-        }
-        try {
-            const response = await UserController.searchSuivi(
-                req.user?.id!,
-                req.params.search
-            );
-            res.status(200).json({ suivis: response });
-        } catch (error) {
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        }
-    }
-);
-
-router.get(
-    "/search/follow/:search",
-    auth,
-    async (req: AuthRequest, res: Response): Promise<void> => {
-        const foundUser = UserValidator.found(req.user?.id!);
-        if (!foundUser) {
-            res.status(404).json();
-            return;
-        }
-        try {
-            const response = await UserController.searchFollow(
-                req.user?.id!,
-                req.params.search
-            );
-            res.status(200).json({ follow: response });
-        } catch (error) {
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        }
-    }
-);
 
 export default router;

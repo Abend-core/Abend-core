@@ -37,7 +37,9 @@ class UserValidator {
     }
 
     async found(userId: string) {
+        console.log(userId, "Ligne : 40")
         const user = await User.findByPk(userId);
+        console.log(user)
         return user;
     }
 
