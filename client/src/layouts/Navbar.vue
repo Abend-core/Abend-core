@@ -77,12 +77,12 @@
         </RouterLink>
         <i
           v-if="!isDark"
-          class="ri-sun-fill text-xl cursor-pointer hover:text-primaryRed"
+          class="ri-moon-fill text-xl cursor-pointer hover:text-primaryRed"
           @click="darkModeActivation"
         ></i>
         <i
           v-if="isDark"
-          class="ri-moon-fill text-xl cursor-pointer hover:text-primaryRed"
+          class="ri-sun-fill text-xl cursor-pointer hover:text-primaryRed"
           @click="darkModeActivation"
         ></i>
         <div

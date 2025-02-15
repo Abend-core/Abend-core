@@ -5,7 +5,7 @@
   >
     <div class="w-full h-screen p-3">
       <div
-        class="bg-white text-black max-w-[280px] sm:max-w-[400px] mt-28 mx-auto rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+        class="bg-white text-black max-w-[280px] sm:max-w-[500px] mt-28 mx-auto rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800"
       >
         <div v-if="isReported">
           <div
