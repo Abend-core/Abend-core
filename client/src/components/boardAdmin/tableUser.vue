@@ -83,7 +83,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { findAll, deleteUser, filter } from "../../api/user";
+import { findAll, deleteUser, filterUser } from "../../api/user";
 import { formatDateTime } from "../../utils/date";
 import modalAddUser from "../../components/modal/modalAddUser.vue";
 
@@ -93,7 +93,7 @@ const inputValueSearchBar = ref("");
 const filterSearchUser = async () => {
   users.value = [];
   try {
-    const response = await filter({ search: inputValueSearchBar.value });
+    const response = await filterUser();
     if (response && response.data.user) {
       idUsers = [];
       countUser.value = 0;

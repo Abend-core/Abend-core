@@ -170,6 +170,7 @@ const id = sessionStorage.getItem("id");
 const user = ref({});
 const emailProfil = ref("");
 const identifiantProfil = ref("");
+const descriptionProfil = ref("");
 const oldPassword = ref("");
 const newPassword = ref("");
 const confirmNewPassword = ref("");
@@ -202,6 +203,7 @@ const loadUserProfile = async () => {
   user.value = authStore.user;
   emailProfil.value = user.value.mail;
   identifiantProfil.value = user.value.username;
+  descriptionProfil.value = user.value.content;
 };
 
 const updateUserProfile = async () => {
@@ -217,6 +219,11 @@ const updateUserProfile = async () => {
       updatedData.username = identifiantProfil.value;
       await editUserById(id, { username: updatedData.username });
       authStore.setUser({ ...authStore.user, username: updatedData.username });
+    }
+    if (descriptionProfil.value !== user.value.content) {
+      updatedData.content = descriptionProfil.value;
+      await editUserById(id, { content: updatedData.content });
+      authStore.setUser({ ...authStore.user, content: updatedData.content });
     }
 
     setNotification("Profil mis à jour avec succès !", "success");

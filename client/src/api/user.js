@@ -8,8 +8,8 @@ export const findAll = () => {
 };
 
 // Filtre selon l'Email et l'Identifiant
-export const filter = (data) => {
-  return apiClient.post("/users/filtre", data);
+export const filterUser = (data) => {
+  return apiClient.get(`/users/filtre/${data}`);
 };
 
 // Création

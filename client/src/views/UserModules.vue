@@ -13,16 +13,19 @@
           {{ user.username }}
         </p>
         <p class="text-justify max-w-[500px]">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati
-          molestiae est error doloribus pariatur repellendus hic ratione quidem
-          veniam amet!
+          {{ user.content }}
         </p>
       </div>
       <button
-        class="absolute top-36 p-2 text-white bg-primaryRed rounded-md left-[70%]"
+        v-if="authStore.user.id !== user.id"
+        class="absolute top-36 p-2 text-white rounded-md left-[70%]"
+        :class="{
+          'bg-primaryRed': !isFollowing,
+          'bg-gray-500': isFollowing,
+        }"
         @click="followUser"
       >
-        {{ isFollowing ? "Suivi" : "Suivre" }}
+        {{ isFollowing ? "Suivi(e)" : "Suivre" }}
       </button>
     </div>
     <div class="flex justify-evenly gap-5-5">
@@ -121,8 +124,10 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getInfosUserByUsername } from "../api/module";
 import { follow } from "../api/user";
+import { useAuthStore } from "../stores/authStore";
 
 const route = useRoute();
+const authStore = useAuthStore();
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -145,6 +150,7 @@ const getInfos = async () => {
     user.value = response.data.userData.user;
     modules.value = response.data.userData.ModuleUser;
     moduleFav.value = response.data.userData.FavorisUser;
+    isFollowing.value = response.data.userData.user.isFollow;
   } catch (error) {
     console.error(error);
   }
@@ -152,15 +158,17 @@ const getInfos = async () => {
 
 const followUser = async () => {
   try {
-    const userId = user.value.id;
-
-    if (isFollowing.value) {
-      await follow(userId);
-      isFollowing.value = false;
-    } else {
-      await follow(userId);
-      isFollowing.value = true;
-    }
+    await follow(user.value.id);
+    isFollowing.value = !isFollowing.value;
+    authStore.setUser({
+      ...authStore.user,
+      abonnes: isFollowing.value
+        ? authStore.user.abonnes + 1
+        : authStore.user.abonnes - 1,
+      suivies: isFollowing.value
+        ? authStore.user.suivies + 1
+        : authStore.user.suivies - 1,
+    });
   } catch (error) {
     console.error(error);
   }

@@ -55,13 +55,13 @@
                       {{ user.abonnes }} abonnés
                     </p>
                     <p class="cursor-pointer" @click="isModalSuiviOpen = true">
-                      20 suivi(e)s
+                      {{ user.suivies }} suivi(e)s
                     </p>
                   </div>
                 </div>
               </div>
-              <p class="text-[#8592A4] mb-3">
-                Description super bien, youpi ! C'est top Abend-core ! 😊
+              <p class="text-[#8592A4] mb-3" v-if="user && user.content">
+                {{ user.content }}
               </p>
             </div>
           </div>

@@ -4,7 +4,7 @@
   >
     <div class="w-full h-screen p-4">
       <div
-        class="bg-white rounded-lg shadow-md max-w-[700px] border border-gray-700 dark:bg-gray-800 dark:text-white mt-[-5px] sm:mt-[120px] mx-auto mb-0"
+        class="bg-white rounded-lg max-w-[700px] border border-gray-700 dark:bg-gray-800 dark:text-white mt-[-5px] sm:mt-[120px] mx-auto mb-0"
       >
         <div
           class="flex items-center gap-3 p-3 relative border-b dark:border-gray-700 border-gray-200"
@@ -97,7 +97,7 @@ const filterSearchModule = async () => {
   }
 
   try {
-    const response = await filterModule({ search: searchTerm });
+    const response = await filterModule();
 
     if (response && response.data.module) {
       modules.value = response.data.module;
