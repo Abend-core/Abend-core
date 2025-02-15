@@ -4,7 +4,7 @@
   >
     <div class="w-full h-screen p-4">
       <div
-        class="dark:bg-gray-800 bg-white rounded-lg border border-gray-700 sm:w-96 relative max-w-[700px] mx-auto mt-[100px] sm:mt-[120px]"
+        class="dark:bg-gray-800 bg-white rounded-lg border border-gray-200 dark:border-gray-700 sm:w-96 relative max-w-[700px] mx-auto mt-[100px] sm:mt-[120px]"
       >
         <div
           class="flex items-center gap-3 p-3 relative border-b dark:border-gray-700 border-gray-200"

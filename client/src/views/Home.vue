@@ -4,14 +4,11 @@
       <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
         <a
           :href="module.link"
-          class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
-          :style="{
-            border: `1px solid black`,
-          }"
+          class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
           target="_blank"
           @click="countVisit(module.id)"
         >
-          <div class="p-3 h-full">
+          <div class="px-4 py-3 h-full">
             <div class="flex items-center gap-2 relative">
               <img
                 class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border"
@@ -20,12 +17,16 @@
                 loading="lazy"
               />
               <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
-              <i class="ri-more-fill absolute right-2 top-0"></i>
-              <!-- top-1/2 transform -translate-y-1/2 -->
               <i
                 v-if="module.User.isAdmin"
-                class="ri-verified-badge-fill text-xl lg:text-2xl text-white cursor-pointer"
+                class="ri-verified-badge-fill text-black text-xl lg:text-2xl dark:text-white cursor-pointer"
               ></i>
+              <div v-if="authStore.isAuthenticated">
+                <i
+                  class="ri-more-fill absolute right-2 top-0"
+                  @click="openModalMoreInfos($event, module.id)"
+                ></i>
+              </div>
             </div>
             <div>
               <p class="mt-2 lg:mt-4 text-sm lg:text-base">
@@ -58,38 +59,37 @@
                 class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10"
                 @click="toggleLikeModule(module.id, $event)"
               ></i>
-              <!-- <i
-                v-if="module.isReport"
-                class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
-                @click="toggleReportModule(module.id, $event)"
-              ></i>
-              <i
-                v-else
-                class="ri-alarm-warning-fill absolute bottom-3 right-9 lg:right-10 text-xl lg:text-2xl cursor-pointer z-10"
-                @click="toggleReportModule(module.id, $event)"
-              ></i> -->
             </div>
           </div>
         </a>
       </div>
     </div>
+    <modal-more-infos
+      v-if="modals.moreInfoModal"
+      @close="closeModal('moreInfoModal')"
+      :id-module="selectedModuleId"
+    />
   </main>
 </template>
 
 <script setup>
-import { computed, watch, onMounted } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { toggleLike } from "../api/like";
-import { toggleReport } from "../api/report";
 import { countVisitor } from "../api/module";
 import { useAuthStore } from "../stores/authStore";
 import { useModuleStore } from "../stores/moduleStore";
 import { useLikeStore } from "../stores/likeStore";
+import { useModal } from "../composables/useModal";
+import modalMoreInfos from "../components/modal/modalMoreInfos.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const authStore = useAuthStore();
 const moduleStore = useModuleStore();
 const likeStore = useLikeStore();
+
+const { modals, toggleModal, closeModal } = useModal();
+const selectedModuleId = ref(null);
 
 const modulesToDisplay = computed(() => {
   const modules = authStore.isAuthenticated
@@ -99,6 +99,13 @@ const modulesToDisplay = computed(() => {
   return modules.filter((module) => module.isShow === true);
 });
 
+const openModalMoreInfos = (event, idModule) => {
+  event.preventDefault();
+  event.stopPropagation();
+  selectedModuleId.value = idModule;
+  toggleModal("moreInfoModal");
+};
+
 const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
   event.stopPropagation();
@@ -107,19 +114,6 @@ const toggleLikeModule = async (idModule, event) => {
 
     const module = moduleStore.modules.find((m) => m.id === idModule);
     module.isLike = !module.isLike;
-  } catch (error) {
-    console.error("Erreur lors du like :", error);
-  }
-};
-
-const toggleReportModule = async (idModule, event) => {
-  event.preventDefault();
-  event.stopPropagation();
-  try {
-    await toggleReport(idModule);
-
-    const module = moduleStore.modules.find((m) => m.id === idModule);
-    module.isReport = !module.isReport;
   } catch (error) {
     console.error("Erreur lors du like :", error);
   }
