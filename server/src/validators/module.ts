@@ -12,13 +12,13 @@ class ModuleValidator {
             this.#checkLink(moduleData.link),
         ]);
         if (link) {
-            return "Le lien n'est pas au bon format.";
+            return link;
         }
         if (name) {
             return "Ce nom de module est déjà pris.";
         }
         if (tags!) {
-            return "Ce tag n'est pas autoriser.";
+            return tags;
         }
     }
 
