@@ -50,3 +50,7 @@ export const updateModuleById = (id, data) => {
 export const countVisitor = (idModule) => {
   return apiClient.post(`/modules/visited/${idModule}`);
 };
+
+export const allTags = () => {
+  return apiClient.get("/modules/tags");
+};
