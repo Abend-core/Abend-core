@@ -160,11 +160,10 @@ const followUser = async () => {
   try {
     await follow(user.value.id);
     isFollowing.value = !isFollowing.value;
+
     authStore.setUser({
       ...authStore.user,
-      abonnes: isFollowing.value
-        ? authStore.user.abonnes + 1
-        : authStore.user.abonnes - 1,
+      abonnes: authStore.user.abonnes,
       suivies: isFollowing.value
         ? authStore.user.suivies + 1
         : authStore.user.suivies - 1,
