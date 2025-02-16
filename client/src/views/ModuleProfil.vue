@@ -31,6 +31,7 @@
               <th class="p-3">Description</th>
               <th class="p-3">Image</th>
               <th class="p-3">Date de création</th>
+              <th class="p-3">Tags</th>
               <th class="p-3">Visibilité</th>
               <th class="p-3">Action</th>
             </tr>
@@ -42,25 +43,25 @@
               class="hover:bg-customWhite dark:hover:text-black dark:hover:bg-gray-500"
             >
               <td class="p-3">
-                <template v-if="module.id === editingModuleId">
+                <div v-if="module.id === editingModuleId">
                   <input
                     v-model="module.name"
                     type="text"
                     class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
                   />
-                </template>
-                <template v-else>{{ module.name }}</template>
+                </div>
+                <div v-else>{{ module.name }}</div>
               </td>
               <td class="p-3">{{ module.link }}</td>
               <td class="p-3">
-                <template v-if="module.id === editingModuleId">
+                <div v-if="module.id === editingModuleId">
                   <input
                     v-model="module.content"
                     type="text"
                     class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
                   />
-                </template>
-                <template v-else>{{ module.content }}</template>
+                </div>
+                <div v-else>{{ module.content }}</div>
               </td>
               <td class="p-3">
                 <img
@@ -70,6 +71,17 @@
                 />
               </td>
               <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
+              <td class="p-3 flex gap-2">
+                <span
+                  v-for="tag in Array.isArray(module.tags)
+                    ? module.tags
+                    : JSON.parse(module.tags || '[]')"
+                  :key="tag"
+                  class="bg-primaryRed text-white px-2 py-1 rounded-md text-sm"
+                >
+                  {{ tag }}
+                </span>
+              </td>
               <td class="p-3">
                 <label class="switch">
                   <input
@@ -163,7 +175,7 @@ const editModule = (idModule) => {
   editingModuleId.value = idModule;
 };
 
-const cancelEdit = (idModule) => {
+const cancelEdit = () => {
   editingModuleId.value = null;
 };
 

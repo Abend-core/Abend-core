@@ -69,7 +69,6 @@
               type="text"
               class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
               v-model="dataModule.tags.value"
-              required
             />
           </div>
         </div>
@@ -146,6 +145,8 @@ const addModulesDashboard = async () => {
     formData.append("name", dataModule.name.value);
     formData.append("link", dataModule.link.value);
     formData.append("content", dataModule.content.value);
+    const tagsArray = dataModule.tags.value.split(",").map((tag) => tag.trim());
+    formData.append("tags", JSON.stringify(tagsArray));
     formData.append("user_id", id);
     await addModules(formData);
 
@@ -153,6 +154,7 @@ const addModulesDashboard = async () => {
     dataModule.name.value = "";
     dataModule.link.value = "";
     dataModule.content.value = "";
+    dataModule.tags.value = "";
     dataModule.image.value = "";
     imageURL.value = null;
     selectedImageFile.value = null;
