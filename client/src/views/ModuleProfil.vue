@@ -71,13 +71,13 @@
                 />
               </td>
               <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
-              <td class="p-3 flex gap-2">
+              <td class="p-3">
                 <span
                   v-for="tag in Array.isArray(module.tags)
                     ? module.tags
                     : JSON.parse(module.tags || '[]')"
                   :key="tag"
-                  class="bg-primaryRed text-white px-2 py-1 rounded-md text-sm"
+                  class="bg-primaryRed text-white px-1 py-1 rounded-md text-sm"
                 >
                   {{ tag }}
                 </span>

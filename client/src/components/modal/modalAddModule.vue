@@ -62,14 +62,35 @@
         </div>
         <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
           <label for="add-module-input-tag" class="mb-1 mt-4">Tag</label>
-          <div>
+          <div class="relative">
             <input
               id="add-module-input-tag"
               name="add_module_input_tag"
               type="text"
               class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
               v-model="dataModule.tags.value"
+              @focus="displayTagList"
+              @blur="hideTagList"
+              @click="displayAllTags"
             />
+            <div
+              class="absolute border dark:border-gray-800 border-gray-200 w-full mt-1 p-2 rounded-md bg-gray-200 dark:bg-gray-700"
+              v-if="isTagListVisible"
+            >
+              <p class="p-2">Liste des tags</p>
+              <div class="flex gap-1 p-2">
+                <span
+                  class="bg-primaryRed text-white px-1 py-1 rounded-md text-sm"
+                  >test</span
+                ><span
+                  class="bg-primaryRed text-white px-1 py-1 rounded-md text-sm"
+                  >test</span
+                ><span
+                  class="bg-primaryRed text-white px-1 py-1 rounded-md text-sm"
+                  >test</span
+                >
+              </div>
+            </div>
           </div>
         </div>
         <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
@@ -100,7 +121,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { addModules } from "../../api/module.js";
+import { addModules, allTags } from "../../api/module.js";
 import NotificationMessage from "../../components/notification/NotificationMessage.vue";
 import { useNotificationStore } from "../../stores/notificationStore.js";
 
@@ -113,6 +134,8 @@ const id = sessionStorage.getItem("id");
 const isModalVisibleModule = ref(false);
 const imageURL = ref(null);
 const selectedImageFile = ref(null);
+const isTagListVisible = ref(false);
+const tags = ref([]);
 
 let dataModule = {
   name: ref(""),
@@ -122,8 +145,26 @@ let dataModule = {
   image: ref(""),
 };
 
+const displayTagList = () => {
+  isTagListVisible.value = true;
+};
+
+const hideTagList = () => {
+  isTagListVisible.value = false;
+};
+
 const displayModalModule = () => {
   isModalVisibleModule.value = !isModalVisibleModule.value;
+};
+
+const displayAllTags = async () => {
+  try {
+    const response = await allTags();
+    console.log(response);
+    // tags.value = response.tags.value;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const handleFileChange = (event) => {
