@@ -3,7 +3,6 @@ import { Module, moduleCreationAttributes } from "../models/module";
 
 class ModuleValidator {
     async data(moduleData: moduleCreationAttributes) {
-        let message: string = "";
         let tags: string;
         if (moduleData.tags) {
             tags = await this.#checkTags(moduleData.tags);
@@ -13,15 +12,14 @@ class ModuleValidator {
             this.#checkLink(moduleData.link),
         ]);
         if (link) {
-            message = "Le lien n'est pas au bon format.";
+            return "Le lien n'est pas au bon format.";
         }
         if (name) {
-            message = "Ce nom de module est déjà pris.";
+            return "Ce nom de module est déjà pris.";
         }
         if (tags!) {
-            message = "Ce tag n'est pas autoriser.";
+            return "Ce tag n'est pas autoriser.";
         }
-        return message;
     }
 
     async foundUser(userId: string) {
