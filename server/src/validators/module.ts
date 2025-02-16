@@ -8,18 +8,18 @@ class ModuleValidator {
         if (moduleData.tags) {
             tags = await this.#checkTags(moduleData.tags);
         }
-        const [mail, link] = await Promise.all([
+        const [name, link] = await Promise.all([
             this.#findName(moduleData.name),
             this.#checkLink(moduleData.link),
         ]);
         if (link) {
             message = "Le lien n'est pas au bon format.";
         }
-        if (mail) {
-            message = "Ce mail est déjà utilisé par un autre compte.";
+        if (name) {
+            message = "Ce nom de module est déjà pris.";
         }
         if (tags!) {
-            message = "Ce mail est déjà utilisé par un autre compte.";
+            message = "Ce tag n'est pas autoriser.";
         }
         return message;
     }
