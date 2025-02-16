@@ -8,43 +8,36 @@ interface passObj {
 
 class UserValidator {
     async data(userData: userCreationAttributes) {
-        let message: string = "";
-
         if (userData.username) {
             const username = await this.#findUsername(userData.username);
             if (username) {
-                message = "Cet identifiant est déjà utilisé.";
+                return "Cet identifiant est déjà utilisé.";
             }
             if (userData.username.length < 3 || userData.username.length > 15) {
-                message = "L'identifiant doit faire entre 3 et 15 caractères.";
+                return "L'identifiant doit faire entre 3 et 15 caractères.";
             }
         }
 
         if (userData.mail) {
             const mail = await this.#findMail(userData.mail);
             if (mail) {
-                message = "Ce mail est déjà utilisé par un autre compte.";
+                return "Ce mail est déjà utilisé par un autre compte.";
             }
         }
 
         if (userData.content) {
             if (userData.content.length > 200) {
-                message = "Descritpion trop longue, 200 caractères maximum.";
+                return "Descritpion trop longue, 200 caractères maximum.";
             }
         }
-
-        return message;
     }
 
     async found(userId: string) {
-        console.log(userId, "Ligne : 40")
         const user = await User.findByPk(userId);
-        console.log(user)
         return user;
     }
 
     async password(data: passObj, userId: string) {
-        let message: string = "";
         const user = await User.findByPk(userId);
         const validPassword = await Crypt.compare(
             data.password,
@@ -52,23 +45,20 @@ class UserValidator {
         );
 
         if (data.newPassword.length <= 8) {
-            message = "Le mot de passe doit contenir plus de 8 caractères.";
+            return "Le mot de passe doit contenir plus de 8 caractères.";
         }
         if (data.newPassword != data.confirmPassword) {
-            message = "Les mots de passe ne sont pas identiques.";
+            return "Les mots de passe ne sont pas identiques.";
         }
         if (!validPassword) {
-            message = "Erreur dans la saisie du mot de passe.";
+            return "Erreur dans la saisie du mot de passe.";
         }
-        return message;
     }
 
     async hasFile(file: Express.Multer.File) {
-        let message = "";
         if (!file) {
-            message = "Aucun fichier téléchargé.";
+            return "Aucun fichier téléchargé.";
         }
-        return message;
     }
 
     async #findMail(mail: string) {

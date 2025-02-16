@@ -3,22 +3,19 @@ import Crypt from "../tools/hash";
 
 class AuthValidator {
     async register(userData: userCreationAttributes) {
-        let message: string = "";
-
         const [mail, username] = await Promise.all([
             this.#findMail(userData.mail),
             this.#findUsername(userData.username),
         ]);
         if (username) {
-            message = "Cet identifiant est déjà utilisé.";
+            return "Cet identifiant est déjà utilisé.";
         }
         if (userData.password.length <= 8) {
-            message = "Le mot de passe doit contenir plus de 8 caractères.";
+            return "Le mot de passe doit contenir plus de 8 caractères.";
         }
         if (mail) {
-            message = "Ce mail est déjà utilisé par un autre compte.";
+            return "Ce mail est déjà utilisé par un autre compte.";
         }
-        return message;
     }
 
     async signin(userData: userCreationAttributes) {
@@ -39,8 +36,10 @@ class AuthValidator {
             return "Identifiant ou mot de passe incorrect.";
         }
 
-        const message = await this.#mailActive(userData.mail);
-        return message;
+        const active = await this.#mailActive(userData.mail);
+        if (active) {
+            return active;
+        }
     }
 
     async validation(token: string) {
@@ -59,10 +58,9 @@ class AuthValidator {
     }
     async #mailActive(mail: string) {
         const user = await User.findOne({ where: { mail: mail } });
-        if (user?.isActive === true || user?.isActive === null) {
-            return "";
+        if (user?.isActive === false) {
+            return "L'adresse mail n'a pas été vérifié.";
         }
-        return "L'adresse mail n'a pas été vérifié.";
     }
     async #findUsername(username: string) {
         const res = await User.findOne({ where: { username: username } });

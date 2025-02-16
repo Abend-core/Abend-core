@@ -38,11 +38,9 @@ class ModuleValidator {
     }
 
     async hasFile(file: Express.Multer.File) {
-        let message = "";
         if (!file) {
-            message = "Aucun fichier téléchargé.";
+            return "Aucun fichier téléchargé.";
         }
-        return message;
     }
 
     async #findName(name: string) {
@@ -50,51 +48,48 @@ class ModuleValidator {
         return res;
     }
 
-    #checkTags(tags: string) {
-        console.log(tags)
-        if(tags.length > 3){
-            return "Il ne peux pas avoir plus de 3 tags."
+    async #checkTags(tags: string) {
+        if (tags.length > 3) {
+            return "Il ne peux pas avoir plus de 3 tags.";
         }
-        
+
         for (let i = 0; i < tags.length - 1; i++) {
-            const res = this.#blackList(tags[i]);
+            const res = await this.#blackList(tags[i]);
             if (res) {
                 return "Ce tag n'est pas autorisé.";
             }
-            if(tags[i] === ""){
+            if (tags[i] === "") {
                 continue;
             }
-            if(tags[i].length > 5){
-                return "Un tag peut contenir 5 caractères maximum."
+            if (tags[i].length > 5) {
+                return "Un tag peut contenir 5 caractères maximum.";
             }
         }
     }
 
-    #checkLink(link: string): string {
-        let message: string = "";
+    async #checkLink(link: string) {
         if (link.includes("https://") == false) {
-            message = "Le lien n'est pas au bon format.";
-            return message;
+            return "Le lien n'est pas au bon format.";
         }
         const parts = link.split("//");
         if (parts[0] != "https:") {
-            message = "Le lien n'est pas au bon format.";
-            return message;
+            return "Le lien n'est pas au bon format.";
         }
 
         const domainExtension = parts[1];
         const split = domainExtension.split(".");
         for (let i = 0; i < split.length - 1; i++) {
-            const res = this.#blackList(parts[i]);
-            if (res) {
-                return "Ce nom de domaine n'est pas autorisé.";
+            const resBlack = await this.#blackList(parts[i]);
+            if (resBlack) {
+                return resBlack;
             }
         }
-        message = this.#whiteList(split[split.length - 1]);
-
-        return message;
+        const reswhite = await this.#whiteList(split[split.length - 1]);
+        if (reswhite) {
+            return reswhite;
+        }
     }
-    #whiteList(text: string): string {
+    #whiteList(text: string) {
         const listeExtension: Array<string> = [
             "fr",
             "com",
@@ -130,11 +125,9 @@ class ModuleValidator {
         if (!containsExtension) {
             return "Cette extension n'est pas accepter.";
         }
-
-        return "";
     }
 
-    #blackList(text: string): string {
+    #blackList(text: string) {
         const listeDomaine: Array<string> = [
             "porn",
             "porno",
@@ -156,10 +149,8 @@ class ModuleValidator {
 
         // Vérifier si le texte correspond à la liste des mots interdits
         if (regex.test(text)) {
-            return "Le lien n'est pas au bon format.";
+            return "Le nom de domaine n'est pas autorisé.";
         }
-
-        return "";
     }
 }
 

@@ -132,10 +132,26 @@ class UserController {
     }
 
     async getNetwork(userId: string) {
-        const [followings, followers] = await Promise.all([
-            Follow.findAll({ where: { UserId: userId } }),
-            Follow.findAll({ where: { UserIdFollow: userId } }),
+        const [IDfollowings, IDfollowers] = await Promise.all([
+            Follow.findAll({
+                where: { UserId: userId },
+                raw: true,
+            }),
+            Follow.findAll({
+                where: { UserIdFollow: userId },
+                raw: true,
+            }),
         ]);
+
+        const users = await this.getAll();
+
+        const followingIds = IDfollowings.map((f) => f.UserIdFollow);
+        const followerIds = IDfollowers.map((f) => f.UserId);
+        const followings = users.filter((user) =>
+            followingIds.includes(user.id)
+        );
+        const followers = users.filter((user) => followerIds.includes(user.id));
+
         return { followings, followers };
     }
 

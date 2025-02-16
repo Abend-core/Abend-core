@@ -28,7 +28,6 @@ router.post(
             ModuleValidator.hasFile(req.file!),
             ModuleValidator.data(req.body),
         ]);
-        console.log("Ce que je recois : ", req.body)
         if (found) {
             res.status(404).json({ erreur: found });
             return;

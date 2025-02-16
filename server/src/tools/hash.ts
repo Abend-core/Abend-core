@@ -40,7 +40,6 @@ class Crypt {
 
     encryptObj(obj: Record<string, string>, login: string) {
         for (const property in obj) {
-            console.log(typeof obj[property]);
             if (typeof obj[property] == "string") {
                 obj[property] = this.encrypt(obj[property], login);
             }

@@ -41,65 +41,6 @@ router.get("/", auth, role, async (req: Request, res: Response) => {
     }
 });
 
-// Selection d'un utilisateur
-router.get("/:id", async (req: Request, res: Response) => {
-    const found = await UserValidator.found(req.params.id);
-    if (!found) {
-        res.status(404).json();
-        return;
-    }
-    try {
-        const user = await UserController.getOne(req.params.id);
-        res.status(200).json({ user });
-    } catch (error) {
-        res.status(500).json({ message: "Erreur serveur.", erreur: error });
-    }
-});
-
-// Modification d'un utilisateur
-router.patch(
-    "/:id",
-    auth,
-    async (req: Request, res: Response): Promise<void> => {
-        const found = await UserValidator.found(req.params.id);
-
-        if (!found) {
-            res.status(404).json();
-            return;
-        }
-        const error = await UserValidator.data(req.body);
-        if (error) {
-            res.status(400).json({ Erreur: error });
-            return;
-        }
-        try {
-            await UserController.update(req.params.id, req.body);
-            res.status(200).json();
-        } catch (error) {
-            res.status(500).json({ message: "Erreur serveur.", erreur: error });
-        }
-    }
-);
-
-//Suppression d'un utilisateur
-router.delete(
-    "/:id",
-    auth,
-    async (req: Request, res: Response): Promise<void> => {
-        const found = await UserValidator.found(req.params.id);
-        if (!found) {
-            res.status(404).json();
-            return;
-        }
-        try {
-            await UserController.delete(req.params.id);
-            res.status(200).json();
-        } catch (error) {
-            res.status(500).json({ message: "Erreur serveur.", error: error });
-        }
-    }
-);
-
 //Update photo utilisateur
 router.put(
     "/image",
@@ -156,6 +97,26 @@ router.put(
     }
 );
 
+// Avoir les personnes qui suivent et qui l'utilisateur connecter suis
+router.get(
+    "/network",
+    auth,
+    async (req: AuthRequest, res: Response): Promise<void> => {
+        const foundUser = await UserValidator.found(req.user?.id!);
+
+        if (!foundUser) {
+            res.status(404).json({ res: "erreur" });
+            return;
+        }
+        try {
+            const network = await UserController.getNetwork(req.user?.id!);
+            res.status(200).json({ network: network });
+        } catch (error) {
+            res.status(500).json({ message: "Erreur serveur.", erreur: error });
+        }
+    }
+);
+
 // Update etat actif utilisateur
 router.put(
     "/active/:id",
@@ -198,26 +159,63 @@ router.post(
     }
 );
 
-// Avoir les personnes qui suivent et qui l'utilisateur connecter suis
-router.get(
-    "/network",
-    auth,
-    async (req: AuthRequest, res: Response): Promise<void> => {
-        console.log('dans la fonction : ', req.user?.id!)
-        const foundUser = await UserValidator.found(req.user?.id!);
+// Selection d'un utilisateur
+router.get("/:id", async (req: Request, res: Response) => {
+    const found = await UserValidator.found(req.params.id);
+    if (!found) {
+        res.status(404).json();
+        return;
+    }
+    try {
+        const user = await UserController.getOne(req.params.id);
+        res.status(200).json({ user });
+    } catch (error) {
+        res.status(500).json({ message: "Erreur serveur.", erreur: error });
+    }
+});
 
-        if (!foundUser) {
-            res.status(404).json({res: "erreur"});
+//Suppression d'un utilisateur
+router.delete(
+    "/:id",
+    auth,
+    async (req: Request, res: Response): Promise<void> => {
+        const found = await UserValidator.found(req.params.id);
+        if (!found) {
+            res.status(404).json();
             return;
         }
         try {
-            const network = await UserController.getNetwork(req.user?.id!);
-            res.status(200).json({ network: network });
+            await UserController.delete(req.params.id);
+            res.status(200).json();
+        } catch (error) {
+            res.status(500).json({ message: "Erreur serveur.", error: error });
+        }
+    }
+);
+
+// Modification d'un utilisateur
+router.patch(
+    "/:id",
+    auth,
+    async (req: Request, res: Response): Promise<void> => {
+        const found = await UserValidator.found(req.params.id);
+
+        if (!found) {
+            res.status(404).json();
+            return;
+        }
+        const error = await UserValidator.data(req.body);
+        if (error) {
+            res.status(400).json({ Erreur: error });
+            return;
+        }
+        try {
+            await UserController.update(req.params.id, req.body);
+            res.status(200).json();
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", erreur: error });
         }
     }
 );
-
 
 export default router;
