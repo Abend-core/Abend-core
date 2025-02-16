@@ -34,15 +34,12 @@
               </p>
             </div>
             <div class="flex gap-1 mt-2">
-              <span
-                v-for="tag in Array.isArray(module.tags)
-                  ? module.tags
-                  : JSON.parse(module.tags || '[]')"
-                :key="tag"
+              <p
+                v-if="module.tags"
                 class="bg-primaryRed text-white px-1 py-1 rounded-md text-xs"
               >
-                {{ tag }}
-              </span>
+                {{ module.tags }}
+              </p>
             </div>
             <router-link
               class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"

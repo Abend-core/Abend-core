@@ -72,15 +72,12 @@
               </td>
               <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
               <td class="p-3">
-                <span
-                  v-for="tag in Array.isArray(module.tags)
-                    ? module.tags
-                    : JSON.parse(module.tags || '[]')"
-                  :key="tag"
-                  class="bg-primaryRed text-white px-1 py-1 rounded-md text-sm"
+                <p
+                  v-if="module.tags"
+                  class="w-fit p-2 bg-primaryRed text-white rounded-md text-xs"
                 >
-                  {{ tag }}
-                </span>
+                  {{ module.tags }}
+                </p>
               </td>
               <td class="p-3">
                 <label class="switch">
