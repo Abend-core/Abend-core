@@ -3,7 +3,7 @@ import { Module, moduleCreationAttributes } from "../models/module";
 
 class ModuleValidator {
     async data(moduleData: moduleCreationAttributes) {
-        let tags: string;
+        let tags: string | undefined;
         if (moduleData.tags) {
             tags = await this.#checkTags(moduleData.tags);
         }
@@ -17,7 +17,7 @@ class ModuleValidator {
         if (name) {
             return "Ce nom de module est déjà pris.";
         }
-        if (tags!) {
+        if (tags) {
             return tags;
         }
     }
@@ -50,21 +50,24 @@ class ModuleValidator {
         return res;
     }
 
-    #checkTags(tags: string): string {
-        let message: string = "";
-        if (tags.includes("#") == false) {
-            message = "Le tag n'est pas au bon format.";
-            return message;
+    #checkTags(tags: string) {
+        console.log(tags)
+        if(tags.length > 3){
+            return "Il ne peux pas avoir plus de 3 tags."
         }
-        const parts = tags.split("#");
-        for (let i = 1; i < parts.length; i++) {
-            const res = this.#blackList(parts[i]);
+        
+        for (let i = 0; i < tags.length - 1; i++) {
+            const res = this.#blackList(tags[i]);
             if (res) {
                 return "Ce tag n'est pas autorisé.";
             }
+            if(tags[i] === ""){
+                continue;
+            }
+            if(tags[i].length > 5){
+                return "Un tag peut contenir 5 caractères maximum."
+            }
         }
-
-        return message;
     }
 
     #checkLink(link: string): string {

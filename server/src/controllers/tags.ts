@@ -3,13 +3,12 @@ import Tag from "../models/tag";
 
 class TagsController {
     async add(tags: string) {
-        const tag = tags.split("#");
-        for (let i = 1; i < tag.length; i++) {
-            const found = Tag.findOne({ where: { name: tag[i] } });
+        for (let i = 0; i < tags.length; i++) {
+            const found = Tag.findOne({ where: { name: tags[i] } });
             if (!found) {
-                Tag.create({ name: tag[i], uses: 1 });
+                Tag.create({ name: tags[i], uses: 1 });
             } else {
-                Tag.increment("uses", { where: { name: tag[i] } });
+                Tag.increment("uses", { where: { name: tags[i] } });
             }
         }
     }
