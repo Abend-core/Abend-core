@@ -9,7 +9,11 @@ const imageCount: number = config.get("storage.nombreImageBanque");
 //Modele & bdd
 import { User, userCreationAttributes } from "../models/user";
 import Mail from "../tools/email";
-
+interface ReiniPass {
+    token: string;
+    newPassword: string;
+    confirmPassword: string;
+}
 class AuthController {
     async register(userData: userCreationAttributes) {
         userData.id = UUID.v7();
@@ -29,9 +33,8 @@ class AuthController {
             { password: user.password },
             { where: { id: user.id }, validate: false }
         );
-        setTimeout(() => {
-            Mail.verification(userData.mail, userData.token);
-        }, 6000); // Attendre 3 secondes
+
+        Mail.verification(userData.mail, userData.token);
     }
 
     async signin(userData: userCreationAttributes) {
@@ -53,6 +56,21 @@ class AuthController {
 
         await User.update(
             { isActive: true, token: "" },
+            { where: { id: user!.id } }
+        );
+    }
+
+    async forgot(mail: string) {
+        const user = await User.findOne({ where: { mail: mail } });
+        const token = Crypt.genToken(12);
+        await User.update({ token: token }, { where: { id: user!.id } });
+        Mail.updatePassword(mail, token);
+    }
+    async updatepassword(data: ReiniPass) {
+        const user = await User.findOne({ where: { token: data.token } });
+        const password = await Crypt.hash(data.confirmPassword);
+        await User.update(
+            { token: "", password: password },
             { where: { id: user!.id } }
         );
     }

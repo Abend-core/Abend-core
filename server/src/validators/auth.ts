@@ -1,6 +1,10 @@
 import { User, userCreationAttributes } from "../models/user";
 import Crypt from "../tools/hash";
-
+interface ReiniPass {
+    token: string;
+    newPassword: string;
+    confirmPassword: string;
+}
 class AuthValidator {
     async register(userData: userCreationAttributes) {
         const [mail, username] = await Promise.all([
@@ -49,6 +53,34 @@ class AuthValidator {
 
         if (!user) {
             return "Mauvais token.";
+        }
+    }
+
+    async forgot(mail: string) {
+        const user = await User.findOne({
+            where: { mail: mail },
+        });
+
+        if (!user) {
+            return "Ce mail n'existe pas.";
+        }
+    }
+
+    async updatepassword(data: ReiniPass) {
+        const user = await User.findOne({ where: { token: data.token } });
+
+        if (!user) {
+            return "Ce token n'est pas valide.";
+        }
+        if (data.confirmPassword !== data.newPassword) {
+            return "Les mots de passe ne sont pas identique.";
+        }
+        const isPasswordValid = await Crypt.compare(
+            data.confirmPassword,
+            user.password
+        );
+        if (isPasswordValid) {
+            return "Ce mot de passe est utilisé, merci d'utiliser un nouveau mot de passe.";
         }
     }
 
