@@ -41,7 +41,7 @@ router.get("/", auth, role, async (req: Request, res: Response) => {
     }
 });
 
-//Update photo utilisateur
+// Update photo utilisateur
 router.put(
     "/image",
     auth,
@@ -174,7 +174,7 @@ router.get("/:id", async (req: Request, res: Response) => {
     }
 });
 
-//Suppression d'un utilisateur
+// Suppression d'un utilisateur
 router.delete(
     "/:id",
     auth,
