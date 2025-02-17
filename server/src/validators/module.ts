@@ -1,11 +1,21 @@
 import { User, userCreationAttributes } from "../models/user";
 import { Module, moduleCreationAttributes } from "../models/module";
 
+interface moduleCreate extends moduleCreationAttributes {
+    tags1: string;
+    tags2: string;
+    tags3: string;
+}
+
 class ModuleValidator {
-    async data(moduleData: moduleCreationAttributes) {
+    async data(moduleData: moduleCreate) {
         let tags: string | undefined;
         if (moduleData.tags) {
-            tags = await this.#checkTags(moduleData.tags);
+            tags = await this.#checkTags(
+                moduleData.tags1,
+                moduleData.tags2,
+                moduleData.tags3
+            );
         }
         const [name, link] = await Promise.all([
             this.#findName(moduleData.name),
@@ -48,20 +58,17 @@ class ModuleValidator {
         return res;
     }
 
-    async #checkTags(tags: string) {
-        if (tags.length > 3) {
-            return "Il ne peux pas avoir plus de 3 tags.";
-        }
+    async #checkTags(tags1: string, tags2: string, tags3: string) {
+        const tabTags = [tags1 ?? "", tags2 ?? "", tags3 ?? ""];
 
-        for (let i = 0; i < tags.length - 1; i++) {
-            const res = await this.#blackList(tags[i]);
+        for (let i = 0; i < tabTags.length - 1; i++) {
+            const res = await this.#blackList(tabTags[i]);
+            if (!tabTags[i]) continue;
             if (res) {
                 return "Ce tag n'est pas autorisé.";
             }
-            if (tags[i] === "") {
-                continue;
-            }
-            if (tags[i].length > 5) {
+
+            if (tabTags[i].length > 5) {
                 return "Un tag peut contenir 5 caractères maximum.";
             }
         }

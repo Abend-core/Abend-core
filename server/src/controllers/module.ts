@@ -15,10 +15,16 @@ import { Op } from "sequelize";
 interface ModuleWithFavoris extends Module {
     favoris: boolean;
 }
+interface moduleCreate extends moduleCreationAttributes {
+    tags1: string;
+    tags2: string;
+    tags3: string;
+}
 
 class ModuleController {
-    async add(data: moduleCreationAttributes, file: Express.Multer.File) {
+    async add(data: moduleCreate, file: Express.Multer.File) {
         Redis.deleteCache(KEYS.modules);
+
         data.id = UUID.v7();
         data.isShow = true;
         data.image = file.filename;

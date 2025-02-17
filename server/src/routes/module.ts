@@ -38,9 +38,7 @@ router.post(
         }
         try {
             await ModuleController.add(req.body, req.file!);
-            if (req.body.tags) {
-                await TagsController.add(req.body.tags);
-            }
+            await TagsController.add(req.body);
 
             res.status(200).json();
         } catch (error) {
