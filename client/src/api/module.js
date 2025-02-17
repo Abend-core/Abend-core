@@ -28,8 +28,8 @@ export const deleteModule = (id) => {
 };
 
 // Filtre selon le Nom et le Lien
-export const filterModule = (data) => {
-  return apiClient.get(`/modules/filtre/${data}`);
+export const filterModule = () => {
+  return apiClient.get(`/modules`);
 };
 
 // Récupération des modules selon un id

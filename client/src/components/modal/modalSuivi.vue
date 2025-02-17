@@ -24,7 +24,20 @@
           </p>
         </div>
         <div class="p-4 dark:bg-gray-800 rounded-lg">
-          <p>Blabla les suivies</p>
+          <div v-if="suivis && suivis.length === 0">
+            <p class="text-center font-medium text-gray-400">Aucun suivi</p>
+          </div>
+          <a
+            class="flex gap-2 items-center"
+            v-for="suivi in suivis"
+            :key="suivi.id"
+          >
+            <img
+              class="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-800"
+              :src="`${apiUrl}/uploadsFile/profil/${suivi.image}`"
+            />
+            <p>{{ suivi.username }}</p>
+          </a>
         </div>
       </div>
     </div>
@@ -32,9 +45,29 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
+import { displayNetwork } from "../../api/user.js";
+
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const emit = defineEmits(["close"]);
+
+const suivis = ref([]);
 
 const closeModal = () => {
   emit("close");
 };
+
+const displaySuivis = async () => {
+  try {
+    const response = await displayNetwork();
+    suivis.value = response?.data?.network?.followings ?? [];
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(() => {
+  displaySuivis();
+});
 </script>

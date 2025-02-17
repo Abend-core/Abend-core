@@ -1,6 +1,9 @@
 <template>
   <main>
     <div class="m-auto w-[320px] mt-[80px]">
+      <div class="pl-4 pr-4 pt-2">
+        <NotificationMessage />
+      </div>
       <img
         v-if="!isDark"
         class="w-[56px] h-[56px] mx-auto mb-3"
@@ -45,7 +48,11 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { isDark } from "../utils/darkMode.js";
+import NotificationMessage from "../components/notification/NotificationMessage.vue";
+
+const email = ref("");
 </script>
 
 <style scoped>

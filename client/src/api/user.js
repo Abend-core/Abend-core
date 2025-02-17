@@ -46,3 +46,7 @@ export const updateImgProfil = (data) => {
 export const follow = (id) => {
   return apiClient.post(`/users/follow/${id}`);
 };
+
+export const displayNetwork = () => {
+  return apiClient.get("/users/network");
+};
