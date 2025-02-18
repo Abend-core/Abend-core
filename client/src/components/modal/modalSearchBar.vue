@@ -28,7 +28,9 @@
             >
           </div>
         </div>
-        <div class="p-4 dark:bg-gray-800">
+        <div
+          class="p-4 dark:bg-gray-800 max-h-[700px] overflow-y-auto scrollbar-custom"
+        >
           <div v-if="modules.length === 0">
             <p
               v-if="inputValueSearchBarModule.trim().length === 0"
@@ -79,35 +81,44 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
-import { filterModule } from "../../api/module";
-
+import { ref, onMounted, watch } from "vue";
+import { findAllModules } from "../../api/module";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const searchInput = ref(null);
 
 const modules = ref([]);
 const inputValueSearchBarModule = ref("");
-const searchInput = ref(null);
+const allModules = ref([]);
 
-const filterSearchModule = async () => {
-  const searchTerm = inputValueSearchBarModule.value.trim();
+const displayAllModules = async () => {
+  try {
+    const response = await findAllModules();
+    if (response && response.data.module) {
+      allModules.value = response.data.module;
+      filterSearchModule();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const filterSearchModule = () => {
+  const searchTerm = inputValueSearchBarModule.value.trim().toLowerCase();
 
   if (!searchTerm) {
     modules.value = [];
     return;
   }
 
-  try {
-    const response = await filterModule();
+  const filteredModules = allModules.value.filter((module) => {
+    const moduleName = module.name.toLowerCase();
+    const username = module.User.username.toLowerCase();
 
-    if (response && response.data.module) {
-      modules.value = response.data.module;
-    } else {
-      modules.value = [];
-    }
-  } catch (error) {
-    console.error(error);
-    modules.value = [];
-  }
+    return moduleName.includes(searchTerm) || username.includes(searchTerm);
+  });
+
+  modules.value = filteredModules;
 };
 
 const highlightText = (text) => {
@@ -121,10 +132,34 @@ const highlightText = (text) => {
   );
 };
 
+onMounted(() => {
+  displayAllModules();
+  if (searchInput.value) {
+    searchInput.value.focus();
+  }
+});
+
 watch(inputValueSearchBarModule, () => {
   filterSearchModule();
 });
-onMounted(() => {
-  searchInput.value?.focus();
-});
 </script>
+
+<style scoped>
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #d9dce1;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background-color: #2d3748;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #d9dce1;
+}
+</style>
