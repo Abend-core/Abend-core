@@ -1,4 +1,10 @@
 <template>
+  <div
+    class="text-white rounded-md p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
+    v-if="errorMessage"
+  >
+    <p>{{ errorMessage }}</p>
+  </div>
   <div class="flex justify-center md:justify-end mb-4 mt-4">
     <button
       @click="displayModalModule"
@@ -8,7 +14,6 @@
       <p>Ajoutez un module</p>
     </button>
   </div>
-  <NotificationMessage />
   <div
     v-if="isModalVisibleModule"
     class="bg-white p-7 rounded-md relative max-w-full mx-auto dark:bg-gray-700 dark:text-white dark:border dark:border-black"
@@ -65,38 +70,16 @@
           <div class="relative">
             <input
               id="add-module-input-tag"
-              name="add_module_input_tag"
               type="text"
-              class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900 relative"
-              v-model="dataModule.tagsInput.value"
-              @focus="displayTagList"
-              @blur="hideTagList"
+              v-model="tagInput"
+              class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
               @input="toggleIconVisibility"
-              @click="displayAllTags"
             />
             <i
               v-if="isIconVisible"
-              @click="addTag"
-              class="ri-check-double-fill absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+              @click="validateTag"
+              class="ri-check-double-fill absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-primaryRed"
             ></i>
-            <div
-              class="absolute border dark:border-gray-800 border-gray-200 w-full mt-1 p-2 rounded-md bg-gray-200 dark:bg-gray-700"
-              v-if="isTagListVisible"
-            >
-              <p class="p-2">Liste des tags</p>
-              <div class="flex gap-1 p-2">
-                <span
-                  class="bg-primaryRed text-white px-1 py-1 rounded-md text-sm"
-                  >test</span
-                ><span
-                  class="bg-primaryRed text-white px-1 py-1 rounded-md text-sm"
-                  >test</span
-                ><span
-                  class="bg-primaryRed text-white px-1 py-1 rounded-md text-sm"
-                  >test</span
-                >
-              </div>
-            </div>
           </div>
         </div>
         <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
@@ -123,14 +106,12 @@
       </div>
       <div class="mt-6 flex gap-2">
         <div
-          v-for="(tag, key) in selectedTags"
-          :key="key"
+          v-for="(tag, index) in selectedTags"
+          :key="index"
           class="flex gap-1 bg-primaryRed text-white p-1 rounded-md text-xs"
         >
-          <p>
-            {{ tag }}
-          </p>
-          <span @click="removeTag(key)" class="cursor-pointer">&times;</span>
+          <p>{{ tag }}</p>
+          <span @click="removeTag(index)" class="cursor-pointer">&times;</span>
         </div>
       </div>
     </form>
@@ -139,8 +120,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { addModules, allTags } from "../../api/module.js";
-import NotificationMessage from "../../components/notification/NotificationMessage.vue";
+import { addModules } from "../../api/module.js";
 import { useNotificationStore } from "../../stores/notificationStore.js";
 
 const { setNotification } = useNotificationStore();
@@ -152,56 +132,47 @@ const id = sessionStorage.getItem("id");
 const isModalVisibleModule = ref(false);
 const imageURL = ref(null);
 const selectedImageFile = ref(null);
-const isTagListVisible = ref(false);
 const isIconVisible = ref(false);
-const selectedTags = ref({});
+const selectedTags = ref([]);
+const tagInput = ref("");
+const errorMessage = ref("");
 
 let dataModule = {
   name: ref(""),
   link: ref(""),
   content: ref(""),
-  tags: ref(""),
-  tagsInput: ref(""),
   image: ref(""),
 };
 
 const toggleIconVisibility = () => {
-  isIconVisible.value = dataModule.tagsInput.value.trim().length > 0;
+  isIconVisible.value = tagInput.value.trim().length > 0;
 };
 
-const displayTagList = () => {
-  isTagListVisible.value = true;
-};
-
-const hideTagList = () => {
-  isTagListVisible.value = false;
-};
-
-const displayModalModule = () => {
-  isModalVisibleModule.value = !isModalVisibleModule.value;
-};
-
-const addTag = () => {
-  const newTag = dataModule.tagsInput.value.trim();
-  if (newTag) {
-    const tagKey = `tag${Object.keys(selectedTags.value).length + 1}`;
-    selectedTags.value[tagKey] = newTag;
-    dataModule.tagsInput.value = "";
+const validateTag = () => {
+  if (tagInput.value.trim() !== "") {
+    addTag(tagInput.value.trim());
+    tagInput.value = "";
     isIconVisible.value = false;
   }
 };
 
-const removeTag = (key) => {
-  delete selectedTags.value[key];
+const addTag = (tag) => {
+  if (selectedTags.value.length < 3 && !selectedTags.value.includes(tag)) {
+    selectedTags.value.push(tag);
+    errorMessage.value = "";
+  } else if (selectedTags.value.includes(tag)) {
+    errorMessage.value = "Ce tag a déjà été ajouté.";
+  } else {
+    errorMessage.value = "Vous ne pouvez pas ajouter plus de 3 tags.";
+  }
 };
 
-const displayAllTags = async () => {
-  try {
-    const response = await allTags();
-    // tags.value = response.tags.value;
-  } catch (error) {
-    console.error(error);
-  }
+const removeTag = (index) => {
+  selectedTags.value.splice(index, 1);
+};
+
+const displayModalModule = () => {
+  isModalVisibleModule.value = !isModalVisibleModule.value;
 };
 
 const handleFileChange = (event) => {
@@ -223,17 +194,19 @@ const addModulesDashboard = async () => {
     formData.append("name", dataModule.name.value);
     formData.append("link", dataModule.link.value);
     formData.append("content", dataModule.content.value);
-    console.log(selectedTags.value);
-    formData.append("tags", JSON.stringify(selectedTags.value));
     formData.append("user_id", id);
+    formData.append("tag1", selectedTags.value[0] || "");
+    formData.append("tag2", selectedTags.value[1] || "");
+    formData.append("tag3", selectedTags.value[2] || "");
 
     await addModules(formData);
 
     displayModalModule();
+
     dataModule.name.value = "";
     dataModule.link.value = "";
     dataModule.content.value = "";
-    selectedTags.value = {};
+    selectedTags.value = [];
     dataModule.image.value = "";
     imageURL.value = null;
     selectedImageFile.value = null;
