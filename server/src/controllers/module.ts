@@ -16,15 +16,19 @@ interface ModuleWithFavoris extends Module {
     favoris: boolean;
 }
 interface moduleCreate extends moduleCreationAttributes {
-    tags1: string;
-    tags2: string;
-    tags3: string;
+    tag1: string;
+    tag2: string;
+    tag3: string;
 }
 
 class ModuleController {
     async add(data: moduleCreate, file: Express.Multer.File) {
         Redis.deleteCache(KEYS.modules);
+        data.tags = [data.tag1 ?? "", data.tag2 ?? "", data.tag3 ?? ""]
+            .filter((tag) => tag !== "")
+            .join(", ");
 
+        console.log(data.tags);
         data.id = UUID.v7();
         data.isShow = true;
         data.image = file.filename;

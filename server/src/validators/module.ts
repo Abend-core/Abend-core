@@ -2,21 +2,20 @@ import { User, userCreationAttributes } from "../models/user";
 import { Module, moduleCreationAttributes } from "../models/module";
 
 interface moduleCreate extends moduleCreationAttributes {
-    tags1: string;
-    tags2: string;
-    tags3: string;
+    tag1: string;
+    tag2: string;
+    tag3: string;
 }
 
 class ModuleValidator {
     async data(moduleData: moduleCreate) {
         let tags: string | undefined;
-        if (moduleData.tags) {
-            tags = await this.#checkTags(
-                moduleData.tags1,
-                moduleData.tags2,
-                moduleData.tags3
-            );
-        }
+        console.log(moduleData);
+        tags = await this.#checkTags(
+            moduleData.tag1,
+            moduleData.tag2,
+            moduleData.tag3
+        );
         const [name, link] = await Promise.all([
             this.#findName(moduleData.name),
             this.#checkLink(moduleData.link),
@@ -58,8 +57,8 @@ class ModuleValidator {
         return res;
     }
 
-    async #checkTags(tags1: string, tags2: string, tags3: string) {
-        const tabTags = [tags1 ?? "", tags2 ?? "", tags3 ?? ""];
+    async #checkTags(tag1: string, tag2: string, tag3: string) {
+        const tabTags = [tag1 ?? "", tag2 ?? "", tag3 ?? ""];
 
         for (let i = 0; i < tabTags.length - 1; i++) {
             const res = await this.#blackList(tabTags[i]);
