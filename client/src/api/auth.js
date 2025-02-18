@@ -20,3 +20,7 @@ export const getUserInfos = (id) => {
 export const validationUser = (token) => {
   return apiClient.post("/auth/validation/", { token });
 };
+
+export const forgetPassword = (mail) => {
+  return apiClient.post("/auth/forgotpassword/", { mail });
+};
