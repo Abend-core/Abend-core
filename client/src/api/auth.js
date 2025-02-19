@@ -25,6 +25,10 @@ export const forgetPassword = (mail) => {
   return apiClient.post("/auth/forgotpassword/", { mail });
 };
 
-export const updatePassword = (data) => {
-  return apiClient.post("/auth/updatepassword/", { data });
+export const updatePassword = (token, newPassword, confirmPassword) => {
+  return apiClient.post("/auth/updatepassword/", {
+    token,
+    newPassword,
+    confirmPassword,
+  });
 };

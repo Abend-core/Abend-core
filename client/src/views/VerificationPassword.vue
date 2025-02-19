@@ -61,22 +61,15 @@ const newPassword = ref("");
 const confirmNewPassword = ref("");
 
 const updatePasswordVef = async () => {
-  const data = {
-    token: token,
-    newPassword: newPassword.value,
-    confirmPassword: confirmNewPassword.value,
-  };
-
   try {
-    console.log(data);
-    await updatePassword(data);
+    await updatePassword(token, newPassword.value, confirmNewPassword.value);
     setNotification("Mot de passe validé !", "success");
 
     setTimeout(() => {
       router.push("/login");
     }, 4000);
   } catch (error) {
-    console.error(error);
+    setNotification(error.response.data.Erreur, "error");
   }
 };
 </script>
