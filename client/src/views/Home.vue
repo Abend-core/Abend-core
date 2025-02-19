@@ -33,13 +33,14 @@
                 {{ module.content }}
               </p>
             </div>
-            <div class="flex gap-1 mt-2">
-              <p
-                v-if="module.tags"
-                class="bg-primaryRed text-white px-1 py-1 rounded-md text-xs"
+            <div v-if="module.tags" class="flex gap-1 mt-2">
+              <span
+                v-for="tag in module.tags.split(',')"
+                :key="tag"
+                class="px-2 py-1 bg-primaryRed text-white rounded-md text-xs"
               >
-                {{ module.tags }}
-              </p>
+                {{ tag }}
+              </span>
             </div>
             <router-link
               class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"

@@ -31,7 +31,7 @@
               <th class="p-3">Description</th>
               <th class="p-3">Image</th>
               <th class="p-3">Date de création</th>
-              <th class="p-3">Tags</th>
+              <th class="p-3">Tag(s)</th>
               <th class="p-3">Visibilité</th>
               <th class="p-3">Action</th>
             </tr>
@@ -72,12 +72,15 @@
               </td>
               <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
               <td class="p-3">
-                <p
-                  v-if="module.tags"
-                  class="w-fit p-2 bg-primaryRed text-white rounded-md text-xs"
-                >
-                  {{ module.tags }}
-                </p>
+                <div v-if="module.tags" class="flex flex-wrap gap-2">
+                  <span
+                    v-for="tag in module.tags.split(',')"
+                    :key="tag"
+                    class="px-2 py-1 bg-primaryRed text-white rounded-md text-xs"
+                  >
+                    {{ tag }}
+                  </span>
+                </div>
               </td>
               <td class="p-3">
                 <label class="switch">
