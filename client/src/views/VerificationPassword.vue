@@ -12,7 +12,7 @@
         <form action="" class="flex flex-col" @submit.prevent="handleLogin">
           <label class="mb-1" for="email-login">Nouveau mot de passe</label>
           <input
-            type="text"
+            type="password"
             id="newPassword"
             v-model="newPassword"
             class="mb-4 bg-white text-black dark:text-white dark:bg-gray-900"
@@ -32,6 +32,7 @@
             <button
               class="w-full mt-4 bg-customGreen text-white font-bold border border-black"
               type="submit"
+              @click="updatePasswordVef"
             >
               Réinitialiser
             </button>
@@ -45,10 +46,39 @@
 <script setup>
 import { ref } from "vue";
 import NotificationMessage from "../components/notification/NotificationMessage.vue";
+import { useNotificationStore } from "../stores/notificationStore.js";
 import LogoSwitch from "../components/LogoSwitch.vue";
+import { useRoute, useRouter } from "vue-router";
+import { updatePassword } from "../api/auth.js";
+
+const route = useRoute();
+const router = useRouter();
+const { setNotification } = useNotificationStore();
+
+const token = route.params.token;
 
 const newPassword = ref("");
 const confirmNewPassword = ref("");
+
+const updatePasswordVef = async () => {
+  const data = {
+    token: token,
+    newPassword: newPassword.value,
+    confirmPassword: confirmNewPassword.value,
+  };
+
+  try {
+    console.log(data);
+    await updatePassword(data);
+    setNotification("Mot de passe validé !", "success");
+
+    setTimeout(() => {
+      router.push("/login");
+    }, 4000);
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <style scoped>

@@ -54,7 +54,7 @@ const routes = [
     component: VerificationEmail,
   },
   {
-    path: "/verificationPassword",
+    path: "/verificationPassword/:token",
     name: "VerificationPasswordPage",
     component: VerificationPassword,
   },

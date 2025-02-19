@@ -24,3 +24,7 @@ export const validationUser = (token) => {
 export const forgetPassword = (mail) => {
   return apiClient.post("/auth/forgotpassword/", { mail });
 };
+
+export const updatePassword = (data) => {
+  return apiClient.post("/auth/updatepassword/", { data });
+};

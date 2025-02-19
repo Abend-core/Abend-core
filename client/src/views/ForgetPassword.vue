@@ -64,7 +64,7 @@ const resetPassword = async () => {
     await forgetPassword(email.value);
     email.value = "";
     setNotification(
-      "Email envoyé de réinitialisation envoyé, pensez à regarder dans vos spams.",
+      "Email de réinitialisation du mot de passe envoyé, pensez à regarder dans vos spams.",
       "warning"
     );
   } catch (error) {
