@@ -4,12 +4,12 @@ const user: string = config.get("mail.user");
 const urlServer: string = config.get("mail.urlServer");
 const urlClient: string = config.get("mail.urlClient");
 class Mail {
-    async verification(to: string, token: string) {
-        const mailOptions = {
-            from: user,
-            to,
-            subject: "Vérification de votre compte",
-            html: `
+  async verification(to: string, token: string) {
+    const mailOptions = {
+      from: user,
+      to,
+      subject: "Vérification de votre compte",
+      html: `
             <div
                 style="
                     text-align: center;
@@ -77,24 +77,24 @@ class Mail {
                 </div>
             </div>
               `,
-            attachments: [
-                {
-                    filename: "abend-core-logo.png",
-                    path: urlServer + "/uploadsFile/email/logo.png",
-                    cid: "logo_cid",
-                },
-            ],
-        };
-        await transporter.sendMail(mailOptions);
-        console.log("✅ Email envoyé à:", to);
-    }
+      attachments: [
+        {
+          filename: "abend-core-logo.png",
+          path: urlServer + "/uploadsFile/email/logo.png",
+          cid: "logo_cid",
+        },
+      ],
+    };
+    await transporter.sendMail(mailOptions);
+    console.log("✅ Email envoyé à:", to);
+  }
 
-    async updatePassword(to: string, token: string) {
-        const mailOptions = {
-            from: user,
-            to,
-            subject: "Demande de changement de mot de passe",
-            html: `
+  async updatePassword(to: string, token: string) {
+    const mailOptions = {
+      from: user,
+      to,
+      subject: "Demande de changement de mot de passe",
+      html: `
             <div
                 style="
                     text-align: center;
@@ -109,7 +109,7 @@ class Mail {
                     <h1>Abend-core</h1>
                     <img src="cid:logo_cid" alt="Abend-core Logo" style="width: 150px; height: 150px; margin-bottom: 20px;">
                 </div>
-                <p style="font-weight: bold; font-size: 20px;">Vérifier votre compte</p>
+                <p style="font-weight: bold; font-size: 20px;">Changement de mot de passe</p>
                 <p class="font-size: 18px;">Les informations de votre compte</p>
                 <div
                     style="
@@ -126,11 +126,11 @@ class Mail {
                         </tr>
                         <tr style="border-bottom: 1px solid #e5e7eb">
                             <td style="width: 30%; padding: 10px; font-weight: bold">
-                            Lien de vérification:
+                            Lien de modification:
                             </td>
                             <td style="padding: 10px; word-break: break-all">
-                                <a href="${urlClient}/verification/${token}" style="color: black">
-                                    ${urlClient}/verification/${token}
+                                <a href="${urlClient}/verificationPassword/${token}" style="color: black">
+                                    ${urlClient}/verificationPassword/${token}
                                 </a>
                             </td>
                         </tr>
@@ -140,7 +140,7 @@ class Mail {
                                     <tr>
                                         <td align="center" bgcolor="#f82b30" style="border-radius: 6px;">
                                             <a
-                                            href="${urlClient}/verification/${token}"
+                                            href="${urlClient}/verificationPassword/${token}"
                                             style="
                                                 display: inline-block;
                                                 color: white;
@@ -151,7 +151,7 @@ class Mail {
                                                 font-weight: bold;
                                             "
                                             >
-                                            Vérifier mon compte
+                                            Changer mon mot de passe
                                             </a>
                                         </td>
                                     </tr>
@@ -162,17 +162,17 @@ class Mail {
                 </div>
             </div>
               `,
-            attachments: [
-                {
-                    filename: "abend-core-logo.png",
-                    path: urlServer + "/uploadsFile/email/logo.png",
-                    cid: "logo_cid",
-                },
-            ],
-        };
-        await transporter.sendMail(mailOptions);
-        console.log("✅ Email envoyé à:", to);
-    }
+      attachments: [
+        {
+          filename: "abend-core-logo.png",
+          path: urlServer + "/uploadsFile/email/logo.png",
+          cid: "logo_cid",
+        },
+      ],
+    };
+    await transporter.sendMail(mailOptions);
+    console.log("✅ Email envoyé à:", to);
+  }
 }
 
 export default new Mail();
