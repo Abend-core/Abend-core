@@ -72,8 +72,11 @@ class AuthValidator {
         if (!user) {
             return "Ce token n'est pas valide.";
         }
+        if (data.confirmPassword.length < 8) {
+            return "Le mot de passe doit contenir plus de 8 caractères.";
+        }
         if (data.confirmPassword !== data.newPassword) {
-            return "Les mots de passe ne sont pas identique.";
+            return "Les mots de passe ne sont pas identiques.";
         }
         const isPasswordValid = await Crypt.compare(
             data.confirmPassword,
