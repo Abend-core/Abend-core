@@ -33,11 +33,14 @@
                 {{ module.content }}
               </p>
             </div>
-            <div v-if="module.tags" class="flex gap-1 mt-2">
+            <div
+              v-if="module.tags"
+              class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+            >
               <span
                 v-for="tag in module.tags.split(',')"
                 :key="tag"
-                class="px-2 py-1 bg-primaryRed text-white rounded-md text-xs"
+                class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
               >
                 {{ tag }}
               </span>
