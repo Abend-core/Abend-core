@@ -23,7 +23,7 @@
           </button>
           <button
             @click="$emit('close')"
-            class="text-black dark:text-white p-3"
+            class="text-black dark:text-white p-3 w-full"
           >
             Annuler
           </button>
