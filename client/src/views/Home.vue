@@ -1,11 +1,16 @@
 <template>
-  <main class="p-5 mt-6 max-w-[1400px] mx-auto">
-    <div v-if="myModules.length > 0" class="mb-8">
+  <main class="p-3 sm:pl-5 max-w-[1400px] mx-auto">
+    <div v-if="myModules.length > 0" class="mb-4 sm:mb-8">
       <p
         class="text-xl lg:text-2xl font-bold mb-6 tracking-tighter dark:text-white underlined-title"
       >
         MES MODULES
       </p>
+      <span
+        class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-400"
+      >
+        ({{ myModules.length }})
+      </span>
       <ModuleList :modules="myModules" @openModal="openModalMoreInfos" />
     </div>
     <div class="mb-8">
@@ -25,6 +30,11 @@
       >
         TOUS LES MODULES
       </p>
+      <span
+        class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-400"
+      >
+        ({{ otherModules.length }})
+      </span>
       <ModuleList :modules="otherModules" @openModal="openModalMoreInfos" />
     </div>
     <modal-more-infos

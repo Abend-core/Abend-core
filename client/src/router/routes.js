@@ -13,6 +13,7 @@ import HomeV2 from "../views/HomeV2.vue";
 import UserModules from "../views/UserModules.vue";
 import VerificationEmail from "../views/VerificationEmail.vue";
 import VerificationPassword from "../views/VerificationPassword.vue";
+import TagModules from "../views/TagModules.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
@@ -36,6 +37,14 @@ const routes = [
     path: "/user/:username",
     name: "UserModules",
     component: UserModules,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/modules/:tag",
+    name: "TagModules",
+    component: TagModules,
     meta: {
       requiresAuth: true,
     },

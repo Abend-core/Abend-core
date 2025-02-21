@@ -2,7 +2,7 @@
   <TransitionGroup
     name="fade"
     tag="div"
-    class="modules-container flex items-center flex-wrap gap-10"
+    class="modules-container flex items-center flex-wrap gap-5 sm:gap-10"
   >
     <div
       class="flex"
@@ -12,7 +12,7 @@
     >
       <a
         :href="module.link"
-        class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
+        class="module-card w-[300px] h-[150px] lg:w-[375px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
         target="_blank"
         @click="countVisit(module.id)"
       >
@@ -45,13 +45,14 @@
             v-if="module.tags"
             class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
           >
-            <span
-              v-for="tag in module.tags.split(',')"
+            <router-link
+              v-for="tag in module.tags.split(',').map((tag) => tag.trim())"
               :key="tag"
-              class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+              :to="`/modules/${tag}`"
+              class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs hover:bg-gray-400 dark:hover:bg-gray-700"
             >
               {{ tag }}
-            </span>
+            </router-link>
           </div>
           <router-link
             class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"
@@ -85,7 +86,6 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
 import { useAuthStore } from "../stores/authStore";
 import { toggleLike } from "../api/like";
 import { countVisitor } from "../api/module";

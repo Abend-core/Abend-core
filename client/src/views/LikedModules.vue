@@ -1,5 +1,5 @@
 <template>
-  <main class="p-5 mt-6 max-w-[1400px] mx-auto">
+  <main class="p-3 sm:pl-5 max-w-[1400px] mx-auto">
     <p class="text-3xl tracking-tighter mb-6 font-bold underlined-title">
       FAVORIS
     </p>
@@ -7,10 +7,7 @@
       <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
         <a
           :href="module.link"
-          class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
-          :style="{
-            border: `1px solid black`,
-          }"
+          class="module-card w-[300px] h-[150px] lg:w-[375px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
           target="_blank"
         >
           <img
