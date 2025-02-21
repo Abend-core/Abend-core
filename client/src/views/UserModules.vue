@@ -3,11 +3,13 @@
     <div
       class="mb-5 sm:mb-28 flex justify-center items-center flex-col sm:flex-row gap-5 relative"
     >
-      <img
-        class="w-[150px] h-[150px] rounded-full border border-white p-1 bg-white"
-        :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
-        alt="Image"
-      />
+      <div v-if="user">
+        <img
+          class="w-[150px] h-[150px] rounded-full border border-white p-1 bg-white"
+          :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
+          alt="Image"
+        />
+      </div>
       <div>
         <p class="text-2xl text-center sm:text-left mb-5">
           {{ user.username }}
@@ -17,7 +19,7 @@
         </p>
       </div>
       <button
-        v-if="authStore.user.id !== user.id"
+        v-if="authStore.user && user && authStore.user.id !== user.id"
         class="absolute top-36 p-2 text-white rounded-md left-[70%]"
         :class="{
           'bg-primaryRed': !isFollowing,

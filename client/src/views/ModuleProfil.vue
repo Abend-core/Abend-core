@@ -138,7 +138,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { getModuleById, updateModuleById } from "../api/module";
 import { formatDateTime } from "../utils/date";
 import { deleteModule } from "../api/module";
@@ -152,6 +152,7 @@ const { setNotification } = useNotificationStore();
 
 const modules = ref([]);
 const editingModuleId = ref(null);
+const originalModule = ref(null); // Stocke l'état initial du module en édition
 
 const getModulesById = async () => {
   try {
@@ -173,17 +174,35 @@ const deleteModuleTable = async (idModule) => {
 
 const editModule = (idModule) => {
   editingModuleId.value = idModule;
+  const moduleToEdit = modules.value.find((module) => module.id === idModule);
+  originalModule.value = { ...moduleToEdit };
 };
 
 const cancelEdit = () => {
   editingModuleId.value = null;
+  originalModule.value = null;
 };
 
 const saveModule = async (idModule) => {
   try {
     const moduleToSave = modules.value.find((module) => module.id === idModule);
-    await updateModuleById(idModule, moduleToSave);
+    if (!moduleToSave || !originalModule.value) return;
+
+    const updatedData = {};
+
+    if (moduleToSave.name !== originalModule.value.name) {
+      updatedData.name = moduleToSave.name;
+    }
+    if (moduleToSave.content !== originalModule.value.content) {
+      updatedData.content = moduleToSave.content;
+    }
+
+    if (updatedData.name || updatedData.content) {
+      await updateModuleById(idModule, updatedData);
+    }
+
     editingModuleId.value = null;
+    originalModule.value = null;
     await getModulesById();
   } catch (error) {
     console.error("Erreur lors de la sauvegarde du module", error);
@@ -198,7 +217,9 @@ const toggleVisibility = async (idModule, data) => {
   }
 };
 
-getModulesById();
+onMounted(() => {
+  getModulesById();
+});
 </script>
 
 <style scoped>
