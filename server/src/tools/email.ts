@@ -21,9 +21,9 @@ class Mail {
                 "
             >
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content:center; gap:5px;">
-                    <h1>Abend-core</h1>
-                    <img src="cid:logo_cid" alt="Abend-core Logo" style="width: 150px; height: 150px; margin-bottom: 20px;">
+                    <img src="cid:logo_cid" alt="Abend-core Logo" style="width: 150px; height: 150px; margin-bottom: 20px; margin:0 auto;">
                 </div>
+                <h1 style="text-center">Abend-core</h1>
                 <p style="font-weight: bold; font-size: 20px;">Vérifier votre compte</p>
                 <p class="font-size: 18px;">Les informations de votre compte</p>
                 <div
@@ -106,9 +106,9 @@ class Mail {
                 "
             >
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content:center; gap:5px;">
-                    <h1>Abend-core</h1>
-                    <img src="cid:logo_cid" alt="Abend-core Logo" style="width: 150px; height: 150px; margin-bottom: 20px;">
+                    <img src="cid:logo_cid" alt="Abend-core Logo" style="width: 150px; height: 150px; margin-bottom: 20px; margin:0 auto;">
                 </div>
+                <h1 style="text-center">Abend-core</h1>
                 <p style="font-weight: bold; font-size: 20px;">Changement de mot de passe</p>
                 <p class="font-size: 18px;">Les informations de votre compte</p>
                 <div
