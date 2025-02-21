@@ -10,20 +10,18 @@ interface moduleCreate extends moduleCreationAttributes {
 class ModuleValidator {
     async data(moduleData: moduleCreate) {
         let tags: string | undefined;
-        console.log(moduleData);
         tags = await this.#checkTags(
             moduleData.tag1,
             moduleData.tag2,
             moduleData.tag3
         );
-        if(moduleData.name){
-            var name = await this.#findName(moduleData.name)
+        if (moduleData.name) {
+            var name = await this.#findName(moduleData.name);
         }
-        if(moduleData.link){
-            var link = await this.#checkLink(moduleData.link)
+        if (moduleData.link) {
+            var link = await this.#checkLink(moduleData.link);
         }
-            
-            
+
         if (link!) {
             return link;
         }
@@ -127,6 +125,7 @@ class ModuleValidator {
             "site",
             "top",
             "icu",
+            "io",
         ];
 
         const containsExtension = listeExtension.some((extension) =>
