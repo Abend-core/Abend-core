@@ -12,9 +12,6 @@ import { User, userCreationAttributes } from "../models/user";
 import Follow from "../models/follow";
 import { Op } from "sequelize";
 
-interface ModuleWithFavoris extends Module {
-    favoris: boolean;
-}
 interface moduleCreate extends moduleCreationAttributes {
     tag1: string;
     tag2: string;
@@ -28,7 +25,6 @@ class ModuleController {
             .filter((tag) => tag !== "")
             .join(", ");
 
-        console.log(data.tags);
         data.id = UUID.v7();
         data.isShow = true;
         data.image = file.filename;

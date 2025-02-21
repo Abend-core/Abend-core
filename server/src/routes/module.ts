@@ -148,6 +148,7 @@ router.delete("/:id", auth, async (req, res) => {
     }
     try {
         await ModuleController.delete(req.params.id);
+        await TagsController.delete(req.params.id);
         res.status(200).json();
     } catch (error) {
         res.status(500).json({ message: "Erreur serveur.", erreur: error });

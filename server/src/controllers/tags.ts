@@ -1,6 +1,6 @@
 //Modele & bdd
 import Tag from "../models/tag";
-import { moduleCreationAttributes } from "../models/module";
+import { Module, moduleCreationAttributes } from "../models/module";
 
 interface moduleCreate extends moduleCreationAttributes {
     tag1: string;
@@ -26,6 +26,19 @@ class TagsController {
     async getTags() {
         const tags = await Tag.findAll();
         return tags;
+    }
+
+    async delete(idModule: string) {
+        const module = await Module.findByPk(idModule);
+        const Tags = module?.tags.split(", ");
+        for (let i = 0; i < Tags!.length; i++) {
+            const tag = await Tag.findOne({ where: { name: Tags![i] } });
+            if (tag?.uses === 1) {
+                Tag.destroy({ where: { name: Tags![i] } });
+            } else {
+                Tag.decrement("uses", { where: { name: Tags![i] } });
+            }
+        }
     }
 }
 
