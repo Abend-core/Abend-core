@@ -50,7 +50,7 @@
             v-model="dataModule.link.value"
             required
           />
-          <p class="absolute text-[#8592A4] top-full">https://abend-core.org</p>
+          <p class="absolute text-[#8592A4] top-full">https://abnd.io</p>
         </div>
         <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
           <label for="add-module-input-content" class="mb-1 mt-4"
@@ -66,7 +66,7 @@
           />
         </div>
         <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
-          <label for="add-module-input-tag" class="mb-1 mt-4">Tag</label>
+          <label for="add-module-input-tag" class="mb-1 mt-4">Tag(s)</label>
           <div class="relative">
             <input
               id="add-module-input-tag"
@@ -83,18 +83,35 @@
               class="ri-check-double-fill absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-primaryRed"
             ></i>
             <div
-              class="absolute border dark:border-gray-800 border-gray-200 w-full mt-1 p-2 rounded-md bg-gray-200 dark:bg-gray-700"
+              class="absolute w-full mt-2 p-4 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
               v-if="isTagListVisible"
               @mousedown.prevent
             >
-              <p class="p-2">Liste des tags</p>
-              <div v-for="tag in tags" :key="tag.id" class="flex gap-1 p-2">
-                <span
-                  @click="addTag(tag.name)"
-                  class="px-2 py-1 bg-primaryRed text-white rounded-md text-xs cursor-pointer"
+              <p
+                class="text-base font-semibold text-gray-700 dark:text-white mb-3"
+              >
+                Liste des tags
+              </p>
+              <div
+                class="flex flex-wrap gap-2 max-h-48 overflow-y-auto scrollbar-custom"
+              >
+                <div
+                  v-for="tag in tags"
+                  :key="tag.id"
+                  class="flex items-center"
                 >
-                  {{ tag.name }} ({{ tag.uses }})
-                </span>
+                  <span
+                    @click="addTag(tag.name)"
+                    class="px-3 py-1 bg-primaryRed text-white text-xs font-medium rounded-full cursor-pointer hover:bg-red-600"
+                  >
+                    {{ tag.name }}
+                    <span
+                      class="ml-1 px-1.5 py-0.5 bg-red-700 rounded-full text-[10px]"
+                    >
+                      {{ tag.uses }}
+                    </span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -125,7 +142,7 @@
         <div
           v-for="(tag, index) in selectedTags"
           :key="index"
-          class="flex gap-1 bg-primaryRed text-white p-1 rounded-md text-xs"
+          class="flex gap-1 bg-primaryRed text-white px-3 py-1 rounded-full text-xs"
         >
           <p>{{ tag }}</p>
           <span @click="removeTag(index)" class="cursor-pointer">&times;</span>
@@ -138,9 +155,6 @@
 <script setup>
 import { ref } from "vue";
 import { addModules, allTags } from "../../api/module.js";
-import { useNotificationStore } from "../../stores/notificationStore.js";
-
-const { setNotification } = useNotificationStore();
 
 const emit = defineEmits(["refresh-modules", "refresh-modulesById"]);
 
@@ -267,7 +281,29 @@ const addModulesDashboard = async () => {
     emit("refresh-modules");
     emit("refresh-modulesById");
   } catch (error) {
-    setNotification(error.response.data.Erreur, "error");
+    errorMessage.value =
+      error.response.data.erreur ||
+      "Une erreur est survenue lors de la création du module.";
   }
 };
 </script>
+
+<style scoped>
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #d9dce1;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background-color: #2d3748;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #d9dce1;
+}
+</style>

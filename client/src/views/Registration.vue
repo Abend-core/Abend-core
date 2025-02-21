@@ -3,7 +3,7 @@
     <div class="m-auto w-[360px] mt-20">
       <LogoSwitch />
       <div>
-        <h1 class="text-2xl text-center mb-2">S'inscrire à Abend-core</h1>
+        <h1 class="text-2xl text-center mb-2">S'inscrire à Abnd.io</h1>
       </div>
       <div class="pl-4 pr-4 pt-2">
         <NotificationMessage />
@@ -38,7 +38,7 @@
             class="w-full mt-4 bg-customGreen text-white font-bold border border-black"
             type="submit"
           >
-            Rejoindre Abend-core !
+            Rejoindre Abnd.io !
           </button>
         </form>
         <div class="text-sm mt-2">

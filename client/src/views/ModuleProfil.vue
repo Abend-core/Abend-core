@@ -76,7 +76,7 @@
                   <span
                     v-for="tag in module.tags.split(',')"
                     :key="tag"
-                    class="px-2 py-1 bg-primaryRed text-white rounded-md text-xs"
+                    class="px-2 py-1 bg-primaryRed text-white rounded-full text-xs"
                   >
                     {{ tag }}
                   </span>

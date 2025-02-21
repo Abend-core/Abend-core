@@ -1,8 +1,15 @@
 <template>
-  <main class="p-3 sm:pl-5 max-w-[1400px] mx-auto">
-    <p class="text-3xl tracking-tighter mb-6 font-bold underlined-title">
-      FAVORIS
+  <main class="p-3 mt-2 sm:pl-5 max-w-[1400px] mx-auto">
+    <p
+      class="text-2xl uppercase tracking-tighter mb-6 font-bold underlined-title"
+    >
+      Favoris
     </p>
+    <div v-if="modulesToDisplay.length === 0" class="mb-6">
+      <p class="text-gray-500 dark:text-gray-400 font-medium">
+        Vous n’avez pas encore ajouté de modules en favoris.
+      </p>
+    </div>
     <div class="flex items-center flex-wrap gap-10">
       <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
         <a

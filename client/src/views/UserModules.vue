@@ -58,94 +58,100 @@
         <span> Favoris</span>
       </p>
     </div>
-    <div v-if="activeSection === 'modules'">
-      <div class="flex flex-wrap justify-center gap-5 p-3">
-        <div class="flex" v-for="module in modules" :key="module.id">
-          <a
-            :href="module.link"
-            class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
-            target="_blank"
-          >
-            <div class="px-4 py-3 h-full">
-              <div class="flex items-center gap-2 relative">
-                <img
-                  class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border"
-                  :src="`${apiUrl}/uploadsFile/module/${module.image}`"
-                  alt="Photo du module"
-                  loading="lazy"
-                />
-                <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
-                <i
-                  v-if="module.User.isAdmin"
-                  class="ri-verified-badge-fill text-black text-xl lg:text-2xl dark:text-white cursor-pointer"
-                ></i>
-              </div>
-              <div>
-                <p class="mt-2 lg:mt-4 text-sm lg:text-base">
-                  {{ module.content }}
-                </p>
-              </div>
-              <div
-                v-if="module.tags"
-                class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
-              >
-                <span
-                  v-for="tag in module.tags.split(',')"
-                  :key="tag"
-                  class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+    <Transition name="fade" mode="out-in">
+      <div v-if="activeSection === 'modules'" key="modules">
+        <div class="flex flex-wrap justify-center gap-5 p-3">
+          <div class="flex" v-for="module in modules" :key="module.id">
+            <a
+              :href="module.link"
+              class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
+              target="_blank"
+            >
+              <div class="px-4 py-3 h-full">
+                <div class="flex items-center gap-2 relative">
+                  <img
+                    class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border"
+                    :src="`${apiUrl}/uploadsFile/module/${module.image}`"
+                    alt="Photo du module"
+                    loading="lazy"
+                  />
+                  <p class="text-base lg:text-xl font-bold">
+                    {{ module.name }}
+                  </p>
+                  <i
+                    v-if="module.User.isAdmin"
+                    class="ri-verified-badge-fill text-black text-xl lg:text-2xl dark:text-white cursor-pointer"
+                  ></i>
+                </div>
+                <div>
+                  <p class="mt-2 lg:mt-4 text-sm lg:text-base">
+                    {{ module.content }}
+                  </p>
+                </div>
+                <div
+                  v-if="module.tags"
+                  class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
                 >
-                  {{ tag }}
-                </span>
+                  <span
+                    v-for="tag in module.tags.split(',')"
+                    :key="tag"
+                    class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+                  >
+                    {{ tag }}
+                  </span>
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-    <div v-if="activeSection === 'favoris'">
-      <div class="flex flex-wrap justify-center gap-3 p-3">
-        <div class="flex" v-for="module in moduleFav" :key="module.id">
-          <a
-            :href="module.link"
-            class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
-            target="_blank"
-          >
-            <div class="px-4 py-3 h-full">
-              <div class="flex items-center gap-2 relative">
-                <img
-                  class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border"
-                  :src="`${apiUrl}/uploadsFile/module/${module.image}`"
-                  alt="Photo du module"
-                  loading="lazy"
-                />
-                <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
-                <i
-                  v-if="module.User.isAdmin"
-                  class="ri-verified-badge-fill text-black text-xl lg:text-2xl dark:text-white cursor-pointer"
-                ></i>
-              </div>
-              <div>
-                <p class="mt-2 lg:mt-4 text-sm lg:text-base">
-                  {{ module.content }}
-                </p>
-              </div>
-              <div
-                v-if="module.tags"
-                class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
-              >
-                <span
-                  v-for="tag in module.tags.split(',')"
-                  :key="tag"
-                  class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+      <div v-else-if="activeSection === 'favoris'" key="favoris">
+        <div class="flex flex-wrap justify-center gap-3 p-3">
+          <div class="flex" v-for="module in moduleFav" :key="module.id">
+            <a
+              :href="module.link"
+              class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
+              target="_blank"
+            >
+              <div class="px-4 py-3 h-full">
+                <div class="flex items-center gap-2 relative">
+                  <img
+                    class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border"
+                    :src="`${apiUrl}/uploadsFile/module/${module.image}`"
+                    alt="Photo du module"
+                    loading="lazy"
+                  />
+                  <p class="text-base lg:text-xl font-bold">
+                    {{ module.name }}
+                  </p>
+                  <i
+                    v-if="module.User.isAdmin"
+                    class="ri-verified-badge-fill text-black text-xl lg:text-2xl dark:text-white cursor-pointer"
+                  ></i>
+                </div>
+                <div>
+                  <p class="mt-2 lg:mt-4 text-sm lg:text-base">
+                    {{ module.content }}
+                  </p>
+                </div>
+                <div
+                  v-if="module.tags"
+                  class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
                 >
-                  {{ tag }}
-                </span>
+                  <span
+                    v-for="tag in module.tags.split(',')"
+                    :key="tag"
+                    class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+                  >
+                    {{ tag }}
+                  </span>
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </main>
 </template>
 
@@ -215,5 +221,23 @@ onMounted(() => {
 
 .module-card:hover {
   transform: translateY(-10px) scale(1.05);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+.fade-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: translateX(0);
 }
 </style>

@@ -12,18 +12,18 @@
           <img
             v-if="!isDark"
             class="w-[50px] h-[50px]"
-            src="../assets/images/abend-core-logo.png"
+            src="../assets/images/logo-abend.png"
             alt="Logo principal"
           />
           <img
             v-else
             class="w-[50px] h-[50px]"
-            src="../assets/images/abend-core-logo-dark.png"
+            src="../assets/images/logo-abend-dark.png"
             alt="Logo principal"
           />
         </RouterLink>
         <RouterLink to="/" class="hidden font-medium sm:block"
-          >Abend-core</RouterLink
+          >Abnd.io</RouterLink
         >
       </div>
       <div

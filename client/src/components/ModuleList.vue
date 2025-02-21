@@ -2,7 +2,7 @@
   <TransitionGroup
     name="fade"
     tag="div"
-    class="modules-container flex items-center flex-wrap gap-5 sm:gap-10"
+    class="modules-container flex justify-center sm:justify-start items-center flex-wrap gap-5 sm:gap-10"
   >
     <div
       class="flex"
@@ -49,7 +49,7 @@
               v-for="tag in module.tags.split(',').map((tag) => tag.trim())"
               :key="tag"
               :to="`/modules/${tag}`"
-              class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs hover:bg-gray-400 dark:hover:bg-gray-700"
+              class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-full text-xs hover:bg-gray-400 dark:hover:bg-gray-700"
             >
               {{ tag }}
             </router-link>
@@ -113,7 +113,7 @@ const toggleLikeModule = async (idModule, event) => {
   event.stopPropagation();
   try {
     await toggleLike(idModule);
-    const module = props.modules.find((m) => m.id === idModule);
+    const module = props.modules.find((module) => module.id === idModule);
     module.isLike = !module.isLike;
   } catch (error) {
     console.error("Erreur lors du like :", error);

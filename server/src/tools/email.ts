@@ -21,9 +21,9 @@ class Mail {
                 "
             >
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content:center; gap:5px;">
-                    <img src="cid:logo_cid" alt="Abend-core Logo" style="width: 150px; height: 150px; margin-bottom: 20px; margin:0 auto;">
+                    <img src="cid:logo_cid" alt="Abnd.io Logo" style="width: 150px; height: 150px; margin-bottom: 20px; margin:0 auto;">
                 </div>
-                <h1 style="text-center">Abend-core</h1>
+                <h1 style="text-center">Abnd.io</h1>
                 <p style="font-weight: bold; font-size: 20px;">Vérifier votre compte</p>
                 <p class="font-size: 18px;">Les informations de votre compte</p>
                 <div
@@ -79,7 +79,7 @@ class Mail {
               `,
       attachments: [
         {
-          filename: "abend-core-logo.png",
+          filename: "abnd.png",
           path: urlServer + "/uploadsFile/email/logo.png",
           cid: "logo_cid",
         },
@@ -106,9 +106,9 @@ class Mail {
                 "
             >
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content:center; gap:5px;">
-                    <img src="cid:logo_cid" alt="Abend-core Logo" style="width: 150px; height: 150px; margin-bottom: 20px; margin:0 auto;">
+                    <img src="cid:logo_cid" alt="Abnd.io Logo" style="width: 150px; height: 150px; margin-bottom: 20px; margin:0 auto;">
                 </div>
-                <h1 style="text-center">Abend-core</h1>
+                <h1 style="text-center">Abnd.io</h1>
                 <p style="font-weight: bold; font-size: 20px;">Changement de mot de passe</p>
                 <p class="font-size: 18px;">Les informations de votre compte</p>
                 <div
@@ -164,7 +164,7 @@ class Mail {
               `,
       attachments: [
         {
-          filename: "abend-core-logo.png",
+          filename: "abnd.png",
           path: urlServer + "/uploadsFile/email/logo.png",
           cid: "logo_cid",
         },

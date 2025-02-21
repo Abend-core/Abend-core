@@ -623,7 +623,7 @@
       <div class="flex justify-between">
         <span
           class="block text-sm text-gray-500 sm:text-center dark:text-gray-400"
-          >© 2025 <a href="/" class="hover:text-primaryRed">Abend-core</a>. All
+          >© 2025 <a href="/" class="hover:text-primaryRed">Abnd.io</a>. All
           Rights Reserved.</span
         >
         <a href="https://github.com/Abend-core/Abend-core" target="_blank">

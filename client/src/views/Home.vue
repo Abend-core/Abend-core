@@ -1,10 +1,10 @@
 <template>
-  <main class="p-3 sm:pl-5 max-w-[1400px] mx-auto">
+  <main class="p-3 mt-2 sm:pl-5 max-w-[1400px] mx-auto">
     <div v-if="myModules.length > 0" class="mb-4 sm:mb-8">
       <p
-        class="text-xl lg:text-2xl font-bold mb-6 tracking-tighter dark:text-white underlined-title"
+        class="text-xl lg:text-2xl uppercase font-bold mb-6 tracking-tighter dark:text-white underlined-title"
       >
-        MES MODULES
+        Mes modules
       </p>
       <span
         class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-400"
@@ -15,9 +15,9 @@
     </div>
     <div class="mb-8">
       <p
-        class="text-xl lg:text-2xl font-bold mb-6 tracking-tighter dark:text-white underlined-title"
+        class="text-xl lg:text-2xl uppercase font-bold mb-6 tracking-tighter dark:text-white underlined-title"
       >
-        LES PLUS VISITÉS
+        Les plus visités
       </p>
       <ModuleList
         :modules="mostVisitedModules"
@@ -26,9 +26,9 @@
     </div>
     <div>
       <p
-        class="text-xl lg:text-2xl font-bold mb-6 tracking-tighter dark:text-white underlined-title"
+        class="text-xl lg:text-2xl uppercase font-bold mb-6 tracking-tighter dark:text-white underlined-title"
       >
-        TOUS LES MODULES
+        Tous les modules
       </p>
       <span
         class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-400"
