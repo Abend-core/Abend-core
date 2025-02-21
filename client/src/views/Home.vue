@@ -208,7 +208,6 @@ button {
   transform: translateY(0);
 }
 
-/* Délai pour chaque élément */
 .fade-enter-active {
   transition-delay: calc(0.1s * var(--i));
 }

@@ -41,10 +41,11 @@
               >"
             </p>
           </div>
-          <a
+          <router-link
             class="flex gap-2 items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg group cursor-pointer shadow-sm"
             v-for="suivi in filteredSuivis"
             :key="suivi.id"
+            :to="`/user/${suivi.username}`"
           >
             <img
               class="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-800"
@@ -55,7 +56,7 @@
             <i
               class="ri-arrow-right-line absolute right-6 text-gray-400 dark:text-gray-300 transition-transform duration-200 ease-in-out group-hover:translate-x-1"
             ></i>
-          </a>
+          </router-link>
         </div>
       </div>
     </div>
@@ -69,7 +70,6 @@ import { displayNetwork } from "../../api/user.js";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const emit = defineEmits(["close"]);
-
 const suivis = ref([]);
 const inputValueModalSuivi = ref("");
 

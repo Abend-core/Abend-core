@@ -41,10 +41,11 @@
               >"
             </p>
           </div>
-          <a
+          <router-link
             class="flex gap-2 items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg group cursor-pointer shadow-sm"
             v-for="follower in filteredFollowers"
             :key="follower.id"
+            :to="`/user/${follower.username}`"
           >
             <img
               class="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-800"
@@ -55,7 +56,7 @@
             <i
               class="ri-arrow-right-line absolute right-6 text-gray-400 dark:text-gray-300 transition-transform duration-200 ease-in-out group-hover:translate-x-1"
             ></i>
-          </a>
+          </router-link>
         </div>
       </div>
     </div>
