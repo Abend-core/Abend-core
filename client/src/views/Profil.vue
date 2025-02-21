@@ -65,12 +65,14 @@
               </p>
             </div>
           </div>
-          <div v-if="activeSection === 'profile'">
-            <display-infos />
-          </div>
-          <div v-if="activeSection === 'editInfo'">
-            <edit-infos />
-          </div>
+          <Transition name="fade" mode="out-in">
+            <div v-if="activeSection === 'profile'">
+              <display-infos />
+            </div>
+            <div v-else-if="activeSection === 'editInfo'">
+              <edit-infos />
+            </div>
+          </Transition>
         </div>
       </div>
     </main>
@@ -139,3 +141,23 @@ const updateImg = async (event) => {
   }
 };
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+.fade-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>

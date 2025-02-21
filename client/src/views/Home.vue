@@ -1,7 +1,16 @@
 <template>
   <main class="p-2 max-w-[1400px] mx-auto">
-    <div class="flex items-center justify-center flex-wrap gap-10 mt-16 mb-16">
-      <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
+    <TransitionGroup
+      name="fade"
+      tag="div"
+      class="modules-container flex items-center justify-center flex-wrap gap-10 mt-16 mb-16"
+    >
+      <div
+        class="flex"
+        v-for="(module, index) in modulesToDisplay"
+        :key="module.id"
+        :style="{ '--i': index }"
+      >
         <a
           :href="module.link"
           class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
@@ -75,7 +84,7 @@
           </div>
         </a>
       </div>
-    </div>
+    </TransitionGroup>
     <modal-more-infos
       v-if="modals.moreInfoModal"
       @close="closeModal('moreInfoModal')"
@@ -183,5 +192,24 @@ button {
 
 .module-card:hover {
   transform: translateY(-10px) scale(1.05);
+}
+
+.fade-enter-active {
+  transition: all 0.2s ease-out;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Délai pour chaque élément */
+.fade-enter-active {
+  transition-delay: calc(0.1s * var(--i));
 }
 </style>
