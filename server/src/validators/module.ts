@@ -16,14 +16,18 @@ class ModuleValidator {
             moduleData.tag2,
             moduleData.tag3
         );
-        const [name, link] = await Promise.all([
-            this.#findName(moduleData.name),
-            this.#checkLink(moduleData.link),
-        ]);
-        if (link) {
+        if(moduleData.name){
+            var name = await this.#findName(moduleData.name)
+        }
+        if(moduleData.link){
+            var link = await this.#checkLink(moduleData.link)
+        }
+            
+            
+        if (link!) {
             return link;
         }
-        if (name) {
+        if (name!) {
             return "Ce nom de module est déjà pris.";
         }
         if (tags) {
