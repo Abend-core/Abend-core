@@ -59,6 +59,7 @@ class ModuleController {
                     attributes: ["id", "username", "isAdmin"],
                 },
             ],
+            order: [["createdAt", "DESC"]],
             nest: true,
         });
         const modulesJson = await Promise.all(
