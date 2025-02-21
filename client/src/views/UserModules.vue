@@ -1,7 +1,7 @@
 <template>
   <main class="pt-8 pl-8 pr-8 max-w-[1400px] mx-auto">
     <div
-      class="mb-5 sm:mb-28 flex justify-center items-center flex-col sm:flex-row gap-5 relative"
+      class="mb-5 sm:mb-28 flex items-center flex-col sm:flex-row gap-5 relative"
     >
       <div v-if="user">
         <img
@@ -14,13 +14,13 @@
         <p class="text-2xl text-center sm:text-left mb-5">
           {{ user.username }}
         </p>
-        <p class="text-justify max-w-[500px]">
+        <p class="text-justify max-w-[500px] text-[#8592A4]">
           {{ user.content }}
         </p>
       </div>
       <button
         v-if="authStore.user && user && authStore.user.id !== user.id"
-        class="absolute top-36 p-2 text-white rounded-md left-[70%]"
+        class="absolute top-[165px] sm:top-36 p-2 text-white rounded-md left-[75%]"
         :class="{
           'bg-primaryRed': !isFollowing,
           'bg-gray-500': isFollowing,
@@ -63,25 +63,40 @@
         <div class="flex" v-for="module in modules" :key="module.id">
           <a
             :href="module.link"
-            class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
-            :style="{
-              border: `1px solid black`,
-            }"
+            class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
             target="_blank"
           >
-            <img
-              class="absolute w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
-              :src="`${apiUrl}/uploadsFile/module/${module.image}`"
-              alt="Photo du module"
-              loading="lazy"
-            />
-            <div class="p-3 h-full">
-              <div class="flex items-center gap-2">
+            <div class="px-4 py-3 h-full">
+              <div class="flex items-center gap-2 relative">
+                <img
+                  class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border"
+                  :src="`${apiUrl}/uploadsFile/module/${module.image}`"
+                  alt="Photo du module"
+                  loading="lazy"
+                />
                 <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
+                <i
+                  v-if="module.User.isAdmin"
+                  class="ri-verified-badge-fill text-black text-xl lg:text-2xl dark:text-white cursor-pointer"
+                ></i>
               </div>
-              <p class="mt-4 lg:mt-6 text-sm lg:text-base">
-                {{ module.content }}
-              </p>
+              <div>
+                <p class="mt-2 lg:mt-4 text-sm lg:text-base">
+                  {{ module.content }}
+                </p>
+              </div>
+              <div
+                v-if="module.tags"
+                class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+              >
+                <span
+                  v-for="tag in module.tags.split(',')"
+                  :key="tag"
+                  class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+                >
+                  {{ tag }}
+                </span>
+              </div>
             </div>
           </a>
         </div>
@@ -92,26 +107,39 @@
         <div class="flex" v-for="module in moduleFav" :key="module.id">
           <a
             :href="module.link"
-            class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
-            :style="{
-              border: `1px solid black`,
-            }"
+            class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
             target="_blank"
           >
-            <img
-              class="absolute w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
-              :src="`${apiUrl}/uploadsFile/module/${module.image}`"
-              alt="Photo du module"
-              loading="lazy"
-            />
-            <div class="p-3 h-full">
-              <div class="flex items-center gap-2">
+            <div class="px-4 py-3 h-full">
+              <div class="flex items-center gap-2 relative">
+                <img
+                  class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border"
+                  :src="`${apiUrl}/uploadsFile/module/${module.image}`"
+                  alt="Photo du module"
+                  loading="lazy"
+                />
                 <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
+                <i
+                  v-if="module.User.isAdmin"
+                  class="ri-verified-badge-fill text-black text-xl lg:text-2xl dark:text-white cursor-pointer"
+                ></i>
               </div>
               <div>
-                <p class="mt-4 lg:mt-6 text-sm lg:text-base">
+                <p class="mt-2 lg:mt-4 text-sm lg:text-base">
                   {{ module.content }}
                 </p>
+              </div>
+              <div
+                v-if="module.tags"
+                class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+              >
+                <span
+                  v-for="tag in module.tags.split(',')"
+                  :key="tag"
+                  class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+                >
+                  {{ tag }}
+                </span>
               </div>
             </div>
           </a>

@@ -152,7 +152,7 @@ const { setNotification } = useNotificationStore();
 
 const modules = ref([]);
 const editingModuleId = ref(null);
-const originalModule = ref(null); // Stocke l'état initial du module en édition
+const originalModule = ref(null);
 
 const getModulesById = async () => {
   try {
@@ -274,7 +274,6 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
