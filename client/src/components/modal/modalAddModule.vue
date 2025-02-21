@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-white rounded-md p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
+    class="text-white mt-4 rounded-md p-4 bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]"
     v-if="errorMessage"
   >
     <p>{{ errorMessage }}</p>
@@ -193,12 +193,14 @@ const validateTag = () => {
   if (selectedTags.value.length >= 3) {
     errorMessage.value = "Vous ne pouvez pas ajouter plus de 3 tags.";
     tagInput.value = "";
+    return;
   }
 
   const isTagAlreadyUsed = tags.value.some((t) => t.name === tag);
 
   if (isTagAlreadyUsed) {
-    errorMessage.value = "Ce tag existe déjà. Veuillez en choisir un autre.";
+    errorMessage.value =
+      "Ce tag existe déjà. Veuillez en choisir un autre ou le sélectionner dans la liste.";
     tagInput.value = "";
   } else if (selectedTags.value.includes(tag)) {
     errorMessage.value = "Ce tag a déjà été ajouté.";
