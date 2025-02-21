@@ -1,9 +1,9 @@
 <template>
-  <main>
-    <div class="text-center pt-8 pb-8">
-      <p class="text-3xl">Favoris</p>
-    </div>
-    <div class="flex items-center justify-center flex-wrap gap-10">
+  <main class="p-5 mt-6 max-w-[1400px] mx-auto">
+    <p class="text-3xl tracking-tighter mb-6 font-bold underlined-title">
+      FAVORIS
+    </p>
+    <div class="flex items-center flex-wrap gap-10">
       <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
         <a
           :href="module.link"
@@ -111,5 +111,20 @@ onMounted(() => {
 
 .module-card:hover {
   transform: translateY(-10px) scale(1.05);
+}
+
+.underlined-title {
+  position: relative;
+  display: inline-block;
+}
+
+.underlined-title:after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 30%;
+  height: 6px;
+  background-color: #f82b30;
 }
 </style>
