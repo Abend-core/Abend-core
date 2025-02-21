@@ -70,6 +70,17 @@
                 v-html="highlightText(module.User.username)"
               ></p>
             </div>
+            <div
+              v-if="module.tags"
+              class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+            >
+              <span
+                v-for="tag in module.tags.split(',')"
+                :key="tag"
+                class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+                v-html="highlightText(tag)"
+              ></span>
+            </div>
             <i
               class="ri-arrow-right-line absolute right-3 text-gray-400 dark:text-gray-300 transition-transform duration-200 ease-in-out group-hover:translate-x-1"
             ></i>
@@ -114,8 +125,13 @@ const filterSearchModule = () => {
   const filteredModules = allModules.value.filter((module) => {
     const moduleName = module.name.toLowerCase();
     const username = module.User.username.toLowerCase();
+    const tags = module.tags ? module.tags.toLowerCase().split(",") : [];
 
-    return moduleName.includes(searchTerm) || username.includes(searchTerm);
+    return (
+      moduleName.includes(searchTerm) ||
+      username.includes(searchTerm) ||
+      tags.some((tag) => tag.trim().includes(searchTerm))
+    );
   });
 
   modules.value = filteredModules;
