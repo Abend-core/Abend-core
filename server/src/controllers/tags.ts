@@ -29,13 +29,23 @@ class TagsController {
     }
 
     async delete(idModule: string) {
+        console.log("Je suis dans le delete de Tag");
+        console.log("Id du module : ", idModule);
         const module = await Module.findByPk(idModule);
+        console.log(module);
+        console.log(module?.tags);
+        if (!module?.tags) {
+            return;
+        }
         const Tags = module?.tags.split(", ");
+        console.log("Tags : ", Tags);
         for (let i = 0; i < Tags!.length; i++) {
             const tag = await Tag.findOne({ where: { name: Tags![i] } });
             if (tag?.uses === 1) {
+                console.log("Il est utiliser 1 fois");
                 Tag.destroy({ where: { name: Tags![i] } });
             } else {
+                console.log("Il est + d'une fois");
                 Tag.decrement("uses", { where: { name: Tags![i] } });
             }
         }
