@@ -171,6 +171,26 @@ class UserController {
         };
     }
 
+    async getNetworkCount(name: string) {
+        const userId = await User.findOne({
+            where: { username: name },
+            attributes: ["id"],
+        });
+        const [followingCount, followerCount] = await Promise.all([
+            Follow.count({
+                where: { UserId: userId!.id },
+            }),
+            Follow.count({
+                where: { UserIdFollow: userId!.id },
+            }),
+        ]);
+
+        return {
+            followingCount,
+            followerCount,
+        };
+    }
+
     #deleteFollow(userId: string, userIdFollow: string) {
         Follow.destroy({
             where: { UserId: userId, UserIdFollow: userIdFollow },

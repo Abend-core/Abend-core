@@ -100,7 +100,7 @@ router.put(
     }
 );
 
-// Avoir les personnes qui suivent et qui l'utilisateur connecter suis
+// Avoir les personnes qui suivent et que l'utilisateur connecter suis
 router.get(
     "/network",
     auth,
@@ -113,6 +113,28 @@ router.get(
         }
         try {
             const network = await UserController.getNetwork(req.user?.id!);
+            res.status(200).json({ network: network });
+        } catch (error) {
+            res.status(500).json({ message: "Erreur serveur.", erreur: error });
+        }
+    }
+);
+
+// Avoir les personnes qui suivent et que l'utilisateur cibler suis
+router.get(
+    "/network/:name",
+    auth,
+    async (req: AuthRequest, res: Response): Promise<void> => {
+        const foundUser = await UserValidator.foundByName(req.params.name!);
+
+        if (!foundUser) {
+            res.status(404).json({ res: "erreur" });
+            return;
+        }
+        try {
+            const network = await UserController.getNetworkCount(
+                req.params.name!
+            );
             res.status(200).json({ network: network });
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur.", erreur: error });

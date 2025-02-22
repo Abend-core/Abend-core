@@ -37,6 +37,11 @@ class UserValidator {
         return user;
     }
 
+    async foundByName(name: string) {
+        const user = await User.findOne({ where: { username: name } });
+        return user;
+    }
+
     async password(data: passObj, userId: string) {
         const user = await User.findByPk(userId);
         const validPassword = await Crypt.compare(
