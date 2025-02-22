@@ -1,9 +1,9 @@
 import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
-import YAML from "yamljs";
 import cors from "cors";
 import config from "config";
+import swaggerSpec from "../config/swagger";
 
 import Redis from "./tools/redis";
 
@@ -50,11 +50,6 @@ app.get("/", (req: Request, res: Response) => {
     res.send("Hello Abend !");
 });
 
-if (env == "Dev") {
-    const swaggerDocument = YAML.load("./docs/swagger.yaml");
-    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-}
-
 app.use("/uploadsFile/module", express.static("src/uploads/module"));
 app.use("/uploadsFile/profil", express.static("src/uploads/profil"));
 app.use("/uploadsFile/email", express.static("src/uploads/email"));
@@ -72,3 +67,8 @@ app.listen(port, () => {
     console.log("Serveur en ligne.");
     console.log("   [Environnement] ", env);
 });
+
+if (env == "Dev") {
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    console.log("Documentation disponible sur http://localhost:3000/api-docs");
+}
