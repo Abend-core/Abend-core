@@ -66,7 +66,7 @@ interface AuthRequest extends Request {
  *             schema:
  *               type: object
  *       400:
- *         description: Données invalides
+ *         description: Données invalides ou fichier manquant
  *         content:
  *           application/json:
  *             schema:
@@ -75,16 +75,6 @@ interface AuthRequest extends Request {
  *                 erreur:
  *                   type: string
  *                   example: "Titre requis"
- *       400:
- *         description: Problème avec le fichier
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 erreur:
- *                   type: string
- *                   example: "Fichier image manquant"
  *       500:
  *         description: Erreur serveur
  *         content:

@@ -1,5 +1,4 @@
-import { DataTypes, Model, Optional } from "sequelize";
-import db from "../database/db";
+import { Sequelize, DataTypes, Model, Optional } from "sequelize";
 
 interface NotificationAttributes {
     id: number;
@@ -19,62 +18,66 @@ class Notification
     public type!: string;
     public content!: string;
     public id_user!: string;
-}
 
-Notification.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        type: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: {
-                    msg: "Le type ne doit pas être nul.",
+    public static initialize(sequelize: Sequelize) {
+        Notification.init(
+            {
+                id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    primaryKey: true,
+                    autoIncrement: true,
                 },
-                notEmpty: {
-                    msg: "Le type ne doit pas être vide.",
+                type: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                    validate: {
+                        notNull: {
+                            msg: "Le type ne doit pas être nul.",
+                        },
+                        notEmpty: {
+                            msg: "Le type ne doit pas être vide.",
+                        },
+                        len: {
+                            args: [1, 255],
+                            msg: "Trop de caractères, 255 maximum.",
+                        },
+                    },
                 },
-                len: {
-                    args: [1, 255],
-                    msg: "Trop de caractères, 255 maximum.",
+                content: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                    validate: {
+                        notNull: {
+                            msg: "Le content ne doit pas être nul.",
+                        },
+                        notEmpty: {
+                            msg: "Le content ne doit pas être vide.",
+                        },
+                        len: {
+                            args: [1, 255],
+                            msg: "Trop de caractères, 255 maximum.",
+                        },
+                    },
+                },
+                id_user: {
+                    type: DataTypes.UUID,
+                    allowNull: false,
+                    references: {
+                        model: "Users",
+                        key: "id",
+                    },
                 },
             },
-        },
-        content: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: {
-                    msg: "Le content ne doit pas être nul.",
-                },
-                notEmpty: {
-                    msg: "Le content ne doit pas être vide.",
-                },
-                len: {
-                    args: [1, 255],
-                    msg: "Trop de caractères, 255 maximum.",
-                },
-            },
-        },
-        id_user: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            references: {
-                model: "Users",
-                key: "id",
-            },
-        },
-    },
-    {
-        sequelize: db.abend,
-        modelName: "Notification",
-        tableName: "Notifications",
+            {
+                sequelize,
+                modelName: "Notification",
+                tableName: "Notifications",
+            }
+        );
     }
-);
-
+    public static setupAssociations() {
+        // Pas d'associations pour ce modèle
+    }
+}
 export default Notification;

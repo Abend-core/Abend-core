@@ -1,5 +1,4 @@
 import { DataTypes, Model, Optional, Sequelize } from "sequelize";
-import db from "../database/db";
 
 interface TagAttributes {
     id: number;
@@ -16,46 +15,50 @@ class Tag
     public id!: number;
     public name!: string;
     public uses!: number;
-}
 
-Tag.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: {
-                name: "unique_name",
-                msg: "Ce nom est déjà utilisé.",
+    public static initialize(sequelize: Sequelize) {
+        Tag.init(
+            {
+                id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    primaryKey: true,
+                    autoIncrement: true,
+                },
+                name: {
+                    type: DataTypes.STRING,
+                    allowNull: false,
+                    unique: {
+                        name: "unique_name",
+                        msg: "Ce nom est déjà utilisé.",
+                    },
+                    validate: {
+                        notNull: {
+                            msg: "Le nom du tag ne doit pas être nul.",
+                        },
+                        notEmpty: {
+                            msg: "Le nom du tag ne doit pas être vide.",
+                        },
+                        len: {
+                            args: [1, 255],
+                            msg: "Trop de caractères, 255 maximum.",
+                        },
+                    },
+                },
+                uses: {
+                    type: DataTypes.INTEGER,
+                    defaultValue: 0,
+                },
             },
-            validate: {
-                notNull: {
-                    msg: "Le nom du tag ne doit pas être nul.",
-                },
-                notEmpty: {
-                    msg: "Le nom du tag ne doit pas être vide.",
-                },
-                len: {
-                    args: [1, 255],
-                    msg: "Trop de caractères, 255 maximum.",
-                },
-            },
-        },
-        uses: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0,
-        },
-    },
-    {
-        sequelize: db.abend,
-        modelName: "Tag",
-        tableName: "Tags",
+            {
+                sequelize,
+                modelName: "Tag",
+                tableName: "Tags",
+            }
+        );
     }
-);
-
+    public static setupAssociations() {
+        // Pas d'associations pour ce modèle
+    }
+}
 export default Tag;
