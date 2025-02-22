@@ -46,7 +46,7 @@
                     @click="isModalSuiviOpen = true"
                   >
                     <span class="font-semibold">{{ suivisCount }}</span>
-                    suivi(e)s
+                    suivis
                   </p>
                 </div>
               </div>

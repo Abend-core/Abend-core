@@ -1,7 +1,7 @@
 <template>
   <main class="pt-8 pl-8 pr-8 max-w-[1400px] mx-auto">
     <div
-      class="mb-5 sm:mb-28 flex items-center flex-col sm:flex-row gap-5 relative"
+      class="mb-5 sm:mb-12 flex items-center flex-col sm:flex-row gap-5 relative"
     >
       <div v-if="user">
         <img
@@ -11,10 +11,14 @@
         />
       </div>
       <div>
-        <p class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+        <p
+          class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white text-center sm:text-left mb-4"
+        >
           {{ user.username }}
         </p>
-        <div class="flex gap-6 text-gray-600 mt-2 dark:text-gray-300">
+        <div
+          class="flex items-center justify-center sm:justify-start gap-6 text-gray-600 mt-2 dark:text-gray-300"
+        >
           <p class="cursor-pointer hover:text-primaryRed transition-colors">
             <span class="font-semibold">{{ followersCount }}</span>
             abonnés
@@ -23,22 +27,26 @@
             <span class="font-semibold">{{ suivisCount }}</span>
             suivi(e)s
           </p>
+          <button
+            v-if="authStore.user && user && authStore.user.id !== user.id"
+            class="px-4 py-2 text-white font-medium rounded-md transition-all duration-300 ease-in-out"
+            :class="{
+              'bg-red-600 hover:bg-red-700': !isFollowing,
+              'dark:bg-gray-600 bg-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700':
+                isFollowing,
+            }"
+            @click="followUser"
+          >
+            <span class="flex items-center gap-2">
+              <i v-if="isFollowing" class="ri-check-line"></i>
+              {{ isFollowing ? "Suivi(e)" : "Suivre" }}
+            </span>
+          </button>
         </div>
         <p class="text-gray-500 dark:text-gray-400 mt-3 italic max-w-md">
           "{{ user.content }}"
         </p>
       </div>
-      <button
-        v-if="authStore.user && user && authStore.user.id !== user.id"
-        class="absolute top-[220px] sm:top-42 p-2 text-white rounded-md left-[75%]"
-        :class="{
-          'bg-primaryRed': !isFollowing,
-          'bg-gray-500': isFollowing,
-        }"
-        @click="followUser"
-      >
-        {{ isFollowing ? "Suivi(e)" : "Suivre" }}
-      </button>
     </div>
     <div class="flex justify-evenly gap-5-5">
       <p
