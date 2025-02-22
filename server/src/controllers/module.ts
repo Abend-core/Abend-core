@@ -8,7 +8,7 @@ import { Module, moduleCreationAttributes } from "../models/module";
 import Like from "../models/liked";
 import Visited from "../models/visited";
 import Reported from "../models/reported";
-import { User, userCreationAttributes } from "../models/user";
+import { User } from "../models/user";
 import Follow from "../models/follow";
 import { Op } from "sequelize";
 

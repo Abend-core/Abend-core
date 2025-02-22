@@ -1,6 +1,5 @@
 //tools
 import Crypt from "../tools/hash";
-import UUID from "../tools/uuid";
 //Db & Model
 import db from "./db";
 import { User } from "../models/user";
@@ -18,7 +17,6 @@ const dataUser = require("./data/user");
 const dataModule = require("./data/module");
 const dataFollow = require("./data/follow");
 
-let lastUUID: string;
 if (env == "Dev") {
     db.abend
         .sync({ force: true })

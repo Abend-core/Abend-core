@@ -4,19 +4,18 @@ const options = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "Mon API Express",
+            title: "Mon API Abnd",
             version: "1.0.0",
             description: "Documentation de l'API Abnd.io",
         },
         servers: [
             {
-                url: "http://localhost:3000",
-                description:
-                    "Serveur de Abnd.io, lien du site : https://Abnd.io",
+                url: "http://localhost:5000",
+                description: "Abnd.io",
             },
         ],
     },
-    apis: ["./routes/*.ts"],
+    apis: ["src/routes/*.ts"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
