@@ -8,12 +8,14 @@ import { Module } from "../models/module";
 interface VisitedAttributes {
     UserId: string;
     ModuleId: string;
+    Count: number;
 }
 
 // Définition du modèle avec TypeScript
 class Visited extends Model<VisitedAttributes> implements VisitedAttributes {
     public UserId!: string;
     public ModuleId!: string;
+    public Count!: number;
 }
 
 Visited.init(
@@ -33,6 +35,10 @@ Visited.init(
                 model: "Modules",
                 key: "id",
             },
+        },
+        Count: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         },
     },
     {

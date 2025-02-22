@@ -72,6 +72,16 @@ class ModuleController {
                     raw: true,
                 });
 
+                const visited = await Visited.findAll({
+                    where: { ModuleId: module.id },
+                    attributes: ["UserId", "Count"],
+                    raw: true,
+                });
+                const totalVisits = visited.reduce(
+                    (sum, visite) => sum + visite.Count,
+                    0
+                );
+
                 return {
                     ...module.toJSON(),
                     favoris: Object.fromEntries(
@@ -80,6 +90,10 @@ class ModuleController {
                     reported: Object.fromEntries(
                         reported.map((report) => [report.UserId, true])
                     ),
+                    visite: Object.fromEntries(
+                        visited.map((visite) => [visite.UserId, true])
+                    ),
+                    visiteCount: totalVisits,
                     favorisCount: likes.length,
                     reportedCount: reported.length,
                 };
@@ -164,12 +178,6 @@ class ModuleController {
     }
 
     async toggleView(userId: string, ModuleId: string) {
-        const result = await Visited.findOne({
-            where: { UserId: userId, ModuleId: ModuleId },
-        });
-        if (result) {
-            return;
-        }
         this.#addView(userId, ModuleId);
     }
 
@@ -248,8 +256,19 @@ class ModuleController {
         return modulesReported;
     }
 
-    #addView(UserId: string, ModuleId: string) {
-        Visited.create({ UserId: UserId, ModuleId: ModuleId });
+    async #addView(UserId: string, ModuleId: string) {
+        const visite = await Visited.findOne({
+            where: {
+                UserId: UserId,
+                ModuleId: ModuleId,
+            },
+            raw: true,
+        });
+        Visited.upsert({
+            UserId: UserId,
+            ModuleId: ModuleId,
+            Count: visite ? visite.Count + 1 : 1,
+        });
         Module.increment("views", { where: { id: ModuleId } });
     }
 
