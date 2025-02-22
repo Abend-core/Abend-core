@@ -7,6 +7,8 @@ const modules = [
         content: "Ceci est une description temporaire.",
         isAlert: false,
         user_id: "018f3b9c-93a6-772f-bc34-4d2f8e3d5a6b",
+        tag1: "Cnam",
+        tag2: "Ecole",
     },
     {
         id: "adf48a2c-711b-7cfa-bfc5-d70f8b80b5ae",
@@ -16,6 +18,9 @@ const modules = [
         content: "Ceci est une description temporaire.",
         isAlert: false,
         user_id: "018f3c2b-93a6-772f-bc34-4d2f8e3d5a7c",
+        tag1: "Hub",
+        tag2: "Git",
+        tag3: "m5",
     },
     {
         id: "d5f74bfa-b5f9-7c9b-9c3f-0e63973c25ad",
@@ -25,6 +30,9 @@ const modules = [
         content: "Ceci est une description temporaire.",
         isAlert: false,
         user_id: "018f3c5d-93a6-772f-bc34-4d2f8e3d5a7f",
+        tag1: "Anime",
+        tag2: "Manga",
+        tag3: "Stream",
     },
     {
         id: "3f7e59a2-4df5-7b1f-92e9-43e4bba506c9",
@@ -34,6 +42,9 @@ const modules = [
         content: "Ceci est une description temporaire.",
         isAlert: false,
         user_id: "018f3c5d-93a6-772f-bc34-4d2f8e3d5a7f",
+        tag1: "dev",
+        tag2: "web",
+        tag3: "pro",
     },
     {
         id: "8f97baf1-2a4d-7f8f-a3b8-4e7fcfb6d1b4",
@@ -43,6 +54,7 @@ const modules = [
         content: "Une plateforme d'apprentissage du codage.",
         isAlert: false,
         user_id: "018f3ca1-93a6-772f-bc34-4d2f8e3d5a80",
+        tag1: "code",
     },
     {
         id: "e78bc3a3-ec92-7f5e-a2b3-c9076e63c4f2",
@@ -52,6 +64,8 @@ const modules = [
         content: "Explorez une grande variété de mangas.",
         isAlert: false,
         user_id: "018f3cc3-93a6-772f-bc34-4d2f8e3d5a81",
+        tag1: "manga",
+        tag2: "art",
     },
     {
         id: "f42c89d4-7db5-72f7-b5ad-6c73e983ef12",
@@ -61,6 +75,9 @@ const modules = [
         content: "Votre source quotidienne pour des actualités sur la tech.",
         isAlert: false,
         user_id: "018f3d97-93a6-772f-bc34-4d2f8e3d5a86",
+        tag1: "tech",
+        tag2: "news",
+        tag3: "bit",
     },
     {
         id: "d0f3cdd2-d38b-72f9-bb44-758f2ea7563d",
@@ -69,7 +86,8 @@ const modules = [
         image: "logo.png",
         content: "Découvrez des recettes de cuisine du monde entier.",
         isAlert: false,
-        user_id: "018f3f32-93a6-772f-bc34-4d2f8e3d5a90", 
+        user_id: "018f3f32-93a6-772f-bc34-4d2f8e3d5a90",
+        tag1: "cook",
     },
     {
         id: "34d129d0-0b38-7a3e-bcdb-798fd0efadd1",
@@ -79,6 +97,8 @@ const modules = [
         content: "Suivez votre programme d'entraînement et de nutrition.",
         isAlert: false,
         user_id: "018f3e37-93a6-772f-bc34-4d2f8e3d5a8a",
+        tag1: "fit",
+        tag2: "app",
     },
     {
         id: "b3e35f7d-3ad3-7b7b-a1d9-88bf22b0d855",
@@ -88,6 +108,9 @@ const modules = [
         content: "Regardez vos films et séries préférés en ligne.",
         isAlert: false,
         user_id: "018f3e61-93a6-772f-bc34-4d2f8e3d5a8b",
+        tag1: "film",
+        tag2: "vid",
+        tag3: "fun",
     },
     {
         id: "72913b87-8d9f-72a5-a6ea-1e7f8cb83a91",
@@ -96,7 +119,8 @@ const modules = [
         image: "logo.png",
         content: "Découvrez des œuvres d'art modernes et classiques.",
         isAlert: false,
-        user_id: "018f3f5c-93a6-772f-bc34-4d2f8e3d5a91", 
+        user_id: "018f3f5c-93a6-772f-bc34-4d2f8e3d5a91",
+        tag1: "art",
     },
     {
         id: "b23e789c-4046-7f89-b4b3-54a22b41a1d3",
@@ -107,6 +131,8 @@ const modules = [
             "Écoutez de la musique en streaming avec vos artistes préférés.",
         isAlert: false,
         user_id: "018f3f86-93a6-772f-bc34-4d2f8e3d5a92",
+        tag1: "musi",
+        tag2: "hub",
     },
     {
         id: "b9c24e75-48b9-7284-9b71-6a5206606a39",
@@ -116,6 +142,9 @@ const modules = [
         content: "Découvrez des destinations incroyables pour vos vacances.",
         isAlert: false,
         user_id: "018f3d43-93a6-772f-bc34-4d2f8e3d5a84",
+        tag1: "trip",
+        tag2: "exp",
+        tag3: "go",
     },
     {
         id: "da59c45d-5728-7b7f-b11d-b43572558d90",
@@ -126,6 +155,7 @@ const modules = [
             "Suivez les dernières nouvelles et scores de vos sports favoris.",
         isAlert: false,
         user_id: "018f3fda-93a6-772f-bc34-4d2f8e3d5a94",
+        tag1: "sport",
     },
     {
         id: "54b823df-b493-72ea-a5a7-8b8b13a66b3b",
@@ -135,6 +165,8 @@ const modules = [
         content: "Un endroit où les développeurs partagent leurs ressources.",
         isAlert: false,
         user_id: "018f3d19-93a6-772f-bc34-4d2f8e3d5a83",
+        tag1: "dev",
+        tag2: "hub",
     },
     {
         id: "fb34d78a-2e77-7e90-9131-9b4fc3512c2e",
@@ -144,6 +176,9 @@ const modules = [
         content: "Un site pour afficher vos œuvres créatives.",
         isAlert: false,
         user_id: "018f3cf6-93a6-772f-bc34-4d2f8e3d5a82",
+        tag1: "crea",
+        tag2: "port",
+        tag3: "art",
     },
     {
         id: "a9836ef2-b45d-7e16-b7fd-9c864b2ec91a",
@@ -153,6 +188,7 @@ const modules = [
         content: "Les dernières nouvelles et recherches scientifiques.",
         isAlert: false,
         user_id: "018f3d43-93a6-772f-bc34-4d2f8e3d5a84",
+        tag1: "sci",
     },
     {
         id: "f2d6b9d3-d290-75db-941f-4c5fdf1f351a",
@@ -162,6 +198,8 @@ const modules = [
         content: "Apprenez une nouvelle langue facilement et rapidement.",
         isAlert: false,
         user_id: "018f3ca1-93a6-772f-bc34-4d2f8e3d5a80",
+        tag1: "lang",
+        tag2: "learn",
     },
     {
         id: "df5b903c-92b1-7c28-91cc-c13e299dfbd3",
@@ -171,6 +209,9 @@ const modules = [
         content: "Tout sur la santé, le bien-être et la nutrition.",
         isAlert: false,
         user_id: "018f3e61-93a6-772f-bc34-4d2f8e3d5a8b",
+        tag1: "heal",
+        tag2: "fit",
+        tag3: "nut",
     },
     {
         id: "b35b5dcb-bce8-7d84-b88a-3c32b392a90e",
@@ -180,6 +221,7 @@ const modules = [
         content: "Suivez vos progrès en matière de fitness.",
         isAlert: false,
         user_id: "018f3e37-93a6-772f-bc34-4d2f8e3d5a8a",
+        tag1: "fit",
     },
     {
         id: "b842a7b8-cf0e-7e5a-83b4-229a497663ea",
@@ -189,6 +231,8 @@ const modules = [
         content: "Regardez des films en streaming sans abonnement.",
         isAlert: false,
         user_id: "018f3b9c-93a6-772f-bc34-4d2f8e3d5a6b",
+        tag1: "strm",
+        tag2: "mov",
     },
     {
         id: "a745679f-3fd2-7c60-b3c7-e0812adfaee0",
@@ -198,6 +242,9 @@ const modules = [
         content: "Explorez une galerie de photos de haute qualité.",
         isAlert: false,
         user_id: "018f3e0d-93a6-772f-bc34-4d2f8e3d5a89",
+        tag1: "pic",
+        tag2: "gal",
+        tag3: "hq",
     },
     {
         id: "8c0a53e2-d07f-748a-b3b2-1a24e6e7a2f3",
@@ -207,6 +254,7 @@ const modules = [
         content: "Les derniers jeux et critiques de jeux vidéo.",
         isAlert: false,
         user_id: "018f3f08-93a6-772f-bc34-4d2f8e3d5a8f",
+        tag1: "game",
     },
     {
         id: "15bce3d8-c83b-7fa6-9c98-cb9cb7e9b846",
@@ -216,6 +264,8 @@ const modules = [
         content: "Partagez vos photos avec la communauté.",
         isAlert: false,
         user_id: "018f3f32-93a6-772f-bc34-4d2f8e3d5a90",
+        tag1: "pho",
+        tag2: "hub",
     },
     {
         id: "ac319f5f-d94f-72f1-a8a9-b0d8b7da5405",
@@ -225,6 +275,9 @@ const modules = [
         content: "Les dernières tendances technologiques et innovations.",
         isAlert: false,
         user_id: "018f3f86-93a6-772f-bc34-4d2f8e3d5a92",
+        tag1: "tech",
+        tag2: "ins",
+        tag3: "new",
     },
     {
         id: "ac1b479d-65da-78c5-96b8-cfbc9d1c0b7d",
@@ -234,6 +287,7 @@ const modules = [
         content: "Découvrez les meilleures stratégies marketing digitales.",
         isAlert: false,
         user_id: "018f3f5c-93a6-772f-bc34-4d2f8e3d5a91",
+        tag1: "digi",
     },
     {
         id: "b1c4639a-dfa4-7a52-b617-0345374fbdbf",
@@ -242,7 +296,9 @@ const modules = [
         image: "logo.png",
         content: "Un centre d'apprentissage pour le design web.",
         isAlert: false,
-        user_id: "018f3de3-93a6-772f-bc34-4d2f8e3d5a88", 
+        user_id: "018f3de3-93a6-772f-bc34-4d2f8e3d5a88",
+        tag1: "web",
+        tag2: "des",
     },
     {
         id: "a5c8df3e-89e2-7d71-a9ad-732d963e8f51",
@@ -253,6 +309,9 @@ const modules = [
             "Explorez des recettes et conseils de cuisine du monde entier.",
         isAlert: false,
         user_id: "018f3d97-93a6-772f-bc34-4d2f8e3d5a86",
+        tag1: "food",
+        tag2: "nat",
+        tag3: "yum",
     },
     {
         id: "c1a8b7a9-1f93-79db-a8a2-5e04b67d13d8",
@@ -262,6 +321,7 @@ const modules = [
         content: "Partez à la découverte de destinations de rêve.",
         isAlert: false,
         user_id: "018f3cc3-93a6-772f-bc34-4d2f8e3d5a81",
+        tag1: "trav",
     },
     {
         id: "b6c8a678-c072-7a97-9b6d-dc12e3435a5a",
@@ -271,6 +331,8 @@ const modules = [
         content: "Des projets créatifs et manuels à réaliser chez soi.",
         isAlert: false,
         user_id: "018f3ca1-93a6-772f-bc34-4d2f8e3d5a80",
+        tag1: "diy",
+        tag2: "pro",
     },
     {
         id: "94a8d221-7129-7d60-825f-5d1f49b9c8b0",
@@ -281,6 +343,9 @@ const modules = [
             "Plongez dans l'univers des jeux vidéo avec des critiques et des news.",
         isAlert: false,
         user_id: "018f3db9-93a6-772f-bc34-4d2f8e3d5a87",
+        tag1: "game",
+        tag2: "uni",
+        tag3: "vid",
     },
     {
         id: "7d8a3ed7-f8e9-7fa9-a5e4-ff72c63ed245",
@@ -290,6 +355,7 @@ const modules = [
         content: "Apprenez à prendre des photos comme un professionnel.",
         isAlert: false,
         user_id: "018f3f32-93a6-772f-bc34-4d2f8e3d5a90",
+        tag1: "pho",
     },
     {
         id: "d4e2a9f1-850a-779f-b10c-f289b5a1e87d",
@@ -299,6 +365,8 @@ const modules = [
         content: "Atteignez vos objectifs de santé et de forme physique.",
         isAlert: false,
         user_id: "018f3b9c-93a6-772f-bc34-4d2f8e3d5a6b",
+        tag1: "heal",
+        tag2: "fit",
     },
     {
         id: "f0d576bb-2dbd-73a4-b9ae-21176a272a38",
@@ -308,6 +376,9 @@ const modules = [
         content: "Découvrez de la nouvelle musique chaque jour.",
         isAlert: false,
         user_id: "018f3d6d-93a6-772f-bc34-4d2f8e3d5a85",
+        tag1: "musi",
+        tag2: "dis",
+        tag3: "new",
     },
 ];
 
