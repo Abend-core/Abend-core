@@ -5,6 +5,7 @@ import UUID from "../tools/uuid";
 import db from "./db";
 import { User } from "../models/user";
 import { Module } from "../models/module";
+import Tag from "../models/tag";
 import Follow from "../models/follow";
 import config from "config";
 import Redis, { KEYS } from "../tools/redis";
@@ -70,11 +71,25 @@ async function initUsers() {
 async function initModules() {
     for (const data of dataModule.modules) {
         data.isShow = true;
-        data.tags = [data.tag1 ?? "", data.tag2 ?? "", data.tag3 ?? ""]
+
+        const tagsArray = [data.tag1 ?? "", data.tag2 ?? "", data.tag3 ?? ""]
             .map((tag) => tag.toLowerCase())
-            .filter((tag) => tag !== "")
-            .join(", ");
+            .filter((tag) => tag !== "");
+
+        data.tags = tagsArray.join(", ");
+
         await Module.create(data);
+
+        for (const tag of tagsArray) {
+            const [tagInstance, created] = await Tag.findOrCreate({
+                where: { name: tag },
+                defaults: { name: tag, uses: 1 },
+            });
+
+            if (!created) {
+                await tagInstance.increment("uses", { by: 1 });
+            }
+        }
     }
     console.log("   - ✅ Modules");
 }
