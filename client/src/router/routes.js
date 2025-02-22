@@ -42,7 +42,7 @@ const routes = [
     },
   },
   {
-    path: "/modules/:tag",
+    path: "/modules/tag/:tag",
     name: "TagModules",
     component: TagModules,
     meta: {

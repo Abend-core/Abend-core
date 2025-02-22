@@ -48,7 +48,7 @@
             <router-link
               v-for="tag in module.tags.split(',').map((tag) => tag.trim())"
               :key="tag"
-              :to="`/modules/${tag}`"
+              :to="`/modules/tag/${tag}`"
               class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-full text-xs hover:bg-gray-400 dark:hover:bg-gray-700"
             >
               {{ tag }}
