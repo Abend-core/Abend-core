@@ -5,7 +5,7 @@
     >
       <div v-if="user">
         <img
-          class="w-[200px] h-[200px] rounded-full border border-white p-1 bg-white"
+          class="w-[200px] h-[200px] rounded-full border border-white p-1 bg-white shadow-lg"
           :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
           alt="Image"
         />
