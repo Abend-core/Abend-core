@@ -13,7 +13,9 @@ class TagsController {
 
         for (let i = 0; i < tabTags.length; i++) {
             if (!tabTags[i]) continue;
-            const found = await Tag.findOne({ where: { name: tabTags[i] } });
+            const found = await Tag.findOne({
+                where: { name: tabTags[i].toLowerCase() },
+            });
 
             if (!found) {
                 Tag.create({ name: tabTags[i], uses: 1 });
@@ -42,10 +44,8 @@ class TagsController {
         for (let i = 0; i < Tags!.length; i++) {
             const tag = await Tag.findOne({ where: { name: Tags![i] } });
             if (tag?.uses === 1) {
-                console.log("Il est utiliser 1 fois");
                 Tag.destroy({ where: { name: Tags![i] } });
             } else {
-                console.log("Il est + d'une fois");
                 Tag.decrement("uses", { where: { name: Tags![i] } });
             }
         }

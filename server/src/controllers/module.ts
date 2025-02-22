@@ -22,6 +22,7 @@ class ModuleController {
     async add(data: moduleCreate, file: Express.Multer.File) {
         Redis.deleteCache(KEYS.modules);
         data.tags = [data.tag1 ?? "", data.tag2 ?? "", data.tag3 ?? ""]
+            .map((tag) => tag.toLowerCase())
             .filter((tag) => tag !== "")
             .join(", ");
 
