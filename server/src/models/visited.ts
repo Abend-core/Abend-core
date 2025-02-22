@@ -16,6 +16,7 @@ class Visited extends Model<VisitedAttributes> implements VisitedAttributes {
     public UserId!: string;
     public ModuleId!: string;
     public Count!: number;
+    public totalCount!: number;
 }
 
 Visited.init(
