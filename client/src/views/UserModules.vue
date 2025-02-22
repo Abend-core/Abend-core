@@ -25,7 +25,7 @@
           </p>
         </div>
         <p class="text-gray-500 dark:text-gray-400 mt-3 italic max-w-md">
-          "{{ user.content }}""
+          "{{ user.content }}"
         </p>
       </div>
       <button

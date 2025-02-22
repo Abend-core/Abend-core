@@ -8,18 +8,26 @@
       class="max-w-[1400px] mx-auto flex items-center justify-between relative p-paddingMd dark:bg-gray-800 dark:text-white"
     >
       <div class="left-content flex items-center gap-[10px]">
-        <RouterLink to="/">
+        <RouterLink
+          to="/"
+          class="relative inline-block w-[50px] h-[50px] group"
+        >
           <img
             v-if="!isDark"
-            class="w-[50px] h-[50px]"
-            src="../assets/images/logo-abend.png"
-            alt="Logo principal"
+            class="absolute top-0 left-0 w-[50px] h-[50px] infinite-rotate"
+            src="../assets/images/logo-abend-clair-hearthless.png"
+            alt="Anneaux clairs"
           />
           <img
             v-else
-            class="w-[50px] h-[50px]"
-            src="../assets/images/logo-abend-dark.png"
-            alt="Logo principal"
+            class="absolute top-0 left-0 w-[50px] h-[50px] infinite-rotate"
+            src="../assets/images/logo-abend-dark-hearthless.png"
+            alt="Anneaux sombres"
+          />
+          <img
+            class="absolute top-0 left-0 w-[50px] h-[50px]"
+            src="../assets/images/logo-abend-haloless.png"
+            alt="Cœur"
           />
         </RouterLink>
         <RouterLink to="/" class="hidden font-medium sm:block"
@@ -128,7 +136,6 @@
               Profil
             </RouterLink>
           </div>
-
           <div class="flex items-center">
             <RouterLink
               class="flex items-center gap-1 mb-2 text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
@@ -176,9 +183,7 @@ import MobileMenu from "../components/MenuMobile.vue";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const router = useRouter();
-
 const authStore = useAuthStore();
-
 const { getInfosProfile } = useUser();
 const { modals, toggleModal, closeModal } = useModal();
 
@@ -254,6 +259,19 @@ onMounted(() => {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+.group:hover .infinite-rotate {
+  animation: rotate 2s infinite linear;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 </style>
