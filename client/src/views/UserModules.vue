@@ -5,22 +5,32 @@
     >
       <div v-if="user">
         <img
-          class="w-[150px] h-[150px] rounded-full border border-white p-1 bg-white"
+          class="w-[200px] h-[200px] rounded-full border border-white p-1 bg-white"
           :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
           alt="Image"
         />
       </div>
       <div>
-        <p class="text-2xl text-center sm:text-left mb-5">
+        <p class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
           {{ user.username }}
         </p>
-        <p class="text-justify max-w-[500px] text-[#8592A4]">
-          {{ user.content }}
+        <div class="flex gap-6 text-gray-600 mt-2 dark:text-gray-300">
+          <p class="cursor-pointer hover:text-primaryRed transition-colors">
+            <span class="font-semibold">{{ followersCount }}</span>
+            abonnés
+          </p>
+          <p class="cursor-pointer hover:text-primaryRed transition-colors">
+            <span class="font-semibold">{{ suivisCount }}</span>
+            suivi(e)s
+          </p>
+        </div>
+        <p class="text-gray-500 dark:text-gray-400 mt-3 italic max-w-md">
+          "{{ user.content }}""
         </p>
       </div>
       <button
         v-if="authStore.user && user && authStore.user.id !== user.id"
-        class="absolute top-[165px] sm:top-36 p-2 text-white rounded-md left-[75%]"
+        class="absolute top-[220px] sm:top-42 p-2 text-white rounded-md left-[75%]"
         :class="{
           'bg-primaryRed': !isFollowing,
           'bg-gray-500': isFollowing,
@@ -161,6 +171,7 @@ import { useRoute } from "vue-router";
 import { getInfosUserByUsername } from "../api/module";
 import { follow } from "../api/user";
 import { useAuthStore } from "../stores/authStore";
+import { displayNetworkById } from "../api/user.js";
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -171,6 +182,8 @@ const user = ref({});
 const modules = ref([]);
 const moduleFav = ref([]);
 const isFollowing = ref(false);
+const suivisCount = ref([]);
+const followersCount = ref([]);
 
 const username = route.params.username;
 
@@ -187,6 +200,16 @@ const getInfos = async () => {
     modules.value = response.data.userData.ModuleUser;
     moduleFav.value = response.data.userData.FavorisUser;
     isFollowing.value = response.data.userData.user.isFollow;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const displayCounterNetwork = async () => {
+  try {
+    const response = await displayNetworkById(username);
+    suivisCount.value = response.data.network.followingCount;
+    followersCount.value = response.data.network.followerCount;
   } catch (error) {
     console.error(error);
   }
@@ -211,6 +234,7 @@ const followUser = async () => {
 
 onMounted(() => {
   getInfos();
+  displayCounterNetwork();
 });
 </script>
 

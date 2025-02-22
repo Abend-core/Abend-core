@@ -41,7 +41,7 @@
       </div>
       <div
         v-if="authStore.isAuthenticated && allTags.length > 0"
-        class="max-w-[1000px]"
+        class="max-w-[1200px]"
       >
         <div class="flex flex-wrap gap-2 mb-6">
           <button

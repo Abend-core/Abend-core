@@ -50,3 +50,7 @@ export const follow = (id) => {
 export const displayNetwork = () => {
   return apiClient.get("/users/network");
 };
+
+export const displayNetworkById = (username) => {
+  return apiClient.get(`/users/network/${username}`);
+};

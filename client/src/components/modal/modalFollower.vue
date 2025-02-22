@@ -25,7 +25,7 @@
           </p>
         </div>
         <div
-          class="p-4 dark:bg-gray-800 rounded-lg max-h-[400px] overflow-y-auto"
+          class="p-4 dark:bg-gray-800 rounded-lg max-h-[400px] overflow-y-auto scrollbar-custom"
         >
           <div v-if="filteredFollowers.length === 0">
             <p

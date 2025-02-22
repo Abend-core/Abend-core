@@ -38,14 +38,14 @@
                     class="cursor-pointer hover:text-primaryRed transition-colors"
                     @click="isModalFollowerOpen = true"
                   >
-                    <span class="font-semibold">{{ user.abonnes }}</span>
+                    <span class="font-semibold">{{ followersCount }}</span>
                     abonnés
                   </p>
                   <p
                     class="cursor-pointer hover:text-primaryRed transition-colors"
                     @click="isModalSuiviOpen = true"
                   >
-                    <span class="font-semibold">{{ user.suivies }}</span>
+                    <span class="font-semibold">{{ suivisCount }}</span>
                     suivi(e)s
                   </p>
                 </div>
@@ -102,7 +102,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import editInfos from "../components/profil/editInfos.vue";
 import displayInfos from "../components/profil/displayInfos.vue";
 import { updateImgProfil } from "../api/user";
@@ -110,6 +110,7 @@ import { useAuthStore } from "../stores/authStore";
 import { useUser } from "../composables/useUser";
 import ModalFollower from "../components/modal/modalFollower.vue";
 import ModalSuivi from "../components/modal/modalSuivi.vue";
+import { displayNetwork } from "../api/user.js";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -126,9 +127,21 @@ const id = sessionStorage.getItem("id");
 const activeSection = ref("profile");
 const imageURL = ref(null);
 const selectedImageFile = ref(null);
+const suivisCount = ref([]);
+const followersCount = ref([]);
 
 const setActiveSection = (section) => {
   activeSection.value = section;
+};
+
+const displayNetworkContent = async () => {
+  try {
+    const response = await displayNetwork();
+    suivisCount.value = response.data.network.followingCount;
+    followersCount.value = response.data.network.followerCount;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const updateImg = async (event) => {
@@ -155,6 +168,10 @@ const updateImg = async (event) => {
     }
   }
 };
+
+onMounted(() => {
+  displayNetworkContent();
+});
 </script>
 
 <style scoped>

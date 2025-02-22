@@ -48,7 +48,7 @@
           >
           <textarea
             id="description"
-            class="w-full lg:w-[450px] h-[80px] pl-1 rounded-md dark:text-white dark:bg-gray-900 placeholder:text-gray-500 hover:border-primaryRed transition-colors"
+            class="scrollbar-custom w-full lg:w-[450px] h-[80px] pl-1 rounded-md dark:text-white dark:bg-gray-900 placeholder:text-gray-500 hover:border-primaryRed transition-colors"
             type="text"
             placeholder="Description"
             v-model="descriptionProfil"
@@ -289,5 +289,22 @@ input {
 
 form {
   padding-bottom: 5rem;
+}
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #d9dce1;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background-color: #2d3748;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #d9dce1;
 }
 </style>
