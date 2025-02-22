@@ -133,7 +133,7 @@
                   ></i>
                   <div
                     class="absolute w-full mt-2 p-4 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg z-[99]"
-                    v-if="isTagListVisible"
+                    v-if="isTagListVisible && selectedTags.length < 3"
                     @mousedown.prevent
                   >
                     <p
@@ -272,10 +272,13 @@ const onInputDescription = (e) => {
 };
 
 const displayTagList = async () => {
-  displayTags();
-  isTagListVisible.value = true;
+  if (selectedTags.value.length < 3) {
+    await displayTags();
+    isTagListVisible.value = true;
+  } else {
+    isTagListVisible.value = false;
+  }
 };
-
 const hideTagList = () => {
   isTagListVisible.value = false;
 };
