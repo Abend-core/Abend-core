@@ -132,27 +132,44 @@ class UserController {
     }
 
     async getNetwork(userId: string) {
+        const [followingCount, followerCount, users] = await Promise.all([
+            Follow.count({
+                where: { UserId: userId },
+            }),
+            Follow.count({
+                where: { UserIdFollow: userId },
+            }),
+            this.getAll(),
+        ]);
+
+        // Si tu as vraiment besoin des listes complètes des followings/followers
         const [IDfollowings, IDfollowers] = await Promise.all([
             Follow.findAll({
                 where: { UserId: userId },
+                attributes: ["UserIdFollow"],
                 raw: true,
             }),
             Follow.findAll({
                 where: { UserIdFollow: userId },
+                attributes: ["UserId"],
                 raw: true,
             }),
         ]);
 
-        const users = await this.getAll();
-
         const followingIds = IDfollowings.map((f) => f.UserIdFollow);
         const followerIds = IDfollowers.map((f) => f.UserId);
+
         const followings = users.filter((user) =>
             followingIds.includes(user.id)
         );
         const followers = users.filter((user) => followerIds.includes(user.id));
 
-        return { followings, followers };
+        return {
+            followingCount,
+            followerCount,
+            followings,
+            followers,
+        };
     }
 
     #deleteFollow(userId: string, userIdFollow: string) {

@@ -5,6 +5,7 @@ import UUID from "../tools/uuid";
 import db from "./db";
 import { User } from "../models/user";
 import { Module } from "../models/module";
+import Follow from "../models/follow";
 import config from "config";
 import Redis, { KEYS } from "../tools/redis";
 
@@ -14,6 +15,7 @@ const env = config.get("server.env");
 //Data
 const dataUser = require("./data/user");
 const dataModule = require("./data/module");
+const dataFollow = require("./data/follow");
 
 let lastUUID: string;
 if (env == "Dev") {
@@ -42,6 +44,7 @@ async function pushDb_dev() {
         console.log("");
         await initUsers();
         await initModules();
+        await initFollow();
         console.log("");
         console.log("Synchronisation terminée !");
     } catch (err) {
@@ -67,7 +70,17 @@ async function initUsers() {
 async function initModules() {
     for (const data of dataModule.modules) {
         data.isShow = true;
+        data.tags = [data.tag1 ?? "", data.tag2 ?? "", data.tag3 ?? ""]
+            .filter((tag) => tag !== "")
+            .join(", ");
         await Module.create(data);
     }
     console.log("   - ✅ Modules");
+}
+
+async function initFollow() {
+    for (const data of dataFollow.follows) {
+        await Follow.create(data);
+    }
+    console.log("   - ✅ Follow");
 }
