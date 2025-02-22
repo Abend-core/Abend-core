@@ -9,7 +9,7 @@
     },
     "server": {
         "env": "Prod",
-        "port": 6633
+        "port": 5000
     },
     "cors": {
         "origin": ["https://abnd.io"],
