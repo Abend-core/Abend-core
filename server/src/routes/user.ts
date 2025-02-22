@@ -48,15 +48,18 @@ router.put(
     Image.getUploadProfil().single("image"),
     Image.resizeImage,
     async (req: AuthRequest, res: Response) => {
+        console.log(req.file);
         const [found, error] = await Promise.all([
             UserValidator.found(req.user?.id!),
             UserValidator.hasFile(req.file!),
         ]);
+        console.log("found : ", found);
+        console.log("error : ", error);
         if (!found) {
             res.status(404).json();
             return;
         }
-        if (!error) {
+        if (error) {
             res.status(400).json({ Erreur: error });
             return;
         }
