@@ -135,7 +135,7 @@
       </form>
       <div class="flex justify-end mt-2">
         <button
-          class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-4 hover:bg-primaryRed hover:text-white transition-colors"
+          class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-4 hover:bg-primaryRed hover:text-white transition-colors duration-500"
           @click="toggleModalConfirmDeleteUser"
         >
           Supprimer mon compte

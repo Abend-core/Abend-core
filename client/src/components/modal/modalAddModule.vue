@@ -277,6 +277,7 @@ const addModulesDashboard = async () => {
     dataModule.image.value = "";
     imageURL.value = null;
     selectedImageFile.value = null;
+    errorMessage.value = "";
 
     emit("refresh-modules");
     emit("refresh-modulesById");

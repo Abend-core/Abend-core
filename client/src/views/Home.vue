@@ -25,47 +25,52 @@
       />
     </div>
     <div>
-      <div class="flex items-center">
-        <p
-          class="text-xl lg:text-2xl uppercase font-bold mb-6 tracking-tighter dark:text-white underlined-title"
-        >
-          Tous les modules
-        </p>
-        <span
-          class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-400"
-        >
-          ({{ filteredOtherModules.length }})
-        </span>
-        <div v-if="authStore.isAuthenticated" class="mb-6 ml-5">
-          <div class="flex flex-wrap gap-2">
-            <button
-              v-for="tag in displayedTags"
-              :key="tag"
-              @click="toggleTag(tag)"
-              :class="[
-                'px-3 py-1 rounded-full text-sm',
-                selectedTags.includes(tag)
-                  ? 'bg-primaryRed text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
-              ]"
-            >
-              {{ tag }}
-            </button>
-            <button
-              v-if="allTags.length > tagLimit && !showAllTags"
-              @click="showAllTags = true"
-              class="px-3 py-1 rounded-full text-sm bg-gray-200 text-gray-700 hover:bg-gray-300"
-            >
-              Voir plus ({{ allTags.length - tagLimit }})
-            </button>
-            <button
-              v-if="showAllTags"
-              @click="showAllTags = false"
-              class="px-3 py-1 rounded-full text-sm bg-gray-200 text-gray-700 hover:bg-gray-300"
-            >
-              Voir moins
-            </button>
-          </div>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+        <div class="flex items-center">
+          <p
+            class="text-xl lg:text-2xl uppercase font-bold mb-6 tracking-tighter dark:text-white underlined-title"
+          >
+            Tous les modules
+          </p>
+          <span
+            class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-400"
+          >
+            &nbsp;({{ filteredOtherModules.length }})
+          </span>
+        </div>
+      </div>
+      <div
+        v-if="authStore.isAuthenticated && allTags.length > 0"
+        class="max-w-[1000px]"
+      >
+        <div class="flex flex-wrap gap-2 mb-6">
+          <button
+            v-for="tag in displayedTags"
+            :key="tag"
+            @click="toggleTag(tag)"
+            :class="[
+              'px-3 py-1 rounded-full text-sm',
+              selectedTags.includes(tag)
+                ? 'bg-primaryRed text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+            ]"
+          >
+            {{ tag }}
+          </button>
+          <button
+            v-if="allTags.length > tagLimit && !showAllTags"
+            @click="showAllTags = true"
+            class="px-3 py-1 rounded-full text-sm bg-gray-200 text-gray-700 hover:bg-gray-300"
+          >
+            Voir plus <i class="ri-arrow-right-line"></i>
+          </button>
+          <button
+            v-if="showAllTags"
+            @click="showAllTags = false"
+            class="px-3 py-1 rounded-full text-sm bg-gray-200 text-gray-700 hover:bg-gray-300"
+          >
+            Voir moins
+          </button>
         </div>
       </div>
       <ModuleList
@@ -99,6 +104,12 @@ const selectedModuleId = ref(null);
 const selectedTags = ref([]);
 const showAllTags = ref(false);
 const tagLimit = 5;
+
+const allModules = computed(() => {
+  return authStore.isAuthenticated
+    ? moduleStore.modules
+    : moduleStore.modulesAdmin;
+});
 
 const allTags = computed(() => {
   const allModules = authStore.isAuthenticated
@@ -160,7 +171,8 @@ const otherModules = computed(() => {
 });
 
 const filteredOtherModules = computed(() => {
-  return filterByTags(otherModules.value);
+  const modules = allModules.value.filter((module) => module.isShow === true);
+  return filterByTags(modules);
 });
 
 const toggleTag = (tag) => {
@@ -202,19 +214,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-input {
-  border: 1px solid #d1d9e0;
-  display: block;
-  width: 100%;
-}
-
-input,
-button {
-  padding: 5px 12px;
-  font-size: 14px;
-  border-radius: 6px;
-}
-
 .underlined-title {
   position: relative;
   display: inline-block;
