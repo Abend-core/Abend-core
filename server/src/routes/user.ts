@@ -160,7 +160,7 @@ router.post(
 );
 
 // Selection d'un utilisateur
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/:id", auth, async (req: Request, res: Response) => {
     const found = await UserValidator.found(req.params.id);
     if (!found) {
         res.status(404).json();

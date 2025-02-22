@@ -89,7 +89,7 @@ router.get("/hide", auth, async (req: AuthRequest, res) => {
 });
 
 // Selection de tout les modules
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
     try {
         const modules = await ModuleController.getAll();
         res.status(200).json({ module: modules });
@@ -157,7 +157,7 @@ router.delete("/:id", auth, async (req, res) => {
 });
 
 //Filtre module
-router.post("/filtre", async (req, res) => {
+router.post("/filtre", auth, async (req, res) => {
     const search: string = req.body.search;
     try {
         const module = await ModuleController.filtre(search);
