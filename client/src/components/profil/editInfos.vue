@@ -1,19 +1,20 @@
 <template>
-  <NotificationMessage />
+  <div class="mb-4">
+    <NotificationMessage />
+  </div>
   <div
     class="flex flex-col xl:flex-row lg:justify-center lg:flex-col lg:items-center xl:items-start"
   >
-    <div class="w-full lg:w-[50%]">
+    <div class="w-full lg:w-[50%] mt-[-25px]">
       <div
         class="bg-white rounded-md md:p-paddingMd mt-5 mb-5 md:mt-3 md:mb-3 dark:bg-gray-800 dark:text-white"
       >
-        <h1 class="font-bold">Gérer mes informations</h1>
-        <p class="text-primaryRed mt-1">Profil Dashboard</p>
+        <h1 class="text-2xl font-bold">Gérer mes informations</h1>
+        <p class="text-primaryRed text-sm mt-1">Profil Dashboard</p>
       </div>
-
       <form
         @submit.prevent="updateUserProfile"
-        class="flex flex-col gap-[22px] md:p-paddingMd bg-white rounded-md dark:bg-gray-800 dark:text-white"
+        class="flex flex-col min-h-[280px] gap-[22px] md:p-paddingMd bg-white rounded-md dark:bg-gray-800 dark:text-white relative"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
           <label for="email" class="lg:w-[150px] lg:mr-[200px] w-full"
@@ -21,7 +22,7 @@
           >
           <input
             id="email"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
             type="email"
             placeholder="Email"
             v-model="emailProfil"
@@ -34,7 +35,7 @@
           >
           <input
             id="identifiant"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
             type="text"
             placeholder="Identifiant"
             v-model="identifiantProfil"
@@ -47,7 +48,7 @@
           >
           <textarea
             id="description"
-            class="w-full lg:w-[450px] h-[80px] pl-1 rounded-md dark:text-white dark:bg-gray-900 placeholder:text-gray-500"
+            class="w-full lg:w-[450px] h-[80px] pl-1 rounded-md dark:text-white dark:bg-gray-900 placeholder:text-gray-500 hover:border-primaryRed transition-colors"
             type="text"
             placeholder="Description"
             v-model="descriptionProfil"
@@ -56,23 +57,23 @@
         </div>
         <button
           type="submit"
-          class="bg-primaryRed p-paddingSm rounded-md text-white border border-black w-fit"
+          class="bg-primaryRed p-paddingSm rounded-md text-white w-fit disabled:bg-gray-400 disabled:border-gray-500 absolute bottom-4 left-0"
           :disabled="buttonDisabled"
         >
           Modifier mes informations
         </button>
       </form>
     </div>
-    <div class="w-full lg:w-[50%]">
+    <div class="w-full lg:w-[50%] mt-[-25px]">
       <div
         class="bg-white rounded-md mt-5 mb-5 md:mt-3 md:mb-3 md:p-paddingMd dark:bg-gray-800 dark:text-white"
       >
-        <p class="font-bold">Gérer mon mot de passe</p>
-        <p class="text-primaryRed mt-1">Modification Dashboard</p>
+        <p class="text-2xl font-bold">Gérer mon mot de passe</p>
+        <p class="text-primaryRed text-sm mt-1">Modification Dashboard</p>
       </div>
       <form
         @submit.prevent="updatePassword"
-        class="flex flex-col gap-[22px] bg-white rounded-md mt-3 mb-5 md:p-paddingMd dark:bg-gray-800 dark:text-white"
+        class="flex flex-col min-h-[280px] gap-[22px] bg-white rounded-md md:p-paddingMd dark:bg-gray-800 dark:text-white relative"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
           <label
@@ -83,7 +84,7 @@
           </label>
           <input
             id="oldPassword"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
             type="password"
             placeholder="Ancien mot de passe"
             v-model="oldPassword"
@@ -99,7 +100,7 @@
           </label>
           <input
             id="newPassword"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
             type="password"
             placeholder="Nouveau mot de passe"
             v-model="newPassword"
@@ -117,7 +118,7 @@
           </label>
           <input
             id="confirmNewPassword"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 mb-3"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 mb-3 hover:border-primaryRed"
             type="password"
             placeholder="Répéter le mot de passe"
             v-model="confirmNewPassword"
@@ -126,15 +127,15 @@
         </div>
         <button
           type="submit"
-          class="bg-primaryRed p-paddingSm rounded-md text-white border border-black w-fit"
+          class="bg-primaryRed p-paddingSm rounded-md text-white w-fit disabled:bg-gray-400 disabled:border-gray-500 absolute bottom-4 left-0"
           :disabled="passwordButtonDisabled"
         >
           Modifier mon mot de passe
         </button>
       </form>
-      <div class="flex justify-end">
+      <div class="flex justify-end mt-2">
         <button
-          class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-4 hover:bg-primaryRed hover:text-white"
+          class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-4 hover:bg-primaryRed hover:text-white transition-colors"
           @click="toggleModalConfirmDeleteUser"
         >
           Supprimer mon compte
@@ -284,5 +285,9 @@ input {
   padding: 5px 12px;
   font-size: 14px;
   border-radius: 6px;
+}
+
+form {
+  padding-bottom: 5rem;
 }
 </style>

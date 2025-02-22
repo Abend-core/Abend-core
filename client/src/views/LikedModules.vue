@@ -3,7 +3,7 @@
     <p
       class="text-2xl uppercase tracking-tighter mb-6 font-bold underlined-title"
     >
-      Favoris
+      Mes favoris
     </p>
     <div v-if="modulesToDisplay.length === 0" class="mb-6">
       <p class="text-gray-500 dark:text-gray-400 font-medium">

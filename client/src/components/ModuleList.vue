@@ -55,7 +55,7 @@
             </router-link>
           </div>
           <router-link
-            class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"
+            class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed transition-colors"
             :class="{
               underline: authStore.user && authStore.user.id === module.User.id,
             }"
@@ -70,12 +70,12 @@
           >
             <i
               v-if="module.isLike"
-              class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
+              class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10 transition-transform transform hover:scale-110"
               @click="toggleLikeModule(module.id, $event)"
             ></i>
             <i
               v-else
-              class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10"
+              class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10 transition-transform transform hover:scale-110"
               @click="toggleLikeModule(module.id, $event)"
             ></i>
           </div>

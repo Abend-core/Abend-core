@@ -73,7 +73,7 @@
           v-if="isAuthenticated"
           class="hidden sm:block hover:text-primaryRed font-medium"
         >
-          <i class="ri-heart-fill text-xl text-primaryRed"></i>
+          <i class="heart-animation ri-heart-fill text-xl text-primaryRed"></i>
         </RouterLink>
         <i
           v-if="!isDark"
@@ -238,3 +238,22 @@ onMounted(() => {
   }
 });
 </script>
+
+<style scoped>
+.heart-animation {
+  display: inline-block;
+  animation: breath 2s infinite ease-in-out;
+}
+
+@keyframes breath {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>

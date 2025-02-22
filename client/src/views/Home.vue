@@ -25,17 +25,53 @@
       />
     </div>
     <div>
-      <p
-        class="text-xl lg:text-2xl uppercase font-bold mb-6 tracking-tighter dark:text-white underlined-title"
-      >
-        Tous les modules
-      </p>
-      <span
-        class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-400"
-      >
-        ({{ otherModules.length }})
-      </span>
-      <ModuleList :modules="otherModules" @openModal="openModalMoreInfos" />
+      <div class="flex items-center">
+        <p
+          class="text-xl lg:text-2xl uppercase font-bold mb-6 tracking-tighter dark:text-white underlined-title"
+        >
+          Tous les modules
+        </p>
+        <span
+          class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-400"
+        >
+          ({{ filteredOtherModules.length }})
+        </span>
+        <div v-if="authStore.isAuthenticated" class="mb-6 ml-5">
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="tag in displayedTags"
+              :key="tag"
+              @click="toggleTag(tag)"
+              :class="[
+                'px-3 py-1 rounded-full text-sm',
+                selectedTags.includes(tag)
+                  ? 'bg-primaryRed text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+              ]"
+            >
+              {{ tag }}
+            </button>
+            <button
+              v-if="allTags.length > tagLimit && !showAllTags"
+              @click="showAllTags = true"
+              class="px-3 py-1 rounded-full text-sm bg-gray-200 text-gray-700 hover:bg-gray-300"
+            >
+              Voir plus ({{ allTags.length - tagLimit }})
+            </button>
+            <button
+              v-if="showAllTags"
+              @click="showAllTags = false"
+              class="px-3 py-1 rounded-full text-sm bg-gray-200 text-gray-700 hover:bg-gray-300"
+            >
+              Voir moins
+            </button>
+          </div>
+        </div>
+      </div>
+      <ModuleList
+        :modules="filteredOtherModules"
+        @openModal="openModalMoreInfos"
+      />
     </div>
     <modal-more-infos
       v-if="modals.moreInfoModal"
@@ -60,6 +96,35 @@ const likeStore = useLikeStore();
 
 const { modals, toggleModal, closeModal } = useModal();
 const selectedModuleId = ref(null);
+const selectedTags = ref([]);
+const showAllTags = ref(false);
+const tagLimit = 5;
+
+const allTags = computed(() => {
+  const allModules = authStore.isAuthenticated
+    ? moduleStore.modules
+    : moduleStore.modulesAdmin;
+  const tagsSet = new Set();
+  allModules.forEach((module) => {
+    if (module.tags) {
+      module.tags.split(",").forEach((tag) => tagsSet.add(tag.trim()));
+    }
+  });
+  return Array.from(tagsSet).sort();
+});
+
+const displayedTags = computed(() => {
+  return showAllTags.value ? allTags.value : allTags.value.slice(0, tagLimit);
+});
+
+const filterByTags = (modules) => {
+  if (selectedTags.value.length === 0) return modules;
+  return modules.filter((module) => {
+    if (!module.tags) return false;
+    const moduleTags = module.tags.split(",").map((tag) => tag.trim());
+    return selectedTags.value.every((tag) => moduleTags.includes(tag));
+  });
+};
 
 const myModules = computed(() => {
   const modules = authStore.isAuthenticated
@@ -93,6 +158,19 @@ const otherModules = computed(() => {
       (!authStore.user || module.User.id !== authStore.user.id)
   );
 });
+
+const filteredOtherModules = computed(() => {
+  return filterByTags(otherModules.value);
+});
+
+const toggleTag = (tag) => {
+  const index = selectedTags.value.indexOf(tag);
+  if (index === -1) {
+    selectedTags.value.push(tag);
+  } else {
+    selectedTags.value.splice(index, 1);
+  }
+};
 
 const openModalMoreInfos = (idModule) => {
   selectedModuleId.value = idModule;

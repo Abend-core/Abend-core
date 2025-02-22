@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-5"
   >
     <div
       class="bg-white rounded-lg p-6 shadow-md w-[410px] dark:bg-gray-800 dark:text-white"
