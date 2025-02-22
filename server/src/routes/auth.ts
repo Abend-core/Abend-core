@@ -19,15 +19,19 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               mail:
  *                 type: string
- *                 example: "user@example.com"
+ *                 example: "abend@example.com"
  *               password:
  *                 type: string
  *                 example: "motdepasse123"
+ *               username:
+ *                 type: string
+ *                 example: "Abend"
  *             required:
  *               - email
  *               - password
+ *               - username
  *     responses:
  *       200:
  *         description: Inscription réussie
@@ -90,9 +94,9 @@ router.post("/register", async (req: Request, res: Response): Promise<void> => {
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               mail:
  *                 type: string
- *                 example: "user@example.com"
+ *                 example: "abend@example.com"
  *               password:
  *                 type: string
  *                 example: "motdepasse123"
@@ -225,7 +229,7 @@ router.post(
  *             properties:
  *               mail:
  *                 type: string
- *                 example: "user@example.com"
+ *                 example: "abend@example.com"
  *             required:
  *               - mail
  *     responses:
@@ -293,9 +297,13 @@ router.post(
  *               newPassword:
  *                 type: string
  *                 example: "nouveauMotDePasse123"
+ *               confirmPassword:
+ *                 type: string
+ *                 example: "nouveauMotDePasse123"
  *             required:
  *               - token
  *               - newPassword
+ *               - confirmPassword
  *     responses:
  *       200:
  *         description: Mot de passe mis à jour

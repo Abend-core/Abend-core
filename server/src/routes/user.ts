@@ -37,12 +37,13 @@ interface AuthRequest extends Request {
  *               mail:
  *                 type: string
  *                 example: "john@example.com"
- *               content:
- *                 type: string
- *                 example: "Description de l'utilisateur"
+ *               isAdmin:
+ *                 type: boolean
+ *                 example: true
  *             required:
  *               - username
  *               - mail
+ *               - isAdmin
  *     responses:
  *       200:
  *         description: Utilisateur créé

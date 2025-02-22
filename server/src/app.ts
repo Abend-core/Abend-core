@@ -66,9 +66,11 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 app.listen(port, () => {
     console.log("Serveur en ligne.");
     console.log("   [Environnement] ", env);
-    console.log("Documentation disponible sur http://localhost:5000/api-docs");
+    console.log("");
+    console.log("Documentation disponible sur http://localhost:5000/api_abnd");
+    console.log("");
 });
 
 if (env == "Dev") {
-    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    app.use("/api_abnd", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }

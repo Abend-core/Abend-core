@@ -4,7 +4,7 @@ const options = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "Mon API Abnd",
+            title: "API Abnd.io",
             version: "1.0.0",
             description: "Documentation de l'API Abnd.io",
         },

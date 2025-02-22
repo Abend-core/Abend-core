@@ -35,15 +35,29 @@ interface AuthRequest extends Request {
  *                 type: string
  *                 format: binary
  *                 description: Fichier image du module
- *               title:
+ *               name:
  *                 type: string
  *                 example: "Nouveau module"
- *               description:
+ *               content:
  *                 type: string
  *                 example: "Description du module"
+ *               link:
+ *                 type: string
+ *                 example: "https://abnd.io"
+ *               tag1:
+ *                 type: string
+ *                 example: "Dev"
+ *               tag2:
+ *                 type: string
+ *                 example: "JS"
+ *               tag3:
+ *                 type: string
+ *                 example: "css"
  *             required:
+ *               - name
+ *               - content
  *               - image
- *               - title
+ *               - link
  *     responses:
  *       200:
  *         description: Module créé avec succès
@@ -61,7 +75,7 @@ interface AuthRequest extends Request {
  *                 erreur:
  *                   type: string
  *                   example: "Titre requis"
- *       404:
+ *       400:
  *         description: Problème avec le fichier
  *         content:
  *           application/json:
@@ -95,7 +109,7 @@ router.post(
             ModuleValidator.data(req.body),
         ]);
         if (found) {
-            res.status(404).json({ erreur: found });
+            res.status(400).json({ erreur: found });
             return;
         }
         if (error) {
