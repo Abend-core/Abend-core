@@ -71,6 +71,7 @@ async function initModules() {
     for (const data of dataModule.modules) {
         data.isShow = true;
         data.tags = [data.tag1 ?? "", data.tag2 ?? "", data.tag3 ?? ""]
+            .map((tag) => tag.toLowerCase())
             .filter((tag) => tag !== "")
             .join(", ");
         await Module.create(data);
