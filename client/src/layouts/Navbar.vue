@@ -93,7 +93,7 @@
         >
           <img
             v-if="user && user.image"
-            class="hidden sm:block w-[45px] h-[45px] rounded-full"
+            class="hidden sm:block w-[45px] h-[45px] rounded-full shadow-md"
             :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
             alt="Image de profil"
           />
