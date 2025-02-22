@@ -8,7 +8,7 @@ import { User, userCreationAttributes } from "../models/user";
 import Visited from "../models/visited";
 import { Module } from "../models/module";
 import Mail from "../tools/email";
-import sequelize from "sequelize/types/sequelize";
+import sequelize from "sequelize";
 
 class AbendController {
     async statistique() {

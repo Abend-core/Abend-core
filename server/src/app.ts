@@ -43,6 +43,9 @@ app.use("/users", users);
 import modules from "./routes/module";
 app.use("/modules", modules);
 
+import abend from "./routes/abend";
+app.use("/", abend);
+
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello Abend !");
 });

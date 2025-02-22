@@ -1,7 +1,6 @@
 //Express
 import express, { Request, Response } from "express";
 import AbendController from "../controllers/abend";
-import AuthValidator from "../validators/auth";
 
 const router = express.Router();
 
