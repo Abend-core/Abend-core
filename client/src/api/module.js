@@ -54,3 +54,7 @@ export const countVisitor = (idModule) => {
 export const allTags = () => {
   return apiClient.get("/modules/tags");
 };
+
+export const displayStats = () => {
+  return apiClient.get("/stats");
+};
