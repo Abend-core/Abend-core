@@ -1,14 +1,14 @@
 ENV = dev
-option = -d
+o = -d
 
 rund: vscode gitPull up
 run: vscode gitPull 
-	$(MAKE) up option=
+	$(MAKE) up o=
 
 reset: down up
 
 up:
-	docker compose -f docker-compose.$(ENV).yml up $(option)
+	docker compose -f docker-compose.$(ENV).yml up $(o)
 
 gitPull:
 	git pull

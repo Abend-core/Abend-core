@@ -1,15 +1,18 @@
 {
     "compilerOptions": {
-        "rootDir": ".",
+        "rootDir": ".", // Racine à server/, inclut src/, tests/, config/
         "outDir": "dist",
         "target": "es6",
         "module": "commonjs",
         "strict": true,
-        "baseUrl": "../",
+        "baseUrl": "src", // Imports relatifs à src/
         "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "types": ["jest"],
         "paths": {
-            "@config/*": ["config/*"]
+            "@config/*": ["../config/*"] // Ajusté pour server/config/
         }
     },
-    "include": ["src/**/*", "config/**/*"]
+    "include": ["src/**/*", "tests/**/*", "config/**/*"] // Inclut config/
 }
