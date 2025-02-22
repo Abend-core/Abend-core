@@ -133,7 +133,7 @@ const filterByTags = (modules) => {
   return modules.filter((module) => {
     if (!module.tags) return false;
     const moduleTags = module.tags.split(",").map((tag) => tag.trim());
-    return selectedTags.value.every((tag) => moduleTags.includes(tag));
+    return selectedTags.value.some((tag) => moduleTags.includes(tag));
   });
 };
 
