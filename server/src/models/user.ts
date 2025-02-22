@@ -8,8 +8,6 @@ interface UserAttributes {
     image: string;
     password: string;
     content: string;
-    abonnes: number;
-    suivies: number;
     isAdmin: boolean;
     isActive: boolean;
     token: string;
@@ -27,8 +25,6 @@ class User
     public image!: string;
     public password!: string;
     public content!: string;
-    public abonnes!: number;
-    public suivies!: number;
     public isAdmin!: boolean;
     public isActive!: boolean;
     public isFollow!: boolean;
@@ -112,14 +108,6 @@ User.init(
                     msg: "La description ne dois pas dépasser plus de 200 caractères",
                 },
             },
-        },
-        abonnes: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0,
-        },
-        suivies: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0,
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,

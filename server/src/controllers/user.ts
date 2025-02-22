@@ -142,7 +142,6 @@ class UserController {
             this.getAll(),
         ]);
 
-        // Si tu as vraiment besoin des listes complètes des followings/followers
         const [IDfollowings, IDfollowers] = await Promise.all([
             Follow.findAll({
                 where: { UserId: userId },
@@ -176,14 +175,10 @@ class UserController {
         Follow.destroy({
             where: { UserId: userId, UserIdFollow: userIdFollow },
         });
-        User.decrement("abonnes", { where: { id: userIdFollow } });
-        User.decrement("suivies", { where: { id: userId } });
     }
 
     #addFollow(userId: string, userIdFollow: string) {
         Follow.create({ UserId: userId, UserIdFollow: userIdFollow });
-        User.increment("abonnes", { where: { id: userIdFollow } });
-        User.increment("suivies", { where: { id: userId } });
     }
 }
 
