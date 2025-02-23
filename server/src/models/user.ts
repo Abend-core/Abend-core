@@ -1,14 +1,16 @@
 import { DataTypes, Model, Optional, Sequelize } from "sequelize";
 interface UserAttributes {
-    id: string;
+    id?: string;
     username: string;
     mail: string;
-    image: string;
-    password: string;
-    content: string;
-    isAdmin: boolean;
-    isActive: boolean;
-    token: string;
+    image?: string;
+    password?: string;
+    content?: string;
+    isAdmin?: boolean;
+    isActive?: boolean;
+    token?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 interface userCreationAttributes extends Optional<UserAttributes, "id"> {}
@@ -27,6 +29,8 @@ class User
     public isActive!: boolean;
     public isFollow!: boolean;
     public token!: string;
+    public createdAt!: Date;
+    public updatedAt!: Date;
 
     public static initialize(sequelize: Sequelize) {
         User.init(

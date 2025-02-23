@@ -7,9 +7,9 @@ interface moduleAttributes {
     link: string;
     image: string;
     content: string;
-    tags: string;
-    views: number;
-    likes: number;
+    tags?: string;
+    views?: number;
+    likes?: number;
     isShow: boolean;
     user_id: string;
 }
@@ -31,10 +31,10 @@ class Module
     public isShow!: boolean;
     public user_id!: string;
     public User: any;
-    public favoris!: any;
-    public reported!: any;
-    public reportedCount!: number;
-    public isLiked!: boolean;
+    public favoris?: any;
+    public reported?: any;
+    public reportedCount?: number;
+    public isLiked?: boolean;
     public visiteCount!: any;
 
     public static initialize(sequelize: Sequelize) {
