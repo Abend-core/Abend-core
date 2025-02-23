@@ -22,7 +22,7 @@
           >
           <input
             id="email"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
             type="email"
             placeholder="Email"
             v-model="emailProfil"
@@ -35,7 +35,7 @@
           >
           <input
             id="identifiant"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
             type="text"
             placeholder="Identifiant"
             v-model="identifiantProfil"
@@ -48,7 +48,7 @@
           >
           <textarea
             id="description"
-            class="scrollbar-custom w-full lg:w-[450px] h-[80px] pl-1 rounded-md dark:text-white dark:bg-gray-900 placeholder:text-gray-500 hover:border-primaryRed transition-colors"
+            class="scrollbar-custom w-full lg:w-[450px] h-[80px] pl-1 rounded-md dark:text-white dark:bg-gray-900 placeholder:text-gray-500"
             type="text"
             placeholder="Description"
             v-model="descriptionProfil"
@@ -84,7 +84,7 @@
           </label>
           <input
             id="oldPassword"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
             type="password"
             placeholder="Ancien mot de passe"
             v-model="oldPassword"
@@ -100,7 +100,7 @@
           </label>
           <input
             id="newPassword"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
             type="password"
             placeholder="Nouveau mot de passe"
             v-model="newPassword"
@@ -118,7 +118,7 @@
           </label>
           <input
             id="confirmNewPassword"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 mb-3 hover:border-primaryRed"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 mb-3"
             type="password"
             placeholder="Répéter le mot de passe"
             v-model="confirmNewPassword"
@@ -228,7 +228,7 @@ const updateUserProfile = async () => {
     }
 
     setNotification("Profil mis à jour avec succès !", "success");
-
+    loadUserProfile();
     buttonDisabled.value = true;
   } catch (error) {
     setNotification(error.response.data.Erreur, "error");
