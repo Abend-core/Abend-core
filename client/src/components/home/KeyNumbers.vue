@@ -1,12 +1,12 @@
 <template>
-  <div class="bg-white dark:bg-gray-800 py-24 lg:py-32">
+  <div class="bg-white dark:bg-gray-800 py-16 lg:py-32">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="text-center">
         <h2 class="text-base/7 font-semibold text-primaryRed">
           Des chiffres qui parlent
         </h2>
         <p
-          class="mt-2 text-4xl font-semibold tracking-tighter uppercase underlined-title text-pretty text-gray-900 dark:text-gray-200 sm:text-5xl lg:text-balance"
+          class="mt-2 text-4xl font-semibold tracking-tighter uppercase underlined-title text-pretty text-gray-900 dark:text-gray-200 sm:text-5xl text-left lg:text-balance"
         >
           Nos statistiques clés
         </p>

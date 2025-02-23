@@ -3,17 +3,17 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-2xl lg:text-center">
         <h2 class="text-base/7 font-semibold text-primaryRed">
-          Organisez vos projets
+          Simplifiez et connectez
         </h2>
         <p
           class="mt-2 text-4xl font-semibold tracking-tighter uppercase underlined-title text-pretty text-gray-900 dark:text-gray-200 sm:text-5xl lg:text-left"
         >
           Partagez vos modules en toute simplicité
         </p>
-        <p class="mt-6 text-lg/8 text-gray-600 dark:text-gray-500">
-          Créez des modules personnalisés pour centraliser vos projets favoris,
-          explorez les créations des autres et organisez tout avec un système de
-          catégories et de recherche efficace.
+        <p class="mt-6 text-lg/8 text-gray-600 dark:text-gray-400">
+          Créez des modules sur mesure pour regrouper vos projets et favoris,
+          découvrez les créations de la communauté, et organisez tout grâce à
+          une recherche intuitive et des catégories bien pensées.
         </p>
       </div>
       <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
@@ -30,8 +30,8 @@
               Création et gestion de modules
             </dt>
             <dd class="mt-2 text-base/7 text-gray-600 dark:text-gray-500">
-              Ajoutez des modules personnalisés pour regrouper vos projets ou
-              sites préférés et y accéder facilement.
+              Ajoutez des modules personnalisés pour centraliser vos projets ou
+              sites préférés et y accéder en un clin d’œil.
             </dd>
           </div>
           <div class="relative pl-16">
@@ -44,8 +44,8 @@
               Système de favoris
             </dt>
             <dd class="mt-2 text-base/7 text-gray-600 dark:text-gray-500">
-              Likez vos modules favoris pour les retrouver facilement et suivre
-              ceux qui vous intéressent le plus.
+              Marquez vos modules favoris d’un like pour les retrouver
+              facilement et suivre ceux qui vous inspirent.
             </dd>
           </div>
           <div class="relative pl-16">
@@ -58,8 +58,8 @@
               Hub de découverte
             </dt>
             <dd class="mt-2 text-base/7 text-gray-600 dark:text-gray-500">
-              Découvrez et explorez les modules créés par d'autres utilisateurs
-              pour enrichir votre expérience.
+              Parcourez les modules partagés par d’autres utilisateurs et
+              enrichissez vos idées avec leurs créations.
             </dd>
           </div>
           <div class="relative pl-16">
@@ -72,8 +72,8 @@
               Recherche et filtres avancés
             </dt>
             <dd class="mt-2 text-base/7 text-gray-600 dark:text-gray-500">
-              Utilisez la barre de recherche et les catégories pour retrouver
-              rapidement les modules qui vous intéressent.
+              Trouvez rapidement ce qui vous intéresse grâce à une barre de
+              recherche puissante et des filtres précis.
             </dd>
           </div>
           <div class="relative pl-16">
@@ -86,8 +86,8 @@
               Système d'abonnement
             </dt>
             <dd class="mt-2 text-base/7 text-gray-600 dark:text-gray-500">
-              Vous pouvez vous abonner à un utilisateur, pour suivre son
-              contenu, le soutenir, pouvoir le retrouver facilement.
+              Abonnez-vous à vos utilisateurs préférés pour suivre leurs
+              contenus, les soutenir et ne rien manquer de leurs nouveautés.
             </dd>
           </div>
           <div class="relative pl-16">
@@ -97,11 +97,11 @@
               >
                 <i class="ri-hashtag text-white text-xl"></i>
               </div>
-              Tag et retag
+              Tags personnalisés
             </dt>
             <dd class="mt-2 text-base/7 text-gray-600 dark:text-gray-500">
-              Utilise des mots clés pour lier ton module dans une certaine
-              catégorie !
+              Ajoutez des mots-clés à vos modules pour les classer et les
+              connecter à des thématiques spécifiques.
             </dd>
           </div>
         </dl>

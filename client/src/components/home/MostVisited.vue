@@ -1,11 +1,11 @@
 <template>
-  <div class="bg-white dark:bg-gray-800 py-24 lg:py-32">
-    <div class="mx-auto max-w-2xl lg:text-center">
+  <div class="bg-white dark:bg-gray-800 py-16 lg:py-32">
+    <div class="mx-auto max-w-2xl text-center px-6">
       <h2 class="text-base/7 font-semibold text-primaryRed">
         Boostez votre productivité
       </h2>
       <p
-        class="mt-2 text-4xl font-semibold tracking-tighter uppercase underlined-title text-pretty text-gray-900 dark:text-gray-200 sm:text-5xl lg:text-balance"
+        class="mt-2 text-4xl font-semibold tracking-tighter uppercase underlined-title text-pretty text-gray-900 dark:text-gray-200 sm:text-5xl text-left lg:text-balance"
       >
         Nos modules les plus visités
       </p>
@@ -18,7 +18,7 @@
       <a
         v-for="(module, index) in modules"
         :key="index"
-        class="module-card w-[300px] h-[150px] lg:w-[400px] lg:h-[220px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
+        class="module-card w-[300px] h-[175px] lg:w-[400px] lg:h-[220px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
       >
         <div class="px-4 py-3 h-full">
           <div class="flex items-center gap-2 relative">
@@ -46,6 +46,18 @@
             <p class="mt-2 lg:mt-4 text-sm lg:text-base">
               {{ module.content }}
             </p>
+            <div
+              v-if="module.tags"
+              class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+            >
+              <div
+                v-for="tag in module.tags.split(',').map((tag) => tag.trim())"
+                :key="tag"
+                class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-full text-xs hover:bg-gray-400 dark:hover:bg-gray-700"
+              >
+                {{ tag }}
+              </div>
+            </div>
             <p
               class="absolute bottom-2 left-4 lg:bottom-4 text-[10px] underline lg:text-xs hover:text-primaryRed transition-colors"
             >

@@ -1,6 +1,6 @@
 <template>
   <div class="relative isolate px-6 pt-14 lg:px-8">
-    <div class="mx-auto z-30 max-w-2xl py-32 sm:py-48 lg:py-16">
+    <div class="mx-auto z-30 max-w-2xl py-0 sm:py-48 lg:py-16">
       <div class="hidden sm:mb-8 sm:flex sm:justify-center">
         <div
           class="relative rounded-full px-3 py-1 text-sm/6 text-gray-500 dark:text-gray-400 ring-1 ring-gray-900/10 hover:ring-gray-900/20 dark:ring-gray-500 dark:ring-1 dark:ring-gray-700 hover:dark:ring-gray-200/20"
