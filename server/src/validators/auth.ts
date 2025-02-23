@@ -6,15 +6,15 @@ interface ReiniPass {
     confirmPassword: string;
 }
 class AuthValidator {
-    async register(userData: userCreationAttributes) {
+    async register(userData: Partial<userCreationAttributes>) {
         const [mail, username] = await Promise.all([
-            this.#findMail(userData.mail),
-            this.#findUsername(userData.username),
+            this.#findMail(userData.mail!),
+            this.#findUsername(userData.username!),
         ]);
         if (username) {
             return "Cet identifiant est déjà utilisé.";
         }
-        if (userData.password.length <= 8) {
+        if (userData.password!.length <= 8) {
             return "Le mot de passe doit contenir plus de 8 caractères.";
         }
         if (mail) {
@@ -22,7 +22,7 @@ class AuthValidator {
         }
     }
 
-    async signin(userData: userCreationAttributes) {
+    async signin(userData: Partial<userCreationAttributes>) {
         const user = await User.findOne({
             where: { mail: userData.mail },
         });
@@ -32,7 +32,7 @@ class AuthValidator {
         }
 
         const isPasswordValid = await Crypt.compare(
-            userData.password,
+            userData.password!,
             user.password
         );
 
@@ -40,7 +40,7 @@ class AuthValidator {
             return "Identifiant ou mot de passe incorrect.";
         }
 
-        const active = await this.#mailActive(userData.mail);
+        const active = await this.#mailActive(userData.mail!);
         if (active) {
             return active;
         }

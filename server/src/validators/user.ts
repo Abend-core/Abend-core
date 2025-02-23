@@ -65,7 +65,7 @@ class UserValidator {
         }
     }
 
-    async hasFile(file: Express.Multer.File) {
+    async hasFile(file: Express.Multer.File | undefined) {
         if (!file) {
             return "Aucun fichier téléchargé.";
         }
