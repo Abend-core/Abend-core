@@ -24,7 +24,8 @@ const router = express.Router();
  *                   description: Données statistiques (structure dépendante de AbendController)
  *                   example:
  *                     utilisateurs: 150
- *                     actions: 300
+ *                     visites: 300
+ *                     modules: 450
  *       500:
  *         description: Erreur serveur
  *         content:
@@ -43,6 +44,54 @@ router.get("/stats", async (req: Request, res: Response): Promise<void> => {
     try {
         const statistique = await AbendController.statistique();
         res.status(200).json({ stats: statistique });
+    } catch (error: any) {
+        res.status(500).json({
+            message: "Erreur serveur.",
+            error: error.message,
+        });
+    }
+});
+
+/**
+ * @swagger
+ * /stats:
+ *   get:
+ *     summary: Récupère les trois modules les plus visités
+ *     description: Retourne toutes les informations des trois modules les plus visités
+ *     tags: [Abend]
+ *     responses:
+ *       200:
+ *         description: Module récupéré
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 modules:
+ *                   type: object
+ *                   description: Modules
+ *                   example:
+ *                     UUID:
+ *                     name: Abend.io
+ *                     content: Description
+ *       500:
+ *         description: Erreur serveur
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Erreur serveur."
+ *                 error:
+ *                   type: string
+ *                   example: "Détails de l'erreur ici"
+ */
+router.get("/visite", async (req: Request, res: Response): Promise<void> => {
+    try {
+        const modules = await AbendController.visite();
+        res.status(200).json({ modules: modules });
     } catch (error: any) {
         res.status(500).json({
             message: "Erreur serveur.",

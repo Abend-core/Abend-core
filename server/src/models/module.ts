@@ -35,6 +35,7 @@ class Module
     public reported!: any;
     public reportedCount!: number;
     public isLiked!: boolean;
+    public visiteCount!: any;
 
     public static initialize(sequelize: Sequelize) {
         Module.init(

@@ -1,14 +1,9 @@
-//Tools
-import Crypt from "../tools/hash";
-import UUID from "../tools/uuid";
-import config from "config";
-
 //Modele & bdd
-import { User, userCreationAttributes } from "../models/user";
+import { User } from "../models/user";
 import Visited from "../models/visited";
 import { Module } from "../models/module";
-import Mail from "../tools/email";
 import sequelize from "sequelize";
+import moduleController from "../controllers/module";
 
 class AbendController {
     async statistique() {
@@ -17,7 +12,7 @@ class AbendController {
             this.#getUser(),
             this.#getVisite(),
         ]);
-        return { nbModule, nbUser, nbVisite }; // Optionnel : retourner les résultats
+        return { nbModule, nbUser, nbVisite };
     }
 
     async #getModule() {
@@ -37,7 +32,16 @@ class AbendController {
             ],
             raw: true,
         });
-        return res[0].totalCount || 0; // Retourne 0 si aucune ligne
+        return res[0].totalCount || 0;
+    }
+
+    async visite() {
+        const modules = await moduleController.getAll();
+        const mostVisite = modules
+            .sort((a: Module, b: Module) => b.visiteCount - a.visiteCount)
+            .slice(0, 3);
+
+        return mostVisite;
     }
 }
 
