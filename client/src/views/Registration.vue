@@ -3,7 +3,7 @@
     <div class="m-auto w-[360px] mt-20">
       <LogoSwitch />
       <div>
-        <h1 class="text-2xl text-center mb-2">S'inscrire à Abend-core</h1>
+        <h1 class="text-2xl text-center mb-2">S'inscrire à Abnd.io</h1>
       </div>
       <div class="pl-4 pr-4 pt-2">
         <NotificationMessage />
@@ -24,7 +24,6 @@
             id="password"
             class="input-password mb-3 dark:text-white dark:bg-gray-900"
             v-model="password"
-            minlength="8"
             required
           />
           <label class="mb-1" for="login"> Identifiant </label>
@@ -39,7 +38,7 @@
             class="w-full mt-4 bg-customGreen text-white font-bold border border-black"
             type="submit"
           >
-            Rejoindre Abend-core !
+            Rejoindre Abnd.io !
           </button>
         </form>
         <div class="text-sm mt-2">
@@ -62,7 +61,6 @@ import { registrateUser } from "../api/auth";
 import NotificationMessage from "../components/notification/NotificationMessage.vue";
 import LogoSwitch from "../components/LogoSwitch.vue";
 import { useNotificationStore } from "../stores/notificationStore.js";
-import { isDark } from "../utils/darkMode.js";
 
 const router = useRouter();
 
@@ -82,9 +80,15 @@ const registration = async () => {
 
   try {
     await registrateUser(data);
-    router.push("/login");
+    setNotification(
+      "Veuillez vérifier votre compte. Pensez à surveiller vos courriers indésirables.",
+      "warning"
+    );
+    email.value = "";
+    password.value = "";
+    loginRegister.value = "";
   } catch (error) {
-    setNotification(error.response?.data?.errors[0], "error");
+    setNotification(error.response.data.Erreur, "error");
   }
 };
 </script>

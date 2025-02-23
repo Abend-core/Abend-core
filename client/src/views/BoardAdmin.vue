@@ -17,13 +17,22 @@
           <i class="ri-layout-horizontal-line"></i>
           Gérer les modules
         </p>
+        <p
+          class="text-center bg-black p-1 rounded-md cursor-pointer"
+          @click="setActiveSection('manageReports')"
+        >
+          <i class="ri-alarm-warning-fill"></i>
+          Gérer les signalements
+        </p>
       </div>
       <div v-if="activeSection === 'manageUsers'">
         <table-user />
       </div>
-
       <div v-if="activeSection === 'manageModules'">
         <table-module />
+      </div>
+      <div v-if="activeSection === 'manageReports'">
+        <table-report />
       </div>
     </div>
   </main>
@@ -33,6 +42,7 @@
 import { ref } from "vue";
 import tableModule from "../components/boardAdmin/tableModule.vue";
 import tableUser from "../components/boardAdmin/tableUser.vue";
+import tableReport from "../components/boardAdmin/tableReport.vue";
 
 const activeSection = ref("manageUsers");
 

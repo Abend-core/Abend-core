@@ -28,8 +28,8 @@ export const deleteModule = (id) => {
 };
 
 // Filtre selon le Nom et le Lien
-export const filterModule = (data) => {
-  return apiClient.post("/modules/filtre", data);
+export const filterModule = () => {
+  return apiClient.get(`/modules`);
 };
 
 // Récupération des modules selon un id
@@ -45,4 +45,20 @@ export const getInfosUserByUsername = (username) => {
 // Modification selon un id et des données
 export const updateModuleById = (id, data) => {
   return apiClient.patch(`/modules/${id}`, data);
+};
+
+export const countVisitor = (idModule) => {
+  return apiClient.post(`/modules/visited/${idModule}`);
+};
+
+export const allTags = () => {
+  return apiClient.get("/modules/tags");
+};
+
+export const displayStats = () => {
+  return apiClient.get("/stats");
+};
+
+export const displayMostVisited = () => {
+  return apiClient.get("/visite");
 };

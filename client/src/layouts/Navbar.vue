@@ -8,22 +8,30 @@
       class="max-w-[1400px] mx-auto flex items-center justify-between relative p-paddingMd dark:bg-gray-800 dark:text-white"
     >
       <div class="left-content flex items-center gap-[10px]">
-        <RouterLink to="/">
+        <RouterLink
+          to="/"
+          class="relative inline-block w-[50px] h-[50px] group"
+        >
           <img
             v-if="!isDark"
-            class="w-[50px] h-[50px]"
-            src="../assets/images/abend-core-logo.png"
-            alt="Logo principal"
+            class="absolute top-0 left-0 w-[50px] h-[50px] infinite-rotate"
+            src="../assets/images/logo-abend-clair-hearthless.png"
+            alt="Anneaux clairs"
           />
           <img
             v-else
-            class="w-[50px] h-[50px]"
-            src="../assets/images/abend-core-logo-dark.png"
-            alt="Logo principal"
+            class="absolute top-0 left-0 w-[50px] h-[50px] infinite-rotate"
+            src="../assets/images/logo-abend-dark-hearthless.png"
+            alt="Anneaux sombres"
+          />
+          <img
+            class="absolute top-0 left-0 w-[50px] h-[50px]"
+            src="../assets/images/logo-abend-haloless.png"
+            alt="Cœur"
           />
         </RouterLink>
         <RouterLink to="/" class="hidden font-medium sm:block"
-          >Abend-core</RouterLink
+          >Abnd.io</RouterLink
         >
       </div>
       <div
@@ -47,7 +55,7 @@
           >
             <kbd
               class="block text-customdarkGray tracking-tighter text-xs font-bold"
-              >Ctrl K</kbd
+              >{{ osShortcut }}</kbd
             >
           </div>
         </div>
@@ -73,26 +81,27 @@
           v-if="isAuthenticated"
           class="hidden sm:block hover:text-primaryRed font-medium"
         >
-          <i class="ri-heart-fill text-xl text-primaryRed"></i>
+          <i class="heart-animation ri-heart-fill text-xl text-primaryRed"></i>
         </RouterLink>
         <i
           v-if="!isDark"
-          class="ri-sun-fill text-xl cursor-pointer hover:text-primaryRed"
+          class="ri-moon-fill text-xl cursor-pointer hover:text-primaryRed"
           @click="darkModeActivation"
         ></i>
         <i
           v-if="isDark"
-          class="ri-moon-fill text-xl cursor-pointer hover:text-primaryRed"
+          class="ri-sun-fill text-xl cursor-pointer hover:text-primaryRed"
           @click="darkModeActivation"
         ></i>
         <div
           v-if="isAuthenticated"
           class="flex gap-2 items-center cursor-pointer"
           @click="toggleModal('menu')"
+          @click.stop
         >
           <img
             v-if="user && user.image"
-            class="hidden sm:block w-[45px] h-[45px] rounded-full"
+            class="hidden sm:block w-[45px] h-[45px] rounded-full shadow-md"
             :src="`${apiUrl}/uploadsFile/profil/${user.image}`"
             alt="Image de profil"
           />
@@ -110,10 +119,14 @@
       </div>
       <div
         v-if="modals.menu"
+        ref="menuRef"
         class="absolute right-[1%] top-[85%] p-2 bg-white z-40 mt-1 rounded-md border border-black dark:border-white dark:bg-[#1F2937]"
       >
         <div class="relative">
-          <div class="flex items-center">
+          <div
+            class="flex items-center"
+            :class="{ 'mb-2': isAuthenticated && !isAdmin }"
+          >
             <RouterLink
               to="/profile"
               class="flex items-center gap-1 text-primaryBlue text-sm dark:text-white hover:text-primaryRed dark:hover:text-primaryRed"
@@ -170,16 +183,23 @@ import MobileMenu from "../components/MenuMobile.vue";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const router = useRouter();
-
 const authStore = useAuthStore();
-
 const { getInfosProfile } = useUser();
 const { modals, toggleModal, closeModal } = useModal();
 
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const isAdmin = computed(() => authStore.isAdmin);
 const user = computed(() => authStore.user);
+
 const isMobileMenuOpen = ref(false);
+const osShortcut = ref("Ctrl K");
+const menuRef = ref(null);
+
+const closeClickOutside = (event) => {
+  if (menuRef.value && !menuRef.value.contains(event.target)) {
+    closeModal("menu");
+  }
+};
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -208,9 +228,50 @@ const logOut = () => {
 };
 
 onMounted(() => {
+  const userAgent = navigator.userAgent;
+  document.addEventListener("click", closeClickOutside);
+
+  if (userAgent.includes("Macintosh")) {
+    osShortcut.value = "Cmd K";
+  } else if (userAgent.includes("Windows NT")) {
+    osShortcut.value = "Ctrl K";
+  }
+
   authStore.initializeAuth();
   if (authStore.isAuthenticated) {
     loadUserProfile();
   }
 });
 </script>
+
+<style scoped>
+.heart-animation {
+  display: inline-block;
+  animation: breath 2s infinite ease-in-out;
+}
+
+@keyframes breath {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.group:hover .infinite-rotate {
+  animation: rotate 2s infinite linear;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>

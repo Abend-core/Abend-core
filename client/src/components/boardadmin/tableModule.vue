@@ -26,7 +26,7 @@
   </div>
   <modal-add-module @refresh-modules="allModules" />
   <div
-    class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
+    class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white scrollbar-custom"
   >
     <table class="w-full">
       <thead>
@@ -44,6 +44,7 @@
           <th class="p-3">Description</th>
           <th class="p-3">Image</th>
           <th class="p-3">Date de création</th>
+          <th class="p-3">Tag(s)</th>
           <th class="p-3">Visibilité</th>
         </tr>
       </thead>
@@ -76,6 +77,17 @@
           </td>
           <td class="p-3">{{ formatDateTime(module.createdAt) }}</td>
           <td class="p-3">
+            <div v-if="module.tags" class="flex flex-wrap gap-2">
+              <span
+                v-for="tag in module.tags.split(',')"
+                :key="tag"
+                class="px-2 py-1 bg-primaryRed text-white rounded-md text-xs"
+              >
+                {{ tag }}
+              </span>
+            </div>
+          </td>
+          <td class="p-3">
             <label class="switch">
               <input
                 type="checkbox"
@@ -96,12 +108,10 @@ import { ref, watch } from "vue";
 import { formatDateTime } from "../../utils/date";
 import {
   findAllModules,
-  addModules,
   deleteModule,
   filterModule,
   updateModuleById,
 } from "../../api/module";
-import { uploadImageModule } from "../../api/upload";
 import modalAddModule from "../../components/modal/modalAddModule.vue";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -149,68 +159,11 @@ const deleteModuleTable = async () => {
   allModules();
 };
 
-const imageURL = ref(null);
-const selectedImageFile = ref(null);
-
-const handleFileChange = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    selectedImageFile.value = file;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      imageURL.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-};
-
-let dataModule = {
-  name: ref(""),
-  link: ref(""),
-  content: ref(""),
-  image: ref(""),
-  isShow: ref(true),
-};
-const id = sessionStorage.getItem("id");
-
-const addModulesDashboard = async () => {
-  try {
-    let imagePath = null;
-
-    const result = await addModules({
-      name: dataModule.name.value,
-      link: dataModule.link.value,
-      content: dataModule.content.value,
-      isShow: dataModule.isShow.value,
-      user_id: id,
-    });
-
-    if (result.status === 200 && selectedImageFile.value) {
-      const formData = new FormData();
-      formData.append("id", result.data.module.id);
-      formData.append("image", selectedImageFile.value);
-      const uploadResponse = await uploadImageModule(formData);
-    }
-
-    dataModule.name.value = "";
-    dataModule.link.value = "";
-    dataModule.content.value = "";
-    dataModule.image.value = "";
-    imageURL.value = null;
-    selectedImageFile.value = null;
-    allModules();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const inputValueSearchBarModule = ref("");
 const filterSearchModule = async () => {
   modules.value = [];
   try {
-    const response = await filterModule({
-      search: inputValueSearchBarModule.value,
-    });
+    const response = await filterModule();
     if (response && response.data.module) {
       idModules = [];
       countModule.value = 0;
@@ -227,7 +180,7 @@ watch(inputValueSearchBarModule, () => {
 
 const toggleVisibility = async (idModule, data) => {
   try {
-    const response = await updateModuleById(idModule, {
+    await updateModuleById(idModule, {
       isShow: data,
     });
   } catch (error) {
@@ -300,5 +253,23 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #d9dce1;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background-color: #2d3748;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #d9dce1;
 }
 </style>

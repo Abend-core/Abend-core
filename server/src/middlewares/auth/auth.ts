@@ -23,7 +23,6 @@ const auth = async (
 
     try {
         const decodedToken = jwt.verify(token, key) as JwtPayload;
-
         req.user = { id: decodedToken.userId };
 
         next();

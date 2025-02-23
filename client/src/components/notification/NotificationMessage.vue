@@ -4,8 +4,10 @@
     :class="{
       'bg-gradient-to-r from-[#f01f1f66] to-[#f01f1f66] border border-[#f01f1f66]':
         notificationType === 'error',
-      'bg-gradient-to-r from-[#4bb543] to-[#4bb543] border border-[#4bb543]':
+      'bg-gradient-to-r from-[#4bb54366] to-[#4bb54366] border border-[#4bb54366]':
         notificationType === 'success',
+      'bg-gradient-to-r from-[#f7a00066] to-[#f7a00066] border border-[#f7a000de]':
+        notificationType === 'warning',
     }"
     class="text-white rounded-md p-4 mt-5"
   >

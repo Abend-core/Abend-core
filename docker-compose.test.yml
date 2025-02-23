@@ -1,0 +1,57 @@
+services:
+    bdd-test:
+        image: mysql
+        container_name: Abend-test-sql
+        environment:
+            - MYSQL_DATABASE=abend-core-test
+            - MYSQL_ROOT_PASSWORD=root
+        volumes:
+            - db-data-abend-test:/var/lib/mysql
+        networks:
+            - ab-test-net
+
+    server:
+        image: node:18
+        container_name: Abend-test-server
+        ports:
+            - "5001:5000"
+        working_dir: /server
+        command: sh -c "npm install && npm run test"
+        environment:
+            - NODE_ENV=test
+        volumes:
+            - ./server:/server
+        networks:
+            - ab-test-net
+        stop_grace_period: 1s
+
+    client:
+        build: ./client
+        container_name: Abend-test-client
+        ports:
+            - "5174:5173"
+        working_dir: /client
+        command: sh -c "sleep 10 && npm install && npm run dev"
+        volumes:
+            - ./client:/client
+        environment:
+            - VITE_API_URL=http://localhost:5000
+        networks:
+            - ab-test-net
+        stop_grace_period: 1s
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: Abend-test-phpmyadmin
+        environment:
+            - PMA_HOST=bdd-test
+            - PMA_USER=root
+            - PMA_PASSWORD=root
+        ports:
+            - "8081:80"
+        networks:
+            - ab-test-net
+networks:
+    ab-test-net:
+volumes:
+    db-data-abend-test: {}

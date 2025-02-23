@@ -1,0 +1,36 @@
+{
+    "db": {
+        "name": "abend-core-test",
+        "user": "root",
+        "password": "root",
+        "host": "Abend-test-sql",
+        "port": 3306,
+        "dialect": "mysql"
+    },
+    "server": {
+        "env": "Test",
+        "port": 5000
+    },
+    "client": {
+        "env": "Test",
+        "port": 5173
+    },
+    "cors": {
+        "origin": ["http://localhost:5173"],
+        "method": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
+        "allowedHeaders": ["Content-Type", "Authorization", "role"],
+        "maxAge": 3000
+    },
+    "storage": {
+        "nombreImageBanque": 29
+    },
+    "redis": {
+        "expiration": 1
+    },
+    "mail": {
+        "user": "abendcore@gmail.com",
+        "pass": "eyku pknd ujpy mcsf",
+        "urlClient": "http://localhost:5173",
+        "urlServer": "http://localhost:5000"
+    }
+}

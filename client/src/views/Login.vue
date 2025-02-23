@@ -3,7 +3,7 @@
     <div class="m-auto w-[320px] mt-20">
       <LogoSwitch />
       <div>
-        <h1 class="text-2xl text-center mb-2">Se connecter à Abend-core</h1>
+        <h1 class="text-2xl text-center mb-2">Se connecter à Abnd.io</h1>
       </div>
       <div class="pl-4 pr-4 pt-2">
         <NotificationMessage />
@@ -43,7 +43,7 @@
         </form>
         <div class="text-sm mt-2">
           <p>
-            Nouveau sur Abend-core?
+            Nouveau sur Abnd.io?
             <router-link class="underline" to="/registration"
               >Créer un compte</router-link
             >
@@ -80,7 +80,7 @@ const handleLogin = async () => {
     authStore.setUser(userData);
     router.push("/");
   } catch (error) {
-    setNotification(error.response?.data?.message, "error");
+    setNotification(error.response.data.Erreur, "error");
   } finally {
     mail.value = "";
     password.value = "";

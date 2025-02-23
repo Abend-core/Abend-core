@@ -16,3 +16,19 @@ export const loginUser = (data) => {
 export const getUserInfos = (id) => {
   return apiClient.get(`/users/${id}`);
 };
+
+export const validationUser = (token) => {
+  return apiClient.post("/auth/validation/", { token });
+};
+
+export const forgetPassword = (mail) => {
+  return apiClient.post("/auth/forgotpassword/", { mail });
+};
+
+export const updatePassword = (token, newPassword, confirmPassword) => {
+  return apiClient.post("/auth/updatepassword/", {
+    token,
+    newPassword,
+    confirmPassword,
+  });
+};

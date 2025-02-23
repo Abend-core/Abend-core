@@ -1,4 +1,23 @@
 services:
+  traefik:
+    image: traefik:v3.3.3
+    container_name: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./traefik/letsencrypt:/letsencrypt
+    environment:
+      - OVH_APPLICATION_KEY=f55cbb82d1ec739c
+      - OVH_APPLICATION_SECRET=a8eb11792891e87b2ceb58b9bd11c3f4
+      - OVH_CONSUMER_KEY=c0b9d07e75d342f6461ca1a4e68ff49e
+      - OVH_ENDPOINT=ovh-eu
+    networks:
+      - ab-net
+    restart: unless-stopped
+
   bdd:
     image: mysql
     container_name: Abend-sql
@@ -10,17 +29,34 @@ services:
     networks:
       - ab-net
 
+  redis:
+    image: redis:7.2
+    container_name: Abend-redis
+    environment:
+      - REDIS_PASSWORD=abend-core
+    command: redis-server --requirepass abend-core
+    volumes:
+      - redis_data:/data
+    networks:
+      - ab-net
+    stop_grace_period: 1s
+
   server:
     image: node:18
     container_name: Abend-server
-    ports:
-      - "6633:5000"
     working_dir: /server
     command: sh -c "npm install && npm run prod"
     volumes:
       - ./server:/server
     environment:
       - NODE_ENV=prod
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.server.rule=Host(`api.abnd.io`)
+      - traefik.http.routers.server.entrypoints=websecure
+      - traefik.http.routers.server.tls=true
+      - traefik.http.routers.server.tls.certresolver=ovh
+      - traefik.http.services.server.loadbalancer.server.port=5000
     networks:
       - ab-net
     stop_grace_period: 1s
@@ -28,12 +64,17 @@ services:
   client:
     build: ./client
     container_name: Abend-client
-    ports:
-      - "80:4173"
     working_dir: /client
     command: sh -c "npm install && npm run prod"
     volumes:
       - ./client:/client
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.client.rule=Host(`abnd.io`)
+      - traefik.http.routers.client.entrypoints=websecure
+      - traefik.http.routers.client.tls=true
+      - traefik.http.routers.client.tls.certresolver=ovh
+      - traefik.http.services.client.loadbalancer.server.port=4173
     networks:
       - ab-net
     stop_grace_period: 1s
@@ -42,3 +83,4 @@ networks:
   ab-net:
 volumes:
   db-data-abend: {}
+  redis_data: {}

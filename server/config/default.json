@@ -21,6 +21,11 @@
         "nombreImageBanque": 29
     },
     "redis": {
-        "expiration": 84600
+        "expiration": 1
+    },
+    "mail": {
+        "user": "abendcore@gmail.com",
+        "pass": "eyku pknd ujpy mcsf",
+        "url": "http://localhost:5173"
     }
 }

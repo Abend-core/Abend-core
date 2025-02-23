@@ -26,7 +26,7 @@
   </div>
   <modal-add-module @refresh-modules="allModules" />
   <div
-    class="bg-white rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
+    class="bg-white rounded-md mt-6 max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
   >
     <table class="w-full">
       <thead>
@@ -46,6 +46,8 @@
           <th class="p-3">Date de création</th>
           <th class="p-3">Créateur</th>
           <th class="p-3">Visibilité</th>
+          <th class="p-3">Vues</th>
+          <th class="p-3">Likes</th>
         </tr>
       </thead>
       <tbody>
@@ -82,13 +84,22 @@
             <label class="switch">
               <input
                 type="checkbox"
-                :checked="module.isShow === 1"
+                :checked="module.isShow === true"
                 @change="
-                  toggleVisibility(module.id, module.isShow === 1 ? 0 : 1)
+                  toggleVisibility(
+                    module.id,
+                    module.isShow === true ? false : true
+                  )
                 "
               />
               <span class="slider round"></span>
             </label>
+          </td>
+          <td class="p-3">
+            {{ module.views }}
+          </td>
+          <td class="p-3">
+            {{ module.likes }}
           </td>
         </tr>
       </tbody>

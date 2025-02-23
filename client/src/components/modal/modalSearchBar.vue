@@ -4,7 +4,7 @@
   >
     <div class="w-full h-screen p-4">
       <div
-        class="bg-white rounded-lg shadow-md max-w-[700px] border border-gray-700 dark:bg-gray-800 dark:text-white mt-[-5px] sm:mt-[120px] mx-auto mb-0"
+        class="bg-white rounded-lg max-w-[700px] border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white mt-[-5px] sm:mt-[120px] mx-auto mb-0"
       >
         <div
           class="flex items-center gap-3 p-3 relative border-b dark:border-gray-700 border-gray-200"
@@ -28,8 +28,16 @@
             >
           </div>
         </div>
-        <div class="p-4 dark:bg-gray-800">
-          <div v-if="modules.length === 0">
+        <div
+          class="p-4 dark:bg-gray-800 max-h-[700px] overflow-y-auto scrollbar-custom"
+        >
+          <div
+            v-if="
+              modulesByName.length === 0 &&
+              modulesByCreator.length === 0 &&
+              modulesByTags.length === 0
+            "
+          >
             <p
               v-if="inputValueSearchBarModule.trim().length === 0"
               class="p-9 text-center font-medium text-gray-400"
@@ -43,35 +51,141 @@
               >"
             </p>
           </div>
-          <a
-            v-for="module in modules"
-            :key="module.id"
-            class="flex items-center relative gap-4 p-3 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
-            :href="module.link"
-            target="_blank"
-          >
-            <i
-              class="ri-dashboard-horizontal-fill text-3xl text-gray-400 dark:text-gray-300"
-            ></i>
-            <img
-              class="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-800"
-              :src="`${apiUrl}/uploadsFile/module/${module.image}`"
-              alt="module.name"
-            />
-            <div>
-              <p
-                class="font-bold text-gray-900 dark:text-white"
-                v-html="highlightText(module.name)"
-              ></p>
-              <p
-                class="text-sm text-gray-500 dark:text-gray-400"
-                v-html="highlightText(module.User.username)"
-              ></p>
-            </div>
-            <i
-              class="ri-arrow-right-line absolute right-3 text-gray-400 dark:text-gray-300 transition-transform duration-200 ease-in-out group-hover:translate-x-1"
-            ></i>
-          </a>
+          <div v-if="modulesByName.length > 0" class="mb-6">
+            <p class="text-lg font-semibold mb-3 dark:text-white">
+              Par nom du module
+            </p>
+            <a
+              v-for="module in modulesByName"
+              :key="module.id"
+              class="flex items-center relative gap-4 p-3 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
+              :href="module.link"
+              target="_blank"
+            >
+              <i
+                class="ri-dashboard-horizontal-fill text-3xl text-gray-400 dark:text-gray-300"
+              ></i>
+              <img
+                class="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-800"
+                :src="`${apiUrl}/uploadsFile/module/${module.image}`"
+                :alt="module.name"
+              />
+              <div>
+                <p
+                  class="font-bold text-gray-900 dark:text-white"
+                  v-html="highlightText(module.name)"
+                ></p>
+                <p
+                  class="text-sm text-gray-500 dark:text-gray-400"
+                  v-html="highlightText(module.User.username)"
+                ></p>
+              </div>
+              <div
+                v-if="module.tags"
+                class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+              >
+                <span
+                  v-for="tag in module.tags.split(',')"
+                  :key="tag"
+                  class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+                  v-html="highlightText(tag)"
+                ></span>
+              </div>
+              <i
+                class="ri-arrow-right-line absolute right-3 text-gray-400 dark:text-gray-300 transition-transform duration-200 ease-in-out group-hover:translate-x-1"
+              ></i>
+            </a>
+          </div>
+          <div v-if="modulesByCreator.length > 0" class="mb-6">
+            <p class="text-lg font-semibold mb-3 dark:text-white">
+              Par créateur
+            </p>
+            <router-link
+              v-for="module in modulesByCreator"
+              :key="module.id"
+              class="flex items-center relative gap-4 p-3 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
+              :to="`/user/${module.User.username}`"
+              @click="$emit('close')"
+            >
+              <i
+                class="ri-file-user-fill text-3xl text-gray-400 dark:text-gray-300"
+              ></i>
+              <img
+                class="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-800"
+                :src="`${apiUrl}/uploadsFile/module/${module.image}`"
+                :alt="module.name"
+              />
+              <div>
+                <p
+                  class="font-bold text-gray-900 dark:text-white"
+                  v-html="highlightText(module.name)"
+                ></p>
+                <p
+                  class="text-sm text-gray-500 dark:text-gray-400"
+                  v-html="highlightText(module.User.username)"
+                ></p>
+              </div>
+              <div
+                v-if="module.tags"
+                class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+              >
+                <span
+                  v-for="tag in module.tags.split(',')"
+                  :key="tag"
+                  class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+                  v-html="highlightText(tag)"
+                ></span>
+              </div>
+              <i
+                class="ri-arrow-right-line absolute right-3 text-gray-400 dark:text-gray-300 transition-transform duration-200 ease-in-out group-hover:translate-x-1"
+              ></i>
+            </router-link>
+          </div>
+          <div v-if="modulesByTags.length > 0">
+            <p class="text-lg font-semibold mb-3 dark:text-white">Par tags</p>
+            <router-link
+              v-for="module in modulesByTags"
+              :key="module.id"
+              class="flex items-center relative gap-4 p-3 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
+              :to="`/modules/tag/${encodeURIComponent(
+                inputValueSearchBarModule.trim()
+              )}`"
+              @click="$emit('close')"
+            >
+              <i
+                class="ri-hashtag text-3xl text-gray-400 dark:text-gray-300"
+              ></i>
+              <img
+                class="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-800"
+                :src="`${apiUrl}/uploadsFile/module/${module.image}`"
+                :alt="module.name"
+              />
+              <div>
+                <p
+                  class="font-bold text-gray-900 dark:text-white"
+                  v-html="highlightText(module.name)"
+                ></p>
+                <p
+                  class="text-sm text-gray-500 dark:text-gray-400"
+                  v-html="highlightText(module.User.username)"
+                ></p>
+              </div>
+              <div
+                v-if="module.tags"
+                class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+              >
+                <span
+                  v-for="tag in module.tags.split(',')"
+                  :key="tag"
+                  class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
+                  v-html="highlightText(tag)"
+                ></span>
+              </div>
+              <i
+                class="ri-arrow-right-line absolute right-3 text-gray-400 dark:text-gray-300 transition-transform duration-200 ease-in-out group-hover:translate-x-1"
+              ></i>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -79,41 +193,57 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
-import { filterModule } from "../../api/module";
-
+import { ref, onMounted, watch } from "vue";
+import { findAllModules } from "../../api/module";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-const modules = ref([]);
-const inputValueSearchBarModule = ref("");
 const searchInput = ref(null);
+const modulesByName = ref([]);
+const modulesByCreator = ref([]);
+const modulesByTags = ref([]);
+const inputValueSearchBarModule = ref("");
+const allModules = ref([]);
 
-const filterSearchModule = async () => {
-  const searchTerm = inputValueSearchBarModule.value.trim();
-
-  if (!searchTerm) {
-    modules.value = [];
-    return;
-  }
-
+const displayAllModules = async () => {
   try {
-    const response = await filterModule({ search: searchTerm });
-
+    const response = await findAllModules();
     if (response && response.data.module) {
-      modules.value = response.data.module;
-    } else {
-      modules.value = [];
+      allModules.value = response.data.module;
     }
   } catch (error) {
     console.error(error);
-    modules.value = [];
   }
+};
+
+const filterSearchModule = () => {
+  const searchTerm = inputValueSearchBarModule.value.trim().toLowerCase();
+
+  if (!searchTerm) {
+    modulesByName.value = [];
+    modulesByCreator.value = [];
+    modulesByTags.value = [];
+    return;
+  }
+
+  modulesByName.value = allModules.value.filter((module) =>
+    module.name.toLowerCase().includes(searchTerm)
+  );
+
+  modulesByCreator.value = allModules.value.filter((module) =>
+    module.User.username.toLowerCase().includes(searchTerm)
+  );
+
+  modulesByTags.value = allModules.value.filter((module) =>
+    module.tags
+      ?.toLowerCase()
+      .split(",")
+      .some((tag) => tag.trim().includes(searchTerm))
+  );
 };
 
 const highlightText = (text) => {
   const searchTerm = inputValueSearchBarModule.value.trim();
   if (!searchTerm) return text;
-
   const regex = new RegExp(`(${searchTerm})`, "gi");
   return text.replace(
     regex,
@@ -121,10 +251,34 @@ const highlightText = (text) => {
   );
 };
 
+onMounted(() => {
+  displayAllModules();
+  if (searchInput.value) {
+    searchInput.value.focus();
+  }
+});
+
 watch(inputValueSearchBarModule, () => {
   filterSearchModule();
 });
-onMounted(() => {
-  searchInput.value?.focus();
-});
 </script>
+
+<style scoped>
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #d9dce1;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background-color: #2d3748;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #d9dce1;
+}
+</style>

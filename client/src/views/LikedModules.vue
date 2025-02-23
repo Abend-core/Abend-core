@@ -1,16 +1,20 @@
 <template>
-  <main>
-    <div class="text-center pt-8 pb-8">
-      <p class="text-3xl">Favoris</p>
+  <main class="p-3 mt-2 sm:pl-5 max-w-[1400px] mx-auto">
+    <p
+      class="text-2xl uppercase tracking-tighter mb-6 font-bold underlined-title"
+    >
+      Mes favoris
+    </p>
+    <div v-if="modulesToDisplay.length === 0" class="mb-6">
+      <p class="text-gray-500 dark:text-gray-400 font-medium">
+        Vous n’avez pas encore ajouté de modules en favoris.
+      </p>
     </div>
-    <div class="flex items-center justify-center flex-wrap gap-10">
+    <div class="flex items-center flex-wrap gap-10">
       <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
         <a
           :href="module.link"
-          class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
-          :style="{
-            border: `1px solid black`,
-          }"
+          class="module-card w-[300px] h-[150px] lg:w-[375px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
           target="_blank"
         >
           <img
@@ -33,11 +37,17 @@
                 {{ module.content }}
               </p>
             </div>
-            <p class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs">
+            <p
+              class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs"
+              :class="{
+                underline:
+                  authStore.user && authStore.user.id === module.User.id,
+              }"
+            >
               {{ module.User.username }}
             </p>
             <i
-              v-if="getEtatLike(module.id)"
+              v-if="module.isLike"
               class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
               @click="toggleLikeModule(module.id, $event)"
             ></i>
@@ -58,32 +68,34 @@ import { ref, computed, onMounted } from "vue";
 import { displayLikedModules } from "../api/like";
 import { toggleLike } from "../api/like";
 import { useLikeStore } from "../stores/likeStore";
+import { useAuthStore } from "../stores/authStore";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const likeStore = useLikeStore();
+const authStore = useAuthStore();
+
 const modules = ref([]);
 
 const allModulesLiked = async () => {
   try {
     const response = await displayLikedModules();
     modules.value = response.data.modules;
-    likeStore.setEtatLike(modules.value);
   } catch (error) {
     console.error(error);
   }
 };
 
 const modulesToDisplay = computed(() => {
-  return modules.value.filter((module) => likeStore.etatLike[module.id]);
+  return modules.value.filter((module) => module.isLike);
 });
-
-const getEtatLike = (idModule) => {
-  return likeStore.etatLike[idModule] ?? false;
-};
 
 const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
+  const moduleToUpdate = modules.value.find((module) => module.id === idModule);
+  if (moduleToUpdate) {
+    moduleToUpdate.isLike = !moduleToUpdate.isLike;
+  }
   try {
     await likeStore.toggleLike(idModule);
     await toggleLike(idModule);
@@ -91,8 +103,32 @@ const toggleLikeModule = async (idModule, event) => {
     console.error("Erreur lors du like :", error);
   }
 };
-
 onMounted(() => {
   allModulesLiked();
 });
 </script>
+
+<style scoped>
+.module-card {
+  transition: transform 0.3s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+
+.underlined-title {
+  position: relative;
+  display: inline-block;
+}
+
+.underlined-title:after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 30%;
+  height: 6px;
+  background-color: #f82b30;
+}
+</style>

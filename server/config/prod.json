@@ -12,7 +12,7 @@
         "port": 5000
     },
     "cors": {
-        "origin": ["http://abend-core.org"],
+        "origin": ["https://abnd.io"],
         "method": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
         "allowedHeaders": ["Content-Type", "Authorization", "role"],
         "maxAge": 3000
@@ -22,5 +22,11 @@
     },
     "redis": {
         "expiration": 84600
+    },
+    "mail": {
+        "user": "abendcore@gmail.com",
+        "pass": "eyku pknd ujpy mcsf",
+        "urlClient": "https://abnd.io",
+        "urlServer": "https://api.abnd.io"
     }
 }

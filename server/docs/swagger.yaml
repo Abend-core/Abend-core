@@ -14,7 +14,7 @@ tags:
       description: Opérations liées aux modules
 
 paths:
-    # Authentification 2
+    # Authentification 3
     /auth/signin:
         post:
             tags:
@@ -122,7 +122,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    errors:
+                                    erreur:
                                         type: object
                 500:
                     description: Le serveur a rencontré une erreur.
@@ -136,7 +136,48 @@ paths:
                                         example: Erreur serveur.
                                     erreur: 
                                         type: object
-    # Utilisateur 8
+    /auth/validation:
+        post:
+            tags:
+                - Auth
+            summary: Valider son adresse mail
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - token
+                            properties:
+                                token:
+                                    type: string
+                                    description: Token lié a l'utilisateur
+            responses:
+                200:
+                    description: Validation réussi !
+                400:
+                    description: Mauvaise requete.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    erreur:
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    # Utilisateur 9
     # 2
     /users:
         get:
@@ -549,7 +590,64 @@ paths:
                                     message:
                                         type: string
                                         example: Erreur serveur.
-    # Module 13
+    /users/active/{id}:
+        patch:
+            tags:
+                - Utilisateurs
+            summary: Change l'etat actif de l'utilisateur
+            parameters:
+            - name: id
+              in: path
+              description: L'identifiant de l'utilisateur à récupérer
+              required: true
+              schema:
+                  type: string
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Utilisateur a changer d'état actif
+                404:
+                    description: Utilisateurs introuvable.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+    /users/follow/{id}:
+        post: 
+            tags:
+                - Utilisateurs
+            summary: S'abonner a un utilisateur
+            parameters:
+            - name: idUser
+              in: path
+              description: L'identifiant de l'utilisateur qui sera suivis.
+              required: true
+              schema:
+                  type: string
+                  description: Identifiant du module
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: L'utilisateur a été suivis.
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    # Module 15
     # 2
     /modules:
         get:
@@ -1083,29 +1181,20 @@ paths:
                                         example: Erreur serveur.
                                     erreur: 
                                         type: object
-    /modules/visited:
+    /modules/visited/{id}:
         post: 
             tags:
                 - Modules
             summary: Ajoute une visite au module.
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            required:
-                                - UserId
-                                - ModuleId
-                            properties:
-                                UserId:
-                                    type: string
-                                    description: Identifiant de l'utilisateur
-                                    example: 01949df0-b386-7021-a66e-aea1a8c3ceab
-                                ModuleId:
-                                    type: string
-                                    description: Identifiant du module
-                                    example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            parameters:
+            - name: idModule
+              in: path
+              description: L'identifiant de lu module qui sera visité.
+              required: true
+              schema:
+                  type: string
+                  description: Identifiant du module
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
             responses:
                 200:
                     description: Le module a été visité.
@@ -1118,6 +1207,62 @@ paths:
                                         type: string
                                         example: Module a reçu une visite et compteur mis à jour.
                                     user: 
+                                        type: object
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/reported/{id}:
+        post: 
+            tags:
+                - Modules
+            summary: Met un report sur le module
+            parameters:
+            - name: idModule
+              in: path
+              description: L'identifiant de lu module qui sera report.
+              required: true
+              schema:
+                  type: string
+                  description: Identifiant du module
+                  example: 01949df0-b386-7021-a66e-aea1a8c3ceab
+            responses:
+                200:
+                    description: Le module a recu un report
+                500:
+                    description: Le serveur a rencontré une erreur.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Erreur serveur.
+                                    erreur: 
+                                        type: object
+    /modules/reported:
+        get: 
+            tags:
+                - Modules
+            summary: Affiche les modules reporté
+            responses:
+                200:
+                    description: Le module a recu un report
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    mdoules:
                                         type: object
                 500:
                     description: Le serveur a rencontré une erreur.

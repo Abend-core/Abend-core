@@ -1,19 +1,20 @@
 <template>
-  <NotificationMessage />
+  <div class="mb-4">
+    <NotificationMessage />
+  </div>
   <div
     class="flex flex-col xl:flex-row lg:justify-center lg:flex-col lg:items-center xl:items-start"
   >
-    <div class="w-full lg:w-[50%]">
+    <div class="w-full lg:w-[50%] mt-[-25px]">
       <div
         class="bg-white rounded-md md:p-paddingMd mt-5 mb-5 md:mt-3 md:mb-3 dark:bg-gray-800 dark:text-white"
       >
-        <h1 class="font-bold">Gérer mes informations</h1>
-        <p class="text-primaryRed mt-1">Profil Dashboard</p>
+        <h1 class="text-2xl font-bold">Gérer mes informations</h1>
+        <p class="text-primaryRed text-sm mt-1">Profil Dashboard</p>
       </div>
-
       <form
         @submit.prevent="updateUserProfile"
-        class="flex flex-col gap-[22px] md:p-paddingMd bg-white rounded-md dark:bg-gray-800 dark:text-white"
+        class="flex flex-col min-h-[280px] gap-[22px] md:p-paddingMd bg-white rounded-md dark:bg-gray-800 dark:text-white relative"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
           <label for="email" class="lg:w-[150px] lg:mr-[200px] w-full"
@@ -21,7 +22,7 @@
           >
           <input
             id="email"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
             type="email"
             placeholder="Email"
             v-model="emailProfil"
@@ -34,32 +35,45 @@
           >
           <input
             id="identifiant"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
             type="text"
             placeholder="Identifiant"
             v-model="identifiantProfil"
             @input="etatButton"
           />
         </div>
+        <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
+          <label for="description" class="lg:w-[150px] lg:mr-[200px] w-full"
+            >Description</label
+          >
+          <textarea
+            id="description"
+            class="scrollbar-custom w-full lg:w-[450px] h-[80px] pl-1 rounded-md dark:text-white dark:bg-gray-900 placeholder:text-gray-500 hover:border-primaryRed transition-colors"
+            type="text"
+            placeholder="Description"
+            v-model="descriptionProfil"
+            @input="etatButton"
+          />
+        </div>
         <button
           type="submit"
-          class="bg-primaryRed p-paddingSm rounded-md text-white border border-black w-fit"
+          class="bg-primaryRed p-paddingSm rounded-md text-white w-fit disabled:bg-gray-400 disabled:border-gray-500 absolute bottom-4 left-0"
           :disabled="buttonDisabled"
         >
           Modifier mes informations
         </button>
       </form>
     </div>
-    <div class="w-full lg:w-[50%]">
+    <div class="w-full lg:w-[50%] mt-[-25px]">
       <div
         class="bg-white rounded-md mt-5 mb-5 md:mt-3 md:mb-3 md:p-paddingMd dark:bg-gray-800 dark:text-white"
       >
-        <p class="font-bold">Gérer mon mot de passe</p>
-        <p class="text-primaryRed mt-1">Modification Dashboard</p>
+        <p class="text-2xl font-bold">Gérer mon mot de passe</p>
+        <p class="text-primaryRed text-sm mt-1">Modification Dashboard</p>
       </div>
       <form
         @submit.prevent="updatePassword"
-        class="flex flex-col gap-[22px] bg-white rounded-md mt-3 mb-5 md:p-paddingMd dark:bg-gray-800 dark:text-white"
+        class="flex flex-col min-h-[280px] gap-[22px] bg-white rounded-md md:p-paddingMd dark:bg-gray-800 dark:text-white relative"
       >
         <div class="flex flex-col lg:flex-row lg:items-center w-full gap-2">
           <label
@@ -70,7 +84,7 @@
           </label>
           <input
             id="oldPassword"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
             type="password"
             placeholder="Ancien mot de passe"
             v-model="oldPassword"
@@ -86,7 +100,7 @@
           </label>
           <input
             id="newPassword"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 hover:border-primaryRed transition-colors"
             type="password"
             placeholder="Nouveau mot de passe"
             v-model="newPassword"
@@ -104,7 +118,7 @@
           </label>
           <input
             id="confirmNewPassword"
-            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 mb-3"
+            class="w-full lg:w-[450px] dark:text-white dark:bg-gray-900 mb-3 hover:border-primaryRed"
             type="password"
             placeholder="Répéter le mot de passe"
             v-model="confirmNewPassword"
@@ -113,15 +127,15 @@
         </div>
         <button
           type="submit"
-          class="bg-primaryRed p-paddingSm rounded-md text-white border border-black w-fit"
+          class="bg-primaryRed p-paddingSm rounded-md text-white w-fit disabled:bg-gray-400 disabled:border-gray-500 absolute bottom-4 left-0"
           :disabled="passwordButtonDisabled"
         >
           Modifier mon mot de passe
         </button>
       </form>
-      <div class="flex justify-end">
+      <div class="flex justify-end mt-2">
         <button
-          class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-4 hover:bg-primaryRed hover:text-white"
+          class="p-paddingSm rounded-md text-primaryRed border border-primaryRed w-fit mb-4 hover:bg-primaryRed hover:text-white transition-colors duration-500"
           @click="toggleModalConfirmDeleteUser"
         >
           Supprimer mon compte
@@ -157,6 +171,7 @@ const id = sessionStorage.getItem("id");
 const user = ref({});
 const emailProfil = ref("");
 const identifiantProfil = ref("");
+const descriptionProfil = ref("");
 const oldPassword = ref("");
 const newPassword = ref("");
 const confirmNewPassword = ref("");
@@ -189,23 +204,34 @@ const loadUserProfile = async () => {
   user.value = authStore.user;
   emailProfil.value = user.value.mail;
   identifiantProfil.value = user.value.username;
+  descriptionProfil.value = user.value.content;
 };
 
 const updateUserProfile = async () => {
-  const updatedData = {
-    mail: emailProfil.value,
-    username: identifiantProfil.value,
-  };
-
   try {
-    await editUserById(id, updatedData);
-    const updatedDataUser = { ...authStore.user, updatedData };
-    authStore.setUser(updatedDataUser);
-    loadUserProfile();
+    let updatedData = {};
+
+    if (emailProfil.value !== user.value.mail) {
+      updatedData.mail = emailProfil.value;
+      await editUserById(id, { mail: updatedData.mail });
+      authStore.setUser({ ...authStore.user, mail: updatedData.mail });
+    }
+    if (identifiantProfil.value !== user.value.username) {
+      updatedData.username = identifiantProfil.value;
+      await editUserById(id, { username: updatedData.username });
+      authStore.setUser({ ...authStore.user, username: updatedData.username });
+    }
+    if (descriptionProfil.value !== user.value.content) {
+      updatedData.content = descriptionProfil.value;
+      await editUserById(id, { content: updatedData.content });
+      authStore.setUser({ ...authStore.user, content: updatedData.content });
+    }
+
     setNotification("Profil mis à jour avec succès !", "success");
+
     buttonDisabled.value = true;
   } catch (error) {
-    console.error(error);
+    setNotification(error.response.data.Erreur, "error");
   }
 };
 
@@ -224,7 +250,7 @@ const updatePassword = async () => {
     newPassword.value = "";
     confirmNewPassword.value = "";
   } catch (error) {
-    setNotification(error.response?.data?.message, "error");
+    setNotification(error.response.data.Erreur, "error");
     oldPassword.value = "";
     newPassword.value = "";
     confirmNewPassword.value = "";
@@ -240,7 +266,7 @@ const deleteAccount = async () => {
     authStore.logout();
     router.push("/");
   } catch (error) {
-    console.log(error);
+    setNotification(error.response.data.Erreur, "error");
   }
 };
 
@@ -250,7 +276,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
-input {
+input,
+textarea {
   border: 1px solid #d1d9e0;
 }
 
@@ -258,5 +285,26 @@ input {
   padding: 5px 12px;
   font-size: 14px;
   border-radius: 6px;
+}
+
+form {
+  padding-bottom: 5rem;
+}
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #d9dce1;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background-color: #2d3748;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #d9dce1;
 }
 </style>

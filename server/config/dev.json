@@ -11,6 +11,10 @@
         "env": "Dev",
         "port": 5000
     },
+    "client": {
+        "env": "Dev",
+        "port": 5173
+    },
     "cors": {
         "origin": ["http://localhost:5173"],
         "method": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
@@ -22,5 +26,11 @@
     },
     "redis": {
         "expiration": 1
+    },
+    "mail": {
+        "user": "abendcore@gmail.com",
+        "pass": "eyku pknd ujpy mcsf",
+        "urlClient": "http://localhost:5173",
+        "urlServer": "http://localhost:5000"
     }
 }

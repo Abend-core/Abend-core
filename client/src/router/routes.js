@@ -9,12 +9,16 @@ import Error from "../views/Error.vue";
 import ForgetPassword from "../views/ForgetPassword.vue";
 import ModuleProfil from "../views/ModuleProfil.vue";
 import LikedModules from "../views/LikedModules.vue";
-import HomeV2 from "../views/HomeV2.vue";
+import HomeDisconnected from "../views/HomeDisconnected.vue";
 import UserModules from "../views/UserModules.vue";
+import VerificationEmail from "../views/VerificationEmail.vue";
+import VerificationPassword from "../views/VerificationPassword.vue";
+import TagModules from "../views/TagModules.vue";
+import Contact from "../views/Contact.vue";
 
 const routes = [
   { path: "/", name: "Accueil", component: Home },
-  { path: "/homev2", name: "HomeV2", component: HomeV2 },
+  { path: "/home", name: "HomeDisconnected", component: HomeDisconnected },
   { path: "/login", name: "LoginPage", component: Login },
   { path: "/registration", name: "InscriptionPage", component: Registration },
   {
@@ -31,9 +35,22 @@ const routes = [
     },
   },
   {
+    path: "/contact",
+    name: "ContactPage",
+    component: Contact,
+  },
+  {
     path: "/user/:username",
     name: "UserModules",
     component: UserModules,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/modules/tag/:tag",
+    name: "TagModules",
+    component: TagModules,
     meta: {
       requiresAuth: true,
     },
@@ -45,6 +62,16 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: "/verification/:token",
+    name: "VerificationPage",
+    component: VerificationEmail,
+  },
+  {
+    path: "/verificationPassword/:token",
+    name: "VerificationPasswordPage",
+    component: VerificationPassword,
   },
   {
     path: "/module",

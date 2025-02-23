@@ -8,7 +8,7 @@
         Page introuvable
       </p>
       <p class="mt-6 text-lg font-medium text-pretty text-gray-500">
-        Désolé, nous n'avons pas trouvé la page que vous recherchez
+        Désolé, nous n'avons pas trouvé la page que vous recherchez.
       </p>
       <div class="flex items-center justify-center mt-10">
         <router-link

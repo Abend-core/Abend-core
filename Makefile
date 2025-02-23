@@ -1,14 +1,14 @@
 ENV = dev
-option = -d
+o = -d
 
 rund: vscode gitPull up
 run: vscode gitPull 
-	$(MAKE) up option=
+	$(MAKE) up o=
 
 reset: down up
 
 up:
-	docker compose -f docker-compose.$(ENV).yml up $(option)
+	docker compose -f docker-compose.$(ENV).yml up $(o)
 
 gitPull:
 	git pull
@@ -18,3 +18,6 @@ vscode:
 
 down:
 	docker compose -f docker-compose.$(ENV).yml down
+
+test: 
+	docker compose -f docker-compose.test.yml up --abort-on-container-exit

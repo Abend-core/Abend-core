@@ -24,7 +24,7 @@
   </div>
   <modal-add-user @refresh-users="allUsers" />
   <div
-    class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
+    class="bg-white p-6 rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white scrollbar-custom"
   >
     <table class="w-full">
       <thead>
@@ -153,3 +153,23 @@ const deleteUserTable = async () => {
 
 allUsers();
 </script>
+
+<style scoped>
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #d9dce1;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background-color: #2d3748;
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #d9dce1;
+}
+</style>

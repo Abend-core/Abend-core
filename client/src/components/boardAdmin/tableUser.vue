@@ -24,7 +24,7 @@
   </div>
   <modal-add-user @refresh-users="allUsers" />
   <div
-    class="bg-white rounded-md max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
+    class="bg-white rounded-md mt-6 max-h-[800px] overflow-auto mb-5 dark:bg-gray-800 dark:text-white"
   >
     <table class="w-full">
       <thead>
@@ -83,7 +83,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { findAll, deleteUser, filter, addUser } from "../../api/user";
+import { findAll, deleteUser, filterUser } from "../../api/user";
 import { formatDateTime } from "../../utils/date";
 import modalAddUser from "../../components/modal/modalAddUser.vue";
 
@@ -93,7 +93,7 @@ const inputValueSearchBar = ref("");
 const filterSearchUser = async () => {
   users.value = [];
   try {
-    const response = await filter({ search: inputValueSearchBar.value });
+    const response = await filterUser();
     if (response && response.data.user) {
       idUsers = [];
       countUser.value = 0;

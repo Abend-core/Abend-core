@@ -8,51 +8,82 @@ const imageCount: number = config.get("storage.nombreImageBanque");
 
 //Modele & bdd
 import { User, userCreationAttributes } from "../models/user";
-
+import Mail from "../tools/email";
+interface ReiniPass {
+    token: string;
+    newPassword: string;
+    confirmPassword: string;
+}
+interface RegisterData {
+    id?: string;
+    mail: string;
+    username: string;
+    password: string;
+    isAdmin?: boolean;
+    isActive?: boolean;
+    token?: string;
+    image?: string;
+    content?: string;
+}
 class AuthController {
-    async register(userData: userCreationAttributes) {
+    async register(userData: RegisterData) {
         userData.id = UUID.v7();
-
+        userData.isAdmin = false;
+        userData.isActive = false;
+        userData.token = Crypt.genToken(12);
         if (!userData.image) {
             userData.image = `bank-img-${Math.trunc(
                 Math.random() * imageCount
             )}.png`;
         }
 
-        const user = await User.create(userData);
+        const user = await User.create(userData as userCreationAttributes);
         user.password = await Crypt.hash(user.password);
 
         await User.update(
             { password: user.password },
             { where: { id: user.id }, validate: false }
         );
+
+        Mail.verification(userData.mail!, userData.token);
     }
 
-    async signin(userData: userCreationAttributes) {
+    async signin(userData: Partial<userCreationAttributes>) {
         const user = await User.findOne({
             where: { mail: userData.mail },
         });
 
-        if (!user) {
-            throw new Error("Identifiant ou mot de passe incorrect.");
-        }
-
-        const isPasswordValid = await Crypt.compare(
-            userData.password,
-            user.password
-        );
-
-        if (!isPasswordValid) {
-            throw new Error("Identifiant ou mot de passe incorrect.");
-        }
-
-        const token = jwt.sign({ userId: user.id }, privateKey, {
+        const token = jwt.sign({ userId: user!.id }, privateKey, {
             expiresIn: "1h",
         });
         return {
-            UUID: user.id,
+            UUID: user!.id,
             token,
         };
+    }
+
+    async validation(token: string) {
+        const user = await User.findOne({ where: { token: token } });
+
+        await User.update(
+            { isActive: true, token: "" },
+            { where: { id: user!.id } }
+        );
+    }
+
+    async forgot(mail: string) {
+        const user = await User.findOne({ where: { mail: mail } });
+        const token = Crypt.genToken(12);
+        await User.update({ token: token }, { where: { id: user!.id } });
+        Mail.updatePassword(mail, token);
+    }
+    async updatepassword(data: ReiniPass) {
+        const user = await User.findOne({ where: { token: data.token } });
+        const password = await Crypt.hash(data.confirmPassword);
+        await User.update(
+            { token: "", password: password },
+            { where: { id: user!.id } }
+        );
     }
 }
 

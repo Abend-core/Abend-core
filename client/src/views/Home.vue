@@ -1,92 +1,194 @@
 <template>
-  <main class="p-2 max-w-[1400px] mx-auto">
-    <div class="flex items-center justify-center flex-wrap gap-10 mt-16 mb-16">
-      <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
-        <a
-          :href="module.link"
-          class="module-card w-[300px] lg:w-[400px] h-[150px] lg:h-[200px] rounded-2xl relative bg-[#141A22] text-white"
-          :style="{
-            border: `1px solid black`,
-          }"
-          target="_blank"
-        >
-          <img
-            class="absolute w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] right-3 top-3 rounded-full border-[2px] border-white p-[2px] box-border"
-            :src="`${apiUrl}/uploadsFile/module/${module.image}`"
-            alt="Photo du module"
-            loading="lazy"
-          />
-          <div class="p-3 h-full">
-            <div class="flex items-center gap-2">
-              <p class="text-base lg:text-xl font-bold">{{ module.name }}</p>
-
-              <i
-                v-if="module.User.isAdmin"
-                class="ri-verified-badge-fill text-xl lg:text-2xl text-white cursor-pointer"
-              ></i>
-            </div>
-            <div>
-              <p class="mt-4 lg:mt-6 text-sm lg:text-base">
-                {{ module.content }}
-              </p>
-            </div>
-            <router-link
-              class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed"
-              :to="`/user/${module.User.username}`"
-              >{{ module.User.username }}</router-link
-            >
-            <div v-if="authStore.isAuthenticated">
-              <i
-                v-if="getEtatLike(module.id)"
-                class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10"
-                @click="toggleLikeModule(module.id, $event)"
-              ></i>
-              <i
-                v-else
-                class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10"
-                @click="toggleLikeModule(module.id, $event)"
-              ></i>
-            </div>
-          </div>
-        </a>
+  <main class="p-3 mt-2 sm:pl-5 max-w-[1400px] mx-auto">
+    <div v-if="myModules.length > 0" class="mb-4 sm:mb-8">
+      <p
+        class="text-xl lg:text-2xl uppercase font-bold mb-6 tracking-tighter dark:text-white underlined-title"
+      >
+        Mes modules
+      </p>
+      <span
+        class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-400"
+      >
+        ({{ myModules.length }})
+      </span>
+      <ModuleList :modules="myModules" @openModal="openModalMoreInfos" />
+    </div>
+    <div class="mb-8">
+      <p
+        class="text-xl lg:text-2xl uppercase font-bold mb-6 tracking-tighter dark:text-white underlined-title"
+      >
+        Les plus visités
+      </p>
+      <div>
+        <ModuleList
+          :modules="mostVisitedModules"
+          @openModal="openModalMoreInfos"
+        />
       </div>
     </div>
+    <div>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+        <div class="flex items-center">
+          <p
+            class="text-xl lg:text-2xl uppercase font-bold mb-6 tracking-tighter dark:text-white underlined-title"
+          >
+            Tous les modules
+          </p>
+          <span
+            class="text-sm lg:text-base font-medium text-gray-500 dark:text-gray-400"
+          >
+            &nbsp;({{ filteredOtherModules.length }})
+          </span>
+        </div>
+      </div>
+      <div
+        v-if="authStore.isAuthenticated && allTags.length > 0"
+        class="max-w-[1200px]"
+      >
+        <div class="flex flex-wrap gap-2 mb-6">
+          <button
+            v-for="tag in displayedTags"
+            :key="tag"
+            @click="toggleTag(tag)"
+            :class="[
+              'px-3 py-1 rounded-full text-sm',
+              selectedTags.includes(tag)
+                ? 'bg-primaryRed text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+            ]"
+          >
+            {{ tag }}
+          </button>
+          <button
+            v-if="allTags.length > tagLimit && !showAllTags"
+            @click="showAllTags = true"
+            class="px-3 py-1 rounded-full text-sm bg-gray-200 text-gray-700 hover:bg-gray-300"
+          >
+            Voir plus <i class="ri-arrow-right-line"></i>
+          </button>
+          <button
+            v-if="showAllTags"
+            @click="showAllTags = false"
+            class="px-3 py-1 rounded-full text-sm bg-gray-200 text-gray-700 hover:bg-gray-300"
+          >
+            Voir moins
+          </button>
+        </div>
+      </div>
+      <ModuleList
+        :modules="filteredOtherModules"
+        @openModal="openModalMoreInfos"
+      />
+    </div>
+    <modal-more-infos
+      v-if="modals.moreInfoModal"
+      @close="closeModal('moreInfoModal')"
+      :id-module="selectedModuleId"
+    />
   </main>
 </template>
 
 <script setup>
-import { computed, watch, onMounted } from "vue";
-import { toggleLike } from "../api/like";
+import { ref, computed, watch, onMounted } from "vue";
 import { useAuthStore } from "../stores/authStore";
 import { useModuleStore } from "../stores/moduleStore";
 import { useLikeStore } from "../stores/likeStore";
-
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+import { useModal } from "../composables/useModal";
+import ModuleList from "../components/ModuleList.vue";
+import modalMoreInfos from "../components/modal/modalMoreInfos.vue";
 
 const authStore = useAuthStore();
 const moduleStore = useModuleStore();
 const likeStore = useLikeStore();
 
-const modulesToDisplay = computed(() => {
+const { modals, toggleModal, closeModal } = useModal();
+const selectedModuleId = ref(null);
+const selectedTags = ref([]);
+const showAllTags = ref(false);
+const tagLimit = 5;
+
+const allModules = computed(() => {
+  return authStore.isAuthenticated
+    ? moduleStore.modules
+    : moduleStore.modulesAdmin;
+});
+
+const allTags = computed(() => {
+  const allModules = authStore.isAuthenticated
+    ? moduleStore.modules
+    : moduleStore.modulesAdmin;
+  const tagsSet = new Set();
+  allModules.forEach((module) => {
+    if (module.tags) {
+      module.tags.split(",").forEach((tag) => tagsSet.add(tag.trim()));
+    }
+  });
+  return Array.from(tagsSet).sort();
+});
+
+const displayedTags = computed(() => {
+  return showAllTags.value ? allTags.value : allTags.value.slice(0, tagLimit);
+});
+
+const filterByTags = (modules) => {
+  if (selectedTags.value.length === 0) return modules;
+  return modules.filter((module) => {
+    if (!module.tags) return false;
+    const moduleTags = module.tags.split(",").map((tag) => tag.trim());
+    return selectedTags.value.some((tag) => moduleTags.includes(tag));
+  });
+};
+
+const myModules = computed(() => {
   const modules = authStore.isAuthenticated
     ? moduleStore.modules
     : moduleStore.modulesAdmin;
-
-  return modules.filter((module) => module.isShow === 1);
+  return modules.filter(
+    (module) =>
+      module.isShow === true &&
+      authStore.user &&
+      module.User.id === authStore.user.id
+  );
 });
 
-const getEtatLike = (idModule) => {
-  return likeStore.etatLike[idModule] ?? false;
+const mostVisitedModules = computed(() => {
+  const modules = authStore.isAuthenticated
+    ? moduleStore.modules
+    : moduleStore.modulesAdmin;
+  return modules
+    .filter((module) => module.isShow === true)
+    .sort((elmt1, elmt2) => elmt2.views - elmt1.views)
+    .slice(0, 3);
+});
+
+const otherModules = computed(() => {
+  const modules = authStore.isAuthenticated
+    ? moduleStore.modules
+    : moduleStore.modulesAdmin;
+  return modules.filter(
+    (module) =>
+      module.isShow === true &&
+      (!authStore.user || module.User.id !== authStore.user.id)
+  );
+});
+
+const filteredOtherModules = computed(() => {
+  const modules = allModules.value.filter((module) => module.isShow === true);
+  return filterByTags(modules);
+});
+
+const toggleTag = (tag) => {
+  const index = selectedTags.value.indexOf(tag);
+  if (index === -1) {
+    selectedTags.value.push(tag);
+  } else {
+    selectedTags.value.splice(index, 1);
+  }
 };
 
-const toggleLikeModule = async (idModule, event) => {
-  event.preventDefault();
-  try {
-    await likeStore.toggleLike(idModule);
-    await toggleLike(idModule);
-  } catch (error) {
-    console.error("Erreur lors du like :", error);
-  }
+const openModalMoreInfos = (idModule) => {
+  selectedModuleId.value = idModule;
+  toggleModal("moreInfoModal");
 };
 
 watch(
@@ -114,24 +216,18 @@ onMounted(() => {
 </script>
 
 <style scoped>
-input {
-  border: 1px solid #d1d9e0;
-  display: block;
-  width: 100%;
+.underlined-title {
+  position: relative;
+  display: inline-block;
 }
 
-input,
-button {
-  padding: 5px 12px;
-  font-size: 14px;
-  border-radius: 6px;
-}
-
-.module-card {
-  transition: transform 0.3s ease;
-}
-
-.module-card:hover {
-  transform: translateY(-10px) scale(1.05);
+.underlined-title:after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 30%;
+  height: 6px;
+  background-color: #f82b30;
 }
 </style>
