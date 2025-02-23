@@ -28,10 +28,11 @@
         </p>
 
         <div class="mt-10 flex items-center justify-center gap-x-6">
-          <a
-            href="#"
+          <router-link
             class="rounded-md bg-primaryRed px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs"
-            >Créer mon hub</a
+            to="/login"
+          >
+            Créer mon hub</router-link
           >
           <a href="#" class="text-sm/6 font-semibold text-gray-400"
             >En savoir plus <span aria-hidden="true">→</span></a

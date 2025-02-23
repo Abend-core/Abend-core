@@ -1,26 +1,28 @@
 <template>
-  <div class="page-container">
-    <div class="section-wrapper" ref="heroRef">
-      <HeroSection />
+  <div>
+    <div class="page-container">
+      <div class="section-wrapper" ref="heroRef">
+        <HeroSection />
+      </div>
+      <div class="section-wrapper" ref="utilisationRef">
+        <UtilisationExemple />
+      </div>
+      <div class="section-wrapper" ref="infosRef">
+        <InfosSection />
+      </div>
+      <div class="section-wrapper" ref="numbersRef">
+        <KeyNumbers />
+      </div>
+      <div class="section-wrapper" ref="visitedRef">
+        <MostVisited />
+      </div>
+      <div class="section-wrapper" ref="aboutRef">
+        <AboutUs />
+      </div>
     </div>
-    <div class="section-wrapper" ref="utilisationRef">
-      <UtilisationExemple />
-    </div>
-    <div class="section-wrapper" ref="infosRef">
-      <InfosSection />
-    </div>
-    <div class="section-wrapper" ref="numbersRef">
-      <KeyNumbers />
-    </div>
-    <div class="section-wrapper" ref="visitedRef">
-      <MostVisited />
-    </div>
-    <div class="section-wrapper" ref="aboutRef">
-      <AboutUs />
-    </div>
+    <MoreModules />
+    <Footer />
   </div>
-  <MoreModules />
-  <Footer />
 </template>
 
 <script setup>
