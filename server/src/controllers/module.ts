@@ -12,10 +12,15 @@ import { User } from "../models/user";
 import Follow from "../models/follow";
 import { Op } from "sequelize";
 
-interface moduleCreate extends moduleCreationAttributes {
+export interface moduleCreate extends moduleCreationAttributes {
     tag1: string;
     tag2: string;
     tag3: string;
+}
+
+export interface moduleUpdate {
+    name?: string;
+    content?: string;
 }
 
 class ModuleController {
@@ -32,7 +37,7 @@ class ModuleController {
         await Module.create(data);
     }
 
-    async update(moduleId: string, data: moduleCreationAttributes) {
+    async update(moduleId: string, data: moduleUpdate) {
         Redis.deleteCache(KEYS.modules);
         const module = await Module.findByPk(moduleId);
         if (!module) {

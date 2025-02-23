@@ -14,8 +14,19 @@ interface ReiniPass {
     newPassword: string;
     confirmPassword: string;
 }
+interface RegisterData {
+    id?: string;
+    mail: string;
+    username: string;
+    password: string;
+    isAdmin?: boolean;
+    isActive?: boolean;
+    token?: string;
+    image?: string;
+    content?: string;
+}
 class AuthController {
-    async register(userData: userCreationAttributes) {
+    async register(userData: RegisterData) {
         userData.id = UUID.v7();
         userData.isAdmin = false;
         userData.isActive = false;
@@ -26,7 +37,7 @@ class AuthController {
             )}.png`;
         }
 
-        const user = await User.create(userData);
+        const user = await User.create(userData as userCreationAttributes);
         user.password = await Crypt.hash(user.password);
 
         await User.update(
@@ -34,10 +45,10 @@ class AuthController {
             { where: { id: user.id }, validate: false }
         );
 
-        Mail.verification(userData.mail, userData.token);
+        Mail.verification(userData.mail!, userData.token);
     }
 
-    async signin(userData: userCreationAttributes) {
+    async signin(userData: Partial<userCreationAttributes>) {
         const user = await User.findOne({
             where: { mail: userData.mail },
         });

@@ -13,10 +13,27 @@ import config from "config";
 import Redis, { KEYS } from "../tools/redis";
 
 const image: number = config.get("storage.nombreImageBanque");
-interface passObj {
+export interface passObj {
     password: string;
     newPassword: string;
     confirmPassword: string;
+}
+export interface TestUser extends UserWithoutSensitiveData {
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface UserWithoutSensitiveData {
+    id: string;
+    username: string;
+    mail: string;
+    image: string;
+    content: string | null;
+    isAdmin: boolean;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    // Ajoute d'autres propriétés si nécessaire
 }
 class UserController {
     async add(userData: userCreationAttributes) {
@@ -33,12 +50,12 @@ class UserController {
         });
     }
 
-    async getAll() {
-        const users = User.findAll({
+    async getAll(): Promise<UserWithoutSensitiveData[]> {
+        const users = await User.findAll({
             attributes: { exclude: ["password", "token"] },
             order: [["createdAt", "desc"]],
         });
-        return users;
+        return users; // Corrigé : pas de users[]
     }
 
     async getOne(userId: string) {
@@ -81,7 +98,7 @@ class UserController {
         }
         user!.image = file.filename;
         const data = user!.get();
-        await this.update(data.id, data);
+        await this.update(data.id!, data);
     }
 
     async delete(userId: string) {
