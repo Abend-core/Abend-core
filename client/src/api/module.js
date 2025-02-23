@@ -58,3 +58,7 @@ export const allTags = () => {
 export const displayStats = () => {
   return apiClient.get("/stats");
 };
+
+export const displayMostVisited = () => {
+  return apiClient.get("/visite");
+};

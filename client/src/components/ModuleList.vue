@@ -14,9 +14,8 @@
         :href="module.link"
         class="module-card w-[300px] h-[150px] lg:w-[375px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
         target="_blank"
-        @click="countVisit(module.id)"
       >
-        <div class="px-4 py-3 h-full">
+        <div class="px-4 py-3 h-full" @click="countVisit(module.id)">
           <div class="flex items-center gap-2 relative">
             <img
               class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border dark:border-gray-600"
@@ -41,44 +40,47 @@
               {{ module.content }}
             </p>
           </div>
-          <div
-            v-if="module.tags"
-            class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
-          >
-            <router-link
-              v-for="tag in module.tags.split(',').map((tag) => tag.trim())"
-              :key="tag"
-              :to="`/modules/tag/${tag}`"
-              class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-full text-xs hover:bg-gray-400 dark:hover:bg-gray-700"
-            >
-              {{ tag }}
-            </router-link>
-          </div>
+        </div>
+        <div
+          v-if="module.tags"
+          class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+          @click.stop
+        >
           <router-link
-            class="absolute bottom-2 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed transition-colors"
-            :class="{
-              underline: authStore.user && authStore.user.id === module.User.id,
-            }"
-            :to="`/user/${module.User.username}`"
+            v-for="tag in module.tags.split(',').map((tag) => tag.trim())"
+            :key="tag"
+            :to="`/modules/tag/${tag}`"
+            class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-full text-xs hover:bg-gray-400 dark:hover:bg-gray-700"
           >
-            {{ module.User.username }}
+            {{ tag }}
           </router-link>
-          <div
-            v-if="
-              authStore.isAuthenticated && authStore.user.id !== module.User.id
-            "
-          >
-            <i
-              v-if="module.isLike"
-              class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10 transition-transform transform hover:scale-110"
-              @click="toggleLikeModule(module.id, $event)"
-            ></i>
-            <i
-              v-else
-              class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10 transition-transform transform hover:scale-110"
-              @click="toggleLikeModule(module.id, $event)"
-            ></i>
-          </div>
+        </div>
+        <router-link
+          class="absolute bottom-2 left-4 lg:bottom-4 text-[10px] lg:text-xs hover:text-primaryRed transition-colors"
+          :class="{
+            underline: authStore.user && authStore.user.id === module.User.id,
+          }"
+          :to="`/user/${module.User.username}`"
+          @click.stop
+        >
+          {{ module.User.username }}
+        </router-link>
+        <div
+          v-if="
+            authStore.isAuthenticated && authStore.user.id !== module.User.id
+          "
+          @click.stop
+        >
+          <i
+            v-if="module.isLike"
+            class="ri-heart-fill absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer text-red-500 z-10 transition-transform transform hover:scale-110"
+            @click="toggleLikeModule(module.id, $event)"
+          ></i>
+          <i
+            v-else
+            class="ri-heart-line absolute bottom-2 lg:bottom-3 right-3 lg:right-4 text-xl lg:text-2xl cursor-pointer z-10 transition-transform transform hover:scale-110"
+            @click="toggleLikeModule(module.id, $event)"
+          ></i>
         </div>
       </a>
     </div>
@@ -103,14 +105,13 @@ const authStore = useAuthStore();
 const emit = defineEmits(["openModal"]);
 
 const openModalMoreInfos = (event, idModule) => {
-  event.preventDefault();
   event.stopPropagation();
+  event.preventDefault();
   emit("openModal", idModule);
 };
 
 const toggleLikeModule = async (idModule, event) => {
   event.preventDefault();
-  event.stopPropagation();
   try {
     await toggleLike(idModule);
     const module = props.modules.find((module) => module.id === idModule);
@@ -135,7 +136,7 @@ const countVisit = async (idModule) => {
 }
 
 .module-card:hover {
-  transform: translateY(-10px) scale(1.05);
+  transform: translateY(50px) scale(1.05);
 }
 
 .fade-enter-active {

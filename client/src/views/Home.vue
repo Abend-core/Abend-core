@@ -19,10 +19,12 @@
       >
         Les plus visités
       </p>
-      <ModuleList
-        :modules="mostVisitedModules"
-        @openModal="openModalMoreInfos"
-      />
+      <div>
+        <ModuleList
+          :modules="mostVisitedModules"
+          @openModal="openModalMoreInfos"
+        />
+      </div>
     </div>
     <div>
       <div class="flex flex-col sm:flex-row sm:items-center gap-4">
