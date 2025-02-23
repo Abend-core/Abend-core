@@ -136,7 +136,7 @@ const countVisit = async (idModule) => {
 }
 
 .module-card:hover {
-  transform: translateY(50px) scale(1.05);
+  transform: translateY(-10px) scale(1.05);
 }
 
 .fade-enter-active {

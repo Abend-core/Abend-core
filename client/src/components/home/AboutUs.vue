@@ -82,15 +82,4 @@
       </div>
     </div>
   </div>
-  <div class="bg-white dark:bg-gray-800 py-0 lg:py-32">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl lg:text-center">
-        <p
-          class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 dark:text-gray-200 sm:text-5xl lg:text-balance"
-        >
-          Voir plus...
-        </p>
-      </div>
-    </div>
-  </div>
 </template>
