@@ -20,7 +20,7 @@ const dataFollow = require("./data/follow");
 // Fonction d'initialisation exportée
 export async function initializeDatabase(force: boolean = false) {
     try {
-        if (env === "Dev" || env === "Test") {
+        if (env === "Dev" || env === "Test" || env === "Prod") {
             await db.abend!.sync({ force }); // Force pour Dev/Test
             await pushDb_dev();
         } else {
