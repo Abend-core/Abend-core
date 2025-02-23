@@ -54,7 +54,7 @@ router.get("/stats", async (req: Request, res: Response): Promise<void> => {
 
 /**
  * @swagger
- * /stats:
+ * /visite:
  *   get:
  *     summary: Récupère les trois modules les plus visités
  *     description: Retourne toutes les informations des trois modules les plus visités
@@ -71,9 +71,25 @@ router.get("/stats", async (req: Request, res: Response): Promise<void> => {
  *                   type: object
  *                   description: Modules
  *                   example:
- *                     UUID:
- *                     name: Abend.io
- *                     content: Description
+ *                      id: d5f74bfa-b5f9-7c9b-9c3f-0e63973c25ad
+ *                      name: Anime-sama
+ *                      link: https://anime-sama.fr/
+ *                      image: anime.png
+ *                      content: Ceci est une description temporaire.
+ *                      tags: anime, manga, stream
+ *                      views: 0
+ *                      likes: 0
+ *                      isShow: true
+ *                      user_id: 018f3c5d-93a6-772f-bc34-4d2f8e3d5a7f
+ *                      createdAt: 2025-02-23T11:24:51.000Z
+ *                      updatedAt: 2025-02-23T11:24:51.000Z
+ *                      User: {…}
+ *                      favoris: {}
+ *                      reported: {}
+ *                      visite: {}
+ *                      visiteCount: 0
+ *                      favorisCount: 0
+ *                      reportedCount: 0
  *       500:
  *         description: Erreur serveur
  *         content:
