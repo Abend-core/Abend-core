@@ -4,13 +4,13 @@
       <img
         v-if="!isDark"
         class="w-[56px] h-[56px] mx-auto mb-3"
-        src="../assets/images/abend-core-logo.png"
+        src="../assets/images/logo-abend.png"
         alt="Logo principal connexion"
       />
       <img
         v-else
         class="w-[56px] h-[56px] mx-auto mb-3"
-        src="../assets/images/abend-core-logo-dark.png"
+        src="../assets/images/logo-abend-dark.png"
         alt="Logo principal connexion"
       />
       <div>
