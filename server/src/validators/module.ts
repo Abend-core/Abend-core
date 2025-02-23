@@ -1,4 +1,4 @@
-import { User, userCreationAttributes } from "../models/user";
+import { User } from "../models/user";
 import { Module, moduleCreationAttributes } from "../models/module";
 
 interface moduleCreate extends moduleCreationAttributes {
@@ -8,12 +8,12 @@ interface moduleCreate extends moduleCreationAttributes {
 }
 
 class ModuleValidator {
-    async data(moduleData: moduleCreate) {
+    async data(moduleData: Partial<moduleCreate>) {
         let tags: string | undefined;
         tags = await this.#checkTags(
-            moduleData.tag1,
-            moduleData.tag2,
-            moduleData.tag3
+            moduleData.tag1!,
+            moduleData.tag2!,
+            moduleData.tag3!
         );
         if (moduleData.name) {
             var name = await this.#findName(moduleData.name);
@@ -87,7 +87,7 @@ class ModuleValidator {
         const domainExtension = parts[1];
         const split = domainExtension.split(".");
         for (let i = 0; i < split.length - 1; i++) {
-            const resBlack = await this.#blackList(parts[i]);
+            const resBlack = await this.#blackList(split[i]);
             if (resBlack) {
                 return resBlack;
             }
@@ -128,8 +128,8 @@ class ModuleValidator {
             "io",
         ];
 
-        const containsExtension = listeExtension.some((extension) =>
-            text.includes(extension)
+        const containsExtension = listeExtension.some(
+            (extension) => text === extension
         );
         if (!containsExtension) {
             return "Cette extension n'est pas accepter.";
