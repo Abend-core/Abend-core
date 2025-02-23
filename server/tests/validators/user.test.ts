@@ -103,4 +103,93 @@ describe("UserValidator", () => {
             expect(result).toBeNull();
         });
     });
+
+    it("Doit retourner si l'identifiant est trop long", async () => {
+        (User.findOne as jest.Mock).mockResolvedValue(null);
+        const result = await validator.data({
+            username: "thisusernameistoolong",
+            mail: "john@example.com",
+        });
+        expect(result).toBe(
+            "L'identifiant doit faire entre 3 et 15 caractères."
+        );
+    });
+
+    it("Doit retourner si l'email est déjà pris", async () => {
+        (User.findOne as jest.Mock)
+            .mockResolvedValueOnce(null) // Pour #findUsername
+            .mockResolvedValueOnce({ id: "1" }); // Pour #findMail
+        const result = await validator.data({
+            username: "john",
+            mail: "john@example.com",
+        });
+        expect(result).toBe("Ce mail est déjà utilisé par un autre compte.");
+    });
+
+    it("Doit retourner si la description est trop longue", async () => {
+        (User.findOne as jest.Mock)
+            .mockResolvedValueOnce(null) // Pour #findUsername
+            .mockResolvedValueOnce(null); // Pour #findMail
+        const result = await validator.data({
+            username: "john",
+            mail: "john@example.com",
+            content: "a".repeat(201), // 201 caractères
+        });
+        expect(result).toBe("Descritpion trop longue, 200 caractères maximum.");
+    });
+
+    describe("foundByName", () => {
+        it("Doit retourner un utilisateur si trouvé par nom", async () => {
+            (User.findOne as jest.Mock).mockResolvedValue({
+                id: "1",
+                username: "john",
+            });
+            const result = await validator.foundByName("john");
+            expect(result).toEqual({ id: "1", username: "john" });
+        });
+
+        it("Doit retourner null si utilisateur non trouvé par nom", async () => {
+            (User.findOne as jest.Mock).mockResolvedValue(null);
+            const result = await validator.foundByName("john");
+            expect(result).toBeNull();
+        });
+    });
+
+    describe("hasFile", () => {
+        it("Doit retourner une erreur si aucun fichier n'est téléchargé", async () => {
+            const result = await validator.hasFile(undefined);
+            expect(result).toBe("Aucun fichier téléchargé.");
+        });
+
+        it("Doit retourner undefined si un fichier est présent", async () => {
+            const file = { fieldname: "file" } as Express.Multer.File;
+            const result = await validator.hasFile(file);
+            expect(result).toBeUndefined();
+        });
+    });
+
+    it("Doit retourner si l'utilisateur n'est pas trouvé", async () => {
+        (User.findByPk as jest.Mock).mockResolvedValue(null);
+        const data = {
+            password: "oldpass",
+            newPassword: "newpass123",
+            confirmPassword: "newpass123",
+        };
+        const result = await validator.password(data, "1");
+        expect(result).toBe("Utilisateur non trouvé.");
+    });
+
+    it("Doit retourner si le mot de passe actuel est incorrect", async () => {
+        (User.findByPk as jest.Mock).mockResolvedValue({
+            password: "hashedpass",
+        });
+        (Crypt.compare as jest.Mock).mockResolvedValue(false); // Mot de passe incorrect
+        const data = {
+            password: "wrongpass",
+            newPassword: "newpass123",
+            confirmPassword: "newpass123",
+        };
+        const result = await validator.password(data, "1");
+        expect(result).toBe("Erreur dans la saisie du mot de passe.");
+    });
 });
