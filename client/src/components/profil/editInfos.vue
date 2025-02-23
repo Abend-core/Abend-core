@@ -227,7 +227,6 @@ const updateUserProfile = async () => {
       authStore.setUser({ ...authStore.user, content: updatedData.content });
     }
 
-    console.log();
     setNotification("Profil mis à jour avec succès !", "success");
     loadUserProfile();
     buttonDisabled.value = true;
