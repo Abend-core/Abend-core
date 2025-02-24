@@ -20,7 +20,7 @@
     v-if="isModalVisibleModule"
     class="fixed inset-0 flex items-start justify-center bg-black bg-opacity-50 z-50 h-full overflow-auto"
   >
-    <div class="w-full h-auto p-4">
+    <div class="w-full h-auto p-4" @click.self="displayModalModule">
       <div
         class="relative bg-white rounded-lg max-w-[1200px] border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white mt-[-5px] sm:mt-[120px] mx-auto"
       >

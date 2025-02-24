@@ -1,9 +1,8 @@
 <template>
   <div
     class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-    @click.self="$emit('close')"
   >
-    <div class="w-full h-screen p-3">
+    <div class="w-full h-screen p-3" @click.self="$emit('close')">
       <div
         class="bg-white text-black max-w-[280px] sm:max-w-[500px] mt-28 mx-auto rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800"
       >
