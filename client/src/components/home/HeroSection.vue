@@ -30,7 +30,7 @@
         <div class="mt-10 flex items-center justify-center gap-x-6">
           <router-link
             class="rounded-md bg-primaryRed px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs"
-            to="/login"
+            to="/registration"
           >
             Créer mon hub</router-link
           >

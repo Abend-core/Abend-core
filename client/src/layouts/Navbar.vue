@@ -30,9 +30,7 @@
             alt="Cœur"
           />
         </RouterLink>
-        <RouterLink to="/" class="hidden font-medium sm:block"
-          >Abnd.io</RouterLink
-        >
+        <RouterLink to="/" class="font-medium sm:block">Abnd.io</RouterLink>
       </div>
       <div
         v-if="isAuthenticated"
@@ -66,6 +64,7 @@
       />
       <div class="flex items-center gap-2 sm:gap-3">
         <i
+          v-if="isAuthenticated"
           class="sm:hidden ri-search-2-line text-xl cursor-pointer"
           @click="toggleModal('searchBar')"
         ></i>

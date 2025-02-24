@@ -23,16 +23,8 @@
         <div class="px-4 py-3 h-full">
           <div class="flex items-center gap-2 relative">
             <img
-              v-if="!isDark"
               class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border dark:border-gray-600"
-              src="../../assets/images/logo-abend.png"
-              alt="Photo du module"
-              loading="lazy"
-            />
-            <img
-              v-if="isDark"
-              class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border dark:border-gray-600"
-              src="../../assets/images/logo-abend-dark.png"
+              :src="`${apiUrl}/uploadsFile/module/${module.image}`"
               alt="Photo du module"
               loading="lazy"
             />

@@ -12,7 +12,7 @@
     >
       <a
         :href="module.link"
-        class="module-card w-[300px] h-[150px] lg:w-[375px] lg:h-[200px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
+        class="module-card w-[300px] h-[175px] lg:w-[400px] lg:h-[210px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
         target="_blank"
       >
         <div class="px-4 py-3 h-full" @click="countVisit(module.id)">

@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white dark:bg-gray-800 py-16 lg:py-32">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="text-center">
+      <div class="mx-auto max-w-2xl lg:text-center">
         <h2 class="text-base/7 font-semibold text-primaryRed">
           Des chiffres qui parlent
         </h2>
