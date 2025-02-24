@@ -14,7 +14,7 @@ class UserValidator {
                 return "Cet identifiant est déjà utilisé.";
             }
             if (userData.username.length < 3 || userData.username.length > 15) {
-                return "L'identifiant doit faire entre 3 et 15 caractères.";
+                return "L'identifiant doit faire entre 3 et 13 caractères.";
             }
         }
 
