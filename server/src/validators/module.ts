@@ -11,7 +11,6 @@ interface moduleCreate extends moduleCreationAttributes {
 class ModuleValidator {
     async data(moduleData: Partial<moduleCreate>): Promise<string | undefined> {
         try {
-            // Vérification des tags
             const tagsError = await this.#checkTags(
                 moduleData.tag1 ?? "",
                 moduleData.tag2 ?? "",
@@ -21,7 +20,6 @@ class ModuleValidator {
                 return tagsError;
             }
 
-            // Vérification du nom
             if (moduleData.name) {
                 const existingModule = await this.#findName(moduleData.name);
                 if (existingModule) {
@@ -29,15 +27,12 @@ class ModuleValidator {
                 }
             }
 
-            // Vérification du lien
             if (moduleData.link) {
-                const linkResult = await this.checkUrlValidity(moduleData.link);
+                await this.checkUrlValidity(moduleData.link);
             }
 
-            // Si tout passe, pas d’erreur
             return undefined;
         } catch (error) {
-            // Capturer toutes les erreurs possibles (ex. rejection de checkUrlValidity)
             return error instanceof Error ? error.message : String(error);
         }
     }
@@ -84,21 +79,18 @@ class ModuleValidator {
         }
     }
 
-    // Fonction pour vérifier la validité d’un lien
     checkUrlValidity(urlString: string): Promise<string> {
         if (!urlString || !urlString.startsWith("https://")) {
             return Promise.reject(`L’URL doit commencer par "https://".`);
         }
-        // Extraire la partie après "https://"
+
         const afterHttps = urlString.substring("https://".length);
 
-        // Vérifier les mots interdits avec #blackList
         const blacklistError = this.#blackList(afterHttps);
         if (blacklistError) {
-            return Promise.reject(blacklistError); // ex. "Le nom de domaine n'est pas autorisé."
+            return Promise.reject(blacklistError);
         }
         return new Promise((resolve, reject) => {
-            // Configurer un timeout de 2 secondes (2000 ms)
             const timeoutMs = 1000;
 
             const req = https.get(urlString, { timeout: timeoutMs }, (res) => {
@@ -109,12 +101,10 @@ class ModuleValidator {
                 }
             });
 
-            // Gérer les erreurs réseau (ex. domaine inexistant)
             req.on("error", (err) => {
                 reject(`L’URL n’est pas accessible.`);
             });
 
-            // Gérer le timeout manuellement
             req.setTimeout(timeoutMs, () => {
                 req.destroy();
                 reject(`Il me semble que ce site n'existe pas.`);
@@ -138,36 +128,13 @@ class ModuleValidator {
             "poker",
             "ads",
         ];
-        // Regex sans limite de mot à droite
+
         const regex = new RegExp(`\\b(${listeDomaine.join("|")})`, "i");
 
         if (regex.test(text)) {
             return "Le lien n'est pas autorisé.";
         }
     }
-
-    // async #checkLink(link: string) {
-    //     if (link.includes("https://") == false) {
-    //         return "Le lien n'est pas au bon format.";
-    //     }
-    //     const parts = link.split("//");
-    //     if (parts[0] != "https:") {
-    //         return "Le lien n'est pas au bon format.";
-    //     }
-
-    //     const domainExtension = parts[1];
-    //     const split = domainExtension.split(".");
-    //     for (let i = 0; i < split.length - 1; i++) {
-    //         const resBlack = await this.#blackList(split[i]);
-    //         if (resBlack) {
-    //             return resBlack;
-    //         }
-    //     }
-    //     const reswhite = await this.#whiteList(split[split.length - 1]);
-    //     if (reswhite) {
-    //         return reswhite;
-    //     }
-    // }
 }
 
 export default new ModuleValidator();
