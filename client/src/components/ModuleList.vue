@@ -2,7 +2,7 @@
   <TransitionGroup
     name="fade"
     tag="div"
-    class="modules-container flex justify-center sm:justify-start items-center flex-wrap gap-5 sm:gap-10"
+    class="modules-container flex justify-center sm:justify-start items-center flex-wrap gap-5 sm:gap-10 mb-12"
   >
     <div
       class="flex"

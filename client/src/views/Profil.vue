@@ -1,5 +1,5 @@
 <template>
-  <div class="flex max-w-[1400px] mx-auto">
+  <div class="flex max-w-[1400px] mx-auto mb-12">
     <main class="w-full dark:bg-gray-800 dark:text-white">
       <div class="sm:pt-8 px-6 md:px-12 lg:px-16 xl:px-20 relative z-[2]">
         <div
@@ -81,7 +81,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-10 px-4 md:px-0">
+        <div class="mt-10 px-4 md:px-0 mb-12">
           <Transition name="fade" mode="out-in">
             <div v-if="activeSection === 'profile'">
               <display-infos />

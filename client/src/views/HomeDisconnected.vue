@@ -21,7 +21,6 @@
       </div>
     </div>
     <MoreModules />
-    <Footer />
   </div>
 </template>
 
@@ -34,7 +33,6 @@ import KeyNumbers from "../components/home/KeyNumbers.vue";
 import MostVisited from "../components/home/MostVisited.vue";
 import AboutUs from "../components/home/AboutUs.vue";
 import MoreModules from "../components/home/MoreModules.vue";
-import Footer from "../layouts/Footer.vue";
 
 const heroRef = ref(null);
 const utilisationRef = ref(null);

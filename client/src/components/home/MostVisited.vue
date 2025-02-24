@@ -67,8 +67,8 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { isDark } from "../../utils/darkMode.js";
 import { displayMostVisited } from "../../api/module.js";
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const modules = ref([]);
 
