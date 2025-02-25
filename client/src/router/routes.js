@@ -32,6 +32,16 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/privacy",
+    name: "Privacy",
+    component: () => import("../views/Policy.vue"),
+  },
+  {
+    path: "/terms",
+    name: "TermsOfUse",
+    component: () => import("../views/TermsOfUse.vue"),
+  },
+  {
     path: "/contact",
     name: "ContactPage",
     component: () => import("../views/Contact.vue"),
