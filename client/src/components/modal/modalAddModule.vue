@@ -100,10 +100,13 @@
                 />
               </div>
               <div class="flex flex-col lg:w-auto lg:mr-4 sm:w-full">
-                <div class="flex gap-2 items-center mt-[-10px]">
+                <div class="flex gap-2 items-center mt-[-10px] relative">
                   <label for="add-module-input-tag" class="mb-1 mt-3"
                     >Tag(s)</label
                   >
+                  <p class="absolute bottom-2 right-2 text-[#8592A4] text-xs">
+                    7 caractères max.
+                  </p>
                   <div
                     v-for="(tag, index) in selectedTags"
                     :key="index"

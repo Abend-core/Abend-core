@@ -10,6 +10,14 @@
       </div>
       <div class="p-4">
         <form class="flex flex-col" @submit.prevent="registration">
+          <label class="mb-1" for="login"> Identifiant </label>
+          <input
+            class="dark:text-white dark:bg-gray-900"
+            type="text"
+            id="login"
+            v-model="loginRegister"
+            required
+          />
           <label class="mb-1" for="email-registration">Email </label>
           <input
             class="dark:text-white dark:bg-gray-900 mb-3"
@@ -24,14 +32,6 @@
             id="password"
             class="input-password mb-3 dark:text-white dark:bg-gray-900"
             v-model="password"
-            required
-          />
-          <label class="mb-1" for="login"> Identifiant </label>
-          <input
-            class="dark:text-white dark:bg-gray-900"
-            type="text"
-            id="login"
-            v-model="loginRegister"
             required
           />
           <button
