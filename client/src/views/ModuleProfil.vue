@@ -1,5 +1,5 @@
 <template>
-  <main class="p-4">
+  <main class="p-4 mb-12">
     <div
       class="p-5 rounded-md max-w-[1400px] mx-auto bg-customWhite dark:bg-gray-800"
     >

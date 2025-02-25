@@ -162,6 +162,7 @@ class ModuleController {
     }
 
     async toggleLike(userId: string, ModuleId: string) {
+        Redis.deleteCache(KEYS.modules);
         const result = await Like.findOne({
             where: { UserId: userId, ModuleId: ModuleId },
         });

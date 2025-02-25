@@ -1,4 +1,5 @@
 import { User } from "../models/user";
+import https from "https";
 import { Module, moduleCreationAttributes } from "../models/module";
 
 interface moduleCreate extends moduleCreationAttributes {
@@ -8,28 +9,31 @@ interface moduleCreate extends moduleCreationAttributes {
 }
 
 class ModuleValidator {
-    async data(moduleData: Partial<moduleCreate>) {
-        let tags: string | undefined;
-        tags = await this.#checkTags(
-            moduleData.tag1!,
-            moduleData.tag2!,
-            moduleData.tag3!
-        );
-        if (moduleData.name) {
-            var name = await this.#findName(moduleData.name);
-        }
-        if (moduleData.link) {
-            var link = await this.#checkLink(moduleData.link);
-        }
+    async data(moduleData: Partial<moduleCreate>): Promise<string | undefined> {
+        try {
+            const tagsError = await this.#checkTags(
+                moduleData.tag1 ?? "",
+                moduleData.tag2 ?? "",
+                moduleData.tag3 ?? ""
+            );
+            if (tagsError) {
+                return tagsError;
+            }
 
-        if (link!) {
-            return link;
-        }
-        if (name!) {
-            return "Ce nom de module est déjà pris.";
-        }
-        if (tags) {
-            return tags;
+            if (moduleData.name) {
+                const existingModule = await this.#findName(moduleData.name);
+                if (existingModule) {
+                    return "Ce nom de module est déjà pris.";
+                }
+            }
+
+            if (moduleData.link) {
+                await this.checkUrlValidity(moduleData.link);
+            }
+
+            return undefined;
+        } catch (error) {
+            return error instanceof Error ? error.message : String(error);
         }
     }
 
@@ -69,74 +73,45 @@ class ModuleValidator {
                 return "Ce tag n'est pas autorisé.";
             }
 
-            if (tabTags[i].length > 5) {
-                return "Un tag peut contenir 5 caractères maximum.";
+            if (tabTags[i].length > 7) {
+                return "Un tag peut contenir 7 caractères maximum.";
             }
         }
     }
 
-    async #checkLink(link: string) {
-        if (link.includes("https://") == false) {
-            return "Le lien n'est pas au bon format.";
-        }
-        const parts = link.split("//");
-        if (parts[0] != "https:") {
-            return "Le lien n'est pas au bon format.";
+    checkUrlValidity(urlString: string): Promise<string> {
+        if (!urlString || !urlString.startsWith("https://")) {
+            return Promise.reject(`L’URL doit commencer par "https://".`);
         }
 
-        const domainExtension = parts[1];
-        const split = domainExtension.split(".");
-        for (let i = 0; i < split.length - 1; i++) {
-            const resBlack = await this.#blackList(split[i]);
-            if (resBlack) {
-                return resBlack;
-            }
+        const afterHttps = urlString.substring("https://".length);
+
+        const blacklistError = this.#blackList(afterHttps);
+        if (blacklistError) {
+            return Promise.reject(blacklistError);
         }
-        const reswhite = await this.#whiteList(split[split.length - 1]);
-        if (reswhite) {
-            return reswhite;
-        }
+        return new Promise((resolve, reject) => {
+            const timeoutMs = 1000;
+
+            const req = https.get(urlString, { timeout: timeoutMs }, (res) => {
+                if (res.statusCode! >= 200 && res.statusCode! < 400) {
+                    resolve(`L’URL est accessible.`);
+                } else {
+                    reject(`L’URL n’est pas accessible.`);
+                }
+            });
+
+            req.on("error", (err) => {
+                reject(`L’URL n’est pas accessible.`);
+            });
+
+            req.setTimeout(timeoutMs, () => {
+                req.destroy();
+                reject(`Il me semble que ce site n'existe pas.`);
+            });
+        });
     }
-    #whiteList(text: string) {
-        const listeExtension: Array<string> = [
-            "fr",
-            "com",
-            "org",
-            "app",
-            "net",
-            "pt",
-            "es",
-            "pro",
-            "de",
-            "ru",
-            "ir",
-            "in",
-            "uk",
-            "au",
-            "ua",
-            "tv",
-            "de",
-            "online",
-            "info",
-            "eu",
-            "tk",
-            "cn",
-            "xyz",
-            "site",
-            "top",
-            "icu",
-            "io",
-        ];
-
-        const containsExtension = listeExtension.some(
-            (extension) => text === extension
-        );
-        if (!containsExtension) {
-            return "Cette extension n'est pas accepter.";
-        }
-    }
-
-    #blackList(text: string) {
+    #blackList(text: string): string | undefined {
         const listeDomaine: Array<string> = [
             "porn",
             "porno",
@@ -153,12 +128,11 @@ class ModuleValidator {
             "poker",
             "ads",
         ];
-        // Construire une expression régulière pour détecter des mots interdits
-        const regex = new RegExp(`\\b(${listeDomaine.join("|")})\\b`, "i");
 
-        // Vérifier si le texte correspond à la liste des mots interdits
+        const regex = new RegExp(`\\b(${listeDomaine.join("|")})`, "i");
+
         if (regex.test(text)) {
-            return "Le nom de domaine n'est pas autorisé.";
+            return "Le lien n'est pas autorisé.";
         }
     }
 }

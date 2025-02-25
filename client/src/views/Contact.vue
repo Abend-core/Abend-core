@@ -1,5 +1,5 @@
 <template>
-  <div class="isolate bg-white dark:bg-gray-800 px-6 py-24 sm:py-32 lg:px-8">
+  <div class="isolate bg-white dark:bg-gray-800 px-6 py-12 sm:py-20 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
       <h2
         class="text-4xl font-bold tracking-tighter uppercase text-balance text-gray-900 dark:text-white sm:text-5xl underlined-title"

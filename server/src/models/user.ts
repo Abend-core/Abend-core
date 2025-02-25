@@ -31,7 +31,6 @@ class User
     public token!: string;
     public createdAt!: Date;
     public updatedAt!: Date;
-
     public static initialize(sequelize: Sequelize) {
         User.init(
             {
@@ -55,8 +54,8 @@ class User
                             msg: "L'identifiant ne doit pas être vide.",
                         },
                         len: {
-                            args: [1, 15],
-                            msg: "Trop de caractères, 15 maximum.",
+                            args: [1, 13],
+                            msg: "Trop de caractères, 13 maximum.",
                         },
                     },
                 },
@@ -97,7 +96,7 @@ class User
                         },
                         len: {
                             args: [8, 64],
-                            msg: "Le mot de passe doit contenir [8 à 130] caractères.",
+                            msg: "Le mot de passe doit contenir [8 à 64] caractères.",
                         },
                     },
                 },

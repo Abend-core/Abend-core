@@ -1,5 +1,5 @@
 <template>
-  <main class="p-3 mt-2 sm:pl-5 max-w-[1400px] mx-auto">
+  <main class="p-3 mt-2 sm:pl-5 max-w-[1400px] mx-auto mb-12">
     <p
       class="text-2xl uppercase tracking-tighter mb-6 font-bold underlined-title"
     >
@@ -10,7 +10,9 @@
         Vous n’avez pas encore ajouté de modules en favoris.
       </p>
     </div>
-    <div class="flex items-center flex-wrap gap-10">
+    <div
+      class="flex items-center flex-wrap gap-10 justify-center sm:justify-start"
+    >
       <div class="flex" v-for="module in modulesToDisplay" :key="module.id">
         <a
           :href="module.link"

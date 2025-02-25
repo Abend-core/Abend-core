@@ -1,96 +1,88 @@
 import { createRouter, createWebHistory } from "vue-router";
-
-import Home from "../views/Home.vue";
-import Login from "../views/Login.vue";
-import Registration from "../views/Registration.vue";
-import Profil from "../views/Profil.vue";
-import BoardAdmin from "../views/BoardAdmin.vue";
-import Error from "../views/Error.vue";
-import ForgetPassword from "../views/ForgetPassword.vue";
-import ModuleProfil from "../views/ModuleProfil.vue";
-import LikedModules from "../views/LikedModules.vue";
-import HomeDisconnected from "../views/HomeDisconnected.vue";
-import UserModules from "../views/UserModules.vue";
-import VerificationEmail from "../views/VerificationEmail.vue";
-import VerificationPassword from "../views/VerificationPassword.vue";
-import TagModules from "../views/TagModules.vue";
-import Contact from "../views/Contact.vue";
+import { useAuthStore } from "../stores/authStore.js";
 
 const routes = [
-  { path: "/", name: "Accueil", component: Home },
-  { path: "/home", name: "HomeDisconnected", component: HomeDisconnected },
-  { path: "/login", name: "LoginPage", component: Login },
-  { path: "/registration", name: "InscriptionPage", component: Registration },
+  {
+    path: "/",
+    name: "Accueil",
+    component: () => import("../views/HomeContainer.vue"),
+  },
+  {
+    path: "/login",
+    name: "LoginPage",
+    component: () => import("../views/Login.vue"),
+    meta: { hideFooter: true },
+  },
+  {
+    path: "/registration",
+    name: "InscriptionPage",
+    component: () => import("../views/Registration.vue"),
+    meta: { hideFooter: true },
+  },
   {
     path: "/forgetPassword",
     name: "ForgetPasswordPage",
-    component: ForgetPassword,
+    component: () => import("../views/ForgetPassword.vue"),
+    meta: { hideFooter: true },
   },
   {
     path: "/profile",
     name: "ProfilPage",
-    component: Profil,
-    meta: {
-      requiresAuth: true,
-    },
+    component: () => import("../views/Profil.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/contact",
     name: "ContactPage",
-    component: Contact,
+    component: () => import("../views/Contact.vue"),
   },
   {
     path: "/user/:username",
     name: "UserModules",
-    component: UserModules,
-    meta: {
-      requiresAuth: true,
-    },
+    component: () => import("../views/UserModules.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/modules/tag/:tag",
     name: "TagModules",
-    component: TagModules,
-    meta: {
-      requiresAuth: true,
-    },
+    component: () => import("../views/TagModules.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/favorites",
     name: "LikedModules",
-    component: LikedModules,
-    meta: {
-      requiresAuth: true,
-    },
+    component: () => import("../views/LikedModules.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/verification/:token",
     name: "VerificationPage",
-    component: VerificationEmail,
+    component: () => import("../views/VerificationEmail.vue"),
+    meta: { hideFooter: true },
   },
   {
     path: "/verificationPassword/:token",
     name: "VerificationPasswordPage",
-    component: VerificationPassword,
+    component: () => import("../views/VerificationPassword.vue"),
+    meta: { hideFooter: true },
   },
   {
     path: "/module",
     name: "ModulePage",
-    component: ModuleProfil,
-    meta: {
-      requiresAuth: true,
-    },
+    component: () => import("../views/ModuleProfil.vue"),
+    meta: { requiresAuth: true },
   },
   {
     path: "/dashboard",
     name: "AdminDashboard",
-    component: BoardAdmin,
-    meta: {
-      requiresAuth: true,
-      requiresAdmin: true,
-    },
+    component: () => import("../views/BoardAdmin.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
   },
-  { path: "/:pathMatch(.*)*", name: "ErrorPage", component: Error },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "ErrorPage",
+    component: () => import("../views/Error.vue"),
+  },
 ];
 
 const router = createRouter({
@@ -99,16 +91,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const token = sessionStorage.getItem("authToken");
-  const isAdmin = JSON.parse(sessionStorage.getItem("isAdmin")) || false;
-
-  const isAuthenticated = !!token;
+  const authStore = useAuthStore();
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   const requiresAdmin = to.matched.some((record) => record.meta.requiresAdmin);
 
-  if (requiresAuth && !isAuthenticated) {
+  authStore.initializeAuth();
+
+  if (requiresAuth && !authStore.isAuthenticated) {
     next({ name: "Accueil" });
-  } else if (requiresAdmin && !isAdmin) {
+  } else if (requiresAdmin && !authStore.isAdmin) {
     next({ name: "Accueil" });
   } else {
     next();

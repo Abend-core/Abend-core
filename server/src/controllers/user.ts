@@ -66,6 +66,7 @@ class UserController {
     }
 
     async update(userId: string, userData: userCreationAttributes) {
+        Redis.deleteCache(KEYS.modules);
         await User.update(userData, { where: { id: userId } });
     }
 
