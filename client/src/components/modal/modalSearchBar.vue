@@ -73,7 +73,7 @@
               <div>
                 <p
                   class="font-bold text-gray-900 dark:text-white"
-                  v-html="highlightText(module.name)"
+                  v-html="highlightName(module.name)"
                 ></p>
                 <p
                   class="text-sm text-gray-500 dark:text-gray-400"
@@ -88,7 +88,7 @@
                   v-for="tag in module.tags.split(',')"
                   :key="tag"
                   class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
-                  v-html="highlightText(tag)"
+                  v-html="plainText(tag)"
                 ></span>
               </div>
               <i
@@ -122,7 +122,7 @@
                 ></p>
                 <p
                   class="text-sm text-gray-500 dark:text-gray-400"
-                  v-html="highlightText(module.User.username)"
+                  v-html="highlightCreator(module.User.username)"
                 ></p>
               </div>
               <div
@@ -133,7 +133,7 @@
                   v-for="tag in module.tags.split(',')"
                   :key="tag"
                   class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
-                  v-html="highlightText(tag)"
+                  v-html="plainText(tag)"
                 ></span>
               </div>
               <i
@@ -148,7 +148,7 @@
               :key="module.id"
               class="flex items-center relative gap-4 p-3 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
               :to="`/modules/tag/${encodeURIComponent(
-                inputValueSearchBarModule.trim()
+                getMatchingTag(module.tags)
               )}`"
               @click="$emit('close')"
             >
@@ -163,11 +163,11 @@
               <div>
                 <p
                   class="font-bold text-gray-900 dark:text-white"
-                  v-html="highlightText(module.name)"
+                  v-html="plainText(module.name)"
                 ></p>
                 <p
                   class="text-sm text-gray-500 dark:text-gray-400"
-                  v-html="highlightText(module.User.username)"
+                  v-html="plainText(module.User.username)"
                 ></p>
               </div>
               <div
@@ -178,7 +178,7 @@
                   v-for="tag in module.tags.split(',')"
                   :key="tag"
                   class="px-2 py-1 bg-gray-300 dark:bg-gray-800 text-white rounded-md text-xs"
-                  v-html="highlightText(tag)"
+                  v-html="highlightTag(tag, module.tags)"
                 ></span>
               </div>
               <i
@@ -241,6 +241,44 @@ const filterSearchModule = () => {
   );
 };
 
+const highlightName = (text) => {
+  const searchTerm = inputValueSearchBarModule.value.trim();
+  if (!searchTerm || !modulesByName.value.length) return text;
+  const regex = new RegExp(`(${searchTerm})`, "gi");
+  return text.replace(
+    regex,
+    `<span class="text-primaryRed underline">$1</span>`
+  );
+};
+
+const highlightCreator = (text) => {
+  const searchTerm = inputValueSearchBarModule.value.trim();
+  if (!searchTerm || !modulesByCreator.value.length) return text;
+  const regex = new RegExp(`(${searchTerm})`, "gi");
+  return text.replace(
+    regex,
+    `<span class="text-primaryRed underline">$1</span>`
+  );
+};
+
+const highlightTag = (text, moduleTags) => {
+  const searchTerm = inputValueSearchBarModule.value.trim().toLowerCase();
+  if (!searchTerm || !modulesByTags.value.length) return text;
+  const matchingTag = getMatchingTag(moduleTags).toLowerCase();
+  if (text.toLowerCase() === matchingTag) {
+    const regex = new RegExp(`(${searchTerm})`, "gi");
+    return text.replace(
+      regex,
+      `<span class="text-primaryRed underline">$1</span>`
+    );
+  }
+  return text;
+};
+
+const plainText = (text) => {
+  return text;
+};
+
 const highlightText = (text) => {
   const searchTerm = inputValueSearchBarModule.value.trim();
   if (!searchTerm) return text;
@@ -249,6 +287,15 @@ const highlightText = (text) => {
     regex,
     `<span class="text-primaryRed underline">$1</span>`
   );
+};
+
+const getMatchingTag = (tags) => {
+  const searchTerm = inputValueSearchBarModule.value.trim().toLowerCase();
+  const tagArray = tags.split(",");
+  const matchingTag = tagArray.find((tag) =>
+    tag.toLowerCase().includes(searchTerm)
+  );
+  return matchingTag ? matchingTag.trim() : tagArray[0].trim();
 };
 
 onMounted(() => {
