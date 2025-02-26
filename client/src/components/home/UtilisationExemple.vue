@@ -84,20 +84,14 @@
         <div class="flex flex-col items-center justify-center gap-5">
           <a
             class="module-card w-[300px] h-[190px] lg:w-[400px] lg:h-[220px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
+            href="https://www.cnam.fr/portail/conservatoire-national-des-arts-et-metiers-accueil-821166.kjsp"
+            target="_blank"
           >
             <div class="px-4 py-3 h-full">
               <div class="flex items-center gap-2 relative">
                 <img
-                  v-if="!isDark"
                   class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border dark:border-gray-600"
-                  src="../../assets/images/logo-abend.png"
-                  alt="Photo du module"
-                  loading="lazy"
-                />
-                <img
-                  v-if="isDark"
-                  class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border dark:border-gray-600"
-                  src="../../assets/images/logo-abend-dark.png"
+                  :src="`${apiUrl}/uploadsFile/module/cnam.jpg`"
                   alt="Photo du module"
                   loading="lazy"
                 />
@@ -138,21 +132,15 @@
             </div>
           </a>
           <a
-            class="module-card w-[300px] h-[170px] lg:w-[400px] lg:h-[220px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
+            class="module-card cursor-pointer w-[300px] h-[170px] lg:w-[400px] lg:h-[220px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
+            href="https://github.com/Abend-core/Abend-core"
+            target="_blank"
           >
             <div class="px-4 py-3 h-full">
               <div class="flex items-center gap-2 relative">
                 <img
-                  v-if="!isDark"
                   class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border dark:border-gray-600"
-                  src="../../assets/images/logo-abend.png"
-                  alt="Photo du module"
-                  loading="lazy"
-                />
-                <img
-                  v-if="isDark"
-                  class="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] rounded-full border-[2px] border-white p-[2px] box-border dark:border-gray-600"
-                  src="../../assets/images/logo-abend-dark.png"
+                  :src="`${apiUrl}/uploadsFile/module/github.png`"
                   alt="Photo du module"
                   loading="lazy"
                 />
@@ -196,6 +184,7 @@
 
 <script setup>
 import { isDark } from "../../utils/darkMode.js";
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 </script>
 
 <style scoped>

@@ -86,6 +86,14 @@
           </li>
         </ul>
       </div>
+      <div class="text-center mt-24">
+        <router-link
+          class="rounded-md bg-primaryRed px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs"
+          to="/registration"
+        >
+          Commencer la création</router-link
+        >
+      </div>
     </div>
   </div>
 </template>

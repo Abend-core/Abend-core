@@ -19,6 +19,8 @@
         v-for="(module, index) in modules"
         :key="index"
         class="module-card w-[300px] h-[175px] lg:w-[400px] lg:h-[220px] shadow-md rounded-2xl relative bg-gray-50 border border-gray-200 dark:bg-[#141A22] dark:border dark:border-black text-black dark:text-white"
+        :href="module.link"
+        target="_blank"
       >
         <div class="px-4 py-3 h-full">
           <div class="flex items-center gap-2 relative">

@@ -12,7 +12,7 @@
         <form class="flex flex-col" @submit.prevent="registration">
           <label class="mb-1" for="login"> Identifiant </label>
           <input
-            class="dark:text-white dark:bg-gray-900"
+            class="dark:text-white dark:bg-gray-900 mb-"
             type="text"
             id="login"
             v-model="loginRegister"
@@ -20,7 +20,7 @@
           />
           <label class="mb-1" for="email-registration">Email </label>
           <input
-            class="dark:text-white dark:bg-gray-900 mb-3"
+            class="dark:text-white dark:bg-gray-900 mb-1"
             type="email"
             id="email-registration"
             v-model="email"
@@ -30,7 +30,7 @@
           <input
             type="password"
             id="password"
-            class="input-password mb-3 dark:text-white dark:bg-gray-900"
+            class="input-password dark:text-white dark:bg-gray-900 mb-1"
             v-model="password"
             required
           />
