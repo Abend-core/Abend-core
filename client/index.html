@@ -6,7 +6,7 @@
       id="favicon"
       rel="icon"
       type="image/png"
-      href="/src/assets/images/logo-abend.png"
+      href="/src/assets/images/logo-abend-dark.png"
     />
     <link
       rel="apple-touch-icon"
@@ -22,16 +22,19 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
-    <script>
+    <script type="module">
+      const apiUrl = import.meta.env?.VITE_API_URL || "http://localhost:5000";
+
       function updateFavicon() {
         const favicon = document.getElementById("favicon");
         const isDarkMode = window.matchMedia(
           "(prefers-color-scheme: dark)"
         ).matches;
+
         if (favicon) {
           favicon.href = isDarkMode
-            ? "/src/assets/images/logo-abend-dark.png"
-            : "/src/assets/images/logo-abend.png";
+            ? `${apiUrl}/uploadsFile/module/logo-abend-dark.png`
+            : `${apiUrl}/uploadsFile/module/logo-abend.png`;
         }
       }
 
