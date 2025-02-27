@@ -11,7 +11,7 @@
             class="text-lg font-medium text-black dark:text-white"
             @click="closeMenu"
           >
-            <LogoSwitch />
+            <LogoSwitch width="65px" height="65px" />
           </RouterLink>
           <RouterLink
             to="/profile"

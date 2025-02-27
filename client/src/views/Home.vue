@@ -302,14 +302,14 @@ onUnmounted(() => {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  padding: 10px 15px;
+  padding: 10px 20px;
   background-color: #f82b30;
   color: white;
   border: none;
   border-radius: 50px;
   cursor: pointer;
   font-size: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: opacity 0.3s ease, background-color 0.3s ease;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
 }
 </style>

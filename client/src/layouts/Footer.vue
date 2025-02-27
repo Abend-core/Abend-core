@@ -7,9 +7,9 @@
             href="/"
             class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
           >
-            <LogoSwitch />
+            <LogoSwitch width="40px" height="40px" />
             <span
-              class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+              class="self-center text-lg font-semibold whitespace-nowrap dark:text-white"
               >Abnd.io</span
             >
           </a>

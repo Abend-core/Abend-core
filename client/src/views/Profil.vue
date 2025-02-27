@@ -33,7 +33,9 @@
                 >
                   {{ user.username }}
                 </h1>
-                <div class="flex gap-6 mt-2 text-gray-600 dark:text-gray-300">
+                <div
+                  class="flex justify-center sm:justify-start gap-6 mt-2 text-gray-600 dark:text-gray-300"
+                >
                   <p
                     class="cursor-pointer hover:text-primaryRed transition-colors"
                     @click="isModalFollowerOpen = true"
@@ -56,7 +58,7 @@
               >
                 "{{ user.content }}"
               </p>
-              <div class="flex gap-6 mt-4">
+              <div class="flex justify-center sm:justify-start gap-6 mt-4">
                 <button
                   :class="{
                     'text-primaryRed border-b-2 border-primaryRed':

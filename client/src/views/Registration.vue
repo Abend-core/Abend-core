@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="m-auto w-[360px] mt-20">
-      <LogoSwitch />
+      <LogoSwitch width="65px" height="65px" />
       <div>
         <h1 class="text-2xl text-center mb-2">S'inscrire à Abnd.io</h1>
       </div>
