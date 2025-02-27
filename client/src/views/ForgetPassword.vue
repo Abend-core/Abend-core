@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="m-auto w-[320px] mt-[80px]">
+    <div class="mx-auto w-[320px] mt-[40px]">
       <img
         v-if="!isDark"
         class="w-[56px] h-[56px] mx-auto mb-3"

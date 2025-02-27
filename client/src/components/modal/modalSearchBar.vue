@@ -4,7 +4,7 @@
   >
     <div class="w-full h-screen p-4" @click.self="$emit('close')">
       <div
-        class="bg-white rounded-lg max-w-[700px] border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white mt-[-5px] sm:mt-[120px] mx-auto mb-0"
+        class="bg-white max-h-[80vh] h-full rounded-lg max-w-[700px] border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white mt-[-5px] sm:mt-[65px] mx-auto mb-0 flex flex-col overflow-hidden"
       >
         <div
           class="flex items-center gap-3 p-3 relative border-b dark:border-gray-700 border-gray-200"
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div
-          class="p-4 dark:bg-gray-800 max-h-[700px] overflow-y-auto scrollbar-custom"
+          class="p-4 dark:bg-gray-800 flex-1 overflow-y-auto scrollbar-custom"
         >
           <div
             v-if="
@@ -58,7 +58,7 @@
             <a
               v-for="module in modulesByName"
               :key="module.id"
-              class="flex items-center relative gap-4 p-3 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
+              class="flex items-center relative gap-2 sm:gap-4 pt-5 pr-2 sm:pr-5 sm:pl-5 pl-2 pb-5 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
               :href="module.link"
               target="_blank"
             >
@@ -72,17 +72,17 @@
               />
               <div>
                 <p
-                  class="font-bold text-gray-900 dark:text-white"
+                  class="font-bold text-gray-900 dark:text-white text-sm sm:text-base"
                   v-html="highlightName(module.name)"
                 ></p>
                 <p
-                  class="text-sm text-gray-500 dark:text-gray-400"
+                  class="text-sm text-gray-500 dark:text-gray-400 text-sm sm:text-base"
                   v-html="highlightText(module.User.username)"
                 ></p>
               </div>
               <div
                 v-if="module.tags"
-                class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+                class="absolute bottom-1 right-2 sm:left-[50%] flex gap-1 mt-2"
               >
                 <span
                   v-for="tag in module.tags.split(',')"
@@ -103,7 +103,7 @@
             <router-link
               v-for="module in modulesByCreator"
               :key="module.id"
-              class="flex items-center relative gap-4 p-3 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
+              class="flex items-center relative gap-2 sm:gap-4 pt-5 pr-2 sm:pr-5 sm:pl-5 pl-2 pb-5 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
               :to="`/user/${module.User.username}`"
               @click="$emit('close')"
             >
@@ -117,17 +117,17 @@
               />
               <div>
                 <p
-                  class="font-bold text-gray-900 dark:text-white"
+                  class="font-bold text-gray-900 dark:text-white text-sm sm:text-base"
                   v-html="highlightText(module.name)"
                 ></p>
                 <p
-                  class="text-sm text-gray-500 dark:text-gray-400"
+                  class="text-sm text-gray-500 dark:text-gray-400 text-sm sm:text-base"
                   v-html="highlightCreator(module.User.username)"
                 ></p>
               </div>
               <div
                 v-if="module.tags"
-                class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+                class="absolute bottom-1 right-2 sm:left-[50%] flex gap-1 mt-2"
               >
                 <span
                   v-for="tag in module.tags.split(',')"
@@ -146,7 +146,7 @@
             <router-link
               v-for="module in modulesByTags"
               :key="module.id"
-              class="flex items-center relative gap-4 p-3 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
+              class="flex items-center relative gap-2 sm:gap-4 pt-5 pr-2 sm:pr-5 sm:pl-5 pl-2 pb-5 bg-white mb-3 dark:bg-gray-700 rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 group"
               :to="`/modules/tag/${encodeURIComponent(
                 getMatchingTag(module.tags)
               )}`"
@@ -162,17 +162,17 @@
               />
               <div>
                 <p
-                  class="font-bold text-gray-900 dark:text-white"
+                  class="font-bold text-gray-900 dark:text-white text-sm sm:text-base"
                   v-html="plainText(module.name)"
                 ></p>
                 <p
-                  class="text-sm text-gray-500 dark:text-gray-400"
+                  class="text-sm text-gray-500 dark:text-gray-400 text-sm sm:text-base"
                   v-html="plainText(module.User.username)"
                 ></p>
               </div>
               <div
                 v-if="module.tags"
-                class="absolute bottom-3 left-[50%] transform -translate-x-1/2 flex gap-1 mt-2"
+                class="absolute bottom-1 right-2 sm:left-[50%] flex gap-1 mt-2"
               >
                 <span
                   v-for="tag in module.tags.split(',')"

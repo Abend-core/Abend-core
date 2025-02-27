@@ -1,14 +1,14 @@
 <template>
   <img
     v-if="!isDark"
-    class="mx-auto mb-3"
+    class="mx-auto"
     :style="{ width, height }"
     :src="lightLogo"
     alt="Logo principal connexion"
   />
   <img
     v-else
-    class="mx-auto mb-3"
+    class="mx-auto"
     :style="{ width, height }"
     :src="darkLogo"
     alt="Logo principal connexion"
