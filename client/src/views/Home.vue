@@ -147,7 +147,7 @@ const likeStore = useLikeStore();
 
 const { modals, toggleModal, closeModal } = useModal();
 const selectedModuleId = ref(null);
-const selectedModule = ref(null); // Stocker les données du module sélectionné
+const selectedModule = ref(null);
 const selectedTags = ref([]);
 const isMyModulesOpen = ref(true);
 const isMostVisitedOpen = ref(true);
@@ -252,7 +252,7 @@ const openModalMoreInfos = (idModule) => {
   const module =
     moduleStore.modules.find((m) => m.id === idModule) ||
     moduleStore.modulesAdmin.find((m) => m.id === idModule);
-  selectedModule.value = module || null; // Met à jour selectedModule
+  selectedModule.value = module || null;
   toggleModal("moreInfoModal");
 };
 

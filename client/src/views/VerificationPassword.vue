@@ -3,7 +3,9 @@
     <div class="m-auto w-[320px] mt-20">
       <LogoSwitch width="65px" height="65px" />
       <div>
-        <h1 class="text-2xl text-center mb-2">Modifier son mot de passe</h1>
+        <h1 class="text-2xl text-center mb-2 mt-3">
+          Modifier son mot de passe
+        </h1>
       </div>
       <div class="pl-4 pr-4 pt-2">
         <NotificationMessage />

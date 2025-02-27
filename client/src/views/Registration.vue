@@ -1,9 +1,9 @@
 <template>
   <main>
-    <div class="m-auto w-[360px] mt-20">
+    <div class="mx-auto w-[360px] mt-10">
       <LogoSwitch width="65px" height="65px" />
       <div>
-        <h1 class="text-2xl text-center mb-2">S'inscrire à Abnd.io</h1>
+        <h1 class="text-2xl text-center mb-2 mt-3">S'inscrire à Abnd.io</h1>
       </div>
       <div class="pl-4 pr-4 pt-2">
         <NotificationMessage />
