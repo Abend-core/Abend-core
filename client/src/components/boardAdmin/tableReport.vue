@@ -15,6 +15,7 @@
           <th class="p-3">Vues</th>
           <th class="p-3">Likes</th>
           <th class="p-3">Signalements</th>
+          <th class="p-3">Retirer signalements</th>
         </tr>
       </thead>
       <tbody>
@@ -56,14 +57,16 @@
               @click="deleteModuleTableReported(module.id)"
             ></i>
           </td>
+          <td class="p-3">{{ module.views }}</td>
+          <td class="p-3">{{ module.likes }}</td>
+          <td class="p-3">{{ module.reportedCount }}</td>
           <td class="p-3">
-            {{ module.views }}
-          </td>
-          <td class="p-3">
-            {{ module.likes }}
-          </td>
-          <td class="p-3">
-            {{ module.reportedCount }}
+            <i
+              v-if="module.reportedCount > 0"
+              class="ri-close-circle-fill text-3xl cursor-pointer text-red-500 hover:text-red-700"
+              @click="removeReports(module.id)"
+            ></i>
+            <span v-else>-</span>
           </td>
         </tr>
       </tbody>
@@ -74,6 +77,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { displayReportedModules } from "../../api/report";
+import { toggleReport } from "../../api/report";
 import { updateModuleById, deleteModule } from "../../api/module";
 import { formatDateTime } from "../../utils/date";
 
@@ -100,6 +104,15 @@ const toggleVisibility = async (idModule, isShow) => {
 const deleteModuleTableReported = async (idModule) => {
   try {
     await deleteModule(idModule);
+    allReports();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const removeReports = async (idModule) => {
+  try {
+    await toggleReport(idModule);
     allReports();
   } catch (error) {
     console.error(error);

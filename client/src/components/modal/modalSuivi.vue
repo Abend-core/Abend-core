@@ -2,7 +2,7 @@
   <div
     class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 h-screen"
   >
-    <div class="w-full h-screen p-4">
+    <div class="w-full h-screen p-4" @click.self="closeModal">
       <div
         class="dark:bg-gray-800 bg-white rounded-lg border border-gray-200 dark:border-gray-700 sm:w-96 relative max-w-[700px] mx-auto mt-[100px] sm:mt-[120px]"
       >

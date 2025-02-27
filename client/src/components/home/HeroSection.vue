@@ -18,7 +18,7 @@
         >
           Créez votre propre
           <span class="text-primaryRed">hub</span> de liens
-          <span class="text-primaryRed">favoris</span>
+          <span class="text-primar yRed">favoris</span>
         </h1>
         <p
           class="mt-8 text-lg font-medium text-pretty text-gray-500 dark:text-gray-400 sm:text-xl/8"
@@ -32,10 +32,7 @@
             class="rounded-md bg-primaryRed px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs"
             to="/registration"
           >
-            Créer mon hub</router-link
-          >
-          <a href="#" class="text-sm/6 font-semibold text-gray-400"
-            >En savoir plus <span aria-hidden="true">→</span></a
+            Commencer la création</router-link
           >
         </div>
       </div>

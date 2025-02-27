@@ -174,12 +174,14 @@ class ModuleController {
     }
 
     async toggleReport(userId: string, ModuleId: string) {
+        Redis.deleteCache(KEYS.modules);
         const result = await Reported.findOne({
             where: { UserId: userId, ModuleId: ModuleId },
         });
         if (!result) {
             await this.#addReported(userId, ModuleId);
-            await this.#hideModule(ModuleId);
+        }else{
+            await this.#removeReported(userId, ModuleId);
         }
         return;
     }
@@ -293,11 +295,8 @@ class ModuleController {
     #addReported(UserId: string, ModuleId: string) {
         Reported.create({ UserId: UserId, ModuleId: ModuleId });
     }
-    async #hideModule(ModuleId: string) {
-        const number = await Reported.count({ where: { ModuleId: ModuleId } });
-        if (number > 5) {
-            Module.update({ isShow: false }, { where: { id: ModuleId } });
-        }
+    #removeReported(UserId: string, ModuleId: string) {
+        Reported.destroy({ where: {UserId: UserId, ModuleId: ModuleId }});
     }
 }
 

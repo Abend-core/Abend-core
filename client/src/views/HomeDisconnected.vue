@@ -21,6 +21,9 @@
       </div>
     </div>
     <MoreModules />
+    <button v-if="showScrollTop" @click="scrollToTop" class="scroll-top-btn">
+      ↑ Haut
+    </button>
   </div>
 </template>
 
@@ -40,6 +43,7 @@ const infosRef = ref(null);
 const numbersRef = ref(null);
 const visitedRef = ref(null);
 const aboutRef = ref(null);
+const showScrollTop = ref(false);
 
 let observer = null;
 
@@ -74,13 +78,27 @@ onMounted(() => {
       observer.observe(ref.value);
     }
   });
+
+  window.addEventListener("scroll", handleScroll);
 });
 
 onUnmounted(() => {
   if (observer) {
     observer.disconnect();
   }
+  window.removeEventListener("scroll", handleScroll);
 });
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
+const handleScroll = () => {
+  showScrollTop.value = window.scrollY > 300;
+};
 </script>
 
 <style scoped>
@@ -101,6 +119,21 @@ onUnmounted(() => {
 
 .rotate-svg3 {
   animation: rotateLoop 3s infinite linear;
+}
+
+.scroll-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #f82b30;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
 }
 
 @keyframes rotateLoop {

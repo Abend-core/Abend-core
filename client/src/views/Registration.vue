@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="m-auto w-[360px] mt-20">
-      <LogoSwitch />
+      <LogoSwitch width="65px" height="65px" />
       <div>
         <h1 class="text-2xl text-center mb-2">S'inscrire à Abnd.io</h1>
       </div>
@@ -10,9 +10,17 @@
       </div>
       <div class="p-4">
         <form class="flex flex-col" @submit.prevent="registration">
+          <label class="mb-1" for="login"> Identifiant </label>
+          <input
+            class="dark:text-white dark:bg-gray-900 mb-"
+            type="text"
+            id="login"
+            v-model="loginRegister"
+            required
+          />
           <label class="mb-1" for="email-registration">Email </label>
           <input
-            class="dark:text-white dark:bg-gray-900 mb-3"
+            class="dark:text-white dark:bg-gray-900 mb-1"
             type="email"
             id="email-registration"
             v-model="email"
@@ -22,16 +30,8 @@
           <input
             type="password"
             id="password"
-            class="input-password mb-3 dark:text-white dark:bg-gray-900"
+            class="input-password dark:text-white dark:bg-gray-900 mb-1"
             v-model="password"
-            required
-          />
-          <label class="mb-1" for="login"> Identifiant </label>
-          <input
-            class="dark:text-white dark:bg-gray-900"
-            type="text"
-            id="login"
-            v-model="loginRegister"
             required
           />
           <button

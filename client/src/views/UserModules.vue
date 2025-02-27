@@ -190,8 +190,8 @@ const user = ref({});
 const modules = ref([]);
 const moduleFav = ref([]);
 const isFollowing = ref(false);
-const suivisCount = ref([]);
-const followersCount = ref([]);
+const suivisCount = ref("");
+const followersCount = ref("");
 
 const username = route.params.username;
 
@@ -228,6 +228,8 @@ const followUser = async () => {
     await follow(user.value.id);
     isFollowing.value = !isFollowing.value;
 
+    followersCount.value += isFollowing.value ? 1 : -1;
+
     authStore.setUser({
       ...authStore.user,
       abonnes: authStore.user.abonnes,
@@ -237,6 +239,8 @@ const followUser = async () => {
     });
   } catch (error) {
     console.error(error);
+    isFollowing.value = !isFollowing.value;
+    followersCount.value += isFollowing.value ? 1 : -1;
   }
 };
 
