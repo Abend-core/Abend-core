@@ -6,8 +6,10 @@
       <div
         class="rounded-md bg-white p-3 mb-3 sm:mb-0 dark:bg-gray-800 dark:text-white"
       >
-        <h1 class="font-bold">Gérer mes modules</h1>
-        <p class="text-primaryRed mt-1">Module Dashboard</p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+          Gérer mes modules
+        </h1>
+        <p class="text-primaryRed mt-1 text-sm font-medium">Module Dashboard</p>
       </div>
       <modal-add-module @refresh-modules="getModulesById" />
       <div v-if="modules.length === 0" class="text-center p-8 rounded-md mt-5">
@@ -52,10 +54,19 @@
                 </div>
                 <div v-else>{{ module.name }}</div>
               </td>
-              <td class="p-3">{{ module.link }}</td>
               <td class="p-3">
                 <div v-if="module.id === editingModuleId">
                   <input
+                    v-model="module.link"
+                    type="text"
+                    class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
+                  />
+                </div>
+                <div v-else>{{ module.link }}</div>
+              </td>
+              <td class="p-3">
+                <div v-if="module.id === editingModuleId">
+                  <textarea
                     v-model="module.content"
                     type="text"
                     class="pl-3 py-2 border rounded-md w-full dark:text-white dark:bg-gray-900"
@@ -114,7 +125,7 @@
                   <div v-if="module.id === editingModuleId">
                     <button
                       @click="saveModule(module.id)"
-                      class="bg-primaryRed px-6 py-2 rounded-md text-white border border-black"
+                      class="bg-primaryRed px-1 py-1 rounded-md text-white"
                     >
                       Valider
                     </button>
@@ -193,11 +204,14 @@ const saveModule = async (idModule) => {
     if (moduleToSave.name !== originalModule.value.name) {
       updatedData.name = moduleToSave.name;
     }
+    if (moduleToSave.link !== originalModule.value.link) {
+      updatedData.link = moduleToSave.link;
+    }
     if (moduleToSave.content !== originalModule.value.content) {
       updatedData.content = moduleToSave.content;
     }
 
-    if (updatedData.name || updatedData.content) {
+    if (updatedData.name || updatedData.link || updatedData.content) {
       await updateModuleById(idModule, updatedData);
     }
 
