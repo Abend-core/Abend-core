@@ -18,4 +18,7 @@ export default defineConfig({
     interval: 1000, // Vérifie les fichiers toutes les 1000ms
     binaryInterval: 3000,
   },
+  preview: {
+    allowedHosts: ["abnd.io"],
+  },
 });
