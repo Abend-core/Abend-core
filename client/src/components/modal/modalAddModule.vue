@@ -8,21 +8,18 @@
   <div class="flex justify-center md:justify-end mb-4 mt-4">
     <button
       @click="displayModalModule"
-      class="flex gap-1 bg-primaryRed p-paddingSm rounded-md text-white border border-red-500"
+      class="px-2 py-2 mb-3 bg-primaryRed text-white rounded-md text-sm lg:text-base font-medium hover:bg-red-700 transition-colors"
     >
-      <span>+</span>
-      <p>Ajoutez un module</p>
+      Créer un module
     </button>
   </div>
-
-  <!-- MODAL ADD MODULE -->
   <div
     v-if="isModalVisibleModule"
     class="fixed inset-0 flex items-start justify-center bg-black bg-opacity-50 z-50 h-full overflow-auto"
   >
     <div class="w-full h-auto p-4" @click.self="displayModalModule">
       <div
-        class="relative bg-white rounded-lg max-w-[1200px] border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white mt-[-5px] sm:mt-[120px] mx-auto"
+        class="relative bg-white rounded-lg max-w-[1200px] border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white mt-12 mx-auto"
       >
         <p
           class="text-xl font-bold pt-4 uppercase tracking-tighter left-[50%] transform -translate-x-1/2 underlined-title"
@@ -104,9 +101,6 @@
                   <label for="add-module-input-tag" class="mb-1 mt-3"
                     >Tag(s)</label
                   >
-                  <p class="absolute bottom-2 right-2 text-[#8592A4] text-xs">
-                    7 caractères max.
-                  </p>
                   <div
                     v-for="(tag, index) in selectedTags"
                     :key="index"
@@ -134,6 +128,11 @@
                     @click="validateTag"
                     class="ri-check-double-fill absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-primaryRed"
                   ></i>
+                  <p
+                    class="absolute bottom-[-20px] right-2 text-[#8592A4] text-xs"
+                  >
+                    7 caractères max.
+                  </p>
                   <div
                     class="absolute w-full mt-2 p-4 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg z-[99]"
                     v-if="isTagListVisible && selectedTags.length < 3"

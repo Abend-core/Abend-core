@@ -1,10 +1,11 @@
 <template>
   <div class="max-w-[1400px] mx-auto">
     <div class="dark:bg-gray-800 rounded-md">
-      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+      <h1
+        class="text-2xl font-bold uppercase tracking-tighter text-gray-900 dark:text-white underlined-title"
+      >
         Mes informations personnelles
       </h1>
-      <p class="text-primaryRed mt-1 text-sm font-medium">Profil Dashboard</p>
     </div>
     <div
       v-if="user && user.username"
@@ -50,3 +51,20 @@ import { useAuthStore } from "../../stores/authStore";
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);
 </script>
+
+<style scoped>
+.underlined-title {
+  position: relative;
+  display: inline-block;
+}
+
+.underlined-title:after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 30%;
+  height: 6px;
+  background-color: #f82b30;
+}
+</style>

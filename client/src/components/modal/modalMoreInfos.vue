@@ -6,19 +6,18 @@
       <div
         class="bg-white text-black max-w-[280px] sm:max-w-[500px] mt-28 mx-auto rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800"
       >
-        <div v-if="isReported">
-          <div
-            class="p-3 text-sm text-center rounded-lg text-black dark:text-white bg-gradient-to-r from-[#4bb54366] to-[#4bb54366]"
-          >
-            Module signalé avec succès !
-          </div>
-        </div>
         <div class="flex items-center flex-col">
           <button
             @click="reportModule"
-            class="text-primaryRed font-medium cursor-pointer border-b border-gray-200 w-full text-center p-3 dark:border-gray-700"
+            :disabled="isReported"
+            :class="[
+              'font-medium cursor-pointer border-b border-gray-200 w-full text-center p-3 dark:border-gray-700',
+              isReported
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'text-primaryRed',
+            ]"
           >
-            Signaler
+            {{ isReported ? "Déjà signalé" : "Signaler" }}
           </button>
           <button
             @click="$emit('close')"
@@ -33,18 +32,24 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { toggleReport } from "../../api/report";
 
-const isReported = ref(false);
 const props = defineProps({
   idModule: {
     type: String,
     required: true,
   },
+  isReport: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+const isReported = ref(props.isReport);
+
 const reportModule = async () => {
+  if (isReported.value) return;
   try {
     await toggleReport(props.idModule);
     isReported.value = true;

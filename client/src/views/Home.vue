@@ -1,7 +1,14 @@
 <template>
   <main class="p-3 mt-2 sm:pl-5 max-w-[1400px] mx-auto">
+    <router-link to="/module" class="flex justify-center sm:justify-start">
+      <button
+        class="px-2 py-2 mb-3 bg-gray-600 text-white rounded-md text-sm lg:text-base font-medium hover:bg-red-700 transition-colors"
+      >
+        Créer un module
+      </button>
+    </router-link>
     <div v-if="myModules.length > 0" class="mb-4 sm:mb-8">
-      <div class="cursor-pointer text-2xl" @click="toggleMyModules">
+      <div class="cursor-pointer w-fit text-2xl" @click="toggleMyModules">
         <i
           :class="
             isMyModulesOpen ? 'ri-arrow-down-s-line' : 'ri-arrow-right-s-line'
@@ -25,7 +32,7 @@
       </transition>
     </div>
     <div class="mb-8">
-      <div class="cursor-pointer text-2xl" @click="toggleMostVisited">
+      <div class="cursor-pointer w-fit text-2xl" @click="toggleMostVisited">
         <i
           :class="
             isMostVisitedOpen ? 'ri-arrow-down-s-line' : 'ri-arrow-right-s-line'
@@ -48,7 +55,7 @@
     </div>
     <div>
       <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-        <div class="cursor-pointer text-2xl" @click="toggleAllModules">
+        <div class="cursor-pointer w-fit text-2xl" @click="toggleAllModules">
           <i
             :class="
               isAllModulesOpen
@@ -116,6 +123,7 @@
       v-if="modals.moreInfoModal"
       @close="closeModal('moreInfoModal')"
       :id-module="selectedModuleId"
+      :is-report="selectedModule ? selectedModule.isReport : false"
     />
 
     <button v-if="showScrollTop" @click="scrollToTop" class="scroll-top-btn">
@@ -139,6 +147,7 @@ const likeStore = useLikeStore();
 
 const { modals, toggleModal, closeModal } = useModal();
 const selectedModuleId = ref(null);
+const selectedModule = ref(null); // Stocker les données du module sélectionné
 const selectedTags = ref([]);
 const isMyModulesOpen = ref(true);
 const isMostVisitedOpen = ref(true);
@@ -177,11 +186,11 @@ const allModules = computed(() => {
 });
 
 const allTags = computed(() => {
-  const allModules = authStore.isAuthenticated
+  const allModulesComputed = authStore.isAuthenticated
     ? moduleStore.modules
     : moduleStore.modulesAdmin;
   const tagsSet = new Set();
-  allModules.forEach((module) => {
+  allModulesComputed.forEach((module) => {
     if (module.tags) {
       module.tags.split(",").forEach((tag) => tagsSet.add(tag.trim()));
     }
@@ -240,6 +249,10 @@ const toggleTag = (tag) => {
 
 const openModalMoreInfos = (idModule) => {
   selectedModuleId.value = idModule;
+  const module =
+    moduleStore.modules.find((m) => m.id === idModule) ||
+    moduleStore.modulesAdmin.find((m) => m.id === idModule);
+  selectedModule.value = module || null; // Met à jour selectedModule
   toggleModal("moreInfoModal");
 };
 
