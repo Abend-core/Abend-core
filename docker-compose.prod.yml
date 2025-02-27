@@ -10,9 +10,9 @@ services:
       - ./traefik/config/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - ./traefik/letsencrypt:/letsencrypt
     environment:
-      - OVH_APPLICATION_KEY=f55cbb82d1ec739c
-      - OVH_APPLICATION_SECRET=a8eb11792891e87b2ceb58b9bd11c3f4
-      - OVH_CONSUMER_KEY=c0b9d07e75d342f6461ca1a4e68ff49e
+      - OVH_APPLICATION_KEY=${OVH_APP_KEY}
+      - OVH_APPLICATION_SECRET=${OVH_APP_SECRET}
+      - OVH_CONSUMER_KEY=${OVH_CONSUMER_KEY}
       - OVH_ENDPOINT=ovh-eu
     networks:
       - ab-net
@@ -23,7 +23,7 @@ services:
     container_name: Abend-sql
     environment:
       - MYSQL_DATABASE=abend-core
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASS}
     volumes:
       - ./db-data-abend:/var/lib/mysql
     networks:
@@ -33,8 +33,8 @@ services:
     image: redis:7.2
     container_name: Abend-redis
     environment:
-      - REDIS_PASSWORD=abend-core
-    command: redis-server --requirepass abend-core
+      - REDIS_PASSWORD=${REDIS_PASS}
+    command: redis-server --requirepass ${REDIS_PASS}
     volumes:
       - redis_data:/data
     networks:
@@ -79,8 +79,21 @@ services:
       - ab-net
     stop_grace_period: 1s
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: Abend-phpmyadmin
+    environment:
+      - PMA_HOST=bdd
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    ports:
+      - "8089:80"
+    networks:
+      - ab-net
+
 networks:
   ab-net:
+
 volumes:
   db-data-abend: {}
   redis_data: {}
