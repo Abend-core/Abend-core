@@ -72,7 +72,7 @@ class Image {
                 })
                 .toFile(tempFilePath);
 
-            await sharp(tempFilePath).resize(256, 256).toFile(resizedPath);
+            await sharp(tempFilePath).resize(50, 50).toFile(resizedPath);
 
             await fs.unlink(filePath);
             await fs.unlink(tempFilePath);

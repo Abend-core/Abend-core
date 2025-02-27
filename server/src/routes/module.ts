@@ -1,8 +1,9 @@
-// routes/module.ts (ou ton fichier de routes)
 import express, { Request, Response } from "express";
 const router = express.Router();
 // Tools
 import Image from "../tools/multer";
+import fs from "fs";
+import path from "path";
 // Middleware
 import auth from "../middlewares/auth/auth";
 // Controller
@@ -98,12 +99,16 @@ router.post(
             ModuleValidator.hasFile(req.file!),
             ModuleValidator.data(req.body),
         ]);
+        const fileDelete = path.join("./src/uploads/module/", req.file!.filename);
         if (found) {
             res.status(400).json({ erreur: found });
+            
+            fs.promises.unlink(fileDelete);
             return;
         }
         if (error) {
             res.status(400).json({ erreur: error });
+            fs.promises.unlink(fileDelete);
             return;
         }
         try {
